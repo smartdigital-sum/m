@@ -446,6 +446,65 @@ function tickBoardTime() {
   });
 }
 
+// ─── SERVICE TIMER ─────────────────────────────────────────
+function updateServiceTimer() {
+  const startDate = new Date("2026-01-01T00:00:00");
+  const now = new Date();
+  let diff = now - startDate;
+
+  if (diff < 0) diff = 0;
+
+  let totalSeconds = Math.floor(diff / 1000);
+  let totalMinutes = Math.floor(totalSeconds / 60);
+  let totalHours = Math.floor(totalMinutes / 60);
+  let totalDays = Math.floor(totalHours / 24);
+
+  const years = Math.floor(totalDays / 365);
+  totalDays %= 365;
+  const months = Math.floor(totalDays / 30);
+  totalDays %= 30;
+  const weeks = Math.floor(totalDays / 7);
+  const remainingDays = totalDays % 7;
+
+  const parts_en = [];
+  const parts_as = [];
+
+  if (years > 0) {
+    parts_en.push(`${years} year${years > 1 ? "s" : ""}`);
+    parts_as.push(`${translateNumber(years)} বছৰ`);
+  }
+  if (months > 0) {
+    parts_en.push(`${months} month${months > 1 ? "s" : ""}`);
+    parts_as.push(`${translateNumber(months)} মাহ`);
+  }
+  if (weeks > 0) {
+    parts_en.push(`${weeks} week${weeks > 1 ? "s" : ""}`);
+    parts_as.push(`${translateNumber(weeks)} সপ্তাহ`);
+  }
+  if (remainingDays > 0 || (years === 0 && months === 0 && weeks === 0)) {
+    parts_en.push(`${remainingDays} day${remainingDays !== 1 ? "s" : ""}`);
+    parts_as.push(`${translateNumber(remainingDays)} দিন`);
+  }
+
+  const text_en = "Served " + parts_en.join(" ");
+  const text_as = parts_as.join(" ") + " সেৱা আগবঢ়াইছো";
+
+  const el = document.getElementById("customerCount");
+  if (el) {
+    el.setAttribute("data-en", text_en);
+    el.setAttribute("data-as", text_as);
+    el.textContent = currentLang === "en" ? text_en : text_as;
+  }
+}
+
+function translateNumber(n) {
+  const assameseDigits = ["০", "১", "২", "৩", "৪", "৫", "৬", "৭", "৮", "৯"];
+  return String(n)
+    .split("")
+    .map((d) => assameseDigits[d] || d)
+    .join("");
+}
+
 // ─── FIREBASE LISTENERS ────────────────────────────────────
 function initFirebase() {
   db.ref("shopHours").on("value", (snap) => {
@@ -465,6 +524,7 @@ setInterval(() => {
   tickShopCountdown();
   tickUrgentCountdown();
   tickBoardTime();
+  updateServiceTimer();
   if (new Date().getSeconds() === 0) setShopStatus();
 }, 1000);
 
@@ -816,6 +876,7 @@ window.addEventListener("load", () => {
   createParticles();
   tickClock();
   tickBoardTime();
+  updateServiceTimer();
   setupReveal();
 });
 
