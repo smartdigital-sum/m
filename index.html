@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<!-- saved from url=(0032)./ -->
+<html lang="en" data-lang="en" data-theme="dark"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Digital - Assam</title>
+    <meta name="description" content="Smart Digital — Your trusted digital services partner in Assam. PAN Card, Aadhaar, Printing, Ticket Booking, Form Filling &amp; more.">
+    <meta property="og:title" content="Smart Digital - Assam">
+    <meta property="og:description" content="Digital services for everyone in Kampur and surrounding areas.">
+    <meta property="og:image" content="logo.png">
+    
+
+    <!-- Google Fonts -->
+    
+    
+
+    <!-- Font Awesome -->
+    
+
+    <!-- Firebase -->
+    <script src="assets/firebase-app-compat.js"></script>
+    <script src="assets/firebase-database-compat.js"></script>
+    <script>
+        firebase.initializeApp({
+            apiKey: "AIzaSyCevBNvqGDEvgvVdBqaTlKK-xIto0J6BDo",
+            authDomain: "smart-digital-ce0a7.firebaseapp.com",
+            databaseURL: "https://smart-digital-ce0a7-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "smart-digital-ce0a7",
+            storageBucket: "smart-digital-ce0a7.firebasestorage.app",
+            messagingSenderId: "771628223462",
+            appId: "1:771628223462:web:08aefc17ea1c8819366427"
+        });
+    </script>
+
+    
+<link rel="icon" type="image/png" href="assets/logo.png"><link rel="preconnect" href="https://fonts.googleapis.com/"><link href="assets/fonts.css" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><link rel="stylesheet" href="assets/style.css"></head>
+
+<body style="opacity: 1;">
+
+    <!-- ===== FLOATING WHATSAPP ===== -->
+    <a href="https://wa.me/918638759478" target="_blank" class="whatsapp-float" id="whatsappFloat" title="Chat on WhatsApp" style="opacity: 0.7;">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <img src="assets/logo.png" alt="Smart Digital Logo" style="cursor: pointer;" onclick="openLogoLightbox(this)">
+                    <div class="sd-text">
+                        <span class="sd-smart" data-en="Smart" data-as="স্মাৰ্ট">Smart</span><span class="sd-digital" data-en="Digital" data-as="ডিজিটেল">Digital</span>
+                    </div>
+                </div>
+
+                <ul class="nav-menu open" id="navMenu">
+                    <li><a href="#home" class="nav-link" data-en="Home" data-as="ঘৰ">Home</a></li>
+                    <li><a href="#updates" class="nav-link" data-en="Updates" data-as="আপডেট">Updates</a></li>
+                    <li><a href="#demos" class="nav-link" data-en="Websites" data-as="ৱেবছাইট">Websites</a></li>
+                    <li><a href="#services" class="nav-link" data-en="Services" data-as="সেৱা">Services</a></li>
+                    <!--                     <li><a href="#calculator" class="nav-link" data-en="Pricing" data-as="মূল্য">Pricing</a></li> -->
+                    <li><a href="#games" class="nav-link" data-en="Games" data-as="গেমছ">Games</a></li>
+                    <li><a href="#gallery" class="nav-link" data-en="Gallery" data-as="গেলেৰী">Gallery</a></li>
+                </ul>
+
+                <div class="nav-right">
+                    <!-- Theme Toggle -->
+                    <button class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()" title="Switch Theme">
+                        <i class="fas fa-sun" id="themeIcon"></i>
+                    </button>
+
+                    <!-- Language Toggle -->
+                    <button class="lang-toggle" id="langToggleBtn" onclick="toggleLanguage()" title="Switch Language">
+                        <i class="fas fa-globe"></i>
+                        <span id="langLabel">অসমীয়া</span>
+                    </button>
+
+                    <a href="tel:+918638759478" class="btn btn-call">
+                        <i class="fas fa-phone"></i>
+                        <span data-en="Call Now" data-as="ফোন কৰক">Call Now</span>
+                    </a>
+                    <a href="https://wa.me/918638759478" target="_blank" class="btn btn-whatsapp">
+                        <i class="fab fa-whatsapp"></i>
+                        <span>WhatsApp</span>
+                    </a>
+                    <button class="hamburger open" id="hamburger">
+                        <span></span><span></span><span></span>
+                    </button>
+                </div>
+            </div>
+    </div></nav>
+
+    <!-- ===== URGENT BANNER ===== -->
+    <div class="urgent-banner" id="urgentBanner" style="opacity: 1; display: none;">
+        <div class="urgent-inner">
+            <div class="urgent-icon"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="urgent-body">
+                <span class="urgent-label">URGENT NOTICE</span>
+                <span id="urgentNoticeText">⭐ We are LIVE! Get your business online with our Website &amp; WhatsApp Bot
+                    services! 💬 starting at just ₹3,000! 🔥🔥🔥</span>
+            </div>
+            <div class="urgent-timer">
+                <i class="fas fa-hourglass-half"></i>
+                <span id="urgentCountdown">Deadline passed!</span>
+            </div>
+            <button class="urgent-close" onclick="document.getElementById(&#39;urgentBanner&#39;).style.display=&#39;none&#39;">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section class="hero" id="home">
+        <!-- Spline 3D Background -->
+        <div class="spline-background">
+            <iframe src="assets/spline-bg.html" frameborder="0" width="100%" height="100%"></iframe>
+        </div>
+
+        <div class="hero-bg-glow"></div>
+        <div class="cyber-grid"></div>
+        <div class="hero-particles" id="heroParticles"><div class="particle" style="left: 51.8707%; top: 40.4888%; width: 2.40472px; height: 2.40472px; animation-delay: 3.39456s; animation-duration: 6.70294s; opacity: 0.499915;"></div><div class="particle" style="left: 27.1093%; top: 37.0547%; width: 5.12998px; height: 5.12998px; animation-delay: 4.57001s; animation-duration: 6.65496s; opacity: 0.254866;"></div><div class="particle" style="left: 50.8865%; top: 38.4202%; width: 2.77481px; height: 2.77481px; animation-delay: 5.72299s; animation-duration: 8.11895s; opacity: 0.19683;"></div><div class="particle" style="left: 45.1754%; top: 10.8906%; width: 5.30893px; height: 5.30893px; animation-delay: 5.76387s; animation-duration: 9.46022s; opacity: 0.129856;"></div><div class="particle" style="left: 82.2811%; top: 54.568%; width: 4.51272px; height: 4.51272px; animation-delay: 1.05046s; animation-duration: 9.89213s; opacity: 0.42727;"></div><div class="particle" style="left: 98.9421%; top: 76.8745%; width: 4.39996px; height: 4.39996px; animation-delay: 2.93359s; animation-duration: 6.52437s; opacity: 0.277803;"></div><div class="particle" style="left: 20.6982%; top: 78.2597%; width: 4.4961px; height: 4.4961px; animation-delay: 3.52982s; animation-duration: 8.14722s; opacity: 0.580165;"></div><div class="particle" style="left: 14.1054%; top: 34.7932%; width: 4.37014px; height: 4.37014px; animation-delay: 0.743176s; animation-duration: 7.15258s; opacity: 0.372581;"></div><div class="particle" style="left: 24.9862%; top: 74.8475%; width: 7.2724px; height: 7.2724px; animation-delay: 4.4448s; animation-duration: 8.07201s; opacity: 0.117185;"></div><div class="particle" style="left: 34.6506%; top: 46.5788%; width: 7.93531px; height: 7.93531px; animation-delay: 4.34434s; animation-duration: 7.14078s; opacity: 0.301565;"></div><div class="particle" style="left: 31.1395%; top: 37.3978%; width: 7.7449px; height: 7.7449px; animation-delay: 3.06841s; animation-duration: 5.60241s; opacity: 0.187524;"></div><div class="particle" style="left: 92.6861%; top: 26.3219%; width: 2.657px; height: 2.657px; animation-delay: 2.17658s; animation-duration: 5.27392s; opacity: 0.137023;"></div><div class="particle" style="left: 44.4444%; top: 46.365%; width: 5.40802px; height: 5.40802px; animation-delay: 3.25775s; animation-duration: 9.59837s; opacity: 0.233461;"></div><div class="particle" style="left: 87.9626%; top: 98.1436%; width: 5.45622px; height: 5.45622px; animation-delay: 1.38032s; animation-duration: 5.40368s; opacity: 0.45938;"></div><div class="particle" style="left: 7.28502%; top: 75.4096%; width: 2.12986px; height: 2.12986px; animation-delay: 0.134695s; animation-duration: 6.78474s; opacity: 0.499836;"></div><div class="particle" style="left: 81.6641%; top: 54.1831%; width: 2.04036px; height: 2.04036px; animation-delay: 4.50255s; animation-duration: 7.92148s; opacity: 0.424896;"></div><div class="particle" style="left: 85.1787%; top: 67.9877%; width: 3.43823px; height: 3.43823px; animation-delay: 3.87107s; animation-duration: 9.682s; opacity: 0.487152;"></div><div class="particle" style="left: 93.7356%; top: 54.8779%; width: 2.27693px; height: 2.27693px; animation-delay: 3.41042s; animation-duration: 7.12528s; opacity: 0.464172;"></div><div class="particle" style="left: 64.5772%; top: 2.99324%; width: 2.16956px; height: 2.16956px; animation-delay: 2.97009s; animation-duration: 9.87229s; opacity: 0.182234;"></div><div class="particle" style="left: 51.0815%; top: 54.1403%; width: 2.43206px; height: 2.43206px; animation-delay: 2.35778s; animation-duration: 6.04879s; opacity: 0.549709;"></div><div class="particle" style="left: 22.6578%; top: 71.1741%; width: 2.30274px; height: 2.30274px; animation-delay: 4.15802s; animation-duration: 6.30684s; opacity: 0.268156;"></div><div class="particle" style="left: 84.2444%; top: 35.2555%; width: 7.16702px; height: 7.16702px; animation-delay: 1.13017s; animation-duration: 7.13939s; opacity: 0.214535;"></div></div>
+
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="badge-dot"></span>
+                <i class="fas fa-users"></i>
+                <span id="customerCount" data-en="Serving since 2026" data-as="২০২৬ চনৰ পৰা সেৱা আগবঢ়াইছো">Serving
+                    since 2026</span>
+            </div>
+
+            <h1 class="hero-title">
+                <span data-en="Your Trusted" data-as="আপোনাৰ বিশ্বাসযোগ্য">Your Trusted</span><br>
+                <span class="gradient-text" data-en="Digital Partner" data-as="ডিজিটেল অংশীদাৰ">Digital
+                    Partner</span><br>
+                <span data-en="in Assam" data-as="অসমত">in Assam</span>
+                <img src="assets/map.png" alt="Assam Map" class="assam-icon">
+            </h1>
+
+            <p class="hero-sub" data-en="Website &amp; n8n Automations" data-as="ৱেবছাইট আৰু n8n অটোমেচন">
+                Website &amp; n8n Automations
+            </p>
+            <p class="hero-desc" data-en="Fast, reliable and affordable digital services for everyone." data-as="সকলোৰ বাবে দ্ৰুত, নিৰ্ভৰযোগ্য আৰু সুলভ ডিজিটেল সেৱা।">
+                Fast, reliable and affordable digital services for everyone.
+            </p>
+
+            <div class="hero-buttons">
+                <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+                    <a href="#demos" class="btn btn-liquid-glass" style="padding: 12px 24px; font-weight: bold; background: linear-gradient(135deg, #ff0000, #000000);">
+                        <i class="fas fa-globe"></i> <span data-en="View Demo Websites" data-as="ডেমো ৱেবছাইট চাওক">View
+                            Demo Websites</span>
+                    </a>
+                    <a href="https://wa.me/918638759478" target="_blank" class="btn btn-outline" style="padding: 12px 24px; border: 2px solid #10b981; color: #10b981; font-weight: bold; border-radius: 8px;">
+                        <i class="fab fa-whatsapp"></i> <span data-en="WhatsApp Us" data-as="WhatsApp ত যোগাযোগ কৰক">WhatsApp Us</span>
+                    </a>
+                </div>
+                <!-- Matched length to View Demo Websites -->
+                <div style="display: flex;">
+                    <a href="generator/generator.html" target="_blank" class="btn btn-liquid-glass" style="padding: 12px 24px; font-weight: bold; text-align: center; background: linear-gradient(135deg, #ff0000, #000000);">
+                        <i class="fas fa-lightbulb"></i> <span data-en="Imagine your business? Click here" data-as="আপোনাৰ ব্যৱসায় কল্পনা কৰক? ইয়াত ক্লিক কৰক">Imagine your business? Click
+                            here!</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-right-graphic">
+            <!-- Neon Desktop & Laptop Composition -->
+            <div class="device-composition">
+                <div class="neon-desktop">
+                    <div class="monitor">
+                        <div class="screen">
+                            <i class="fas fa-chart-line screen-icon"></i>
+                            <div class="code-lines"></div>
+                        </div>
+                    </div>
+                    <div class="stand"></div>
+                    <div class="base"></div>
+                </div>
+
+                <div class="neon-laptop">
+                    <div class="laptop-screen">
+                        <div class="inner-screen">
+                            <i class="fas fa-globe laptop-icon"></i>
+                            <div class="laptop-code"></div>
+                        </div>
+                    </div>
+                    <div class="laptop-keyboard">
+                        <div class="trackpad"></div>
+                    </div>
+                </div>
+
+                <div class="floating-elements">
+                    <i class="fas fa-code float-1"></i>
+                    <i class="fas fa-microchip float-2"></i>
+                    <i class="fas fa-network-wired float-3"></i>
+                    <i class="fas fa-print float-4"></i>
+                    <i class="fas fa-file-alt float-5"></i>
+                    <i class="fas fa-money-bill-wave float-6"></i>
+                    <i class="fas fa-id-card float-7"></i>
+                </div>
+            </div>
+
+            <!-- Shop Status Card -->
+            <div class="shop-status-card is-open" id="shopStatusCard">
+                <div class="shop-glow glow-open" id="shopGlow"></div>
+                <div class="shop-header">
+                    <div class="shop-icon-wrap icon-open" id="shopIconWrap">
+                        <i class="fas fa-store" id="shopIcon"></i>
+                    </div>
+                    <div class="shop-text">
+                        <span class="shop-badge open" id="shopBadge">OPEN</span>
+                        <span class="shop-title" id="shopTitle" data-en="Shop is Open" data-as="দোকান খোলা আছে">Shop is Open</span>
+                    </div>
+                </div>
+                <div class="shop-hours-row">
+                    <div class="shop-hour-item">
+                        <i class="fas fa-sun"></i>
+                        <div>
+                            <span class="hour-label" data-en="Opens" data-as="খোলে">Opens</span>
+                            <span class="hour-time" id="shopOpenTime">2:58 AM</span>
+                        </div>
+                    </div>
+                    <div class="shop-divider"></div>
+                    <div class="shop-hour-item">
+                        <i class="fas fa-moon"></i>
+                        <div>
+                            <span class="hour-label" data-en="Closes" data-as="বন্ধ হয়">Closes</span>
+                            <span class="hour-time" id="shopCloseTime">8:57 PM</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="shop-countdown-row">
+                    <i class="fas fa-clock"></i>
+                    <span id="shopCountdown">Closes in: 12h 18m 16s</span>
+                </div>
+                <div class="shop-clock" id="shopLiveClock">8:38:44 AM</div>
+                <!-- <div class="shop-location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span data-en="Kachua Tiniali, Kampur" data-as="কাছুয়া তিনিয়ালি, কামপুৰ">Kachua Tiniali,
+                        Kampur</span>
+                </div> -->
+            </div>
+    </div></section>
+
+    <!-- ===== ADMIN TOGGLE ===== -->
+    <div class="admin-bar">
+        <button class="btn btn-admin" id="adminToggleBtn" onclick="openAdminLogin()">
+            <i class="fas fa-cog"></i>
+            <span data-en="Admin Panel" data-as="এডমিন প্যানেল">Admin Panel</span>
+        </button>
+    </div>
+
+
+    <!-- ===== UPDATES / NOTICE BOARD ===== -->
+    <section class="updates-section" id="updates">
+        <div class="container">
+            <div class="section-head">
+                <div class="live-badge"><span class="live-dot"></span> LIVE</div>
+                <h2 class="section-title" data-en="Latest Updates &amp; Announcements" data-as="সৰ্বশেষ আপডেট আৰু ঘোষণা">Latest Updates &amp; Announcements</h2>
+                <p class="section-sub" data-en="Stay informed with our latest news" data-as="আমাৰ শেষ খবৰৰ সৈতে সংলগ্ন থাকক">Stay informed with our latest news</p>
+            </div>
+
+            <div class="notice-board">
+                <div class="board-head">
+                    <div class="board-head-left">
+                        <i class="fas fa-broadcast-tower"></i>
+                        <span data-en="Smart Digital Notice Board" data-as="স্মাৰ্ট ডিজিটেল নোটিচ বোৰ্ড">Smart Digital
+                            Notice Board</span>
+                    </div>
+                    <span id="boardDateTime">16 Mar 2026, 08:38 am</span>
+                </div>
+                <div class="board-ticker-wrap">
+                    <span class="ticker-label"><i class="fas fa-bullhorn"></i> LATEST</span>
+                    <div class="board-ticker">
+                        <span id="boardTickerText" data-en="🚀 Boost your business with our NEW Website Creation &amp; WhatsApp Bot services! Get online today! 🌐📱" data-as="🚀 আমাৰ নতুন ৱেবছাইট নিৰ্মাণ আৰু WhatsApp বট সেৱাৰে আপোনাৰ ব্যৱসায় বৃদ্ধি কৰক! আজি অনলাইন হওক! 🌐📱">🎉  🔥 Special Launch Offer: Professional websites starting at just ₹3,000! Contact us now. 💻✨   •   📢  🤖 Automate Your WhatsApp with n8n! Auto-replies, lead capture, order updates &amp; more — 24/7 without manual work. 📲⚡</span>
+                    </div>
+                </div>
+                <div class="board-notifs" id="notifContainer">
+                    <div class="board-empty" id="boardEmpty" style="display: none;">
+                        <i class="fas fa-bell-slash"></i>
+                        <p data-en="🔥 Special Launch Offer: Professional websites starting at just ₹3,000! Contact us now. 💻✨" data-as="🔥 বিশেষ মুকলি অফাৰ: মাত্ৰ ৩,০০০ টকাৰ পৰা পেছাদাৰী ৱেবছাইট! এতিয়াই যোগাযোগ কৰক। 💻✨">
+                            🔥 Special Launch Offer: Professional websites starting at just ₹3,000! Contact us now. 💻✨
+                        </p>
+                    </div>
+                <div class="notif-card notif-type-event reveal active" style="animation-delay: 0s;">
+      <div class="notif-card-icon">🎉</div>
+      <div class="notif-card-body">
+        <p class="notif-card-text">🔥 Special Launch Offer: Professional websites starting at just ₹3,000! Contact us now. 💻✨</p>
+        <span class="notif-card-time"><i class="far fa-clock"></i> 21 Feb</span>
+      </div>
+      <div class="notif-card-tag notif-tag-event">EVENT</div>
+    </div><div class="notif-card notif-type-info reveal active" style="animation-delay: 0.08s;">
+      <div class="notif-card-icon">📢</div>
+      <div class="notif-card-body">
+        <p class="notif-card-text">🤖 Automate Your WhatsApp with n8n! Auto-replies, lead capture, order updates &amp; more — 24/7 without manual work. 📲⚡</p>
+        <span class="notif-card-time"><i class="far fa-clock"></i> 21 Feb</span>
+      </div>
+      <div class="notif-card-tag notif-tag-info">INFO</div>
+    </div></div>
+            </div>
+        </div>
+    </section><section class="demos-section" id="demos">
+        <div class="container">
+            <div class="section-head">
+                <h2 class="section-title" data-en="Demo Websites" data-as="ডেমো ৱেবছাইট">Demo Websites</h2>
+                <p class="section-sub" data-en="Functional sample sites built by us" data-as="আমাৰ দ্বাৰা নিৰ্মিত কাৰ্যকৰী নমুনা ছাইট">Functional sample sites built by us</p>
+            </div>
+
+            <div class="demos-grid">
+                <!-- Demo 1 -->
+                <div class="demo-card">
+                    <div class="demo-icon" style="background:linear-gradient(135deg,#10b981,#34d399)"><i class="fas fa-pills"></i></div>
+                    <div class="demo-content">
+                        <h3 data-en="Medical Shop" data-as="মেডিকেল শ্বপ">Medical Shop</h3>
+                        <p data-en="Pharmacy catalog, prescription upload &amp; home delivery." data-as="ফাৰ্মাচী কেটেলগ, প্ৰেছক্ৰিপচন আপলোড আৰু হোম ডেলিভাৰী।">Pharmacy catalog,
+                            prescription upload &amp; home delivery.</p>
+                        <div style="display: flex; gap: 10px; margin-top: 15px;">
+                            <a href="https://smartdigital-sum.github.io/medical-shop-demo/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo
+                                    1</span></a>
+                            <a href="https://smartdigital-sum.github.io/medical-shop-demo2/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 2" data-as="ডেমো ২">Demo
+                                    2</span></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Demo 2 -->
+                <div class="demo-card">
+                    <div class="demo-icon" style="background:linear-gradient(135deg,#f59e0b,#fbbf24)"><i class="fas fa-graduation-cap"></i></div>
+                    <div class="demo-content">
+                        <h3 data-en="School Portal" data-as="বিদ্যালয় পৰ্টেল">School Portal</h3>
+                        <p data-en="Courses, admissions, events, and student portal." data-as="পাঠ্যক্ৰম, নামভৰ্তি, অনুষ্ঠান আৰু ছাত্ৰ পৰ্টেল।">Courses, admissions, events, and
+                            student portal.</p>
+                        <div style="display: flex; gap: 10px; margin-top: 15px;">
+                            <a href="https://smartdigital-sum.github.io/demo-school/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo
+                                    1</span></a>
+                            <a href="https://smartdigital-sum.github.io/school-demo2/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 2" data-as="ডেমো ২">Demo
+                                    2</span></a>
+                        </div>
+                        <div style="display: flex; gap: 10px; margin-top: 10px;">
+                            <a href="https://smartdigital-sum.github.io/school-demo3/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i>
+                                <span data-en="Demo 3" data-as="ডেমো ৩">Demo 3</span></a>
+                            <a href="https://smartdigital-sum.github.io/school-demo4/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i>
+                                <span data-en="Demo 4" data-as="ডেমো ৪">Demo 4</span></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Demo 3 -->
+                <div class="demo-card">
+                    <div class="demo-icon" style="background:linear-gradient(135deg,#ec4899,#f43f5e)"><i class="fas fa-cut"></i></div>
+                    <div class="demo-content">
+                        <h3 data-en="Salon &amp; Spa" data-as="চেলুন আৰু স্পা">Salon &amp; Spa</h3>
+                        <p data-en="Service catalog, appointment booking &amp; reviews." data-as="সেৱা কেটেলগ, এপইণ্টমেণ্ট বুকিং আৰু ৰিভিউ।">Service catalog, appointment booking &amp;
+                            reviews.</p>
+                        <div style="display: flex; gap: 10px; margin-top: 15px;">
+                            <a href="https://smartdigital-sum.github.io/salon-demo/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo
+                                    1</span></a>
+                            <a href="https://smartdigital-sum.github.io/salon-demo2/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i>
+                                <span data-en="Demo 2" data-as="ডেমো ২">Demo 2</span></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Demo 4 -->
+                <div class="demo-card">
+                    <div class="demo-icon" style="background:linear-gradient(135deg,#3b82f6,#60a5fa)"><i class="fas fa-shopping-cart"></i></div>
+                    <div class="demo-content">
+                        <h3 data-en="Grocery Store" data-as="গ্ৰোচাৰী ষ্টোৰ">Grocery Store</h3>
+                        <p data-en="E-commerce store with cart and payments." data-as="কাৰ্ট আৰু পেমেণ্টৰ সৈতে ই-কমাৰ্চ ষ্টোৰ।">E-commerce store with cart and payments.
+                        </p>
+                        <div style="display: flex; gap: 10px; margin-top: 15px;">
+                            <a href="https://smartdigital-sum.github.io/grocery-store-demo/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo
+                                    1</span></a>
+                            <a href="https://smartdigital-sum.github.io/grocery-store-demo2/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i>
+                                <span data-en="Demo 2" data-as="ডেমো ২">Demo 2</span></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Demo 5 -->
+                <div class="demo-card">
+                    <div class="demo-icon" style="background:linear-gradient(135deg,#f97316,#fb923c)"><i class="fas fa-utensils"></i></div>
+                    <div class="demo-content">
+                        <h3 data-en="Restaurant" data-as="ৰেষ্টুৰেণ্ট">Restaurant</h3>
+                        <p data-en="Menu showcase, online ordering, and reservations." data-as="মেনু দৰ্শন, অনলাইন অৰ্ডাৰ আৰু সংৰক্ষণ।">Menu showcase, online ordering, and
+                            reservations.</p>
+                        <div style="display: flex; gap: 10px; margin-top: 15px;">
+                            <a href="https://smartdigital-sum.github.io/restodemo1/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo
+                                    1</span></a>
+                            <a href="https://smartdigital-sum.github.io/restaurant-demo2/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i>
+                                <span data-en="Demo 2" data-as="ডেমো ২">Demo 2</span></a>
+                        </div>
+                        <div style="display: flex; gap: 10px; margin-top: 10px;">
+                            <a href="https://smartdigital-sum.github.io/restodemo3/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i>
+                                <span data-en="Demo 3" data-as="ডেমো ৩">Demo 3</span></a>
+                            <a href="https://stellar-sable-c0dc5c.netlify.app/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i>
+                                <span data-en="Demo 4" data-as="ডেমো ৪">Demo 4</span></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Demo 6 (Gym) -->
+                <div class="demo-card">
+                    <div class="demo-icon" style="background:linear-gradient(135deg,#8b5cf6,#a78bfa)"><i class="fas fa-dumbbell"></i></div>
+                    <div class="demo-content">
+                        <h3 data-en="Fitness &amp; Gym" data-as="ফিটনেছ আৰু জিম">Fitness &amp; Gym</h3>
+                        <p data-en="Membership plans, class schedules, and trainer profiles." data-as="সদস্যতা পৰিকল্পনা, শ্ৰেণীৰ সময়সূচী, আৰু প্ৰশিক্ষকৰ প্ৰফাইল।">Membership plans,
+                            class schedules, and trainer profiles.</p>
+                        <div style="display: flex; gap: 10px; margin-top: 15px;">
+                            <a href="https://smartdigital-sum.github.io/gymdemo1/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo
+                                    1</span></a>
+                            <a href="https://smartdigital-sum.github.io/gymdemo2/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i>
+                                <span data-en="Demo 2" data-as="ডেমো ২">Demo 2</span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SERVICES ===== -->
+    <section class="services-section" id="services">
+        <div class="container">
+            <div class="section-head">
+                <h2 class="section-title" data-en="Our Services" data-as="আমাৰ সেৱাসমূহ">Our Services</h2>
+                <p class="section-sub" data-en="Comprehensive digital solutions for everyone" data-as="সকলোৰ বাবে সম্পূৰ্ণ ডিজিটেল সমাধান">Comprehensive digital solutions for everyone</p>
+            </div>
+
+            <div class="services-grid">
+                <!-- NEW DIGITAL SERVICES -->
+                <div class="service-card highlight-card reveal active" onclick="openServiceModal(&#39;Website Creation&#39;,&#39;website&#39;)">
+                    <div class="svc-icon" style="background:linear-gradient(135deg,#6366f1,#818cf8)"><i class="fas fa-globe"></i></div>
+                    <div class="svc-badge pulse-badge">HOT &amp; LIVE</div>
+                    <h3 data-en="Website Creation" data-as="ৱেবছাইট নিৰ্মাণ">Website Creation</h3>
+                    <p class="dark-desc" data-en="Professional websites for local businesses &amp; personal portfolios." data-as="স্থানীয় ব্যৱসায় আৰু ব্যক্তিগত পৰ্টফলিঅ&#39;ৰ বাবে পেছাদাৰী ৱেবছাইট।">Professional
+                        websites for local businesses &amp; personal portfolios.</p>
+                    <span class="price-tag">₹3,000–16,000</span>
+                </div>
+
+                <div class="service-card highlight-card reveal active" onclick="openServiceModal(&#39;WhatsApp Automation&#39;,&#39;bot&#39;)">
+                    <div class="svc-icon" style="background:linear-gradient(135deg,#10b981,#34d399)"><i class="fab fa-whatsapp"></i></div>
+                    <div class="svc-badge pulse-badge">NEW &amp; LIVE</div>
+                    <h3 data-en="n8n WhatsApp Bot" data-as="n8n হোৱাটছএপ বট">n8n WhatsApp Bot</h3>
+                    <p class="dark-desc" data-en="Automated status, replies &amp; customer engagement bots using n8n." data-as="n8n ব্যৱহাৰ কৰি স্বয়ংক্ৰিয় ষ্টেটাছ, উত্তৰ আৰু গ্ৰাহক সংযোগ বট।">
+                        Automated status, replies &amp; customer engagement bots using n8n.</p>
+                    <span class="price-tag">₹1,500–5,000</span>
+                </div>
+
+                <!-- OFFLINE / UNDER CONSTRUCTION SERVICES -->
+                <div class="service-card disabled-card reveal" style="display: none;">
+                    <div class="svc-icon" style="background:linear-gradient(135deg,#9ca3af,#d1d5db)"><i class="fas fa-id-card"></i></div>
+                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
+                    <h3 data-en="PAN Card" data-as="পেন কাৰ্ড">PAN Card</h3>
+                    <p data-en="New application, correction &amp; tracking" data-as="নতুন আৱেদন, সংশোধন আৰু ট্ৰেকিং">New
+                        application, correction &amp; tracking</p>
+                    <span class="price-tag text-red">Coming Soon</span>
+                </div>
+
+                <div class="service-card disabled-card reveal" style="display: none;">
+                    <div class="svc-icon" style="background:linear-gradient(135deg,#9ca3af,#d1d5db)"><i class="fas fa-fingerprint"></i></div>
+                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
+                    <h3 data-en="Aadhaar Services" data-as="আধাৰ সেৱা">Aadhaar Services</h3>
+                    <p data-en="Update, correction &amp; enrollment help" data-as="আপডেট, সংশোধন আৰু নথিভুক্তিৰ সহায়">
+                        Update, correction &amp; enrollment help</p>
+                    <span class="price-tag text-red">Coming Soon</span>
+                </div>
+
+                <div class="service-card disabled-card reveal" style="display: none;">
+                    <div class="svc-icon" style="background:linear-gradient(135deg,#9ca3af,#d1d5db)"><i class="fas fa-print"></i></div>
+                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
+                    <h3 data-en="Printing &amp; Scanning" data-as="প্ৰিন্টিং আৰু স্কেনিং">Printing &amp; Scanning</h3>
+                    <p data-en="B&amp;W, color printing, scanning &amp; PDF" data-as="বি&amp;ডব্লু, কালাৰ প্ৰিন্টিং, স্কেনিং আৰু PDF">B&amp;W, color printing, scanning &amp; PDF</p>
+                    <span class="price-tag text-red">Coming Soon</span>
+                </div>
+
+                <div class="service-card disabled-card reveal" style="display: none;">
+                    <div class="svc-icon" style="background:linear-gradient(135deg,#9ca3af,#d1d5db)"><i class="fas fa-camera"></i></div>
+                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
+                    <h3 data-en="Passport Photo" data-as="পাছপোৰ্ট ফটো">Passport Photo</h3>
+                    <p data-en="Professional passport-size &amp; ID photos" data-as="পেছাদাৰী পাছপোৰ্ট আৰু পৰিচয়পত্ৰৰ ফটো">
+                        Professional passport-size &amp; ID photos</p>
+                    <span class="price-tag text-red">Coming Soon</span>
+                </div>
+
+                <div class="service-card disabled-card reveal" style="display: none;">
+                    <div class="svc-icon" style="background:linear-gradient(135deg,#9ca3af,#d1d5db)"><i class="fas fa-file-alt"></i></div>
+                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
+                    <h3 data-en="Govt. Form Filling" data-as="চৰকাৰী ফৰ্ম পূৰণ">Govt. Form Filling</h3>
+                    <p data-en="All government online forms &amp; applications" data-as="সকলো চৰকাৰী অনলাইন ফৰ্ম আৰু আৱেদন">
+                        All government online forms &amp; applications</p>
+                    <span class="price-tag text-red">Coming Soon</span>
+                </div>
+
+                <div class="service-card disabled-card reveal" style="display: none;">
+                    <div class="svc-icon" style="background:linear-gradient(135deg,#9ca3af,#d1d5db)"><i class="fas fa-ticket-alt"></i></div>
+                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
+                    <h3 data-en="Ticket Booking" data-as="টিকট বুকিং">Ticket Booking</h3>
+                    <p data-en="Railway, bus &amp; flight ticket booking" data-as="ৰেল, বাছ আৰু বিমান টিকট বুকিং">Railway,
+                        bus &amp; flight ticket booking</p>
+                    <span class="price-tag text-red">Coming Soon</span>
+                </div>
+
+                <div class="service-card disabled-card reveal" style="display: none;">
+                    <div class="svc-icon" style="background:linear-gradient(135deg,#9ca3af,#d1d5db)"><i class="fas fa-vote-yea"></i></div>
+                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
+                    <h3 data-en="Voter ID Services" data-as="ভোটাৰ পৰিচয়পত্ৰ সেৱা">Voter ID Services</h3>
+                    <p data-en="New registration &amp; correction" data-as="নতুন নথিভুক্তি আৰু সংশোধন">New registration &amp;
+                        correction</p>
+                    <span class="price-tag text-red">Coming Soon</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== QUOTE CALCULATOR ===== -->
+    <section class="calculator-section" id="calculator" style="display: none;">
+        <div class="container">
+            <div class="section-head">
+                <h2 class="section-title" data-en="Quick Quote Calculator" data-as="দ্ৰুত মূল্য গণনাকাৰী">Quick Quote
+                    Calculator</h2>
+                <p class="section-sub" data-en="Get an instant price estimate" data-as="তাৎক্ষণিক মূল্য অনুমান পাওক">Get
+                    an instant price estimate</p>
+            </div>
+            <div class="calc-card">
+                <div class="calc-grid">
+                    <div class="calc-field">
+                        <label data-en="Select Service" data-as="সেৱা বাছক">Select Service</label>
+                        <select id="quoteService" onchange="calcQuote()">
+                            <option value="0" data-en="Choose a service..." data-as="এটা সেৱা বাছক...">Choose a
+                                service...</option>
+                            <option value="150" data-en="PAN Card — ₹150" data-as="পেন কাৰ্ড — ₹150">PAN Card — ₹150
+                            </option>
+                            <option value="100" data-en="Aadhaar Update — ₹100" data-as="আধাৰ আপডেট — ₹100">Aadhaar
+                                Update — ₹100</option>
+                            <option value="100" data-en="Voter ID — ₹100" data-as="ভোটাৰ পৰিচয়পত্ৰ — ₹100">Voter ID —
+                                ₹100</option>
+                            <option value="2" data-en="Photocopy (per page) — ₹2" data-as="ফটোকপি (প্ৰতি পৃষ্ঠা) — ₹2">
+                                Photocopy (per page) — ₹2</option>
+                            <option value="5" data-en="B&amp;W Print (per page) — ₹5" data-as="বি&amp;ডব্লু প্ৰিন্ট (প্ৰতি পৃষ্ঠা) — ₹5">B&amp;W Print (per page) — ₹5</option>
+                            <option value="15" data-en="Color Print (per page) — ₹15" data-as="কালাৰ প্ৰিন্ট (প্ৰতি পৃষ্ঠা) — ₹15">Color Print (per page) — ₹15</option>
+                            <option value="20" data-en="Lamination — ₹20" data-as="লেমিনেচন — ₹20">Lamination — ₹20
+                            </option>
+                            <option value="50" data-en="Passport Photo (set) — ₹50" data-as="পাছপোৰ্ট ফটো (ছেট) — ₹50">
+                                Passport Photo (set) — ₹50</option>
+                            <option value="100" data-en="Form Filling — ₹100" data-as="ফৰ্ম পূৰণ — ₹100">Form Filling —
+                                ₹100</option>
+                            <option value="40" data-en="Railway Ticket — ₹40" data-as="ৰেলৱে টিকট — ₹40">Railway Ticket
+                                — ₹40</option>
+                        </select>
+                    </div>
+                    <div class="calc-field">
+                        <label data-en="Quantity" data-as="পৰিমাণ">Quantity</label>
+                        <input type="number" id="quoteQty" value="1" min="1" oninput="calcQuote()" onchange="calcQuote()">
+                    </div>
+                </div>
+                <div class="calc-result" id="calcResult">
+                    <div class="calc-result-label" data-en="Estimated Total" data-as="আনুমানিক মুঠ">Estimated Total
+                    </div>
+                    <div class="calc-total">₹<span id="calcTotal">0</span></div>
+                    <p class="calc-note" data-en="*Final price may vary based on requirements" data-as="*প্ৰয়োজনীয়তাৰ ওপৰত চূড়ান্ত মূল্য পৰিবৰ্তিত হ&#39;ব পাৰে">*Final price may vary based on
+                        requirements</p>
+                </div>
+                <div style="text-align:center; margin-top:1.5rem;">
+                    <a href="https://wa.me/918638759478" class="btn btn-primary" target="_blank" data-en="Book on WhatsApp" data-as="WhatsApp ত বুক কৰক">Book on WhatsApp</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== GAMES & PROJECTS ===== -->
+    <section class="games-section" id="games">
+        <div class="container">
+            <div class="section-head">
+                <h2 class="section-title" data-en="Games &amp; Projects" data-as="গেমছ আৰু প্ৰজেক্ট">Games &amp; Projects</h2>
+                <p class="section-sub" data-en="Play our custom-built interactive games" data-as="আমাৰ কাষ্টম-বিল্ট ইণ্টাৰেক্টিভ গেমছ খেলক">Play our custom-built interactive games</p>
+            </div>
+
+            <div class="games-grid">
+                <!-- Game 1 -->
+                <div class="game-card">
+                    <div class="game-icon" style="background:linear-gradient(135deg,#6366f1,#818cf8)"><i class="fas fa-gamepad"></i></div>
+                    <div class="game-info">
+                        <h3 data-en="Snake Game" data-as="সাপ গেম">Snake Game</h3>
+                        <p data-en="Classic snake game. Test your reflexes!" data-as="ক্লাছিক সাপ গেম। খেলক আৰু উপভোগ কৰক!">Classic snake game. Test your reflexes!</p>
+                    </div>
+                    <div class="game-actions">
+                        <a href="https://smartdigital-sum.github.io/snake-game/" target="_blank" class="btn btn-primary btn-sm"><i class="fas fa-play"></i> <span data-en="Play" data-as="খেলক">Play</span></a>
+                        <a href="https://github.com/smartdigital-sum/snake-game.git" target="_blank" class="btn btn-outline-dark btn-sm"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <!-- Game 2 -->
+                <div class="game-card">
+                    <div class="game-icon" style="background:linear-gradient(135deg,#f59e0b,#fbbf24)"><i class="fas fa-brain"></i></div>
+                    <div class="game-info">
+                        <h3 data-en="Memory Match (Assamese)" data-as="মেম&#39;ৰী মেচ (অসমীয়া)">Memory Match (Assamese)
+                        </h3>
+                        <p data-en="Match cultural icons and test your memory." data-as="সাংস্কৃতিক আইকন মিলাওক আৰু মেম&#39;ৰী পৰীক্ষা কৰক।">Match cultural icons and test your
+                            memory.</p>
+                    </div>
+                    <div class="game-actions">
+                        <a href="https://smartdigital-sum.github.io/memory-game-2/" target="_blank" class="btn btn-primary btn-sm"><i class="fas fa-play"></i> <span data-en="Play" data-as="খেলক">Play</span></a>
+                        <a href="https://github.com/smartdigital-sum/memory-game-2.git" target="_blank" class="btn btn-outline-dark btn-sm"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <!-- Game 3 -->
+                <div class="game-card">
+                    <div class="game-icon" style="background:linear-gradient(135deg,#ec4899,#f43f5e)"><i class="fas fa-star"></i></div>
+                    <div class="game-info">
+                        <h3 data-en="Flappy Bird" data-as="ফ্লেপী বাৰ্ড">Flappy Bird</h3>
+                        <p data-en="Navigate through obstacles. Addictive and fun!" data-as="বাবা অতিক্ৰম কৰক। অতি আনন্দেৰ খেল!">Navigate through obstacles. Addictive and fun!
+                        </p>
+                    </div>
+                    <div class="game-actions">
+                        <a href="https://smartdigital-sum.github.io/flappybird/" target="_blank" class="btn btn-primary btn-sm"><i class="fas fa-play"></i> <span data-en="Play" data-as="খেলক">Play</span></a>
+                        <a href="https://github.com/smartdigital-sum/flappybird.git" target="_blank" class="btn btn-outline-dark btn-sm"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <!-- Game 4 -->
+                <div class="game-card">
+                    <div class="game-icon" style="background:linear-gradient(135deg,#06b6d4,#22d3ee)"><i class="fas fa-mouse"></i></div>
+                    <div class="game-info">
+                        <h3 data-en="Click Counter" data-as="ক্লিক কাউণ্টাৰ">Click Counter</h3>
+                        <p data-en="A number guessing game!" data-as="এটা নম্বৰ অনুমান কৰা গেম!">A number guessing game!
+                        </p>
+                    </div>
+                    <div class="game-actions">
+                        <a href="https://suman1590.github.io/numberAddGuessGit/" target="_blank" class="btn btn-primary btn-sm"><i class="fas fa-play"></i> <span data-en="Play" data-as="খেলক">Play</span></a>
+                        <a href="https://github.com/Suman1590/numberAddGuessGit.git" target="_blank" class="btn btn-outline-dark btn-sm"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <!-- Game 5 -->
+                <div class="game-card">
+                    <div class="game-icon" style="background:linear-gradient(135deg,#10b981,#34d399)"><i class="fas fa-meteor"></i></div>
+                    <div class="game-info">
+                        <h3 data-en="Space Shooter" data-as="স্পেছ শ্বুটাৰ">Space Shooter</h3>
+                        <p data-en="Defend your ship from incoming asteroids." data-as="আগন্তুক গ্ৰহাণুৰ পৰা আপোনাৰ জাহাজ ৰক্ষা কৰক।">Defend your ship from incoming
+                            asteroids.</p>
+                    </div>
+                    <div class="game-actions">
+                        <a href="https://smartdigital-sum.github.io/sapceshooter/" target="_blank" class="btn btn-primary btn-sm"><i class="fas fa-play"></i> <span data-en="Play" data-as="খেলক">Play</span></a>
+                        <a href="https://github.com/smartdigital-sum/sapceshooter" target="_blank" class="btn btn-outline-dark btn-sm"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <!-- Game 6 -->
+                <div class="game-card">
+                    <div class="game-icon" style="background:linear-gradient(135deg,#8b5cf6,#a78bfa)"><i class="fas fa-dice"></i></div>
+                    <div class="game-info">
+                        <h3 data-en="Dice Roller" data-as="ডাইচ ৰোলাৰ">Dice Roller</h3>
+                        <p data-en="Interactive dice rolling game." data-as="ইণ্টাৰেক্টিভ ডাইচ ৰোলিং গেম।">Interactive
+                            dice rolling game.</p>
+                    </div>
+                    <div class="game-actions">
+                        <a href="https://suman1590.github.io/pigGame-Ch/" target="_blank" class="btn btn-primary btn-sm"><i class="fas fa-play"></i> <span data-en="Play" data-as="খেলক">Play</span></a>
+                        <a href="https://github.com/Suman1590/pigGame-Ch.git" target="_blank" class="btn btn-outline-dark btn-sm"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== DEMO WEBSITES ===== -->
+    
+
+    <!-- ===== GALLERY ===== -->
+    <section class="gallery-section" id="gallery">
+        <div class="container">
+            <div class="section-head">
+                <h2 class="section-title" data-en="Our Gallery" data-as="আমাৰ গেলেৰী">Our Gallery</h2>
+                <p class="section-sub" data-en="Our work and services" data-as="আমাৰ কাম আৰু সেৱা">Our work and services
+                </p>
+            </div>
+            <div class="filter-btns">
+                <button class="filter-btn active" onclick="filterGallery(&#39;all&#39;,this)" data-en="All" data-as="সকলো">All</button>
+                <button class="filter-btn" onclick="filterGallery(&#39;designs&#39;,this)" data-en="Designs" data-as="ডিজাইন">Designs</button>
+                <button class="filter-btn" onclick="filterGallery(&#39;photos&#39;,this)" data-en="Photos" data-as="ফটো">Photos</button>
+                <button class="filter-btn" onclick="filterGallery(&#39;work&#39;,this)" data-en="Our Work" data-as="আমাৰ কাম">Our Work</button>
+            </div>
+            <div class="gallery-grid" id="galleryGrid">
+                <!-- IMPORTANT: Replace these with your actual photos from Cloudinary -->
+                <div class="gallery-item" data-category="designs" onclick="openLightbox(this)">
+                    <img src="assets/gallery-photo-restore.png" alt="Design Work" loading="lazy">
+                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
+                </div>
+                <div class="gallery-item" data-category="photos" onclick="openLightbox(this)">
+                    <img src="assets/gallery-cosmic-mural.jpg" alt="Photo" loading="lazy">
+                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
+                </div>
+                <div class="gallery-item" data-category="work" onclick="openLightbox(this)">
+                    <img src="assets/gallery-countryside.jpg" alt="Our Work" loading="lazy">
+                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
+                </div>
+                <div class="gallery-item" data-category="photos" onclick="openLightbox(this)">
+                    <img src="assets/gallery-wildlife-bw.jpg" alt="Photo" loading="lazy">
+                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
+                </div>
+                <div class="gallery-item" data-category="work" onclick="openLightbox(this)">
+                    <img src="assets/gallery-wildlife-color.jpg" alt="Our Work" loading="lazy">
+                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
+                </div>
+                <div class="gallery-item" data-category="designs" onclick="openLightbox(this)">
+                    <img src="assets/gallery-shiva.jpg" alt="Design" loading="lazy">
+                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <span class="lb-close">×</span>
+        <img class="lb-image" id="lbImage" src="./" alt="">
+        <button class="lb-prev" onclick="prevImg(event)">❮</button>
+        <button class="lb-next" onclick="nextImg(event)">❯</button>
+    </div>
+
+    <!-- ===== LOCATION ===== -->
+    <section class="location-section" id="location">
+        <div class="container">
+            <div class="section-head">
+                <h2 class="section-title" data-en="Find Us" data-as="আমাক বিচাৰক">Find Us</h2>
+                <p class="section-sub" data-en="Get in touch with us" data-as="আমাৰ সৈতে যোগাযোগ কৰক">Get in touch with
+                    us</p>
+            </div>
+            <div class="location-grid">
+                <div class="location-info">
+                    <div class="loc-item reveal" style="display:none;">
+                        <div class="loc-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div>
+                            <h4 data-en="Address" data-as="ঠিকনা">Address</h4>
+                            <p data-en="Assam" data-as="অসম">Assam</p>
+                        </div>
+                    </div>
+                    <div class="loc-item reveal active">
+                        <div class="loc-icon"><i class="fas fa-phone"></i></div>
+                        <div>
+                            <h4 data-en="Phone" data-as="ফোন">Phone</h4>
+                            <p><a href="tel:+918638759478">+91 86387 59478</a></p>
+                        </div>
+                    </div>
+                    <div class="loc-item reveal active">
+                        <div class="loc-icon"><i class="fab fa-whatsapp"></i></div>
+                        <div>
+                            <h4>WhatsApp</h4>
+                            <p><a href="https://wa.me/918638759478" target="_blank">+91 86387 59478</a></p>
+                        </div>
+                    </div>
+                    <div class="loc-item reveal active">
+                        <div class="loc-icon"><i class="fas fa-envelope"></i></div>
+                        <div>
+                            <h4 data-en="Email" data-as="ইমেইল">Email</h4>
+                            <p><a href="mailto:smartdigital.assam@gmail.com">smartdigital.assam@gmail.com</a></p>
+                        </div>
+                    </div>
+                    <div class="loc-item reveal active">
+                        <div class="loc-icon"><i class="fas fa-clock"></i></div>
+                        <div>
+                            <h4 data-en="Shop Hours" data-as="দোকানৰ সময়">Shop Hours</h4>
+                            <p data-en="Monday–Saturday: 9:00 AM – 6:00 PM" data-as="সোমবাৰ–শনিবাৰ: ৯:০০ AM – ৬:০০ PM">
+                                Monday–Saturday: 9:00 AM – 6:00 PM</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="map-embed" style="display:none;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <div class="section-head">
+                <h2 class="section-title" data-en="Contact Us" data-as="আমাৰ সৈতে যোগাযোগ কৰক">Contact Us</h2>
+                <p class="section-sub" data-en="Get in touch — we&#39;re happy to help!" data-as="যোগাযোগ কৰক — আমি সহায় কৰিবলৈ সুখী!">Get in touch — we're happy to help!</p>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-form-wrap">
+                    <form class="contact-form" onsubmit="handleFormSubmit(event)">
+                        <div class="form-group">
+                            <label data-en="Your Name" data-as="আপোনাৰ নাম">Your Name</label>
+                            <input type="text" placeholder="Enter your name" required="" data-en-placeholder="Enter your name" data-as-placeholder="আপোনাৰ নাম দিয়ক">
+                        </div>
+                        <div class="form-group">
+                            <label data-en="Phone Number" data-as="ফোন নম্বৰ">Phone Number</label>
+                            <input type="tel" placeholder="Enter your phone number" data-en-placeholder="Enter your phone number" data-as-placeholder="আপোনাৰ ফোন নম্বৰ দিয়ক">
+                        </div>
+                        <div class="form-group">
+                            <label data-en="Service Required" data-as="প্ৰয়োজনীয় সেৱা">Service Required</label>
+                            <select>
+                                <option data-en="Select a service" data-as="এটা সেৱা বাছক">Select a service</option>
+                                <option>PAN Card</option>
+                                <option>Aadhaar Services</option>
+                                <option>Printing &amp; Scanning</option>
+                                <option>Voter ID</option>
+                                <option>Ticket Booking</option>
+                                <option>Form Filling</option>
+                                <option>Website Making</option>
+                                <option data-en="Other" data-as="অন্যান্য">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label data-en="Message" data-as="বাৰ্তা">Message</label>
+                            <textarea rows="4" placeholder="How can we help you?" data-en-placeholder="How can we help you?" data-as-placeholder="আমি আপোনাক কেনেকৈ সহায় কৰিব পাৰো?"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width:100%">
+                            <i class="fas fa-paper-plane"></i>
+                            <span data-en="Send Message" data-as="বাৰ্তা পঠিয়াওক">Send Message</span>
+                        </button>
+                    </form>
+                </div>
+                <div class="contact-ctas">
+                    <a href="https://wa.me/918638759478" target="_blank" class="cta-card cta-whatsapp reveal active">
+                        <i class="fab fa-whatsapp"></i>
+                        <div>
+                            <h4>WhatsApp</h4>
+                            <p data-en="Chat with us directly" data-as="আমাৰ সৈতে পোনপটীয়াকে চেট কৰক">Chat with us
+                                directly</p>
+                        </div>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="tel:+918638759478" class="cta-card cta-call reveal active">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4 data-en="Call Now" data-as="এতিয়া ফোন কৰক">Call Now</h4>
+                            <p data-en="Speak to us immediately" data-as="আমাৰ সৈতে তৎক্ষণাৎ কথা পাতক">Speak to us
+                                immediately</p>
+                        </div>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="https://www.facebook.com/SmartDigitalKampur" target="_blank" class="cta-card cta-fb reveal active">
+                        <i class="fab fa-facebook"></i>
+                        <div>
+                            <h4>Facebook</h4>
+                            <p data-en="Follow our page" data-as="আমাৰ পেজ অনুসৰণ কৰক">Follow our page</p>
+                        </div>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <div class="working-hours-card">
+                        <h4><i class="fas fa-clock"></i> <span data-en="Working Hours" data-as="কামৰ সময়">Working
+                                Hours</span></h4>
+                        <div class="wh-row"><span data-en="Monday – Saturday" data-as="সোমবাৰ – শনিবাৰ">Monday –
+                                Saturday</span><strong>9 AM – 6 PM</strong></div>
+                        <div class="wh-row"><span data-en="Sunday" data-as="দেওবাৰ">Sunday</span><strong data-en="Closed" data-as="বন্ধ">Closed</strong></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <img src="assets/logo.png" alt="Smart Digital Logo">
+                        <div class="sd-text">
+                            <span class="sd-smart" data-en="Smart" data-as="স্মাৰ্ট" style="color:#fff;">Smart</span><span class="sd-digital" data-en="Digital" data-as="ডিজিটেল">Digital</span>
+                        </div>
+                    </div>
+                    <p data-en="Your trusted digital services partner. Serving the community with fast &amp; affordable solutions." data-as="আপোনাৰ বিশ্বাসযোগ্য ডিজিটেল সেৱা অংশীদাৰ।">
+                        Your trusted digital services partner. Serving the community with fast &amp;
+                        affordable solutions.
+                    </p>
+                    <div class="footer-social">
+                        <a href="https://wa.me/918638759478" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://www.facebook.com/SmartDigitalKampur" target="_blank"><i class="fab fa-facebook"></i></a>
+                        <a href="https://www.instagram.com/smartdigitalkampur" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4 data-en="Quick Links" data-as="দ্ৰুত লিংক">Quick Links</h4>
+                    <ul>
+                        <li><a href="#home" data-en="Home" data-as="ঘৰ">Home</a></li>
+                        <li><a href="#services" data-en="Services" data-as="সেৱা">Services</a></li>
+                        <li><a href="#calculator" data-en="Pricing" data-as="মূল্য">Pricing</a></li>
+                        <li><a href="#gallery" data-en="Gallery" data-as="গেলেৰী">Gallery</a></li>
+                        <li><a href="#location" data-en="Location" data-as="অৱস্থান">Location</a></li>
+                        <li><a href="#contact" data-en="Contact" data-as="যোগাযোগ">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4 data-en="Our Services" data-as="আমাৰ সেৱা">Our Services</h4>
+                    <ul>
+                        <li><span>PAN Card</span></li>
+                        <li><span data-en="Aadhaar Services" data-as="আধাৰ সেৱা">Aadhaar Services</span></li>
+                        <li><span data-en="Printing &amp; Scanning" data-as="প্ৰিন্টিং আৰু স্কেনিং">Printing &amp;
+                                Scanning</span></li>
+                        <li><span data-en="Ticket Booking" data-as="টিকট বুকিং">Ticket Booking</span></li>
+                        <li><span data-en="Form Filling" data-as="ফৰ্ম পূৰণ">Form Filling</span></li>
+                        <li><span data-en="Website Making" data-as="ৱেবছাইট নিৰ্মাণ">Website Making</span></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4 data-en="Contact Info" data-as="যোগাযোগৰ তথ্য">Contact Info</h4>
+                    <p style="display:none;"><i class="fas fa-map-marker-alt"></i> <span data-en="Assam" data-as="অসম">Assam</span>
+                    </p>
+                    <p><i class="fas fa-phone"></i> <a href="tel:+918638759478">+91 86387 59478</a></p>
+                    <p><i class="fab fa-whatsapp"></i> <a href="https://wa.me/918638759478" target="_blank">+91 86387
+                            59478</a></p>
+                    <p><i class="fas fa-envelope"></i> <a href="mailto:smartdigital.assam@gmail.com">smartdigital.assam@gmail.com</a>
+                    </p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© <span id="footerYear">2026</span> Smart Digital. <span data-en="All rights reserved." data-as="সকলো অধিকাৰ সংৰক্ষিত।">All rights reserved.</span></p>
+                <p data-en="Made with ❤️ in Assam" data-as="অসমৰ বাবে ❤️ দিয়ে তৈয়াৰ কৰা হৈছে">Made
+                    with ❤️ in Assam</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== SERVICE MODAL ===== -->
+    <div class="modal" id="serviceModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeServiceModal()">×</span>
+            <div class="modal-icon" id="modalIcon"></div>
+            <h2 id="modalTitle">Service</h2>
+            <p id="modalDesc">Description</p>
+            <div class="modal-price-box">
+                <span data-en="Price" data-as="মূল্য">Price</span>
+                <strong id="modalPrice">₹0</strong>
+            </div>
+            <ul class="modal-includes" id="modalIncludes"></ul>
+            <a id="modalWhatsApp" href="#" target="_blank" class="btn btn-primary" style="display:block;text-align:center;margin-top:1.5rem;">
+                <i class="fab fa-whatsapp"></i>
+                <span data-en="Book via WhatsApp" data-as="WhatsApp ৰে বুক কৰক">Book via WhatsApp</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- ===== ADMIN LOGIN MODAL ===== -->
+    <div class="modal" id="adminLoginModal">
+        <div class="modal-content" style="max-width:400px;text-align:center;">
+            <span class="modal-close" onclick="closeAdminLogin()">×</span>
+            <div class="modal-icon" style="background:linear-gradient(135deg,#6366f1,#818cf8)"><i class="fas fa-lock"></i></div>
+            <h2>Admin Login</h2>
+            <p style="color:#64748b;margin-bottom:1.5rem;font-size:14px;">Enter password to access the admin panel</p>
+            <input type="password" id="adminPwd" class="pwd-input" placeholder="Enter admin password" onkeypress="if(event.key===&#39;Enter&#39;)verifyAdmin()">
+            <button class="btn btn-primary" style="width:100%;margin-top:1rem;" onclick="verifyAdmin()">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+        </div>
+    </div>
+
+    <!-- ===== ADMIN PANEL MODAL ===== -->
+    <div class="modal" id="adminModal">
+        <div class="modal-content admin-modal">
+            <span class="modal-close" onclick="closeAdminPanel()">×</span>
+            <div class="admin-header-row">
+                <i class="fas fa-tools" style="color:#6366f1;font-size:28px;"></i>
+                <h2>Admin Control Panel</h2>
+            </div>
+
+            <div class="admin-section">
+                <h3><i class="fas fa-bell"></i> Notification Board</h3>
+                <div id="adminNotifList" class="admin-notif-list"></div>
+                <div class="admin-notif-add">
+                    <select id="notifType">
+                        <option value="info">📢 Info</option>
+                        <option value="success">✅ Success</option>
+                        <option value="warning">⚠️ Warning</option>
+                        <option value="event">🎉 Event</option>
+                    </select>
+                    <input type="text" id="notifInput" placeholder="Enter notification message...">
+                    <button class="btn btn-primary" onclick="addNotification()"><i class="fas fa-plus"></i> Add</button>
+                </div>
+            </div>
+
+            <div class="admin-section">
+                <h3><i class="fas fa-exclamation-triangle"></i> Urgent Notice</h3>
+                <div class="admin-field">
+                    <label>Notice Text:</label>
+                    <textarea id="urgentText" rows="3" placeholder="Enter urgent notice text"></textarea>
+                </div>
+                <div class="admin-field">
+                    <label>Deadline Date &amp; Time:</label>
+                    <input type="datetime-local" id="urgentDeadline">
+                </div>
+                <label class="toggle-label">
+                    <input type="checkbox" id="urgentToggle" class="toggle-check">
+                    <span class="toggle-slider"></span>
+                    Show Urgent Banner
+                </label>
+            </div>
+
+            <div class="admin-section">
+                <h3><i class="fas fa-store"></i> Shop Hours</h3>
+                <div class="admin-hours-row">
+                    <div class="admin-field">
+                        <label><i class="fas fa-sun"></i> Opening Time:</label>
+                        <input type="time" id="shopOpenInput">
+                    </div>
+                    <div class="admin-field">
+                        <label><i class="fas fa-moon"></i> Closing Time:</label>
+                        <input type="time" id="shopCloseInput">
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-actions">
+                <button class="btn btn-primary" onclick="saveAdminSettings()"><i class="fas fa-save"></i> Save All
+                    Settings</button>
+                <button class="btn btn-outline-dark" onclick="closeAdminPanel()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/script.js"></script>
+    <script>
+        // Custom UI modifications for Demo Focus
+        document.addEventListener("DOMContentLoaded", () => {
+            // Hide offline services and quote calculator
+            document.querySelectorAll('.service-card.disabled-card').forEach(el => el.style.display = 'none');
+            const calc = document.getElementById('calculator');
+            if (calc) calc.style.display = 'none';
+
+            // Move demos section up, right after Updates
+            const demosSection = document.getElementById('demos');
+            const updatesSection = document.getElementById('updates');
+            if (demosSection && updatesSection) {
+                updatesSection.parentNode.insertBefore(demosSection, updatesSection.nextSibling);
+            }
+        });
+
+        // Function to enlarge logo to 80% screen size
+        function openLogoLightbox(imgElement) {
+            let overlay = document.getElementById('logoOverlay');
+            if (!overlay) {
+                overlay = document.createElement('div');
+                overlay.id = 'logoOverlay';
+                Object.assign(overlay.style, {
+                    position: 'fixed',
+                    top: '0',
+                    left: '0',
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: 'rgba(0,0,0,0.9)',
+                    zIndex: '99999',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                    opacity: '0',
+                    transition: 'opacity 0.3s ease'
+                });
+
+                const img = document.createElement('img');
+                img.src = imgElement.src;
+                Object.assign(img.style, {
+                    maxWidth: '80vw',
+                    maxHeight: '80vh',
+                    objectFit: 'contain',
+                    borderRadius: '12px',
+                    boxShadow: '0 0 30px rgba(255,255,255,0.2)',
+                    transform: 'scale(0.8)',
+                    transition: 'transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+                });
+
+                overlay.appendChild(img);
+                document.body.appendChild(overlay);
+
+                overlay.onclick = function () {
+                    overlay.style.opacity = '0';
+                    img.style.transform = 'scale(0.8)';
+                    setTimeout(() => overlay.remove(), 300);
+                };
+            }
+
+            // Trigger reflow for animation
+            void overlay.offsetWidth;
+
+            overlay.style.opacity = '1';
+            overlay.querySelector('img').style.transform = 'scale(1)';
+        }
+    </script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') re

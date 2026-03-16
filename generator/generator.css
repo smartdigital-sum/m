@@ -1,0 +1,689 @@
+/* ============================================================
+   LIQUID GLASS UI — Full Glassmorphism Stylesheet
+   Inspired by the iridescent, frosted glass aesthetic
+   ============================================================ */
+
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap");
+
+/* --- CUSTOM PROPERTIES --- */
+:root {
+    --glass-white: rgba(255, 255, 255, 0.18);
+    --glass-white-heavy: rgba(255, 255, 255, 0.35);
+    --glass-border: rgba(255, 255, 255, 0.45);
+    --glass-shadow:
+        0 8px 32px rgba(100, 160, 255, 0.18), 0 2px 8px rgba(0, 0, 0, 0.08);
+    --glass-blur: blur(22px);
+    --glass-blur-light: blur(12px);
+    --accent-blue: #4fa3e8;
+    --accent-teal: #56d4c8;
+    --accent-purple: #a78bfa;
+    --accent-peach: #f9a8d4;
+    --text-dark: #1a2340;
+    --text-medium: #3b5080;
+    --text-light: rgba(255, 255, 255, 0.92);
+    --radius-lg: 22px;
+    --radius-md: 14px;
+    --radius-sm: 10px;
+    --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- 1. OVERALL PAGE STYLING --- */
+body {
+    font-family: "DM Sans", system-ui, sans-serif;
+    background:
+        radial-gradient(ellipse 80% 60% at 20% 10%,
+            rgba(100, 190, 255, 0.55) 0%,
+            transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 90%,
+            rgba(168, 139, 250, 0.45) 0%,
+            transparent 55%),
+        radial-gradient(ellipse 50% 40% at 55% 45%,
+            rgba(86, 212, 200, 0.3) 0%,
+            transparent 50%),
+        linear-gradient(145deg, #b8d8f8 0%, #d4e8ff 35%, #e8d5fa 65%, #c9f0ed 100%);
+    background-attachment: fixed;
+    color: var(--text-dark);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 30px 20px;
+    overflow-x: hidden;
+}
+
+/* Floating ambient orbs in the background */
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    animation: floatOrb 12s ease-in-out infinite alternate;
+}
+
+body::before {
+    width: 420px;
+    height: 420px;
+    background: radial-gradient(circle,
+            rgba(100, 180, 255, 0.38) 0%,
+            transparent 70%);
+    top: -80px;
+    left: -100px;
+}
+
+body::after {
+    width: 320px;
+    height: 320px;
+    background: radial-gradient(circle,
+            rgba(160, 120, 255, 0.32) 0%,
+            transparent 70%);
+    bottom: -60px;
+    right: -80px;
+    animation-delay: -6s;
+    animation-duration: 9s;
+}
+
+@keyframes floatOrb {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    100% {
+        transform: translate(30px, 40px) scale(1.08);
+    }
+}
+
+/* --- 2. THE GENERATOR FORM STYLING --- */
+#brand-generator {
+    background: var(--glass-white);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1.5px solid var(--glass-border);
+    padding: 44px 40px 40px;
+    border-radius: var(--radius-lg);
+    box-shadow:
+        var(--glass-shadow),
+        inset 0 1.5px 0 rgba(255, 255, 255, 0.7),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.2);
+    width: 100%;
+    max-width: 520px;
+    text-align: center;
+    position: relative;
+    z-index: 10;
+    /* Subtle shimmer on the card */
+    background-image: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.28) 0%,
+            rgba(255, 255, 255, 0.06) 50%,
+            rgba(255, 255, 255, 0.18) 100%);
+}
+
+/* Inner glass highlight stripe */
+#brand-generator::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 18px;
+    right: 18px;
+    height: 1.5px;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.9),
+            transparent);
+    border-radius: 2px;
+}
+
+.input-container h2 {
+    margin-top: 0;
+    margin-bottom: 6px;
+    font-family: "Syne", sans-serif;
+    font-size: 30px;
+    font-weight: 800;
+    color: var(--text-dark);
+    letter-spacing: -0.5px;
+    /* Subtle gradient text */
+    background: linear-gradient(135deg, #1a3060 0%, #4a80c4 50%, #2a5090 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Styling the inputs and dropdown */
+input[type="text"],
+select,
+input[type="file"] {
+    width: 100%;
+    padding: 14px 18px;
+    margin: 8px 0;
+    background: rgba(255, 255, 255, 0.42);
+    backdrop-filter: var(--glass-blur-light);
+    -webkit-backdrop-filter: var(--glass-blur-light);
+    border: 1.5px solid rgba(255, 255, 255, 0.6);
+    border-radius: var(--radius-md);
+    box-sizing: border-box;
+    font-size: 15px;
+    font-family: "DM Sans", sans-serif;
+    color: var(--text-dark);
+    transition: var(--transition);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.8),
+        0 2px 8px rgba(80, 140, 220, 0.08);
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+input[type="text"]::placeholder {
+    color: rgba(50, 80, 140, 0.5);
+}
+
+input[type="text"]:focus,
+select:focus {
+    border-color: rgba(79, 163, 232, 0.8);
+    background: rgba(255, 255, 255, 0.62);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        0 0 0 3px rgba(79, 163, 232, 0.18),
+        0 4px 16px rgba(79, 163, 232, 0.15);
+    transform: translateY(-1px);
+}
+
+select {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234a80c4' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
+}
+
+input[type="file"] {
+    cursor: pointer;
+    font-size: 13.5px;
+    color: var(--text-medium);
+}
+
+input[type="file"]::file-selector-button {
+    background: linear-gradient(135deg,
+            rgba(79, 163, 232, 0.25),
+            rgba(86, 212, 200, 0.2));
+    border: 1px solid rgba(79, 163, 232, 0.4);
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-family: "DM Sans", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-medium);
+    cursor: pointer;
+    margin-right: 10px;
+    transition: var(--transition);
+}
+
+input[type="file"]::file-selector-button:hover {
+    background: rgba(79, 163, 232, 0.35);
+}
+
+/* Styling the Generate Button (Liquid Glass Style) */
+#generate-btn {
+    position: relative;
+    background: linear-gradient(180deg, #1e2024 0%, #0d0e12 100%);
+    color: #fff;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 600;
+    padding: 16px 32px;
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    font-size: 17px;
+    letter-spacing: 0.3px;
+    width: 100%;
+    margin-top: 18px;
+    transition: var(--transition);
+
+    /* The glossy inner shadow & outer dark shadows */
+    box-shadow:
+        inset 0 2px 4px rgba(255, 255, 255, 0.3),
+        inset 0 10px 20px rgba(255, 255, 255, 0.1),
+        inset 0 -4px 8px rgba(0, 0, 0, 0.5),
+        0 10px 20px rgba(0, 0, 0, 0.4),
+        0 4px 6px rgba(0, 0, 0, 0.2);
+
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* Gradient Stroke Wrapper using an pseudo-element */
+#generate-btn::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: 42px;
+    /* Slightly larger than the button */
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.1), rgba(100, 150, 255, 0.5));
+    z-index: -2;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    padding: 2px;
+}
+
+/* The Bright Top Reflection (Frosted Glass Rim) */
+#generate-btn::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 4%;
+    width: 92%;
+    height: 40%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 100%);
+    border-radius: 40px 40px 100px 100px;
+    z-index: -1;
+    pointer-events: none;
+}
+
+#generate-btn:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        inset 0 2px 4px rgba(255, 255, 255, 0.4),
+        inset 0 10px 20px rgba(255, 255, 255, 0.15),
+        inset 0 -4px 8px rgba(0, 0, 0, 0.6),
+        0 15px 25px rgba(0, 0, 0, 0.5),
+        0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+#generate-btn:active {
+    transform: scale(0.97) translateY(0);
+    box-shadow:
+        inset 0 2px 4px rgba(255, 255, 255, 0.2),
+        inset 0 10px 20px rgba(255, 255, 255, 0.05),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.5),
+        0 4px 8px rgba(0, 0, 0, 0.4),
+        0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#loading-text {
+    font-weight: 600;
+    color: var(--accent-blue);
+    margin-top: 16px;
+    font-size: 14px;
+    letter-spacing: 0.2px;
+    opacity: 0.85;
+}
+
+/* --- 3. THE PREMIUM MOCKUP STYLING --- */
+.hero-layout {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow:
+        0 30px 70px -10px rgba(40, 80, 180, 0.3),
+        0 10px 30px rgba(0, 0, 0, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    transition: var(--transition);
+    text-align: left;
+    border: 1.5px solid rgba(255, 255, 255, 0.45);
+}
+
+/* Fake Mac Browser Bar */
+.browser-bar {
+    background: rgba(30, 35, 55, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 10px 15px;
+    display: flex;
+    gap: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.browser-bar .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 6px currentColor;
+}
+
+/* The Website Header */
+.mockup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.mockup-logo {
+    font-family: "Syne", sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.mockup-nav {
+    display: flex;
+    gap: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    opacity: 0.8;
+    letter-spacing: 0.2px;
+}
+
+/* The 2-Column Hero Main Section */
+.mockup-main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 50px 40px 80px 40px;
+    gap: 30px;
+    position: relative;
+}
+
+.mockup-left-col {
+    flex: 1;
+    max-width: 55%;
+    position: relative;
+    z-index: 10;
+}
+
+.mockup-right-col {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    /* Pushes the image to the far right edge */
+    align-items: flex-end;
+    /* Anchors the image to the absolute bottom */
+    position: relative;
+}
+
+.mockup-right-col img {
+    position: relative;
+    bottom: -80px;
+    right: 60px;
+
+    max-height: 400px;
+    width: auto;
+    object-fit: contain;
+    object-position: bottom right;
+    z-index: 1;
+    pointer-events: none;
+    filter: drop-shadow(-15px 15px 25px rgba(0, 0, 0, 0.5));
+    transform-origin: bottom right;
+    -webkit-mask-image: none;
+    mask-image: none;
+    /* FADE THE BOTTOM */
+    -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+}
+
+.mockup-badge {
+    display: inline-block;
+    padding: 5px 14px;
+    border-radius: 50px;
+    font-size: 11.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    letter-spacing: 1.5px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.mockup-left-col h1 {
+    font-family: "Syne", sans-serif;
+    font-size: 42px;
+    line-height: 1.1;
+    margin: 0 0 15px 0;
+    font-weight: 800;
+}
+
+.mockup-left-col p {
+    font-size: 16px;
+    line-height: 1.7;
+    opacity: 0.88;
+    margin-bottom: 30px;
+}
+
+.mockup-cta {
+    padding: 15px 35px;
+    font-size: 17px;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 700;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    border: 1.5px solid rgba(255, 255, 255, 0.4);
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.18),
+        inset 0 1.5px 0 rgba(255, 255, 255, 0.5);
+    transition: var(--transition);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    position: relative;
+    overflow: hidden;
+}
+
+.mockup-cta::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.28),
+            transparent);
+    transform: skewX(-15deg);
+    transition: left 0.5s ease;
+}
+
+.mockup-cta:hover {
+    transform: translateY(-3px);
+    box-shadow:
+        0 16px 35px rgba(0, 0, 0, 0.25),
+        inset 0 1.5px 0 rgba(255, 255, 255, 0.55);
+}
+
+.mockup-cta:hover::after {
+    left: 150%;
+}
+
+/* --- 4. GLASS THEME OVERRIDES --- */
+
+/* 1. Gym — Dark Iridescent Glass */
+.theme-gym .mockup-website {
+    background: linear-gradient(135deg,
+            rgba(20, 0, 0, 0.82) 0%,
+            rgba(50, 5, 5, 0.78) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    color: #fff;
+    font-family: "Syne", sans-serif;
+    text-transform: uppercase;
+    border: 1px solid rgba(255, 60, 0, 0.2);
+}
+
+.theme-gym .mockup-badge {
+    background: rgba(255, 40, 0, 0.15);
+    color: #ff4422;
+    border: 1px solid rgba(255, 60, 0, 0.5);
+    backdrop-filter: blur(6px);
+}
+
+.theme-gym .mockup-cta {
+    background: linear-gradient(90deg,
+            rgba(255, 50, 0, 0.85),
+            rgba(200, 0, 0, 0.85));
+    color: white;
+}
+
+/* 2. Salon — Frosted Rose Gold Glass */
+.theme-salon .mockup-website {
+    background: linear-gradient(135deg,
+            rgba(255, 248, 246, 0.65) 0%,
+            rgba(235, 237, 238, 0.55) 100%);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    color: #2c3e50;
+    font-family: "DM Sans", sans-serif;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.theme-salon .mockup-badge {
+    background: rgba(212, 175, 55, 0.12);
+    color: #b8962a;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    backdrop-filter: blur(8px);
+}
+
+.theme-salon .mockup-cta {
+    background: linear-gradient(90deg,
+            rgba(212, 175, 55, 0.88),
+            rgba(181, 149, 47, 0.88));
+    color: white;
+}
+
+.theme-salon .mockup-header {
+    border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+/* 3. Restaurant — Warm Amber Glass */
+.theme-restaurant .mockup-website {
+    background: radial-gradient(circle at top right,
+            rgba(58, 35, 24, 0.82),
+            rgba(26, 16, 11, 0.88));
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    color: #f8e1c4;
+    font-family: "Syne", sans-serif;
+    border: 1px solid rgba(255, 204, 0, 0.15);
+}
+
+.theme-restaurant .mockup-badge {
+    background: rgba(255, 204, 0, 0.12);
+    color: #ffcc00;
+    border: 1px solid rgba(255, 204, 0, 0.4);
+    backdrop-filter: blur(6px);
+}
+
+.theme-restaurant .mockup-cta {
+    background: rgba(255, 204, 0, 0.9);
+    color: #1a100b;
+}
+
+/* 4. Medical — Icy Blue Glass */
+.theme-medical .mockup-website {
+    background: linear-gradient(120deg,
+            rgba(224, 195, 252, 0.55) 0%,
+            rgba(142, 197, 252, 0.5) 100%);
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    color: #003366;
+    font-family: "DM Sans", sans-serif;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+}
+
+.theme-medical .mockup-badge {
+    background: rgba(255, 255, 255, 0.45);
+    color: #00509e;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+}
+
+.theme-medical .mockup-cta {
+    background: rgba(0, 80, 158, 0.88);
+    color: white;
+}
+
+.theme-medical .mockup-header {
+    border-bottom: 1px solid rgba(0, 51, 102, 0.1);
+}
+
+/* 5. School — Deep Navy Glass */
+.theme-school .mockup-website {
+    background: linear-gradient(180deg,
+            rgba(0, 31, 63, 0.85) 0%,
+            rgba(0, 51, 102, 0.82) 100%);
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+    color: #ffffff;
+    font-family: "DM Sans", sans-serif;
+    border: 1px solid rgba(255, 165, 0, 0.15);
+}
+
+.theme-school .mockup-badge {
+    background: rgba(255, 165, 0, 0.15);
+    color: #ffa500;
+    border: 1px solid rgba(255, 165, 0, 0.4);
+    backdrop-filter: blur(6px);
+}
+
+.theme-school .mockup-cta {
+    background: rgba(255, 165, 0, 0.9);
+    color: #001f3f;
+}
+
+/* 6. Grocery — Fresh Mint Glass */
+.theme-grocery .mockup-website {
+    background: linear-gradient(135deg,
+            rgba(212, 252, 121, 0.5) 0%,
+            rgba(150, 230, 161, 0.45) 100%);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    color: #1e5631;
+    font-family: "DM Sans", sans-serif;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.theme-grocery .mockup-badge {
+    background: rgba(255, 255, 255, 0.55);
+    color: #1e5631;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(8px);
+}
+
+.theme-grocery .mockup-cta {
+    background: rgba(46, 125, 50, 0.88);
+    color: white;
+}
+
+.theme-grocery .mockup-header {
+    border-bottom: 1px solid rgba(30, 86, 49, 0.12);
+}
+
+/* --- 5. BOTTOM CTA SECTION --- */
+.hire-me-cta {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.35);
+    text-align: center;
+}
+
+.hire-me-cta button {
+    background: rgba(20, 25, 45, 0.75);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    color: white;
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    padding: 13px 28px;
+    font-size: 15px;
+    font-family: "DM Sans", sans-serif;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    transition: var(--transition);
+    box-shadow:
+        0 6px 20px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.hire-me-cta button:hover {
+    background: rgba(30, 38, 65, 0.9);
+    transform: translateY(-2px);
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);

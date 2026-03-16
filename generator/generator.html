@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Web Design Agency</title>
+    <link rel="stylesheet" href="generator.css" />
+</head>
+
+<body>
+    <!-- THE GENERATOR SECTION -->
+    <section id="brand-generator">
+        <div class="input-container">
+            <h2>See Your Business Upgraded.</h2>
+            <input type="text" id="biz-name" placeholder="Business Name (e.g. Joe's Gym)" />
+
+            <select id="industry">
+                <option value="medical">Medical Shop</option>
+                <option value="school">School Portal</option>
+                <option value="salon">Salon & Spa</option>
+                <option value="grocery">Grocery Store</option>
+                <option value="restaurant">Restaurant</option>
+                <option value="gym">Fitness & Gym</option>
+            </select>
+
+            <input type="file" id="image-upload" accept="image/*" />
+            <button id="generate-btn">Generate My Premium Site</button>
+            <p id="loading-text" style="display: none">
+                Applying AI Magic... Please wait ⏳
+            </p>
+        </div>
+
+        <!-- THE OUTPUT MOCKUP (Hidden initially) -->
+        <div class="mockup-container" id="mockup-result" style="display:none; width: 100%; margin-top: 40px;">
+
+            <!-- FAKE BROWSER WINDOW WRAPPER -->
+            <div class="hero-layout" id="hero-layout">
+
+                <!-- Browser Top Bar (Red, Yellow, Green dots) -->
+                <div class="browser-bar">
+                    <span class="dot" style="background:#ff5f56;"></span>
+                    <span class="dot" style="background:#ffbd2e;"></span>
+                    <span class="dot" style="background:#27c93f;"></span>
+                </div>
+
+                <!-- THE ACTUAL MOCKUP WEBSITE -->
+                <div class="mockup-website">
+
+                    <!-- 1. The Header / Nav Bar -->
+                    <header class="mockup-header">
+                        <div class="mockup-logo" id="mockup-logo">Logo</div>
+                        <nav class="mockup-nav">
+                            <span>Home</span>
+                            <span>Services</span>
+                            <span>About</span>
+                        </nav>
+                    </header>
+
+                    <!-- 2. The Hero Section (2 Columns) -->
+                    <main class="mockup-main">
+                        <!-- Left Side: Text & Button -->
+                        <div class="mockup-left-col">
+                            <span class="mockup-badge">Premium Quality</span>
+                            <h1 id="mockup-title">Your Business Here</h1>
+                            <p>Experience the best services in the city. Designed for excellence, tailored for you.</p>
+                            <button class="mockup-cta">Book Now</button>
+                        </div>
+
+                        <!-- Right Side: Background Removed Image -->
+                        <div class="mockup-right-col">
+                            <img id="mockup-image" src="" alt="Transformed Business" />
+                        </div>
+                    </main>
+
+                </div>
+            </div>
+
+            <div class="hire-me-cta">
+                <h3>Love this look? I can build the real thing.</h3>
+                <button onclick="window.location.href='../index.html'">Let's Talk</button>
+            </div>
+        </div>
+    </section>
+
+    <script src="generator.js"></script>
+</body>
+
