@@ -3151,3 +3151,220 @@ body {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* ===== PUNCH BUTTON / HYPE WIDGET ===== */
+
+/* Main Punch Widget - Hero Section */
+.punch-widget {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: rgba(99, 102, 241, 0.08);
+  border-radius: 12px;
+  border: 1.5px solid rgba(99, 102, 241, 0.3);
+  backdrop-filter: blur(8px);
+  margin-top: 20px;
+  animation: punch-fade-in 0.6s ease-out;
+}
+
+.punch-btn {
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 24px;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+  min-width: 50px;
+  min-height: 50px;
+}
+
+.punch-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.6);
+}
+
+.punch-btn:active {
+  transform: scale(0.94);
+}
+
+.punch-btn.punching {
+  animation: punch-anim 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.punch-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.punch-count {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1;
+}
+
+.punch-label {
+  font-size: 12px;
+  color: var(--gray);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+/* Inline Punch Widget - Services/Games Sections */
+.punch-widget-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(249, 115, 22, 0.08);
+  border-radius: 8px;
+  margin-left: 16px;
+  animation: punch-fade-in 0.4s ease-out;
+}
+
+.punch-btn-sm {
+  background: linear-gradient(135deg, #f97316, #fb923c);
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 8px rgba(249, 115, 22, 0.3);
+  min-width: 38px;
+  min-height: 38px;
+}
+
+.punch-btn-sm:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.5);
+}
+
+.punch-btn-sm:active {
+  transform: scale(0.92);
+}
+
+.punch-btn-sm.punching {
+  animation: punch-anim 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.punch-count-sm {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--dark);
+}
+
+.punch-label-sm {
+  font-size: 11px;
+  color: var(--gray);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+/* Punch Animation */
+@keyframes punch-anim {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.35) rotate(-8deg);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes punch-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Punch Widgets */
+@media (max-width: 768px) {
+  .punch-widget {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+
+  .punch-btn {
+    padding: 8px 10px;
+    font-size: 20px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .punch-count {
+    font-size: 16px;
+  }
+
+  .punch-widget-inline {
+    margin-left: 8px;
+    padding: 6px 10px;
+  }
+
+  .punch-btn-sm {
+    padding: 5px 8px;
+    font-size: 14px;
+    min-width: 34px;
+    min-height: 34px;
+  }
+
+  .punch-count-sm {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .punch-widget {
+    padding: 8px 10px;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .punch-btn {
+    padding: 6px 8px;
+    font-size: 18px;
+    min-width: 40px;
+    min-height: 40px;
+  }
+
+  .punch-count {
+    font-size: 14px;
+  }
+
+  .punch-label {
+    font-size: 10px;
+  }
+
+  .punch-widget-inline {
+    display: flex;
+    margin-left: 4px;
+    margin-top: 10px;
+    padding: 6px 8px;
+  }
+
+  .punch-btn-sm {
+    padding: 4px 6px;
+    font-size: 13px;
+    min-width: 32px;
+    min-height: 32px;
+  }
+}

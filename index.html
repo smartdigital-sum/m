@@ -104,7 +104,7 @@
                 <i class="fas fa-hourglass-half"></i>
                 <span id="urgentCountdown">Deadline passed!</span>
             </div>
-            <button class="urgent-close" onclick="document.getElementById(&#39;urgentBanner&#39;).style.display=&#39;none&#39;">
+            <button class="urgent-close" onclick="document.getElementById('urgentBanner').style.display='none'">
                 <i class="fas fa-times"></i>
             </button>
         </div>
@@ -186,6 +186,17 @@
                     </div>
                     <div class="laptop-keyboard">
                         <div class="trackpad"></div>
+                    </div>
+                </div>
+
+                <!-- PUNCH WIDGET - Hero Section -->
+                <div class="punch-widget" data-id="hero-hype">
+                    <button class="punch-btn" onclick="doPunch(this)">
+                        <span class="fist-icon">👊</span>
+                    </button>
+                    <div class="punch-info">
+                        <span class="punch-count">0</span>
+                        <span class="punch-label" data-en="hypes" data-as="হাইপ">hypes</span>
                     </div>
                 </div>
 
@@ -436,20 +447,27 @@
             <div class="section-head">
                 <h2 class="section-title" data-en="Our Services" data-as="আমাৰ সেৱাসমূহ">Our Services</h2>
                 <p class="section-sub" data-en="Comprehensive digital solutions for everyone" data-as="সকলোৰ বাবে সম্পূৰ্ণ ডিজিটেল সমাধান">Comprehensive digital solutions for everyone</p>
+                
+                <!-- PUNCH WIDGET - Services Section -->
+                <div class="punch-widget-inline" data-id="services-hype">
+                    <button class="punch-btn-sm" onclick="doPunch(this)">👊</button>
+                    <span class="punch-count-sm">0</span>
+                    <span class="punch-label-sm" data-en="Likes" data-as="লাইক">Likes</span>
+                </div>
             </div>
 
             <div class="services-grid">
                 <!-- NEW DIGITAL SERVICES -->
-                <div class="service-card highlight-card reveal active" onclick="openServiceModal(&#39;Website Creation&#39;,&#39;website&#39;)">
+                <div class="service-card highlight-card reveal active" onclick="openServiceModal('Website Creation','website')">
                     <div class="svc-icon" style="background:linear-gradient(135deg,#6366f1,#818cf8)"><i class="fas fa-globe"></i></div>
                     <div class="svc-badge pulse-badge">HOT &amp; LIVE</div>
                     <h3 data-en="Website Creation" data-as="ৱেবছাইট নিৰ্মাণ">Website Creation</h3>
-                    <p class="dark-desc" data-en="Professional websites for local businesses &amp; personal portfolios." data-as="স্থানীয় ব্যৱসায় আৰু ব্যক্তিগত পৰ্টফলিঅ&#39;ৰ বাবে পেছাদাৰী ৱেবছাইট।">Professional
+                    <p class="dark-desc" data-en="Professional websites for local businesses &amp; personal portfolios." data-as="স্থানীয় ব্যৱসায় আৰু ব্যক্তিগত পৰ্টফলিঅ'ৰ বাবে পেছাদাৰী ৱেবছাইট।">Professional
                         websites for local businesses &amp; personal portfolios.</p>
                     <span class="price-tag">₹3,000–16,000</span>
                 </div>
 
-                <div class="service-card highlight-card reveal active" onclick="openServiceModal(&#39;WhatsApp Automation&#39;,&#39;bot&#39;)">
+                <div class="service-card highlight-card reveal active" onclick="openServiceModal('WhatsApp Automation','bot')">
                     <div class="svc-icon" style="background:linear-gradient(135deg,#10b981,#34d399)"><i class="fab fa-whatsapp"></i></div>
                     <div class="svc-badge pulse-badge">NEW &amp; LIVE</div>
                     <h3 data-en="n8n WhatsApp Bot" data-as="n8n হোৱাটছএপ বট">n8n WhatsApp Bot</h3>
@@ -569,7 +587,7 @@
                     <div class="calc-result-label" data-en="Estimated Total" data-as="আনুমানিক মুঠ">Estimated Total
                     </div>
                     <div class="calc-total">₹<span id="calcTotal">0</span></div>
-                    <p class="calc-note" data-en="*Final price may vary based on requirements" data-as="*প্ৰয়োজনীয়তাৰ ওপৰত চূড়ান্ত মূল্য পৰিবৰ্তিত হ&#39;ব পাৰে">*Final price may vary based on
+                    <p class="calc-note" data-en="*Final price may vary based on requirements" data-as="*প্ৰয়োজনীয়তাৰ ওপৰত চূড়ান্ত মূল্য পৰিবৰ্তিত হ'ব পাৰে">*Final price may vary based on
                         requirements</p>
                 </div>
                 <div style="text-align:center; margin-top:1.5rem;">
@@ -578,7 +596,14 @@
             </div>
         </div>
     </section>
-
+    
+                <!-- PUNCH WIDGET - Games Section -->
+                <div class="punch-widget-inline" data-id="games-hype">
+                    <button class="punch-btn-sm" onclick="doPunch(this)">👊</button>
+                    <span class="punch-count-sm">0</span>
+                    <span class="punch-label-sm" data-en="Fun!" data-as="মজা!">Fun!</span>
+                </div>
+            
     <!-- ===== GAMES & PROJECTS ===== -->
     <section class="games-section" id="games">
         <div class="container">
@@ -605,9 +630,9 @@
                 <div class="game-card">
                     <div class="game-icon" style="background:linear-gradient(135deg,#f59e0b,#fbbf24)"><i class="fas fa-brain"></i></div>
                     <div class="game-info">
-                        <h3 data-en="Memory Match (Assamese)" data-as="মেম&#39;ৰী মেচ (অসমীয়া)">Memory Match (Assamese)
+                        <h3 data-en="Memory Match (Assamese)" data-as="মেম'ৰী মেচ (অসমীয়া)">Memory Match (Assamese)
                         </h3>
-                        <p data-en="Match cultural icons and test your memory." data-as="সাংস্কৃতিক আইকন মিলাওক আৰু মেম&#39;ৰী পৰীক্ষা কৰক।">Match cultural icons and test your
+                        <p data-en="Match cultural icons and test your memory." data-as="সাংস্কৃতিক আইকন মিলাওক আৰু মেম'ৰী পৰীক্ষা কৰক।">Match cultural icons and test your
                             memory.</p>
                     </div>
                     <div class="game-actions">
@@ -687,10 +712,10 @@
                 </p>
             </div>
             <div class="filter-btns">
-                <button class="filter-btn active" onclick="filterGallery(&#39;all&#39;,this)" data-en="All" data-as="সকলো">All</button>
-                <button class="filter-btn" onclick="filterGallery(&#39;designs&#39;,this)" data-en="Designs" data-as="ডিজাইন">Designs</button>
-                <button class="filter-btn" onclick="filterGallery(&#39;photos&#39;,this)" data-en="Photos" data-as="ফটো">Photos</button>
-                <button class="filter-btn" onclick="filterGallery(&#39;work&#39;,this)" data-en="Our Work" data-as="আমাৰ কাম">Our Work</button>
+                <button class="filter-btn active" onclick="filterGallery('all',this)" data-en="All" data-as="সকলো">All</button>
+                <button class="filter-btn" onclick="filterGallery('designs',this)" data-en="Designs" data-as="ডিজাইন">Designs</button>
+                <button class="filter-btn" onclick="filterGallery('photos',this)" data-en="Photos" data-as="ফটো">Photos</button>
+                <button class="filter-btn" onclick="filterGallery('work',this)" data-en="Our Work" data-as="আমাৰ কাম">Our Work</button>
             </div>
             <div class="gallery-grid" id="galleryGrid">
                 <!-- IMPORTANT: Replace these with your actual photos from Cloudinary -->
@@ -788,7 +813,7 @@
         <div class="container">
             <div class="section-head">
                 <h2 class="section-title" data-en="Contact Us" data-as="আমাৰ সৈতে যোগাযোগ কৰক">Contact Us</h2>
-                <p class="section-sub" data-en="Get in touch — we&#39;re happy to help!" data-as="যোগাযোগ কৰক — আমি সহায় কৰিবলৈ সুখী!">Get in touch — we're happy to help!</p>
+                <p class="section-sub" data-en="Get in touch — we're happy to help!" data-as="যোগাযোগ কৰক — আমি সহায় কৰিবলৈ সুখী!">Get in touch — we're happy to help!</p>
             </div>
             <div class="contact-grid">
                 <div class="contact-form-wrap">
@@ -953,7 +978,7 @@
             <div class="modal-icon" style="background:linear-gradient(135deg,#6366f1,#818cf8)"><i class="fas fa-lock"></i></div>
             <h2>Admin Login</h2>
             <p style="color:#64748b;margin-bottom:1.5rem;font-size:14px;">Enter password to access the admin panel</p>
-            <input type="password" id="adminPwd" class="pwd-input" placeholder="Enter admin password" onkeypress="if(event.key===&#39;Enter&#39;)verifyAdmin()">
+            <input type="password" id="adminPwd" class="pwd-input" placeholder="Enter admin password" onkeypress="if(event.key==='Enter')verifyAdmin()">
             <button class="btn btn-primary" style="width:100%;margin-top:1rem;" onclick="verifyAdmin()">
                 <i class="fas fa-sign-in-alt"></i> Login
             </button>

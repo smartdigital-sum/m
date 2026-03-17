@@ -317,7 +317,6 @@ function setUrgentBanner(data) {
         }, 300);
       }
     }, 9000);
-
   } else {
     banner.style.display = "none";
     window._urgentDeadline = "";
@@ -823,6 +822,48 @@ function setupReveal() {
     });
 }
 
+// ─── PUNCH BUTTON / HYPE COUNTER ───────────────────────────
+// Initialize punch widgets on page load
+function initPunchWidgets() {
+  document
+    .querySelectorAll(".punch-widget, .punch-widget-inline")
+    .forEach((w) => {
+      const id = w.dataset.id;
+      loadPunchCount(w, id);
+    });
+}
+
+// Load punch count from Firebase
+function loadPunchCount(widget, id) {
+  const countEl = widget.querySelector(".punch-count, .punch-count-sm");
+  if (!countEl) return;
+
+  db.ref("punches/" + id).on("value", (snap) => {
+    const count = snap.val() || 0;
+    countEl.textContent = count;
+  });
+}
+
+// Handle punch click - no per-user limits
+function doPunch(btn) {
+  const widget = btn.closest(".punch-widget, .punch-widget-inline");
+  if (!widget) return;
+
+  const id = widget.dataset.id;
+
+  // Animate button
+  btn.classList.add("punching");
+  setTimeout(() => btn.classList.remove("punching"), 300);
+
+  // Increment count in Firebase (no limits - all clicks count!)
+  const ref = db.ref("punches/" + id);
+  ref
+    .transaction((current) => {
+      return (current || 0) + 1;
+    })
+    .catch((err) => console.error("Punch error:", err));
+}
+
 // ─── TOAST ─────────────────────────────────────────────────
 function showToast(msg, type = "success") {
   const t = document.createElement("div");
@@ -878,6 +919,7 @@ window.addEventListener("load", () => {
   tickBoardTime();
   updateServiceTimer();
   setupReveal();
+  initPunchWidgets();
 });
 
 console.log(
@@ -888,5 +930,3 @@ console.log(
   "%cKachua Tiniali, Kampur, Assam — Your Digital Partner",
   "color:#f97316;font-size:13px;",
 );
-
-
