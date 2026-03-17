@@ -161,6 +161,17 @@
                     </a>
                 </div>
             </div>
+
+            <!-- PUNCH WIDGET - Hero Section (Moved & Resized) -->
+            <div class="punch-widget" data-id="hero-hype" style="width: fit-content; padding: 8px 12px; margin-top: 25px;">
+                <button class="punch-btn" onclick="doPunch(this)" style="min-width: 40px; min-height: 40px; font-size: 20px; padding: 6px 10px;">
+                    <span class="fist-icon">👊</span>
+                </button>
+                <div class="punch-info">
+                    <span class="punch-count">0</span>
+                    <span class="punch-label" data-en="hypes" data-as="হাইপ">hypes</span>
+                </div>
+            </div>
         </div>
 
         <div class="hero-right-graphic">
@@ -190,15 +201,7 @@
                 </div>
 
                 <!-- PUNCH WIDGET - Hero Section -->
-                <div class="punch-widget" data-id="hero-hype">
-                    <button class="punch-btn" onclick="doPunch(this)">
-                        <span class="fist-icon">👊</span>
-                    </button>
-                    <div class="punch-info">
-                        <span class="punch-count">0</span>
-                        <span class="punch-label" data-en="hypes" data-as="হাইপ">hypes</span>
-                    </div>
-                </div>
+
 
                 <div class="floating-elements">
                     <i class="fas fa-code float-1"></i>
@@ -397,6 +400,12 @@
                             <a href="https://smartdigital-sum.github.io/grocery-store-demo2/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i>
                                 <span data-en="Demo 2" data-as="ডেমো ২">Demo 2</span></a>
                         </div>
+                        <div style="display: flex; gap: 10px; margin-top: 10px;">
+                            <a href="https://smartdigital-sum.github.io/grocery-store-demo3/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i>
+                                <span data-en="Demo 3" data-as="ডেমো ৩">Demo 3</span></a>
+                            <a href="https://smartdigital-sum.github.io/grocery-store-demo4/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i>
+                                <span data-en="Demo 4" data-as="ডেমো ৪">Demo 4</span></a>
+                        </div>
                     </div>
                 </div>
 
@@ -434,6 +443,12 @@
                                     1</span></a>
                             <a href="https://smartdigital-sum.github.io/gymdemo2/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i>
                                 <span data-en="Demo 2" data-as="ডেমো ২">Demo 2</span></a>
+                        </div>
+                        <div style="display: flex; gap: 10px; margin-top: 10px;">
+                            <a href="https://smartdigital-sum.github.io/gymdemo3/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i>
+                                <span data-en="Demo 3" data-as="ডেমো ৩">Demo 3</span></a>
+                            <a href="https://smartdigital-sum.github.io/gymdemo4/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i>
+                                <span data-en="Demo 4" data-as="ডেমো ৪">Demo 4</span></a>
                         </div>
                     </div>
                 </div>
@@ -590,12 +605,7 @@
         </div>
     </section>
     
-                <!-- PUNCH WIDGET - Games Section -->
-                <div class="punch-widget-inline" data-id="games-hype">
-                    <button class="punch-btn-sm" onclick="doPunch(this)">👊</button>
-                    <span class="punch-count-sm">0</span>
-                    <span class="punch-label-sm" data-en="Fun!" data-as="মজা!">Fun!</span>
-                </div>
+
             
     <!-- ===== GAMES & PROJECTS ===== -->
     <section class="games-section" id="games">
@@ -603,6 +613,13 @@
             <div class="section-head">
                 <h2 class="section-title" data-en="Games &amp; Projects" data-as="গেমছ আৰু প্ৰজেক্ট">Games &amp; Projects</h2>
                 <p class="section-sub" data-en="Play our custom-built interactive games" data-as="আমাৰ কাষ্টম-বিল্ট ইণ্টাৰেক্টিভ গেমছ খেলক">Play our custom-built interactive games</p>
+                
+                <!-- PUNCH WIDGET - Games Section (Centered) -->
+                <div class="punch-widget-inline" data-id="games-hype" style="justify-content: center; margin: 1.5rem auto 0; width: fit-content; display: flex;">
+                    <button class="punch-btn-sm" onclick="doPunch(this)">👊</button>
+                    <span class="punch-count-sm">0</span>
+                    <span class="punch-label-sm" data-en="Fun!" data-as="মজা!">Fun!</span>
+                </div>
             </div>
 
             <div class="games-grid">
@@ -1109,29 +1126,5 @@
             overlay.querySelector('img').style.transform = 'scale(1)';
         }
     </script>
-<!-- Code injected by live-server -->
-<script>
-	// <![CDATA[  <-- For SVG support
-	if ('WebSocket' in window) {
-		(function () {
-			function refreshCSS() {
-				var sheets = [].slice.call(document.getElementsByTagName("link"));
-				var head = document.getElementsByTagName("head")[0];
-				for (var i = 0; i < sheets.length; ++i) {
-					var elem = sheets[i];
-					var parent = elem.parentElement || head;
-					parent.removeChild(elem);
-					var rel = elem.rel;
-					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
-						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
-						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
-					}
-					parent.appendChild(elem);
-				}
-			}
-			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
-			var address = protocol + window.location.host + window.location.pathname + '/ws';
-			var socket = new WebSocket(address);
-			socket.onmessage = function (msg) {
-				if (msg.data == 'reload') window.location.reload();
-				else if (msg.data == 'refreshcss') re
+</body>
+</html>
