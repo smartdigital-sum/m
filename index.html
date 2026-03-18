@@ -149,9 +149,10 @@
                         <i class="fas fa-globe"></i> <span data-en="View Demo Websites" data-as="ডেমো ৱেবছাইট চাওক">View
                             Demo Websites</span>
                     </a>
-                    <a href="https://wa.me/918638759478" target="_blank" class="btn btn-outline" style="padding: 12px 24px; border: 2px solid #10b981; color: #10b981; font-weight: bold; border-radius: 8px;">
-                        <i class="fab fa-whatsapp"></i> <span data-en="WhatsApp Us" data-as="WhatsApp ত যোগাযোগ কৰক">WhatsApp Us</span>
-                    </a>
+                    <button id="hero-bg-remover" class="btn btn-magic" style="padding: 12px 24px; font-weight: bold;">
+                        <i class="fas fa-wand-magic-sparkles"></i> <span data-en="Remove Background" data-as="বেষ্টনীবোৰ আঁতৰাওক">Remove Background</span>
+                    </button>
+                    <input type="file" id="hero-bg-input" accept="image/*" hidden>
                 </div>
                 <!-- Matched length to View Demo Websites -->
                 <div style="display: flex;">
@@ -328,12 +329,42 @@
                         <h3 data-en="Medical Shop" data-as="মেডিকেল শ্বপ">Medical Shop</h3>
                         <p data-en="Pharmacy catalog, prescription upload &amp; home delivery." data-as="ফাৰ্মাচী কেটেলগ, প্ৰেছক্ৰিপচন আপলোড আৰু হোম ডেলিভাৰী।">Pharmacy catalog,
                             prescription upload &amp; home delivery.</p>
-                        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px;">
-                            <a href="https://smartdigital-sum.github.io/m-1-a/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo 1</span></a>
-                            <a href="https://smartdigital-sum.github.io/m-1-b/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 2" data-as="ডেমো ২">Demo 2</span></a>
-                            <a href="https://smartdigital-sum.github.io/m-1-c/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 3" data-as="ডেমো ৩">Demo 3</span></a>
-                            <a href="https://smartdigital-sum.github.io/m-1-d/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 4" data-as="ডেমো ৪">Demo 4</span></a>
-                            <a href="https://smartdigital-sum.github.io/m-1-e/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 5" data-as="ডেমো ৫">Demo 5</span></a>
+                        <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 15px; align-items: center;">
+                            <div class="demo-link-wrapper">
+                                <a href="https://smartdigital-sum.github.io/m-1-a/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo 1</span></a>
+                                <div class="punch-widget-demo" data-id="demo-m1a-like" title="Like this demo">
+                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                    <span class="punch-count-xs">0</span>
+                                </div>
+                            </div>
+                            <div class="demo-link-wrapper">
+                                <a href="https://smartdigital-sum.github.io/m-1-b/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 2" data-as="ডেমো ২">Demo 2</span></a>
+                                <div class="punch-widget-demo" data-id="demo-m1b-like" title="Like this demo">
+                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                    <span class="punch-count-xs">0</span>
+                                </div>
+                            </div>
+                            <div class="demo-link-wrapper">
+                                <a href="https://smartdigital-sum.github.io/m-1-c/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 3" data-as="ডেমো ৩">Demo 3</span></a>
+                                <div class="punch-widget-demo" data-id="demo-m1c-like" title="Like this demo">
+                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                    <span class="punch-count-xs">0</span>
+                                </div>
+                            </div>
+                            <div class="demo-link-wrapper">
+                                <a href="https://smartdigital-sum.github.io/m-1-d/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 4" data-as="ডেমো ৪">Demo 4</span></a>
+                                <div class="punch-widget-demo" data-id="demo-m1d-like" title="Like this demo">
+                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                    <span class="punch-count-xs">0</span>
+                                </div>
+                            </div>
+                            <div class="demo-link-wrapper">
+                                <a href="https://smartdigital-sum.github.io/m-1-e/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 5" data-as="ডেমো ৫">Demo 5</span></a>
+                                <div class="punch-widget-demo" data-id="demo-m1e-like" title="Like this demo">
+                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                    <span class="punch-count-xs">0</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -345,11 +376,35 @@
                         <h3 data-en="School Portal" data-as="বিদ্যালয় পৰ্টেল">School Portal</h3>
                         <p data-en="Courses, admissions, events, and student portal." data-as="পাঠ্যক্ৰম, নামভৰ্তি, অনুষ্ঠান আৰু ছাত্ৰ পৰ্টেল।">Courses, admissions, events, and
                             student portal.</p>
-                        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px;">
-                            <a href="https://smartdigital-sum.github.io/m-2-a/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo 1</span></a>
-                            <a href="https://smartdigital-sum.github.io/m-2-b/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 2" data-as="ডেমো ২">Demo 2</span></a>
-                            <a href="https://smartdigital-sum.github.io/m-2-c/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 3" data-as="ডেমো ৩">Demo 3</span></a>
-                            <a href="https://smartdigital-sum.github.io/m-2-d/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 4" data-as="ডেমো ৪">Demo 4</span></a>
+                        <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 15px; align-items: center;">
+                            <div class="demo-link-wrapper">
+                                <a href="https://smartdigital-sum.github.io/m-2-a/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo 1</span></a>
+                                <div class="punch-widget-demo" data-id="demo-m2a-like" title="Like this demo">
+                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                    <span class="punch-count-xs">0</span>
+                                </div>
+                            </div>
+                            <div class="demo-link-wrapper">
+                                <a href="https://smartdigital-sum.github.io/m-2-b/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 2" data-as="ডেমো ২">Demo 2</span></a>
+                                <div class="punch-widget-demo" data-id="demo-m2b-like" title="Like this demo">
+                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                    <span class="punch-count-xs">0</span>
+                                </div>
+                            </div>
+                            <div class="demo-link-wrapper">
+                                <a href="https://smartdigital-sum.github.io/m-2-c/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 3" data-as="ডেমো ৩">Demo 3</span></a>
+                                <div class="punch-widget-demo" data-id="demo-m2c-like" title="Like this demo">
+                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                    <span class="punch-count-xs">0</span>
+                                </div>
+                            </div>
+                            <div class="demo-link-wrapper">
+                                <a href="https://smartdigital-sum.github.io/m-2-d/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 4" data-as="ডেমো ৪">Demo 4</span></a>
+                                <div class="punch-widget-demo" data-id="demo-m2d-like" title="Like this demo">
+                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                    <span class="punch-count-xs">0</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -361,11 +416,35 @@
                         <h3 data-en="Salon &amp; Spa" data-as="চেলুন আৰু স্পা">Salon &amp; Spa</h3>
                         <p data-en="Service catalog, appointment booking &amp; reviews." data-as="সেৱা কেটেলগ, এপইণ্টমেণ্ট বুকিং আৰু ৰিভিউ।">Service catalog, appointment booking &amp;
                             reviews.</p>
-                        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px;">
-                            <a href="https://smartdigital-sum.github.io/m-3-a/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo 1</span></a>
-                            <a href="https://smartdigital-sum.github.io/m-3-b/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 2" data-as="ডেমো ২">Demo 2</span></a>
-                            <a href="https://smartdigital-sum.github.io/m-3-c/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 3" data-as="ডেমো ৩">Demo 3</span></a>
-                            <a href="https://smartdigital-sum.github.io/m-3-d/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 4" data-as="ডেমো ৪">Demo 4</span></a>
+                        <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 15px; align-items: center;">
+                            <div class="demo-link-wrapper">
+                                <a href="https://smartdigital-sum.github.io/m-3-a/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo 1</span></a>
+                                <div class="punch-widget-demo" data-id="demo-m3a-like" title="Like this demo">
+                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                    <span class="punch-count-xs">0</span>
+                                </div>
+                            </div>
+                            <div class="demo-link-wrapper">
+                                <a href="https://smartdigital-sum.github.io/m-3-b/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 2" data-as="ডেমো ২">Demo 2</span></a>
+                                <div class="punch-widget-demo" data-id="demo-m3b-like" title="Like this demo">
+                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                    <span class="punch-count-xs">0</span>
+                                </div>
+                            </div>
+                            <div class="demo-link-wrapper">
+                                <a href="https://smartdigital-sum.github.io/m-3-c/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 3" data-as="ডেমো ৩">Demo 3</span></a>
+                                <div class="punch-widget-demo" data-id="demo-m3c-like" title="Like this demo">
+                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                    <span class="punch-count-xs">0</span>
+                                </div>
+                            </div>
+                            <div class="demo-link-wrapper">
+                                <a href="https://smartdigital-sum.github.io/m-3-d/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 4" data-as="ডেমো ৪">Demo 4</span></a>
+                                <div class="punch-widget-demo" data-id="demo-m3d-like" title="Like this demo">
+                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                    <span class="punch-count-xs">0</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -378,10 +457,34 @@
                         <p data-en="E-commerce store with cart and payments." data-as="কাৰ্ট আৰু পেমেণ্টৰ সৈতে ই-কমাৰ্চ ষ্টোৰ।">E-commerce store with cart and payments.
                         </p>
                         <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px;">
-                            <a href="https://smartdigital-sum.github.io/m-4-a/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo 1</span></a>
-                            <a href="https://smartdigital-sum.github.io/m-4-b/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 2" data-as="ডেমো ২">Demo 2</span></a>
-                            <a href="https://smartdigital-sum.github.io/m-4-c/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 3" data-as="ডেমো ৩">Demo 3</span></a>
-                            <a href="https://smartdigital-sum.github.io/m-4-d/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 4" data-as="ডেমো ৪">Demo 4</span></a>
+                            <div class="demo-link-wrapper">
+                                <a href="https://smartdigital-sum.github.io/m-4-a/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo 1</span></a>
+                                <div class="punch-widget-demo" data-id="demo-m4a-like" title="Like this demo">
+                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                    <span class="punch-count-xs">0</span>
+                                </div>
+                            </div>
+                            <div class="demo-link-wrapper">
+                                <a href="https://smartdigital-sum.github.io/m-4-b/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 2" data-as="ডেমো ২">Demo 2</span></a>
+                                <div class="punch-widget-demo" data-id="demo-m4b-like" title="Like this demo">
+                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                    <span class="punch-count-xs">0</span>
+                                </div>
+                            </div>
+                            <div class="demo-link-wrapper">
+                                <a href="https://smartdigital-sum.github.io/m-4-c/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 3" data-as="ডেমো ৩">Demo 3</span></a>
+                                <div class="punch-widget-demo" data-id="demo-m4c-like" title="Like this demo">
+                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                    <span class="punch-count-xs">0</span>
+                                </div>
+                            </div>
+                            <div class="demo-link-wrapper">
+                                <a href="https://smartdigital-sum.github.io/m-4-d/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 4" data-as="ডেমো ৪">Demo 4</span></a>
+                                <div class="punch-widget-demo" data-id="demo-m4d-like" title="Like this demo">
+                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                    <span class="punch-count-xs">0</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -394,10 +497,34 @@
                         <p data-en="Menu showcase, online ordering, and reservations." data-as="মেনু দৰ্শন, অনলাইন অৰ্ডাৰ আৰু সংৰক্ষণ।">Menu showcase, online ordering, and
                             reservations.</p>
                         <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px;">
-                            <a href="https://smartdigital-sum.github.io/m-5-a/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo 1</span></a>
-                            <a href="https://smartdigital-sum.github.io/m-5-b/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 2" data-as="ডেমো ২">Demo 2</span></a>
-                            <a href="https://smartdigital-sum.github.io/m-5-c/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 3" data-as="ডেমো ৩">Demo 3</span></a>
-                            <a href="https://stellar-sable-c0dc5c.netlify.app/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 4" data-as="ডেমো ৪">Demo 4</span></a>
+                            <div class="demo-link-wrapper">
+                                <a href="https://smartdigital-sum.github.io/m-5-a/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo 1</span></a>
+                                <div class="punch-widget-demo" data-id="demo-m5a-like" title="Like this demo">
+                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                    <span class="punch-count-xs">0</span>
+                                </div>
+                            </div>
+                            <div class="demo-link-wrapper">
+                                <a href="https://smartdigital-sum.github.io/m-5-b/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 2" data-as="ডেমো ২">Demo 2</span></a>
+                                <div class="punch-widget-demo" data-id="demo-m5b-like" title="Like this demo">
+                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                    <span class="punch-count-xs">0</span>
+                                </div>
+                            </div>
+                            <div class="demo-link-wrapper">
+                                <a href="https://smartdigital-sum.github.io/m-5-c/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 3" data-as="ডেমো ৩">Demo 3</span></a>
+                                <div class="punch-widget-demo" data-id="demo-m5c-like" title="Like this demo">
+                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                    <span class="punch-count-xs">0</span>
+                                </div>
+                            </div>
+                            <div class="demo-link-wrapper">
+                                <a href="https://stellar-sable-c0dc5c.netlify.app/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 4" data-as="ডেমো ৪">Demo 4</span></a>
+                                <div class="punch-widget-demo" data-id="demo-m5d-like" title="Like this demo">
+                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                    <span class="punch-count-xs">0</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -410,10 +537,34 @@
                         <p data-en="Membership plans, class schedules, and trainer profiles." data-as="সদস্যতা পৰিকল্পনা, শ্ৰেণীৰ সময়সূচী, আৰু প্ৰশিক্ষকৰ প্ৰফাইল।">Membership plans,
                             class schedules, and trainer profiles.</p>
                         <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px;">
-                            <a href="https://smartdigital-sum.github.io/m-6-a/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo 1</span></a>
-                            <a href="https://smartdigital-sum.github.io/m-6-b/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 2" data-as="ডেমো ২">Demo 2</span></a>
-                            <a href="https://smartdigital-sum.github.io/m-6-c/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 3" data-as="ডেমো ৩">Demo 3</span></a>
-                            <a href="https://smartdigital-sum.github.io/m-6-d/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 4" data-as="ডেমো ৪">Demo 4</span></a>
+                            <div class="demo-link-wrapper">
+                                <a href="https://smartdigital-sum.github.io/m-6-a/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo 1</span></a>
+                                <div class="punch-widget-demo" data-id="demo-m6a-like" title="Like this demo">
+                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                    <span class="punch-count-xs">0</span>
+                                </div>
+                            </div>
+                            <div class="demo-link-wrapper">
+                                <a href="https://smartdigital-sum.github.io/m-6-b/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 2" data-as="ডেমো ২">Demo 2</span></a>
+                                <div class="punch-widget-demo" data-id="demo-m6b-like" title="Like this demo">
+                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                    <span class="punch-count-xs">0</span>
+                                </div>
+                            </div>
+                            <div class="demo-link-wrapper">
+                                <a href="https://smartdigital-sum.github.io/m-6-c/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 3" data-as="ডেমো ৩">Demo 3</span></a>
+                                <div class="punch-widget-demo" data-id="demo-m6c-like" title="Like this demo">
+                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                    <span class="punch-count-xs">0</span>
+                                </div>
+                            </div>
+                            <div class="demo-link-wrapper">
+                                <a href="https://smartdigital-sum.github.io/m-6-d/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 4" data-as="ডেমো ৪">Demo 4</span></a>
+                                <div class="punch-widget-demo" data-id="demo-m6d-like" title="Like this demo">
+                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                    <span class="punch-count-xs">0</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -425,10 +576,34 @@
                         <h3 data-en="DG Demo Web" data-as="ডিজি ডেমো ৱেব">DG Demo Web</h3>
                         <p data-en="Modern landing pages, agency portfolios, and creative showcases." data-as="আধুনিক লেণ্ডিং পেজ, এজেন্সী পৰ্টফলিঅ' আৰু সৃষ্টিশীল দৰ্শন।">Modern landing pages, agency portfolios, and creative showcases.</p>
                         <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px;">
-                            <a href="https://smartdigital-sum.github.io/m-7-a/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo 1</span></a>
-                            <a href="https://smartdigital-sum.github.io/m-7-b/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 2" data-as="ডেমো ২">Demo 2</span></a>
-                            <a href="https://smartdigital-sum.github.io/m-7-c/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 3" data-as="ডেমো ৩">Demo 3</span></a>
-                            <a href="https://smartdigital-sum.github.io/m-7-d/" target="_blank" class="btn btn-outline-dark" style="padding: 8px 16px; font-size: 13px;"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 4" data-as="ডেমো ৪">Demo 4</span></a>
+                            <div class="demo-link-wrapper">
+                                <a href="https://smartdigital-sum.github.io/m-7-a/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo 1</span></a>
+                                <div class="punch-widget-demo" data-id="demo-m7a-like" title="Like this demo">
+                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                    <span class="punch-count-xs">0</span>
+                                </div>
+                            </div>
+                            <div class="demo-link-wrapper">
+                                <a href="https://smartdigital-sum.github.io/m-7-b/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 2" data-as="ডেমো ২">Demo 2</span></a>
+                                <div class="punch-widget-demo" data-id="demo-m7b-like" title="Like this demo">
+                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                    <span class="punch-count-xs">0</span>
+                                </div>
+                            </div>
+                            <div class="demo-link-wrapper">
+                                <a href="https://smartdigital-sum.github.io/m-7-c/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 3" data-as="ডেমো ৩">Demo 3</span></a>
+                                <div class="punch-widget-demo" data-id="demo-m7c-like" title="Like this demo">
+                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                    <span class="punch-count-xs">0</span>
+                                </div>
+                            </div>
+                            <div class="demo-link-wrapper">
+                                <a href="https://smartdigital-sum.github.io/m-7-d/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 4" data-as="ডেমো ৪">Demo 4</span></a>
+                                <div class="punch-widget-demo" data-id="demo-m7d-like" title="Like this demo">
+                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                    <span class="punch-count-xs">0</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1106,5 +1281,42 @@
             overlay.querySelector('img').style.transform = 'scale(1)';
         }
     </script>
+    <!-- ===== MAGIC REMOVER MODAL ===== -->
+    <div id="magicRemoverModal" class="modal">
+        <div class="modal-content magic-modal-content">
+            <button class="modal-close" onclick="closeMagicModal()"><i class="fas fa-times"></i></button>
+            <div class="magic-header">
+                <div class="magic-icon-wrap">
+                    <i class="fas fa-wand-magic-sparkles"></i>
+                </div>
+                <h2 data-en="Magic BG Remover" data-as="ম্যাজিক বেকগ্ৰাউণ্ড ৰিমুভাৰ">Magic BG Remover</h2>
+                <p id="magic-status" data-en="AI is processing your image..." data-as="এআই- এ আপোনাৰ ছবিটো প্ৰক্ৰিয়াকৰণ কৰি আছে...">AI is processing your image...</p>
+            </div>
+
+            <div class="magic-preview-area">
+                <div id="magic-loading" class="magic-loading">
+                    <div class="spinner"></div>
+                    <span data-en="Analyzing Pixels..." data-as="পিক্সেল বিশ্লেষণ কৰা হৈছে...">Analyzing Pixels...</span>
+                </div>
+                <div id="magic-result-container" style="display: none;">
+                    <div class="checkered-bg" style="display: flex; justify-content: center; align-items: center;">
+                        <img id="magic-result-img" src="" alt="Result">
+                    </div>
+                </div>
+            </div>
+
+            <div class="magic-actions" id="magic-actions" style="display: none;">
+                <button id="magic-download-btn" class="btn btn-primary" style="width: 100%; border-radius: 8px !important;">
+                    <i class="fas fa-download"></i> <span data-en="Download Image" data-as="ছবি ডাউনলোড কৰক">Download Image</span>
+                </button>
+                <button onclick="document.getElementById('hero-bg-input').click()" class="btn btn-outline-dark" style="width: 100%; margin-top: 10px; border-radius: 8px !important;">
+                    <i class="fas fa-redo"></i> <span data-en="Try Another One" data-as="আন এটা চেষ্টা কৰক">Try Another One</span>
+                </button>
+            </div>
+            <div id="magic-error" style="display: none; color: #ef4444; margin-top: 10px; font-weight: bold;"></div>
+        </div>
+    </div>
+
+    <script src="assets/script.js"></script>
 </body>
 </html>

@@ -826,7 +826,7 @@ function setupReveal() {
 // Initialize punch widgets on page load
 function initPunchWidgets() {
   document
-    .querySelectorAll(".punch-widget, .punch-widget-inline")
+    .querySelectorAll(".punch-widget, .punch-widget-inline, .punch-widget-demo")
     .forEach((w) => {
       const id = w.dataset.id;
       loadPunchCount(w, id);
@@ -835,7 +835,9 @@ function initPunchWidgets() {
 
 // Load punch count from Firebase
 function loadPunchCount(widget, id) {
-  const countEl = widget.querySelector(".punch-count, .punch-count-sm");
+  const countEl = widget.querySelector(
+    ".punch-count, .punch-count-sm, .punch-count-xs",
+  );
   if (!countEl) return;
 
   db.ref("punches/" + id).on("value", (snap) => {
@@ -846,7 +848,9 @@ function loadPunchCount(widget, id) {
 
 // Handle punch click - no per-user limits
 function doPunch(btn) {
-  const widget = btn.closest(".punch-widget, .punch-widget-inline");
+  const widget = btn.closest(
+    ".punch-widget, .punch-widget-inline, .punch-widget-demo",
+  );
   if (!widget) return;
 
   const id = widget.dataset.id;
@@ -920,7 +924,113 @@ window.addEventListener("load", () => {
   updateServiceTimer();
   setupReveal();
   initPunchWidgets();
+  initMagicRemover();
 });
+
+// ─── MAGIC BG REMOVER ──────────────────────────────────────
+function initMagicRemover() {
+  const btn = document.getElementById("hero-bg-remover");
+  const input = document.getElementById("hero-bg-input");
+
+  if (!btn || !input) return;
+
+  btn.addEventListener("click", () => {
+    input.click();
+  });
+
+  input.addEventListener("change", (e) => {
+    if (e.target.files && e.target.files[0]) {
+      handleMagicRemove(e.target.files[0]);
+      // Reset input so same file can be selected again
+      e.target.value = "";
+    }
+  });
+}
+
+function openMagicModal() {
+  const modal = document.getElementById("magicRemoverModal");
+  if (modal) {
+    modal.classList.add("show");
+    document.body.style.overflow = "hidden";
+  }
+}
+
+function closeMagicModal() {
+  const modal = document.getElementById("magicRemoverModal");
+  if (modal) {
+    modal.classList.remove("show");
+    document.body.style.overflow = "";
+  }
+}
+
+async function handleMagicRemove(file) {
+  openMagicModal();
+
+  // Reset UI
+  const loading = document.getElementById("magic-loading");
+  const resultContainer = document.getElementById("magic-result-container");
+  const actions = document.getElementById("magic-actions");
+  const errorEl = document.getElementById("magic-error");
+  const statusEl = document.getElementById("magic-status");
+  const resultImg = document.getElementById("magic-result-img");
+
+  loading.style.display = "flex";
+  resultContainer.style.display = "none";
+  actions.style.display = "none";
+  errorEl.style.display = "none";
+  statusEl.textContent = currentLang === "en" ? "AI is processing your image..." : "এআই- এ আপোনাৰ ছবিটো প্ৰক্ৰিয়াকৰণ কৰি আছে...";
+
+  const apiKey = "aMjaN6B37Xu32zDpxuAvfRz9"; // Found in generator.js
+
+  const formData = new FormData();
+  formData.append("image_file", file);
+  formData.append("size", "auto");
+  formData.append("bg_color", "white");
+
+  try {
+    const response = await fetch("https://api.remove.bg/v1.0/removebg", {
+      method: "POST",
+      headers: {
+        "X-Api-Key": apiKey,
+      },
+      body: formData,
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.errors ? errorData.errors[0].title : `API Error: ${response.status}`);
+    }
+
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+
+    // Success! Update UI
+    resultImg.src = url;
+    loading.style.display = "none";
+    resultContainer.style.display = "block";
+    actions.style.display = "flex";
+    statusEl.textContent = currentLang === "en" ? "Check out the magic! ✨" : "ম্যাজিকটো চাওক! ✨";
+
+    // Setup download button
+    const downloadBtn = document.getElementById("magic-download-btn");
+    downloadBtn.onclick = () => {
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `smart-digital-no-bg-${Date.now()}.png`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      showToast(currentLang === "en" ? "✅ Image downloaded!" : "✅ ছবি ডাউনলোড কৰা হ'ল!", "success");
+    };
+
+  } catch (error) {
+    console.error("Magic BG Error:", error);
+    loading.style.display = "none";
+    errorEl.textContent = "❌ " + error.message;
+    errorEl.style.display = "block";
+    statusEl.textContent = currentLang === "en" ? "Oops! Something went wrong." : "ওহো! কিবা এটা ভুল হ'ল।";
+  }
+}
 
 console.log(
   "%c✨ Smart Digital v3 ✨",
