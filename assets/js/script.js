@@ -740,512 +740,92 @@ function calcQuote() {
 // ─── GALLERY ───────────────────────────────────────────────
 const GALLERY_DATA = [
   // Canvas Art (7)
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321830/IMG20221030094856_o3zotg.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321830/IMG20221030094856_o3zotg.jpg",
-    title: "Winter Sunset",
-    category: "canvas",
-    sub: "canvas",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321827/IMG20220925120350_bscbpz.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321827/IMG20220925120350_bscbpz.jpg",
-    title: "Sunny Day",
-    category: "canvas",
-    sub: "canvas",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321828/IMG20220925220718_bmq0lz.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321828/IMG20220925220718_bmq0lz.jpg",
-    title: "Golden Landscape",
-    category: "canvas",
-    sub: "canvas",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321832/IMG20221030093923_vszgob.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321832/IMG20221030093923_vszgob.jpg",
-    title: "River Sunset",
-    category: "canvas",
-    sub: "canvas",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321832/IMG20221118163135_jwta1r.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321832/IMG20221118163135_jwta1r.jpg",
-    title: "Lachit Barphkon",
-    category: "canvas",
-    sub: "canvas",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770505930/20210722_010657-01_syus5h.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770505930/20210722_010657-01_syus5h.jpg",
-    title: "Modern Canvas Print",
-    category: "canvas",
-    sub: "canvas",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770505930/20230523_215032_afygf7.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770505930/20230523_215032_afygf7.jpg",
-    title: "Abstract Canvas Art",
-    category: "canvas",
-    sub: "canvas",
-  },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321830/IMG20221030094856_o3zotg.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321830/IMG20221030094856_o3zotg.jpg", title: "Winter Sunset", category: "canvas", sub: "canvas" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321827/IMG20220925120350_bscbpz.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321827/IMG20220925120350_bscbpz.jpg", title: "Sunny Day", category: "canvas", sub: "canvas" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321828/IMG20220925220718_bmq0lz.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321828/IMG20220925220718_bmq0lz.jpg", title: "Golden Landscape", category: "canvas", sub: "canvas" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321832/IMG20221030093923_vszgob.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321832/IMG20221030093923_vszgob.jpg", title: "River Sunset", category: "canvas", sub: "canvas" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321832/IMG20221118163135_jwta1r.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321832/IMG20221118163135_jwta1r.jpg", title: "Lachit Barphkon", category: "canvas", sub: "canvas" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770505930/20210722_010657-01_syus5h.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770505930/20210722_010657-01_syus5h.jpg", title: "Modern Canvas Print", category: "canvas", sub: "canvas" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770505930/20230523_215032_afygf7.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770505930/20230523_215032_afygf7.jpg", title: "Abstract Canvas Art", category: "canvas", sub: "canvas" },
 
   // Digital Art (5)
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770420843/Illustration6_apzdyo.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770420843/Illustration6_apzdyo.jpg",
-    title: "Digital Illustration 1",
-    category: "digital",
-    sub: "digital",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770420846/screaming_boy_lepxlp.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770420846/screaming_boy_lepxlp.jpg",
-    title: "Screaming Boy",
-    category: "digital",
-    sub: "digital",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770420845/Illustration9_t49bsv.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770420845/Illustration9_t49bsv.jpg",
-    title: "Digital Illustration 3",
-    category: "digital",
-    sub: "digital",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770420847/still_life_mmx9jc.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770420847/still_life_mmx9jc.jpg",
-    title: "Still Life",
-    category: "digital",
-    sub: "digital",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770420846/jar_portrait_s4jbvx.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770420846/jar_portrait_s4jbvx.jpg",
-    title: "Jar Portrait",
-    category: "digital",
-    sub: "digital",
-  },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770420843/Illustration6_apzdyo.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770420843/Illustration6_apzdyo.jpg", title: "Digital Illustration 1", category: "digital", sub: "digital" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770420846/screaming_boy_lepxlp.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770420846/screaming_boy_lepxlp.jpg", title: "Screaming Boy", category: "digital", sub: "digital" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770420845/Illustration9_t49bsv.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770420845/Illustration9_t49bsv.jpg", title: "Digital Illustration 3", category: "digital", sub: "digital" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770420847/still_life_mmx9jc.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770420847/still_life_mmx9jc.jpg", title: "Still Life", category: "digital", sub: "digital" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770420846/jar_portrait_s4jbvx.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770420846/jar_portrait_s4jbvx.jpg", title: "Jar Portrait", category: "digital", sub: "digital" },
 
   // Photo Restoration (3)
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770671360/1_gp7nf0.png",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770671360/1_gp7nf0.png",
-    title: "Vintage Photo Restoration",
-    category: "restore",
-    sub: "restore",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770671361/3_zfoq3c.png",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770671361/3_zfoq3c.png",
-    title: "Old Family Photo Restoration",
-    category: "restore",
-    sub: "restore",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770671372/2_qvtoqu.png",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770671372/2_qvtoqu.png",
-    title: "Heritage Photo Restoration",
-    category: "restore",
-    sub: "restore",
-  },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770671360/1_gp7nf0.png", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770671360/1_gp7nf0.png", title: "Vintage Photo Restoration", category: "restore", sub: "restore" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770671361/3_zfoq3c.png", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770671361/3_zfoq3c.png", title: "Old Family Photo Restoration", category: "restore", sub: "restore" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770671372/2_qvtoqu.png", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770671372/2_qvtoqu.png", title: "Heritage Photo Restoration", category: "restore", sub: "restore" },
 
   // Graphic Design (2)
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770420864/output_01_jepg_w9i6bq.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770420864/output_01_jepg_w9i6bq.jpg",
-    title: "Cover Page Design",
-    category: "design",
-    sub: "design",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770505703/rate_chart_PNG_ca3epy.png",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770505703/rate_chart_PNG_ca3epy.png",
-    title: "Rate Chart Design",
-    category: "design",
-    sub: "design",
-  },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770420864/output_01_jepg_w9i6bq.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770420864/output_01_jepg_w9i6bq.jpg", title: "Cover Page Design", category: "design", sub: "design" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770505703/rate_chart_PNG_ca3epy.png", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770505703/rate_chart_PNG_ca3epy.png", title: "Rate Chart Design", category: "design", sub: "design" },
 
   // Wall Art - Space Underwater Room Mural (4)
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321111/20220601_141158_nzotoa.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321111/20220601_141158_nzotoa.jpg",
-    title: "Space Underwater Mural",
-    category: "wallart",
-    sub: "space-underwater",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321112/20211028_140808_grei88.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321112/20211028_140808_grei88.jpg",
-    title: "Underwater Scene",
-    category: "wallart",
-    sub: "space-underwater",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321111/IMG_20230320_234018_177_npcqlt.webp",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321111/IMG_20230320_234018_177_npcqlt.webp",
-    title: "Cosmic Room Art",
-    category: "wallart",
-    sub: "space-underwater",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321291/20211227_232420_toq2xm.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321291/20211227_232420_toq2xm.jpg",
-    title: "Galaxy Mural",
-    category: "wallart",
-    sub: "space-underwater",
-  },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321111/20220601_141158_nzotoa.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321111/20220601_141158_nzotoa.jpg", title: "Space Underwater Mural", category: "wallart", sub: "space-underwater" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321112/20211028_140808_grei88.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321112/20211028_140808_grei88.jpg", title: "Underwater Scene", category: "wallart", sub: "space-underwater" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321111/IMG_20230320_234018_177_npcqlt.webp", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321111/IMG_20230320_234018_177_npcqlt.webp", title: "Cosmic Room Art", category: "wallart", sub: "space-underwater" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321291/20211227_232420_toq2xm.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321291/20211227_232420_toq2xm.jpg", title: "Galaxy Mural", category: "wallart", sub: "space-underwater" },
 
   // Wall Art - Happy Family (4)
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770316854/IMG20220612035857_dohxpm.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770316854/IMG20220612035857_dohxpm.jpg",
-    title: "Family Portrait Art 1",
-    category: "wallart",
-    sub: "happy-family",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770316855/IMG20220612151506_ompbyn.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770316855/IMG20220612151506_ompbyn.jpg",
-    title: "Family Portrait Art 2",
-    category: "wallart",
-    sub: "happy-family",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770316856/IMG20220612151448_blgogd.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770316856/IMG20220612151448_blgogd.jpg",
-    title: "Family Portrait Art 3",
-    category: "wallart",
-    sub: "happy-family",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770317569/IMG20220606194904_a5ytfk.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770317569/IMG20220606194904_a5ytfk.jpg",
-    title: "Family Portrait Art 4",
-    category: "wallart",
-    sub: "happy-family",
-  },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770316854/IMG20220612035857_dohxpm.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770316854/IMG20220612035857_dohxpm.jpg", title: "Family Portrait Art 1", category: "wallart", sub: "happy-family" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770316855/IMG20220612151506_ompbyn.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770316855/IMG20220612151506_ompbyn.jpg", title: "Family Portrait Art 2", category: "wallart", sub: "happy-family" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770316856/IMG20220612151448_blgogd.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770316856/IMG20220612151448_blgogd.jpg", title: "Family Portrait Art 3", category: "wallart", sub: "happy-family" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770317569/IMG20220606194904_a5ytfk.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770317569/IMG20220606194904_a5ytfk.jpg", title: "Family Portrait Art 4", category: "wallart", sub: "happy-family" },
 
   // Wall Art - Rhino Elephant B&W (5)
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770320673/IMG_20210204_165331-01_uhm2ni.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770320673/IMG_20210204_165331-01_uhm2ni.jpg",
-    title: "Wildlife Sketch 1",
-    category: "wallart",
-    sub: "wildlife-bw",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770320642/IMG_20201108_112939-01_xqmtke.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770320642/IMG_20201108_112939-01_xqmtke.jpg",
-    title: "Wildlife Sketch 2",
-    category: "wallart",
-    sub: "wildlife-bw",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770320731/IMG_20201106_164324_zqoe26.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770320731/IMG_20201106_164324_zqoe26.jpg",
-    title: "Wildlife Sketch 3",
-    category: "wallart",
-    sub: "wildlife-bw",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770320733/IMG_20201103_161926_acfmgh.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770320733/IMG_20201103_161926_acfmgh.jpg",
-    title: "Wildlife Sketch 4",
-    category: "wallart",
-    sub: "wildlife-bw",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770320729/IMG_20201030_155748_yuzmjq.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770320729/IMG_20201030_155748_yuzmjq.jpg",
-    title: "Wildlife Sketch 5",
-    category: "wallart",
-    sub: "wildlife-bw",
-  },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770320673/IMG_20210204_165331-01_uhm2ni.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770320673/IMG_20210204_165331-01_uhm2ni.jpg", title: "Wildlife Sketch 1", category: "wallart", sub: "wildlife-bw" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770320642/IMG_20201108_112939-01_xqmtke.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770320642/IMG_20201108_112939-01_xqmtke.jpg", title: "Wildlife Sketch 2", category: "wallart", sub: "wildlife-bw" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770320731/IMG_20201106_164324_zqoe26.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770320731/IMG_20201106_164324_zqoe26.jpg", title: "Wildlife Sketch 3", category: "wallart", sub: "wildlife-bw" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770320733/IMG_20201103_161926_acfmgh.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770320733/IMG_20201103_161926_acfmgh.jpg", title: "Wildlife Sketch 4", category: "wallart", sub: "wildlife-bw" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770320729/IMG_20201030_155748_yuzmjq.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770320729/IMG_20201030_155748_yuzmjq.jpg", title: "Wildlife Sketch 5", category: "wallart", sub: "wildlife-bw" },
 
   // Wall Art - Bholenath (3)
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770318022/IMG_20210527_000613_375_vjdtcb.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770318022/IMG_20210527_000613_375_vjdtcb.jpg",
-    title: "Bholenath Art 1",
-    category: "wallart",
-    sub: "bholenath",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770318025/20210525_202925_wm6mkv.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770318025/20210525_202925_wm6mkv.jpg",
-    title: "Bholenath Art 2",
-    category: "wallart",
-    sub: "bholenath",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770318024/20210525_202816_dq9a7j.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770318024/20210525_202816_dq9a7j.jpg",
-    title: "Bholenath Art 3",
-    category: "wallart",
-    sub: "bholenath",
-  },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770318022/IMG_20210527_000613_375_vjdtcb.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770318022/IMG_20210527_000613_375_vjdtcb.jpg", title: "Bholenath Art 1", category: "wallart", sub: "bholenath" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770318025/20210525_202925_wm6mkv.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770318025/20210525_202925_wm6mkv.jpg", title: "Bholenath Art 2", category: "wallart", sub: "bholenath" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770318024/20210525_202816_dq9a7j.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770318024/20210525_202816_dq9a7j.jpg", title: "Bholenath Art 3", category: "wallart", sub: "bholenath" },
 
   // Wall Art - Mushrooms Forest (6)
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770318856/IMG_20200820_130753_bfuzej.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770318856/IMG_20200820_130753_bfuzej.jpg",
-    title: "Mushroom Forest 1",
-    category: "wallart",
-    sub: "mushrooms",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770318481/IMG_20200820_130712mmm_yib2cm.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770318481/IMG_20200820_130712mmm_yib2cm.jpg",
-    title: "Mushroom Forest 2",
-    category: "wallart",
-    sub: "mushrooms",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770318857/IMG_20200820_130940_s01tsg.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770318857/IMG_20200820_130940_s01tsg.jpg",
-    title: "Mushroom Forest 3",
-    category: "wallart",
-    sub: "mushrooms",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770318858/IMG_20200820_130726_jinoy4.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770318858/IMG_20200820_130726_jinoy4.jpg",
-    title: "Mushroom Forest 4",
-    category: "wallart",
-    sub: "mushrooms",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770318859/IMG_20200820_130743_g2mq86.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770318859/IMG_20200820_130743_g2mq86.jpg",
-    title: "Mushroom Forest 5",
-    category: "wallart",
-    sub: "mushrooms",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770318859/IMG_20200820_130734_imlduo.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770318859/IMG_20200820_130734_imlduo.jpg",
-    title: "Mushroom Forest 6",
-    category: "wallart",
-    sub: "mushrooms",
-  },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770318856/IMG_20200820_130753_bfuzej.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770318856/IMG_20200820_130753_bfuzej.jpg", title: "Mushroom Forest 1", category: "wallart", sub: "mushrooms" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770318481/IMG_20200820_130712mmm_yib2cm.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770318481/IMG_20200820_130712mmm_yib2cm.jpg", title: "Mushroom Forest 2", category: "wallart", sub: "mushrooms" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770318857/IMG_20200820_130940_s01tsg.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770318857/IMG_20200820_130940_s01tsg.jpg", title: "Mushroom Forest 3", category: "wallart", sub: "mushrooms" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770318858/IMG_20200820_130726_jinoy4.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770318858/IMG_20200820_130726_jinoy4.jpg", title: "Mushroom Forest 4", category: "wallart", sub: "mushrooms" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770318859/IMG_20200820_130743_g2mq86.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770318859/IMG_20200820_130743_g2mq86.jpg", title: "Mushroom Forest 5", category: "wallart", sub: "mushrooms" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770318859/IMG_20200820_130734_imlduo.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770318859/IMG_20200820_130734_imlduo.jpg", title: "Mushroom Forest 6", category: "wallart", sub: "mushrooms" },
 
   // Wall Art - Fantasy Kingdom (4)
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770319224/20210406_174942_amcwic.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770319224/20210406_174942_amcwic.jpg",
-    title: "Fantasy Kingdom 1",
-    category: "wallart",
-    sub: "fantasy",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770319221/20210406_160626_czd5nt.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770319221/20210406_160626_czd5nt.jpg",
-    title: "Fantasy Kingdom 2",
-    category: "wallart",
-    sub: "fantasy",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770319232/bbbb_bzuybo.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770319232/bbbb_bzuybo.jpg",
-    title: "Fantasy Kingdom 3",
-    category: "wallart",
-    sub: "fantasy",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770319219/20210406_153544_tnnyin.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770319219/20210406_153544_tnnyin.jpg",
-    title: "Fantasy Kingdom 4",
-    category: "wallart",
-    sub: "fantasy",
-  },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770319224/20210406_174942_amcwic.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770319224/20210406_174942_amcwic.jpg", title: "Fantasy Kingdom 1", category: "wallart", sub: "fantasy" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770319221/20210406_160626_czd5nt.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770319221/20210406_160626_czd5nt.jpg", title: "Fantasy Kingdom 2", category: "wallart", sub: "fantasy" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770319232/bbbb_bzuybo.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770319232/bbbb_bzuybo.jpg", title: "Fantasy Kingdom 3", category: "wallart", sub: "fantasy" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770319219/20210406_153544_tnnyin.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770319219/20210406_153544_tnnyin.jpg", title: "Fantasy Kingdom 4", category: "wallart", sub: "fantasy" },
 
   // Wall Art - Deer Abstract (3)
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770319516/backupPreview_q35prt.png",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770319516/backupPreview_q35prt.png",
-    title: "Deer Abstract 1",
-    category: "wallart",
-    sub: "deer",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770319518/20201210_120624_v1twdj.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770319518/20201210_120624_v1twdj.jpg",
-    title: "Deer Abstract 2",
-    category: "wallart",
-    sub: "deer",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770319518/20201209_135956_hzbeo1.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770319518/20201209_135956_hzbeo1.jpg",
-    title: "Deer Abstract 3",
-    category: "wallart",
-    sub: "deer",
-  },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770319516/backupPreview_q35prt.png", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770319516/backupPreview_q35prt.png", title: "Deer Abstract 1", category: "wallart", sub: "deer" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770319518/20201210_120624_v1twdj.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770319518/20201210_120624_v1twdj.jpg", title: "Deer Abstract 2", category: "wallart", sub: "deer" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770319518/20201209_135956_hzbeo1.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770319518/20201209_135956_hzbeo1.jpg", title: "Deer Abstract 3", category: "wallart", sub: "deer" },
 
   // Wall Art - Waterfall Landscape (3)
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770319882/IMG20220622090549_navqma.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770319882/IMG20220622090549_navqma.jpg",
-    title: "Waterfall Landscape 1",
-    category: "wallart",
-    sub: "waterfall",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770319880/IMG20220621003252_pieteh.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770319880/IMG20220621003252_pieteh.jpg",
-    title: "Waterfall Landscape 2",
-    category: "wallart",
-    sub: "waterfall",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770319879/IMG20220617041455_bvd4f2.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770319879/IMG20220617041455_bvd4f2.jpg",
-    title: "Waterfall Landscape 3",
-    category: "wallart",
-    sub: "waterfall",
-  },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770319882/IMG20220622090549_navqma.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770319882/IMG20220622090549_navqma.jpg", title: "Waterfall Landscape 1", category: "wallart", sub: "waterfall" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770319880/IMG20220621003252_pieteh.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770319880/IMG20220621003252_pieteh.jpg", title: "Waterfall Landscape 2", category: "wallart", sub: "waterfall" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770319879/IMG20220617041455_bvd4f2.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770319879/IMG20220617041455_bvd4f2.jpg", title: "Waterfall Landscape 3", category: "wallart", sub: "waterfall" },
 
   // Wall Art - Iron Man (3)
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770320176/20210530_143554_d3rqd2.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770320176/20210530_143554_d3rqd2.jpg",
-    title: "Iron Man Art 1",
-    category: "wallart",
-    sub: "ironman",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770320173/20210530_014453_w4kovr.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770320173/20210530_014453_w4kovr.jpg",
-    title: "Iron Man Art 2",
-    category: "wallart",
-    sub: "ironman",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770320172/20210530_014234_k7w9al.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770320172/20210530_014234_k7w9al.jpg",
-    title: "Iron Man Art 3",
-    category: "wallart",
-    sub: "ironman",
-  },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770320176/20210530_143554_d3rqd2.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770320176/20210530_143554_d3rqd2.jpg", title: "Iron Man Art 1", category: "wallart", sub: "ironman" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770320173/20210530_014453_w4kovr.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770320173/20210530_014453_w4kovr.jpg", title: "Iron Man Art 2", category: "wallart", sub: "ironman" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770320172/20210530_014234_k7w9al.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770320172/20210530_014234_k7w9al.jpg", title: "Iron Man Art 3", category: "wallart", sub: "ironman" },
 
   // Wall Art - Other Murals (8)
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321410/20230103_153546_lhxau5.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321410/20230103_153546_lhxau5.jpg",
-    title: "Room Mural 1",
-    category: "wallart",
-    sub: "murals",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321408/20221106_141204_fnlcic.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321408/20221106_141204_fnlcic.jpg",
-    title: "Room Mural 2",
-    category: "wallart",
-    sub: "murals",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321406/20220312_105242_vemi42.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321406/20220312_105242_vemi42.jpg",
-    title: "Room Mural 3",
-    category: "wallart",
-    sub: "murals",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321403/20220312_105224_jdbehl.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321403/20220312_105224_jdbehl.jpg",
-    title: "Room Mural 4",
-    category: "wallart",
-    sub: "murals",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321403/20220309_193407_mizuoo.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321403/20220309_193407_mizuoo.jpg",
-    title: "Room Mural 5",
-    category: "wallart",
-    sub: "murals",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321400/20220221_232830_b3scqe.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321400/20220221_232830_b3scqe.jpg",
-    title: "Room Mural 6",
-    category: "wallart",
-    sub: "murals",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321411/IMG-20220603-WA0000_gdxcf2.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321411/IMG-20220603-WA0000_gdxcf2.jpg",
-    title: "Room Mural 7",
-    category: "wallart",
-    sub: "murals",
-  },
-  {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321412/20230401_164517_hiddt5.jpg",
-    full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321412/20230401_164517_hiddt5.jpg",
-    title: "Room Mural 8",
-    category: "wallart",
-    sub: "murals",
-  },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321410/20230103_153546_lhxau5.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321410/20230103_153546_lhxau5.jpg", title: "Room Mural 1", category: "wallart", sub: "murals" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321408/20221106_141204_fnlcic.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321408/20221106_141204_fnlcic.jpg", title: "Room Mural 2", category: "wallart", sub: "murals" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321406/20220312_105242_vemi42.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321406/20220312_105242_vemi42.jpg", title: "Room Mural 3", category: "wallart", sub: "murals" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321403/20220312_105224_jdbehl.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321403/20220312_105224_jdbehl.jpg", title: "Room Mural 4", category: "wallart", sub: "murals" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321403/20220309_193407_mizuoo.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321403/20220309_193407_mizuoo.jpg", title: "Room Mural 5", category: "wallart", sub: "murals" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321400/20220221_232830_b3scqe.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321400/20220221_232830_b3scqe.jpg", title: "Room Mural 6", category: "wallart", sub: "murals" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321411/IMG-20220603-WA0000_gdxcf2.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321411/IMG-20220603-WA0000_gdxcf2.jpg", title: "Room Mural 7", category: "wallart", sub: "murals" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321412/20230401_164517_hiddt5.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321412/20230401_164517_hiddt5.jpg", title: "Room Mural 8", category: "wallart", sub: "murals" },
 ];
 
 const GALLERY_CATEGORIES = {
@@ -1259,16 +839,8 @@ const GALLERY_CATEGORIES = {
 
 const GALLERY_SUB_FILTERS = {
   wallart: [
-    {
-      key: "space-underwater",
-      label: "Space & Underwater",
-      labelAs: "স্পেছ আৰু আণ্ডাৰৱাটাৰ",
-    },
-    {
-      key: "happy-family",
-      label: "Family Portraits",
-      labelAs: "পৰিবাৰ পৰ্ট্ৰেইট",
-    },
+    { key: "space-underwater", label: "Space & Underwater", labelAs: "স্পেছ আৰু আণ্ডাৰৱাটাৰ" },
+    { key: "happy-family", label: "Family Portraits", labelAs: "পৰিবাৰ পৰ্ট্ৰেইট" },
     { key: "wildlife-bw", label: "Wildlife B&W", labelAs: "ৱাইল্ডলাইফ B&W" },
     { key: "bholenath", label: "Bholenath", labelAs: "ভোলেনাথ" },
     { key: "mushrooms", label: "Mushroom Forest", labelAs: "মাশৰুম ফৰেষ্ট" },
@@ -1334,8 +906,7 @@ function buildSubFilters() {
   container.className = "sub-filter-btns";
 
   const allBtn = document.createElement("button");
-  allBtn.className =
-    "sub-filter-btn" + (currentSubFilter === "all" ? " active" : "");
+  allBtn.className = "sub-filter-btn" + (currentSubFilter === "all" ? " active" : "");
   allBtn.textContent = "All";
   allBtn.onclick = function () {
     currentSubFilter = "all";
@@ -1348,8 +919,7 @@ function buildSubFilters() {
   subs.forEach((sub) => {
     const count = getSubFilterCount(sub.key);
     const btn = document.createElement("button");
-    btn.className =
-      "sub-filter-btn" + (currentSubFilter === sub.key ? " active" : "");
+    btn.className = "sub-filter-btn" + (currentSubFilter === sub.key ? " active" : "");
     btn.textContent = `${sub.label} (${count})`;
     btn.onclick = function () {
       currentSubFilter = sub.key;
@@ -1404,9 +974,7 @@ function filterGallery(cat, btn) {
   currentSubFilter = "all";
   visibleCount = INITIAL_LOAD;
 
-  document
-    .querySelectorAll(".filter-btn")
-    .forEach((b) => b.classList.remove("active"));
+  document.querySelectorAll(".filter-btn").forEach((b) => b.classList.remove("active"));
   btn.classList.add("active");
 
   buildSubFilters();
@@ -1440,8 +1008,7 @@ function updateLightbox() {
   if (!lbImages.length) return;
   document.getElementById("lbImage").src = lbImages[lbIndex];
   document.getElementById("lbCaption").textContent = lbData[lbIndex].title;
-  document.getElementById("lbCounter").textContent =
-    `${lbIndex + 1} / ${lbImages.length}`;
+  document.getElementById("lbCounter").textContent = `${lbIndex + 1} / ${lbImages.length}`;
   document.getElementById("lbDownload").href = lbImages[lbIndex];
 }
 
@@ -1480,8 +1047,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // ─── CERTIFICATES ─────────────────────────────────────────
 const CERTIFICATES_DATA = [
   {
-    thumb:
-      "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770315598/UC-c4fd8c29-b30c-4d38-bbf3-0afd42d46292_d8z3ty.jpg",
+    thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770315598/UC-c4fd8c29-b30c-4d38-bbf3-0afd42d46292_d8z3ty.jpg",
     full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770315598/UC-c4fd8c29-b30c-4d38-bbf3-0afd42d46292_d8z3ty.jpg",
     title: "Web Development Bootcamp",
     platform: "Udemy",
@@ -1526,8 +1092,7 @@ function openCertLightbox(cert) {
   lbImages = [cert.full];
   lbIndex = 0;
   updateLightbox();
-  document.getElementById("lbCaption").textContent =
-    cert.title + " — " + cert.platform;
+  document.getElementById("lbCaption").textContent = cert.title + " — " + cert.platform;
   document.getElementById("lbDownload").href = cert.full;
   document.getElementById("lightbox").classList.add("active");
   document.body.style.overflow = "hidden";
@@ -1727,10 +1292,7 @@ async function handleMagicRemove(file) {
   resultContainer.style.display = "none";
   actions.style.display = "none";
   errorEl.style.display = "none";
-  statusEl.textContent =
-    currentLang === "en"
-      ? "AI is processing your image..."
-      : "এআই- এ আপোনাৰ ছবিটো প্ৰক্ৰিয়াকৰণ কৰি আছে...";
+  statusEl.textContent = currentLang === "en" ? "AI is processing your image..." : "এআই- এ আপোনাৰ ছবিটো প্ৰক্ৰিয়াকৰণ কৰি আছে...";
 
   const apiKey = "aMjaN6B37Xu32zDpxuAvfRz9"; // Found in generator.js
 
@@ -1750,11 +1312,7 @@ async function handleMagicRemove(file) {
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      throw new Error(
-        errorData.errors
-          ? errorData.errors[0].title
-          : `API Error: ${response.status}`,
-      );
+      throw new Error(errorData.errors ? errorData.errors[0].title : `API Error: ${response.status}`);
     }
 
     const blob = await response.blob();
@@ -1765,8 +1323,7 @@ async function handleMagicRemove(file) {
     loading.style.display = "none";
     resultContainer.style.display = "block";
     actions.style.display = "flex";
-    statusEl.textContent =
-      currentLang === "en" ? "Check out the magic! ✨" : "ম্যাজিকটো চাওক! ✨";
+    statusEl.textContent = currentLang === "en" ? "Check out the magic! ✨" : "ম্যাজিকটো চাওক! ✨";
 
     // Setup download button
     const downloadBtn = document.getElementById("magic-download-btn");
@@ -1777,22 +1334,15 @@ async function handleMagicRemove(file) {
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-      showToast(
-        currentLang === "en"
-          ? "✅ Image downloaded!"
-          : "✅ ছবি ডাউনলোড কৰা হ'ল!",
-        "success",
-      );
+      showToast(currentLang === "en" ? "✅ Image downloaded!" : "✅ ছবি ডাউনলোড কৰা হ'ল!", "success");
     };
+
   } catch (error) {
     console.error("Magic BG Error:", error);
     loading.style.display = "none";
     errorEl.textContent = "❌ " + error.message;
     errorEl.style.display = "block";
-    statusEl.textContent =
-      currentLang === "en"
-        ? "Oops! Something went wrong."
-        : "ওহো! কিবা এটা ভুল হ'ল।";
+    statusEl.textContent = currentLang === "en" ? "Oops! Something went wrong." : "ওহো! কিবা এটা ভুল হ'ল।";
   }
 }
 

@@ -8,7 +8,7 @@
     <!-- Future Shop Address: Kachua Tiniali Main Market, Kampur, Assam 782426 -->
     <meta property="og:title" content="Smart Digital - Assam">
     <meta property="og:description" content="Digital services for everyone in Kampur and surrounding areas.">
-    <meta property="og:image" content="assets/logo.png">
+    <meta property="og:image" content="assets/img/logo.png">
     
 
     <!-- Google Fonts -->
@@ -19,8 +19,8 @@
     
 
     <!-- Firebase -->
-    <script src="assets/firebase-app-compat.js"></script>
-    <script src="assets/firebase-database-compat.js"></script>
+    <script src="assets/js/firebase-app-compat.js"></script>
+    <script src="assets/js/firebase-database-compat.js"></script>
     <script>
         firebase.initializeApp({
             apiKey: "AIzaSyCevBNvqGDEvgvVdBqaTlKK-xIto0J6BDo",
@@ -34,7 +34,7 @@
     </script>
 
     
-<link rel="icon" type="image/png" href="assets/logo.png"><link rel="preconnect" href="https://fonts.googleapis.com/"><link href="assets/fonts.css" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><link rel="stylesheet" href="assets/style.css"></head>
+<link rel="icon" type="image/png" href="assets/img/logo.png"><link rel="preconnect" href="https://fonts.googleapis.com/"><link href="assets/css/fonts.css" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><link rel="stylesheet" href="assets/css/style.css"></head>
 
 <body style="opacity: 1;">
 
@@ -48,7 +48,7 @@
         <div class="nav-container">
             <div class="nav-container">
                 <div class="nav-logo">
-                    <img src="assets/logo.png" alt="Smart Digital Logo" style="cursor: pointer;" onclick="openLogoLightbox(this)">
+                    <img src="assets/img/logo.png" alt="Smart Digital Logo" style="cursor: pointer;" onclick="openLogoLightbox(this)">
                     <div class="sd-text">
                         <span class="sd-smart" data-en="Smart" data-as="স্মাৰ্ট">Smart</span><span class="sd-digital" data-en="Digital" data-as="ডিজিটেল">Digital</span>
                     </div>
@@ -62,6 +62,7 @@
                     <!--                     <li><a href="#calculator" class="nav-link" data-en="Pricing" data-as="মূল্য">Pricing</a></li> -->
                     <li><a href="#games" class="nav-link" data-en="Games" data-as="গেমছ">Games</a></li>
                     <li><a href="#gallery" class="nav-link" data-en="Gallery" data-as="গেলেৰী">Gallery</a></li>
+                    <li><a href="#certificates" class="nav-link" data-en="Certs" data-as="প্ৰমাণপত্ৰ">Certs</a></li>
                 </ul>
 
                 <div class="nav-right">
@@ -133,7 +134,7 @@
                 <span class="gradient-text" data-en="Digital Partner" data-as="ডিজিটেল অংশীদাৰ">Digital
                     Partner</span><br>
                 <span data-en="in Assam" data-as="অসমত">in Assam</span>
-                <img src="assets/map.png" alt="Assam Map" class="assam-icon">
+                <img src="assets/img/map.png" alt="Assam Map" class="assam-icon">
             </h1>
 
             <p class="hero-sub" data-en="Website and AI Agent for Your Business" data-as="আপোনাৰ ব্যৱসাৰ বাবে ৱেবছাইট আৰু এআই এজেন্ট">
@@ -873,52 +874,44 @@
         <div class="container">
             <div class="section-head">
                 <h2 class="section-title" data-en="Our Gallery" data-as="আমাৰ গেলেৰী">Our Gallery</h2>
-                <p class="section-sub" data-en="Our work and services" data-as="আমাৰ কাম আৰু সেৱা">Our work and services
-                </p>
+                <p class="section-sub" data-en="Explore our creative work" data-as="আমাৰ সৃষ্টিশীল কাম অন্বেষণ কৰক">Explore our creative work</p>
             </div>
-            <div class="filter-btns">
-                <button class="filter-btn active" onclick="filterGallery('all',this)" data-en="All" data-as="সকলো">All</button>
-                <button class="filter-btn" onclick="filterGallery('designs',this)" data-en="Designs" data-as="ডিজাইন">Designs</button>
-                <button class="filter-btn" onclick="filterGallery('photos',this)" data-en="Photos" data-as="ফটো">Photos</button>
-                <button class="filter-btn" onclick="filterGallery('work',this)" data-en="Our Work" data-as="আমাৰ কাম">Our Work</button>
-            </div>
-            <div class="gallery-grid" id="galleryGrid">
-                <!-- IMPORTANT: Replace these with your actual photos from Cloudinary -->
-                <div class="gallery-item" data-category="designs" onclick="openLightbox(this)">
-                    <img src="assets/gallery-photo-restore.png" alt="Design Work" loading="lazy">
-                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
-                </div>
-                <div class="gallery-item" data-category="photos" onclick="openLightbox(this)">
-                    <img src="assets/gallery-cosmic-mural.jpg" alt="Photo" loading="lazy">
-                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
-                </div>
-                <div class="gallery-item" data-category="work" onclick="openLightbox(this)">
-                    <img src="assets/gallery-countryside.jpg" alt="Our Work" loading="lazy">
-                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
-                </div>
-                <div class="gallery-item" data-category="photos" onclick="openLightbox(this)">
-                    <img src="assets/gallery-wildlife-bw.jpg" alt="Photo" loading="lazy">
-                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
-                </div>
-                <div class="gallery-item" data-category="work" onclick="openLightbox(this)">
-                    <img src="assets/gallery-wildlife-color.jpg" alt="Our Work" loading="lazy">
-                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
-                </div>
-                <div class="gallery-item" data-category="designs" onclick="openLightbox(this)">
-                    <img src="assets/gallery-shiva.jpg" alt="Design" loading="lazy">
-                    <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
-                </div>
+            <div class="filter-btns" id="galleryFilterBtns"></div>
+            <div class="gallery-grid" id="galleryGrid"></div>
+            <div class="load-more-wrap" id="loadMoreWrap" style="display:none;">
+                <button class="btn-load-more" id="loadMoreBtn" onclick="loadMoreGallery()">
+                    <span data-en="Load More" data-as="আৰু দেখাওক">Load More</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
             </div>
         </div>
     </section>
 
-    <!-- Lightbox -->
-    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-        <span class="lb-close">×</span>
-        <img class="lb-image" id="lbImage" src="./" alt="">
-        <button class="lb-prev" onclick="prevImg(event)">❮</button>
-        <button class="lb-next" onclick="nextImg(event)">❯</button>
+    <!-- Enhanced Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <span class="lb-close" onclick="closeLightbox()"><i class="fas fa-times"></i></span>
+        <div class="lb-body" onclick="closeLightbox()">
+            <img class="lb-image" id="lbImage" src="" alt="">
+        </div>
+        <div class="lb-caption" id="lbCaption"></div>
+        <div class="lb-counter" id="lbCounter"></div>
+        <button class="lb-prev" onclick="prevImg(event)"><i class="fas fa-chevron-left"></i></button>
+        <button class="lb-next" onclick="nextImg(event)"><i class="fas fa-chevron-right"></i></button>
+        <a class="lb-download" id="lbDownload" href="#" target="_blank" title="Download Full Resolution"><i class="fas fa-download"></i></a>
     </div>
+
+    <!-- ===== CERTIFICATES ===== -->
+    <section class="certificates-section" id="certificates">
+        <div class="container">
+            <div class="section-head">
+                <h2 class="section-title" data-en="Certificates &amp; Achievements" data-as="প্ৰমাণপত্ৰ আৰু সাফল্য">Certificates &amp; Achievements</h2>
+                <p class="section-sub" data-en="Verified skills and professional qualifications" data-as="সত্যাপিত দক্ষতা আৰু পেছাদাৰী যোগ্যতা">Verified skills and professional qualifications</p>
+            </div>
+            <div class="cert-grid" id="certGrid"></div>
+        </div>
+    </section>
+
+    <!-- Certificate Lightbox (reuses main lightbox) -->
 
     <!-- ===== LOCATION ===== -->
     <section class="location-section" id="location">
@@ -1060,7 +1053,7 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <div class="footer-logo">
-                        <img src="assets/logo.png" alt="Smart Digital Logo">
+                        <img src="assets/img/logo.png" alt="Smart Digital Logo">
                         <div class="sd-text">
                             <span class="sd-smart" data-en="Smart" data-as="স্মাৰ্ট" style="color:#fff;">Smart</span><span class="sd-digital" data-en="Digital" data-as="ডিজিটেল">Digital</span>
                         </div>
@@ -1082,6 +1075,7 @@
                         <li><a href="#services" data-en="Services" data-as="সেৱা">Services</a></li>
                         <li><a href="#calculator" data-en="Pricing" data-as="মূল্য">Pricing</a></li>
                         <li><a href="#gallery" data-en="Gallery" data-as="গেলেৰী">Gallery</a></li>
+                        <li><a href="#certificates" data-en="Certificates" data-as="প্ৰমাণপত্ৰ">Certificates</a></li>
                         <li><a href="#location" data-en="Location" data-as="অৱস্থান">Location</a></li>
                         <li><a href="#contact" data-en="Contact" data-as="যোগাযোগ">Contact</a></li>
                     </ul>
@@ -1213,7 +1207,7 @@
         </div>
     </div>
 
-    <script src="assets/script.js"></script>
+    <script src="assets/js/script.js"></script>
     <script>
         // Custom UI modifications for Demo Focus
         document.addEventListener("DOMContentLoaded", () => {
@@ -1316,7 +1310,5 @@
             <div id="magic-error" style="display: none; color: #ef4444; margin-top: 10px; font-weight: bold;"></div>
         </div>
     </div>
-
-    <script src="assets/script.js"></script>
 </body>
 </html>
