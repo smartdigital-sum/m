@@ -13,7 +13,9 @@
 // WARNING: API keys in frontend code are visible to anyone.
 // For production, route requests through a backend proxy instead.
 
-const API_KEY = window.SMART_DIGITAL_CONFIG?.GROQ_API_KEY || "";
+const CONFIG = window.SMART_DIGITAL_CONFIG || {};
+const API_KEY = CONFIG.GROQ_API_KEY || "";
+const IS_PLACEHOLDER = API_KEY === "YOUR_GROQ_API_KEY_HERE" || API_KEY === "";
 
 // System prompt: tells the Groq LLM who it is and what it knows.
 // Edit this freely — no coding knowledge needed.
@@ -75,6 +77,12 @@ function toggleBot() {
   iconClose.style.display = isOpen ? "inline" : "none";
 
   if (isOpen) {
+    if (IS_PLACEHOLDER) {
+      addBubble(
+        "⚠️ **API Key Missing**: Please open `assets/js/config.js` and replace 'YOUR_GROQ_API_KEY_HERE' with your real Groq API key to enable the AI.",
+        "bot"
+      );
+    }
     // Focus input when opened
     setTimeout(() => document.getElementById("sd-user-input").focus(), 100);
   }
@@ -100,15 +108,25 @@ async function sendMessage() {
   setBusy(true);
 
   try {
+    if (IS_PLACEHOLDER) {
+      throw new Error("MISSING_KEY");
+    }
     const replyText = await callGroq();
     addBubble(replyText, "bot");
     // Add assistant reply to history for next turn
     conversationHistory.push({ role: "assistant", content: replyText });
   } catch (err) {
-    addBubble(
-      "Sorry, something went wrong. Please try again or contact us on WhatsApp: +91 86387 59478",
-      "bot",
-    );
+    if (err.message === "MISSING_KEY") {
+      addBubble(
+        "I can't chat right now because my API key is missing. Please check the setup instructions in `assets/js/config.js`.",
+        "bot"
+      );
+    } else {
+      addBubble(
+        "Sorry, something went wrong. This might be due to an invalid API key or connection issue. Please contact support.",
+        "bot"
+      );
+    }
     console.error("Bot error:", err);
     // Remove the failed user message from history so it doesn't corrupt future turns
     conversationHistory.pop();
