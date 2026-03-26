@@ -106,10 +106,26 @@ function applyTranslations() {
 }
 
 // ─── ADMIN ─────────────────────────────────────────────────
-const ADMIN_PASSWORD = "SmartDigital2026"; // Change this!
 let adminMode = false;
 
+// ─── AUTH STATE LISTENER ──────────────────────────────────
+document.addEventListener("DOMContentLoaded", () => {
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      console.log("🔓 Admin logged in:", user.email);
+    } else {
+      console.log("🔒 Admin logged out");
+      closeAdminPanel();
+    }
+  });
+});
+
 function openAdminLogin() {
+  // If already logged in, just open the panel
+  if (firebase.auth().currentUser) {
+    openAdminPanel();
+    return;
+  }
   document.getElementById("adminLoginModal").classList.add("show");
   setTimeout(() => document.getElementById("adminPwd").focus(), 100);
 }
@@ -118,22 +134,54 @@ function closeAdminLogin() {
   document.getElementById("adminPwd").value = "";
 }
 function verifyAdmin() {
+  const email = window.SMART_DIGITAL_CONFIG?.ADMIN_EMAIL || "";
   const pwd = document.getElementById("adminPwd").value;
-  if (pwd === ADMIN_PASSWORD) {
-    closeAdminLogin();
-    openAdminPanel();
-  } else {
-    const input = document.getElementById("adminPwd");
-    input.style.borderColor = "#ef4444";
-    input.style.animation = "shake 0.4s ease";
-    setTimeout(() => {
-      input.style.borderColor = "";
-      input.style.animation = "";
-    }, 800);
-    input.value = "";
-    input.focus();
-    showToast("❌ Incorrect password!", "error");
+
+  if (!email) {
+    showToast("❌ Admin email not configured!", "error");
+    return;
   }
+
+  // Show loading state on button
+  const loginBtn = document.querySelector("#adminLoginModal .btn-primary");
+  const originalText = loginBtn.innerHTML;
+  loginBtn.disabled = true;
+  loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
+
+  firebase
+    .auth()
+    .signInWithEmailAndPassword(email, pwd)
+    .then(() => {
+      closeAdminLogin();
+      openAdminPanel();
+      showToast("✅ Successfully logged in!", "success");
+    })
+    .catch((err) => {
+      const input = document.getElementById("adminPwd");
+      input.style.borderColor = "#ef4444";
+      input.style.animation = "shake 0.4s ease";
+      setTimeout(() => {
+        input.style.borderColor = "";
+        input.style.animation = "";
+      }, 800);
+      input.value = "";
+      input.focus();
+      showToast("❌ Error: " + err.message, "error");
+    })
+    .finally(() => {
+      loginBtn.disabled = false;
+      loginBtn.innerHTML = originalText;
+    });
+}
+
+function signOutAdmin() {
+  firebase
+    .auth()
+    .signOut()
+    .then(() => {
+      showToast("🔒 Logged out successfully", "info");
+      closeAdminPanel();
+    });
 }
 
 function openAdminPanel() {

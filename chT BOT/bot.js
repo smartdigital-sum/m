@@ -14,7 +14,8 @@
 // For your local testing, you can keep it here.
 // NOTE: For real projects, never ship API keys in frontend code.
 // For your local testing, you can keep it here.
-const API_KEY = "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";
+
+const API_KEY = window.SMART_DIGITAL_CONFIG?.GROQ_API_KEY || "";
 
 // System prompt: tells Claude who it is and what it knows.
 // Edit this freely — no coding knowledge needed.
@@ -124,22 +125,25 @@ async function callGroq() {
   // Groq uses OpenAI-compatible format, so we pass the system prompt as a message
   const messages = [
     { role: "system", content: BOT_SYSTEM },
-    ...conversationHistory
+    ...conversationHistory,
   ];
 
-  const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${API_KEY}`
+  const response = await fetch(
+    "https://api.groq.com/openai/v1/chat/completions",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: "llama-3.3-70b-versatile", // Fast and capable model on Groq
+        temperature: 0.4,
+        max_tokens: 300,
+        messages: messages,
+      }),
     },
-    body: JSON.stringify({
-      model: "llama-3.3-70b-versatile", // Fast and capable model on Groq
-      temperature: 0.4,
-      max_tokens: 300,
-      messages: messages
-    }),
-  });
+  );
 
   if (!response.ok) {
     const err = await response.json().catch(() => ({}));
