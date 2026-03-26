@@ -35,7 +35,7 @@
     </script>
 
     
-<link rel="icon" type="image/png" href="assets/img/logo.png"><link rel="preconnect" href="https://fonts.googleapis.com/"><link href="assets/css/fonts.css" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><link rel="stylesheet" href="assets/css/style.css"><script src="assets/js/config.js"></script><link rel="stylesheet" href="chT BOT/bot.css"></head>
+<link rel="icon" type="image/png" href="assets/img/logo.png"><link rel="preconnect" href="https://fonts.googleapis.com/"><link href="assets/css/fonts.css" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><link rel="stylesheet" href="assets/css/style.css"><script src="assets/js/config.js"></script><link rel="stylesheet" href="chatbot/bot.css"></head>
 
 <body style="opacity: 1;">
 
@@ -54,7 +54,7 @@
                     </div>
                 </div>
 
-                <ul class="nav-menu open" id="navMenu">
+                <ul class="nav-menu" id="navMenu">
                     <li><a href="#home" class="nav-link" data-en="Home" data-as="ঘৰ">Home</a></li>
                     <li><a href="#updates" class="nav-link" data-en="Updates" data-as="আপডেট">Updates</a></li>
                     <li><a href="#demos" class="nav-link" data-en="Websites" data-as="ৱেবছাইট">Websites</a></li>
@@ -85,7 +85,7 @@
                         <i class="fab fa-whatsapp"></i>
                         <span>WhatsApp</span>
                     </a>
-                    <button class="hamburger open" id="hamburger">
+                    <button class="hamburger" id="hamburger">
                         <span></span><span></span><span></span>
                     </button>
                 </div>
@@ -145,19 +145,18 @@
             </p>
 
             <div class="hero-buttons">
-                <div style="display: flex; gap: 15px; margin-bottom: 15px;">
-                    <a href="#demos" class="btn btn-liquid-glass" style="padding: 12px 24px; font-weight: bold; background: linear-gradient(135deg, #ff0000, #000000);">
+                <div class="hero-buttons-row">
+                    <a href="#demos" class="btn btn-liquid-glass btn-hero-cta">
                         <i class="fas fa-globe"></i> <span data-en="View Demo Websites" data-as="ডেমো ৱেবছাইট চাওক">View
                             Demo Websites</span>
                     </a>
-                    <button id="hero-bg-remover" class="btn btn-magic" style="padding: 12px 24px; font-weight: bold;">
+                    <button id="hero-bg-remover" class="btn btn-magic btn-hero-cta">
                         <i class="fas fa-wand-magic-sparkles"></i> <span data-en="Remove Background" data-as="বেষ্টনীবোৰ আঁতৰাওক">Remove Background</span>
                     </button>
                     <input type="file" id="hero-bg-input" accept="image/*" hidden>
                 </div>
-                <!-- Matched length to View Demo Websites -->
-                <div style="display: flex;">
-                    <a href="generator/generator.html" target="_blank" class="btn btn-liquid-glass" style="padding: 12px 24px; font-weight: bold; text-align: center; background: linear-gradient(135deg, #ff0000, #000000);">
+                <div class="hero-buttons-row">
+                    <a href="generator/generator.html" target="_blank" class="btn btn-liquid-glass btn-hero-cta-alt">
                         <i class="fas fa-lightbulb"></i> <span data-en="Imagine your business? Click here" data-as="আপোনাৰ ব্যৱসায় কল্পনা কৰক? ইয়াত ক্লিক কৰক">Imagine your business? Click
                             here!</span>
                     </a>
@@ -325,12 +324,12 @@
             <div class="demos-grid">
                 <!-- Demo 1: Medical Shop -->
                 <div class="demo-card">
-                    <div class="demo-icon" style="background:linear-gradient(135deg,#10b981,#34d399)"><i class="fas fa-pills"></i></div>
+                    <div class="demo-icon icon-bg-medical"><i class="fas fa-pills"></i></div>
                     <div class="demo-content">
                         <h3 data-en="Medical Shop" data-as="মেডিকেল শ্বপ">Medical Shop</h3>
                         <p data-en="Pharmacy catalog, prescription upload &amp; home delivery." data-as="ফাৰ্মাচী কেটেলগ, প্ৰেছক্ৰিপচন আপলোড আৰু হোম ডেলিভাৰী।">Pharmacy catalog,
                             prescription upload &amp; home delivery.</p>
-                        <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 15px; align-items: center;">
+                        <div class="demo-links">
                             <div class="demo-link-wrapper">
                                 <a href="https://smartdigital-sum.github.io/m-1-a/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo 1</span></a>
                                 <div class="punch-widget-demo" data-id="demo-m1a-like" title="Like this demo">
@@ -372,12 +371,12 @@
 
                 <!-- Demo 2: School Portal -->
                 <div class="demo-card">
-                    <div class="demo-icon" style="background:linear-gradient(135deg,#f59e0b,#fbbf24)"><i class="fas fa-graduation-cap"></i></div>
+                    <div class="demo-icon icon-bg-school"><i class="fas fa-graduation-cap"></i></div>
                     <div class="demo-content">
                         <h3 data-en="School Portal" data-as="বিদ্যালয় পৰ্টেল">School Portal</h3>
                         <p data-en="Courses, admissions, events, and student portal." data-as="পাঠ্যক্ৰম, নামভৰ্তি, অনুষ্ঠান আৰু ছাত্ৰ পৰ্টেল।">Courses, admissions, events, and
                             student portal.</p>
-                        <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 15px; align-items: center;">
+                        <div class="demo-links">
                             <div class="demo-link-wrapper">
                                 <a href="https://smartdigital-sum.github.io/m-2-a/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo 1</span></a>
                                 <div class="punch-widget-demo" data-id="demo-m2a-like" title="Like this demo">
@@ -412,12 +411,12 @@
 
                 <!-- Demo 3: Salon & Spa -->
                 <div class="demo-card">
-                    <div class="demo-icon" style="background:linear-gradient(135deg,#ec4899,#f43f5e)"><i class="fas fa-cut"></i></div>
+                    <div class="demo-icon icon-bg-salon"><i class="fas fa-cut"></i></div>
                     <div class="demo-content">
                         <h3 data-en="Salon &amp; Spa" data-as="চেলুন আৰু স্পা">Salon &amp; Spa</h3>
                         <p data-en="Service catalog, appointment booking &amp; reviews." data-as="সেৱা কেটেলগ, এপইণ্টমেণ্ট বুকিং আৰু ৰিভিউ।">Service catalog, appointment booking &amp;
                             reviews.</p>
-                        <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 15px; align-items: center;">
+                        <div class="demo-links">
                             <div class="demo-link-wrapper">
                                 <a href="https://smartdigital-sum.github.io/m-3-a/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo 1</span></a>
                                 <div class="punch-widget-demo" data-id="demo-m3a-like" title="Like this demo">
@@ -452,12 +451,12 @@
 
                 <!-- Demo 4: Grocery Store -->
                 <div class="demo-card">
-                    <div class="demo-icon" style="background:linear-gradient(135deg,#3b82f6,#60a5fa)"><i class="fas fa-shopping-cart"></i></div>
+                    <div class="demo-icon icon-bg-grocery"><i class="fas fa-shopping-cart"></i></div>
                     <div class="demo-content">
                         <h3 data-en="Grocery Store" data-as="গ্ৰোচাৰী ষ্টোৰ">Grocery Store</h3>
                         <p data-en="E-commerce store with cart and payments." data-as="কাৰ্ট আৰু পেমেণ্টৰ সৈতে ই-কমাৰ্চ ষ্টোৰ।">E-commerce store with cart and payments.
                         </p>
-                        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px;">
+                        <div class="demo-links-row">
                             <div class="demo-link-wrapper">
                                 <a href="https://smartdigital-sum.github.io/m-4-a/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo 1</span></a>
                                 <div class="punch-widget-demo" data-id="demo-m4a-like" title="Like this demo">
@@ -492,12 +491,12 @@
 
                 <!-- Demo 5: Restaurant -->
                 <div class="demo-card">
-                    <div class="demo-icon" style="background:linear-gradient(135deg,#f97316,#fb923c)"><i class="fas fa-utensils"></i></div>
+                    <div class="demo-icon icon-bg-restaurant"><i class="fas fa-utensils"></i></div>
                     <div class="demo-content">
                         <h3 data-en="Restaurant" data-as="ৰেষ্টুৰেণ্ট">Restaurant</h3>
                         <p data-en="Menu showcase, online ordering, and reservations." data-as="মেনু দৰ্শন, অনলাইন অৰ্ডাৰ আৰু সংৰক্ষণ।">Menu showcase, online ordering, and
                             reservations.</p>
-                        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px;">
+                        <div class="demo-links-row">
                             <div class="demo-link-wrapper">
                                 <a href="https://smartdigital-sum.github.io/m-5-a/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo 1</span></a>
                                 <div class="punch-widget-demo" data-id="demo-m5a-like" title="Like this demo">
@@ -532,12 +531,12 @@
 
                 <!-- Demo 6: Fitness & Gym -->
                 <div class="demo-card">
-                    <div class="demo-icon" style="background:linear-gradient(135deg,#8b5cf6,#a78bfa)"><i class="fas fa-dumbbell"></i></div>
+                    <div class="demo-icon icon-bg-gym"><i class="fas fa-dumbbell"></i></div>
                     <div class="demo-content">
                         <h3 data-en="Fitness &amp; Gym" data-as="ফিটনেছ আৰু জিম">Fitness &amp; Gym</h3>
                         <p data-en="Membership plans, class schedules, and trainer profiles." data-as="সদস্যতা পৰিকল্পনা, শ্ৰেণীৰ সময়সূচী, আৰু প্ৰশিক্ষকৰ প্ৰফাইল।">Membership plans,
                             class schedules, and trainer profiles.</p>
-                        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px;">
+                        <div class="demo-links-row">
                             <div class="demo-link-wrapper">
                                 <a href="https://smartdigital-sum.github.io/m-6-a/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo 1</span></a>
                                 <div class="punch-widget-demo" data-id="demo-m6a-like" title="Like this demo">
@@ -572,11 +571,11 @@
 
                 <!-- Demo 7: DG Demo Web -->
                 <div class="demo-card">
-                    <div class="demo-icon" style="background:linear-gradient(135deg,#3b82f6,#2dd4bf)"><i class="fas fa-laptop-code"></i></div>
+                    <div class="demo-icon icon-bg-tech"><i class="fas fa-laptop-code"></i></div>
                     <div class="demo-content">
                         <h3 data-en="DG Demo Web" data-as="ডিজি ডেমো ৱেব">DG Demo Web</h3>
                         <p data-en="Modern landing pages, agency portfolios, and creative showcases." data-as="আধুনিক লেণ্ডিং পেজ, এজেন্সী পৰ্টফলিঅ' আৰু সৃষ্টিশীল দৰ্শন।">Modern landing pages, agency portfolios, and creative showcases.</p>
-                        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px;">
+                        <div class="demo-links-row">
                             <div class="demo-link-wrapper">
                                 <a href="https://smartdigital-sum.github.io/m-7-a/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo 1</span></a>
                                 <div class="punch-widget-demo" data-id="demo-m7a-like" title="Like this demo">
@@ -611,11 +610,11 @@
 
                 <!-- Demo 8: Clothing Shop -->
                 <div class="demo-card">
-                    <div class="demo-icon" style="background:linear-gradient(135deg,#6366f1,#a855f7)"><i class="fas fa-tshirt"></i></div>
+                    <div class="demo-icon icon-bg-fashion"><i class="fas fa-tshirt"></i></div>
                     <div class="demo-content">
                         <h3 data-en="Clothing Shop" data-as="পোছাকৰ দোকান">Clothing Shop</h3>
                         <p data-en="Online fashion store, product catalog &amp; shopping cart." data-as="অনলাইন ফেশ্বন ষ্টোৰ, সামগ্ৰী কেটেলগ আৰু শ্বপিং কাৰ্ট।">Online fashion store, product catalog &amp; shopping cart.</p>
-                        <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 15px; align-items: center;">
+                        <div class="demo-links">
                             <div class="demo-link-wrapper">
                                 <a href="https://smartdigital-sum.github.io/m-8-a/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo 1</span></a>
                                 <div class="punch-widget-demo" data-id="demo-m8a-like" title="Like this demo">
@@ -669,7 +668,7 @@
             <div class="services-grid">
                 <!-- NEW DIGITAL SERVICES -->
                 <div class="service-card highlight-card reveal active" onclick="openServiceModal('Website Creation','website')">
-                    <div class="svc-icon" style="background:linear-gradient(135deg,#6366f1,#818cf8)"><i class="fas fa-globe"></i></div>
+                    <div class="svc-icon icon-bg-primary"><i class="fas fa-globe"></i></div>
                     <div class="svc-badge pulse-badge">HOT &amp; LIVE</div>
                     <h3 data-en="Website Creation" data-as="ৱেবছাইট নিৰ্মাণ">Website Creation</h3>
                     <p class="dark-desc" data-en="Professional websites for local businesses &amp; personal portfolios." data-as="স্থানীয় ব্যৱসায় আৰু ব্যক্তিগত পৰ্টফলিঅ'ৰ বাবে পেছাদাৰী ৱেবছাইট।">Professional
@@ -678,7 +677,7 @@
                 </div>
 
                 <div class="service-card highlight-card reveal active" onclick="openServiceModal('WhatsApp Automation','bot')">
-                    <div class="svc-icon" style="background:linear-gradient(135deg,#10b981,#34d399)"><i class="fab fa-whatsapp"></i></div>
+                    <div class="svc-icon icon-bg-whatsapp"><i class="fab fa-whatsapp"></i></div>
                     <div class="svc-badge pulse-badge">NEW &amp; LIVE</div>
                     <h3 data-en="n8n WhatsApp Bot" data-as="n8n হোৱাটছএপ বট">n8n WhatsApp Bot</h3>
                     <p class="dark-desc" data-en="Automated status, replies &amp; customer engagement bots using n8n." data-as="n8n ব্যৱহাৰ কৰি স্বয়ংক্ৰিয় ষ্টেটাছ, উত্তৰ আৰু গ্ৰাহক সংযোগ বট।">
@@ -688,7 +687,7 @@
 
                 <!-- OFFLINE / UNDER CONSTRUCTION SERVICES -->
                 <div class="service-card disabled-card reveal" style="display: none;">
-                    <div class="svc-icon" style="background:linear-gradient(135deg,#9ca3af,#d1d5db)"><i class="fas fa-id-card"></i></div>
+                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-id-card"></i></div>
                     <div class="svc-badge offline-badge">CONSTRUCTION</div>
                     <h3 data-en="PAN Card" data-as="পেন কাৰ্ড">PAN Card</h3>
                     <p data-en="New application, correction &amp; tracking" data-as="নতুন আৱেদন, সংশোধন আৰু ট্ৰেকিং">New
@@ -697,7 +696,7 @@
                 </div>
 
                 <div class="service-card disabled-card reveal" style="display: none;">
-                    <div class="svc-icon" style="background:linear-gradient(135deg,#9ca3af,#d1d5db)"><i class="fas fa-fingerprint"></i></div>
+                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-fingerprint"></i></div>
                     <div class="svc-badge offline-badge">CONSTRUCTION</div>
                     <h3 data-en="Aadhaar Services" data-as="আধাৰ সেৱা">Aadhaar Services</h3>
                     <p data-en="Update, correction &amp; enrollment help" data-as="আপডেট, সংশোধন আৰু নথিভুক্তিৰ সহায়">
@@ -706,7 +705,7 @@
                 </div>
 
                 <div class="service-card disabled-card reveal" style="display: none;">
-                    <div class="svc-icon" style="background:linear-gradient(135deg,#9ca3af,#d1d5db)"><i class="fas fa-print"></i></div>
+                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-print"></i></div>
                     <div class="svc-badge offline-badge">CONSTRUCTION</div>
                     <h3 data-en="Printing &amp; Scanning" data-as="প্ৰিন্টিং আৰু স্কেনিং">Printing &amp; Scanning</h3>
                     <p data-en="B&amp;W, color printing, scanning &amp; PDF" data-as="বি&amp;ডব্লু, কালাৰ প্ৰিন্টিং, স্কেনিং আৰু PDF">B&amp;W, color printing, scanning &amp; PDF</p>
@@ -714,7 +713,7 @@
                 </div>
 
                 <div class="service-card disabled-card reveal" style="display: none;">
-                    <div class="svc-icon" style="background:linear-gradient(135deg,#9ca3af,#d1d5db)"><i class="fas fa-camera"></i></div>
+                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-camera"></i></div>
                     <div class="svc-badge offline-badge">CONSTRUCTION</div>
                     <h3 data-en="Passport Photo" data-as="পাছপোৰ্ট ফটো">Passport Photo</h3>
                     <p data-en="Professional passport-size &amp; ID photos" data-as="পেছাদাৰী পাছপোৰ্ট আৰু পৰিচয়পত্ৰৰ ফটো">
@@ -723,7 +722,7 @@
                 </div>
 
                 <div class="service-card disabled-card reveal" style="display: none;">
-                    <div class="svc-icon" style="background:linear-gradient(135deg,#9ca3af,#d1d5db)"><i class="fas fa-file-alt"></i></div>
+                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-file-alt"></i></div>
                     <div class="svc-badge offline-badge">CONSTRUCTION</div>
                     <h3 data-en="Govt. Form Filling" data-as="চৰকাৰী ফৰ্ম পূৰণ">Govt. Form Filling</h3>
                     <p data-en="All government online forms &amp; applications" data-as="সকলো চৰকাৰী অনলাইন ফৰ্ম আৰু আৱেদন">
@@ -732,7 +731,7 @@
                 </div>
 
                 <div class="service-card disabled-card reveal" style="display: none;">
-                    <div class="svc-icon" style="background:linear-gradient(135deg,#9ca3af,#d1d5db)"><i class="fas fa-ticket-alt"></i></div>
+                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-ticket-alt"></i></div>
                     <div class="svc-badge offline-badge">CONSTRUCTION</div>
                     <h3 data-en="Ticket Booking" data-as="টিকট বুকিং">Ticket Booking</h3>
                     <p data-en="Railway, bus &amp; flight ticket booking" data-as="ৰেল, বাছ আৰু বিমান টিকট বুকিং">Railway,
@@ -741,7 +740,7 @@
                 </div>
 
                 <div class="service-card disabled-card reveal" style="display: none;">
-                    <div class="svc-icon" style="background:linear-gradient(135deg,#9ca3af,#d1d5db)"><i class="fas fa-vote-yea"></i></div>
+                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-vote-yea"></i></div>
                     <div class="svc-badge offline-badge">CONSTRUCTION</div>
                     <h3 data-en="Voter ID Services" data-as="ভোটাৰ পৰিচয়পত্ৰ সেৱা">Voter ID Services</h3>
                     <p data-en="New registration &amp; correction" data-as="নতুন নথিভুক্তি আৰু সংশোধন">New registration &amp;
@@ -827,7 +826,7 @@
             <div class="games-grid">
                 <!-- Game 1 -->
                 <div class="game-card">
-                    <div class="game-icon" style="background:linear-gradient(135deg,#6366f1,#818cf8)"><i class="fas fa-gamepad"></i></div>
+                    <div class="game-icon icon-bg-primary"><i class="fas fa-gamepad"></i></div>
                     <div class="game-info">
                         <h3 data-en="Snake Game" data-as="সাপ গেম">Snake Game</h3>
                         <p data-en="Classic snake game. Test your reflexes!" data-as="ক্লাছিক সাপ গেম। খেলক আৰু উপভোগ কৰক!">Classic snake game. Test your reflexes!</p>
@@ -840,7 +839,7 @@
 
                 <!-- Game 2 -->
                 <div class="game-card">
-                    <div class="game-icon" style="background:linear-gradient(135deg,#f59e0b,#fbbf24)"><i class="fas fa-brain"></i></div>
+                    <div class="game-icon icon-bg-quiz"><i class="fas fa-brain"></i></div>
                     <div class="game-info">
                         <h3 data-en="Memory Match (Assamese)" data-as="মেম'ৰী মেচ (অসমীয়া)">Memory Match (Assamese)
                         </h3>
@@ -855,7 +854,7 @@
 
                 <!-- Game 3 -->
                 <div class="game-card">
-                    <div class="game-icon" style="background:linear-gradient(135deg,#ec4899,#f43f5e)"><i class="fas fa-star"></i></div>
+                    <div class="game-icon icon-bg-memory"><i class="fas fa-star"></i></div>
                     <div class="game-info">
                         <h3 data-en="Flappy Bird" data-as="ফ্লেপী বাৰ্ড">Flappy Bird</h3>
                         <p data-en="Navigate through obstacles. Addictive and fun!" data-as="বাবা অতিক্ৰম কৰক। অতি আনন্দেৰ খেল!">Navigate through obstacles. Addictive and fun!
@@ -869,7 +868,7 @@
 
                 <!-- Game 4 -->
                 <div class="game-card">
-                    <div class="game-icon" style="background:linear-gradient(135deg,#06b6d4,#22d3ee)"><i class="fas fa-mouse"></i></div>
+                    <div class="game-icon icon-bg-reflex"><i class="fas fa-mouse"></i></div>
                     <div class="game-info">
                         <h3 data-en="Click Counter" data-as="ক্লিক কাউণ্টাৰ">Click Counter</h3>
                         <p data-en="A number guessing game!" data-as="এটা নম্বৰ অনুমান কৰা গেম!">A number guessing game!
@@ -883,7 +882,7 @@
 
                 <!-- Game 5 -->
                 <div class="game-card">
-                    <div class="game-icon" style="background:linear-gradient(135deg,#10b981,#34d399)"><i class="fas fa-meteor"></i></div>
+                    <div class="game-icon icon-bg-medical"><i class="fas fa-meteor"></i></div>
                     <div class="game-info">
                         <h3 data-en="Space Shooter" data-as="স্পেছ শ্বুটাৰ">Space Shooter</h3>
                         <p data-en="Defend your ship from incoming asteroids." data-as="আগন্তুক গ্ৰহাণুৰ পৰা আপোনাৰ জাহাজ ৰক্ষা কৰক।">Defend your ship from incoming
@@ -897,7 +896,7 @@
 
                 <!-- Game 6 -->
                 <div class="game-card">
-                    <div class="game-icon" style="background:linear-gradient(135deg,#8b5cf6,#a78bfa)"><i class="fas fa-dice"></i></div>
+                    <div class="game-icon icon-bg-gym"><i class="fas fa-dice"></i></div>
                     <div class="game-info">
                         <h3 data-en="Dice Roller" data-as="ডাইচ ৰোলাৰ">Dice Roller</h3>
                         <p data-en="Interactive dice rolling game." data-as="ইণ্টাৰেক্টিভ ডাইচ ৰোলিং গেম।">Interactive
@@ -1180,7 +1179,7 @@
     <div class="modal" id="adminLoginModal">
         <div class="modal-content" style="max-width:400px;text-align:center;">
             <span class="modal-close" onclick="closeAdminLogin()">×</span>
-            <div class="modal-icon" style="background:linear-gradient(135deg,#6366f1,#818cf8)"><i class="fas fa-lock"></i></div>
+            <div class="modal-icon icon-bg-primary"><i class="fas fa-lock"></i></div>
             <h2>Admin Login</h2>
             <p style="color:#64748b;margin-bottom:1.5rem;font-size:14px;">Enter password to access the admin panel</p>
             <input type="password" id="adminPwd" class="pwd-input" placeholder="Enter admin password" onkeypress="if(event.key==='Enter')verifyAdmin()">
@@ -1394,6 +1393,6 @@
         </div>
     </div>
 
-    <script src="chT BOT/bot.js"></script>
+    <script src="chatbot/bot.js"></script>
 </body>
 </html>

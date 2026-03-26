@@ -3,21 +3,19 @@
    bot.js
    =============================================
    HOW TO USE:
-   1. Replace API_KEY below with your Anthropic key.
+   1. Set your Groq API key in config.js.
    2. Edit BOT_SYSTEM to update prices / services.
    3. That's it — everything else is automatic.
    ============================================= */
 
 // ── CONFIG ──────────────────────────────────────────────────────────────────
 
-// NOTE: For real projects, never ship API keys in frontend code.
-// For your local testing, you can keep it here.
-// NOTE: For real projects, never ship API keys in frontend code.
-// For your local testing, you can keep it here.
+// WARNING: API keys in frontend code are visible to anyone.
+// For production, route requests through a backend proxy instead.
 
 const API_KEY = window.SMART_DIGITAL_CONFIG?.GROQ_API_KEY || "";
 
-// System prompt: tells Claude who it is and what it knows.
+// System prompt: tells the Groq LLM who it is and what it knows.
 // Edit this freely — no coding knowledge needed.
 const BOT_SYSTEM = `
 You are the friendly AI assistant for Smart Digital, a digital services shop in Assam, India.
@@ -51,7 +49,7 @@ const GREETING =
 
 // ── STATE ────────────────────────────────────────────────────────────────────
 
-// Stores the full conversation so Claude remembers context across turns
+// Stores the full conversation so the LLM remembers context across turns
 let conversationHistory = [];
 let isOpen = false;
 let isBusy = false; // prevents sending multiple messages at once
@@ -95,7 +93,7 @@ async function sendMessage() {
   addBubble(userText, "user");
   input.value = "";
 
-  // Add to conversation history (Claude needs this for memory)
+  // Add to conversation history (the LLM needs this for memory)
   conversationHistory.push({ role: "user", content: userText });
 
   // Lock UI while waiting

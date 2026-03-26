@@ -1,19 +1,24 @@
 {
   "rules": {
-    ".read": true,
+    ".read": false,
+    ".write": false,
     "punches": {
+      ".read": true,
       ".write": true,
       "$id": {
-        ".validate": "newData.isNumber()"
+        ".validate": "newData.isNumber() && newData.val() >= 0"
       }
     },
     "shopHours": {
+      ".read": true,
       ".write": "auth != null"
     },
     "urgentNotice": {
+      ".read": true,
       ".write": "auth != null"
     },
     "notifications": {
+      ".read": true,
       ".write": "auth != null"
     }
   }
