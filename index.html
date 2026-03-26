@@ -34,7 +34,7 @@
     </script>
 
     
-<link rel="icon" type="image/png" href="assets/img/logo.png"><link rel="preconnect" href="https://fonts.googleapis.com/"><link href="assets/css/fonts.css" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><link rel="stylesheet" href="assets/css/style.css"></head>
+<link rel="icon" type="image/png" href="assets/img/logo.png"><link rel="preconnect" href="https://fonts.googleapis.com/"><link href="assets/css/fonts.css" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><link rel="stylesheet" href="assets/css/style.css"><link rel="stylesheet" href="chT BOT/bot.css"></head>
 
 <body style="opacity: 1;">
 
@@ -600,6 +600,52 @@
                             <div class="demo-link-wrapper">
                                 <a href="https://smartdigital-sum.github.io/m-7-d/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 4" data-as="ডেমো ৪">Demo 4</span></a>
                                 <div class="punch-widget-demo" data-id="demo-m7d-like" title="Like this demo">
+                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                    <span class="punch-count-xs">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Demo 8: Clothing Shop -->
+                <div class="demo-card">
+                    <div class="demo-icon" style="background:linear-gradient(135deg,#6366f1,#a855f7)"><i class="fas fa-tshirt"></i></div>
+                    <div class="demo-content">
+                        <h3 data-en="Clothing Shop" data-as="পোছাকৰ দোকান">Clothing Shop</h3>
+                        <p data-en="Online fashion store, product catalog &amp; shopping cart." data-as="অনলাইন ফেশ্বন ষ্টোৰ, সামগ্ৰী কেটেলগ আৰু শ্বপিং কাৰ্ট।">Online fashion store, product catalog &amp; shopping cart.</p>
+                        <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 15px; align-items: center;">
+                            <div class="demo-link-wrapper">
+                                <a href="https://smartdigital-sum.github.io/m-8-a/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo 1</span></a>
+                                <div class="punch-widget-demo" data-id="demo-m8a-like" title="Like this demo">
+                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                    <span class="punch-count-xs">0</span>
+                                </div>
+                            </div>
+                            <div class="demo-link-wrapper">
+                                <a href="https://smartdigital-sum.github.io/m-8-b/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 2" data-as="ডেমো ২">Demo 2</span></a>
+                                <div class="punch-widget-demo" data-id="demo-m8b-like" title="Like this demo">
+                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                    <span class="punch-count-xs">0</span>
+                                </div>
+                            </div>
+                            <div class="demo-link-wrapper">
+                                <a href="https://smartdigital-sum.github.io/m-8-c/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 3" data-as="ডেমো ৩">Demo 3</span></a>
+                                <div class="punch-widget-demo" data-id="demo-m8c-like" title="Like this demo">
+                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                    <span class="punch-count-xs">0</span>
+                                </div>
+                            </div>
+                            <div class="demo-link-wrapper">
+                                <a href="https://smartdigital-sum.github.io/m-8-d/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 4" data-as="ডেমো ৪">Demo 4</span></a>
+                                <div class="punch-widget-demo" data-id="demo-m8d-like" title="Like this demo">
+                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                    <span class="punch-count-xs">0</span>
+                                </div>
+                            </div>
+                            <div class="demo-link-wrapper">
+                                <a href="https://smartdigital-sum.github.io/m-8-e/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 5" data-as="ডেমো ৫">Demo 5</span></a>
+                                <div class="punch-widget-demo" data-id="demo-m8e-like" title="Like this demo">
                                     <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
                                     <span class="punch-count-xs">0</span>
                                 </div>
@@ -1309,5 +1355,44 @@
             <div id="magic-error" style="display: none; color: #ef4444; margin-top: 10px; font-weight: bold;"></div>
         </div>
     </div>
+
+    <!-- ===== AI CHATBOT WIDGET ===== -->
+    <!-- Floating toggle button (stacks above WhatsApp float) -->
+    <div id="sd-bot-btn" onclick="toggleBot()" title="Chat with Smart Digital AI">
+        <span id="sd-bot-icon">🤖</span>
+        <span id="sd-bot-close-icon" style="display:none;">✕</span>
+    </div>
+
+    <!-- Chat window -->
+    <div id="sd-bot-window">
+        <div id="sd-bot-header">
+            <div class="sd-header-info">
+                <div class="sd-header-avatar">SD</div>
+                <div>
+                    <div class="sd-header-name">Smart Digital Assistant</div>
+                    <div class="sd-header-status">● Online</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="sd-bot-messages"></div>
+
+        <div id="sd-bot-typing" style="display:none;">
+            <span></span><span></span><span></span>
+        </div>
+
+        <div id="sd-bot-input">
+            <input
+                id="sd-user-input"
+                type="text"
+                placeholder="Ask me anything…"
+                onkeydown="if(event.key==='Enter') sendMessage()"
+                autocomplete="off"
+            />
+            <button id="sd-send-btn" onclick="sendMessage()">➤</button>
+        </div>
+    </div>
+
+    <script src="chT BOT/bot.js"></script>
 </body>
 </html>

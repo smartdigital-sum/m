@@ -1,0 +1,11 @@
+{
+  "liveServer.settings.donotShowInfoMsg": true,
+  "liveServer.settings.donotVerifyTags": true,
+  "liveServer.settings.ignoreFiles": [
+    "**/.qodo/**",
+    "**/.git/**",
+    "**/node_modules/**",
+    "**/.vscode/**",
+    "**/.DS_Store"
+  ]
+}
