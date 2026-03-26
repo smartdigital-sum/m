@@ -77,7 +77,7 @@ function toggleBot() {
   iconClose.style.display = isOpen ? "inline" : "none";
 
   if (isOpen) {
-    if (IS_PLACEHOLDER) {
+    if (IS_PLACEHOLDER && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")) {
       addBubble(
         "⚠️ **API Key Missing**: Please open `assets/js/config.js` and replace 'YOUR_GROQ_API_KEY_HERE' with your real Groq API key to enable the AI.",
         "bot"
@@ -108,7 +108,7 @@ async function sendMessage() {
   setBusy(true);
 
   try {
-    if (IS_PLACEHOLDER) {
+    if (IS_PLACEHOLDER && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")) {
       throw new Error("MISSING_KEY");
     }
     const replyText = await callGroq();
@@ -144,22 +144,30 @@ async function callGroq() {
     ...conversationHistory,
   ];
 
-  const response = await fetch(
-    "https://api.groq.com/openai/v1/chat/completions",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${API_KEY}`,
-      },
-      body: JSON.stringify({
-        model: "llama-3.3-70b-versatile", // Fast and capable model on Groq
-        temperature: 0.4,
-        max_tokens: 300,
-        messages: messages,
-      }),
-    },
-  );
+  // If we're on a live site, use the Netlify Function (hides your API Key)
+  const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+  
+  let url = "https://api.groq.com/openai/v1/chat/completions";
+  let headers = { 
+    "Content-Type": "application/json", 
+    "Authorization": `Bearer ${API_KEY}` 
+  };
+
+  if (!isLocal) {
+    url = "/.netlify/functions/chat";
+    delete headers["Authorization"]; // Backend will add the key
+  }
+
+  const response = await fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: JSON.stringify({
+      model: "llama-3.3-70b-versatile",
+      temperature: 0.4,
+      max_tokens: 300,
+      messages: messages,
+    }),
+  });
 
   if (!response.ok) {
     const err = await response.json().catch(() => ({}));
