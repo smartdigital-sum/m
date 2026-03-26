@@ -4,7 +4,19 @@
 // ============================================================
 
 // ─── FIREBASE ─────────────────────────────────────────────
-const db = firebase.database();
+let db;
+function getDb() {
+  if (db) return db;
+  try {
+    if (typeof firebase !== 'undefined') {
+      db = firebase.database();
+      return db;
+    }
+  } catch (e) {
+    console.error("Firebase DB init error:", e);
+  }
+  return null;
+}
 
 // ─── THEME ────────────────────────────────────────────────
 let currentTheme = localStorage.getItem("theme") || "light";
@@ -506,13 +518,19 @@ function translateNumber(n) {
 
 // ─── FIREBASE LISTENERS ────────────────────────────────────
 function initFirebase() {
-  db.ref("shopHours").on("value", (snap) => {
+  const firebaseDb = getDb();
+  if (!firebaseDb) {
+    console.warn("Firebase not initialized! Check config.");
+    return;
+  }
+  console.log("🔥 Firebase initialized");
+  firebaseDb.ref("shopHours").on("value", (snap) => {
     setShopStatus(snap.val() || { opening: "09:00", closing: "18:00" });
   });
-  db.ref("urgentNotice").on("value", (snap) => {
+  firebaseDb.ref("urgentNotice").on("value", (snap) => {
     setUrgentBanner(snap.val() || {});
   });
-  db.ref("notifications").on("value", (snap) => {
+  firebaseDb.ref("notifications").on("value", (snap) => {
     displayNotifications(Array.isArray(snap.val()) ? snap.val() : []);
   });
 }
@@ -715,7 +733,7 @@ function openServiceModal(title, key) {
     `Hi Smart Digital! I want to enquire about ${title}.`,
   );
   document.getElementById("modalWhatsApp").href =
-    `https://wa.me/91XXXXXXXXXX?text=${msg}`;
+    `https://wa.me/918638759478?text=${msg}`;
   document.getElementById("serviceModal").classList.add("show");
   document.body.style.overflow = "hidden";
 }
@@ -1038,10 +1056,27 @@ document.addEventListener("keydown", (e) => {
 
 // Initialize gallery on load
 document.addEventListener("DOMContentLoaded", () => {
-  buildFilterButtons();
-  buildSubFilters();
-  renderGallery();
-  renderCertificates();
+  try {
+    initTheme();
+    initFirebase();
+    buildFilterButtons();
+    buildSubFilters();
+    renderGallery();
+    renderCertificates();
+    initPunchWidgets();
+    createParticles();
+    initMagicRemover();
+    
+    // Basic UI setup
+    document.body.style.opacity = "1";
+    tickClock();
+    tickBoardTime();
+    updateServiceTimer();
+    setupReveal();
+    console.log("✅ Site initialized successfully");
+  } catch (err) {
+    console.error("❌ Critical initialization error:", err);
+  }
 });
 
 // ─── CERTIFICATES ─────────────────────────────────────────
@@ -1154,7 +1189,10 @@ function loadPunchCount(widget, id) {
   );
   if (!countEl) return;
 
-  db.ref("punches/" + id).on("value", (snap) => {
+  const firebaseDb = getDb();
+  if (!firebaseDb) return;
+
+  firebaseDb.ref("punches/" + id).on("value", (snap) => {
     const count = snap.val() || 0;
     countEl.textContent = count;
   });
@@ -1168,18 +1206,36 @@ function doPunch(btn) {
   if (!widget) return;
 
   const id = widget.dataset.id;
+  const countEl = widget.querySelector(
+    ".punch-count, .punch-count-sm, .punch-count-xs",
+  );
+
+  // Optimistic UI update
+  if (countEl) {
+    const current = parseInt(countEl.textContent) || 0;
+    countEl.textContent = current + 1;
+  }
 
   // Animate button
   btn.classList.add("punching");
   setTimeout(() => btn.classList.remove("punching"), 300);
 
-  // Increment count in Firebase (no limits - all clicks count!)
-  const ref = db.ref("punches/" + id);
+  // Increment in Firebase
+  const firebaseDb = getDb();
+  if (!firebaseDb) {
+    showToast("❌ Firebase not connected", "error");
+    return;
+  }
+  
+  const ref = firebaseDb.ref("punches/" + id);
   ref
     .transaction((current) => {
       return (current || 0) + 1;
     })
-    .catch((err) => console.error("Punch error:", err));
+    .catch((err) => {
+      console.error("Punch error:", err);
+      showToast("❌ Could not save hype: " + err.message, "error");
+    });
 }
 
 // ─── TOAST ─────────────────────────────────────────────────
@@ -1229,16 +1285,7 @@ if (fyear) fyear.textContent = new Date().getFullYear();
 
 // ─── INIT ──────────────────────────────────────────────────
 window.addEventListener("load", () => {
-  initTheme();
-  document.body.style.opacity = "1";
-  initFirebase();
-  createParticles();
-  tickClock();
-  tickBoardTime();
-  updateServiceTimer();
-  setupReveal();
-  initPunchWidgets();
-  initMagicRemover();
+  // Any heavy initialization that can wait
 });
 
 // ─── MAGIC BG REMOVER ──────────────────────────────────────
