@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Digital BizWrite — Local Business Description Writer</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <!-- AI CONFIG -->
+  <script src="../../../asse../../../assets/js/config.js"></script>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">
+      <span class="logo-icon">🏪</span>
+      <span class="logo-text">Smart Digital BizWrite</span>
+    </div>
+    <nav class="nav">
+      <button class="nav-btn active" data-page="generator" onclick="showPage('generator')">Generator</button>
+      <button class="nav-btn" data-page="pricing" onclick="showPage('pricing')">Pricing</button>
+      <button class="nav-btn" data-page="invoice" onclick="showPage('invoice')">Invoice</button>
+    </nav>
+    <div class="lang-switcher">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('hi')">HI</button>
+      <button class="lang-btn" onclick="setLang('as')">AS</button>
+    </div>
+  </div>
+</header>
+
+<!-- PAGE: GENERATOR -->
+<main id="page-generator" class="page active">
+  <section class="hero">
+    <p class="hero-eyebrow" data-i18n="hero_eyebrow">AI-Powered · Instant · Professional</p>
+    <h1 class="hero-title" data-i18n="hero_title">Write Your Business Profile<br/><em>in Seconds</em></h1>
+    <p class="hero-sub" data-i18n="hero_sub">Google Business · Facebook Bio · Product Descriptions — all generated at once.</p>
+  </section>
+
+  <div class="container">
+    <div class="card form-card">
+      <h2 class="card-title" data-i18n="form_title">Tell us about your business</h2>
+
+      <div class="form-grid">
+        <div class="field">
+          <label data-i18n="label_name">Business Name</label>
+          <input type="text" id="bizName" placeholder="e.g. Sharma Sweets" />
+        </div>
+        <div class="field">
+          <label data-i18n="label_type">Business Type</label>
+          <input type="text" id="bizType" placeholder="e.g. Sweet Shop / Salon / Grocery" />
+        </div>
+        <div class="field">
+          <label data-i18n="label_location">Location</label>
+          <input type="text" id="bizLocation" placeholder="e.g. Tezpur, Assam" />
+        </div>
+        <div class="field">
+          <label data-i18n="label_years">Years in Business</label>
+          <input type="number" id="bizYears" placeholder="e.g. 5" min="0" />
+        </div>
+        <div class="field full">
+          <label data-i18n="label_usp">Unique Selling Points (USPs)</label>
+          <textarea id="bizUSP" rows="3" placeholder="e.g. Homemade recipes, open since 1998, free home delivery, 24/7 service..."></textarea>
+        </div>
+        <div class="field full">
+          <label data-i18n="label_products">Products / Services Offered</label>
+          <textarea id="bizProducts" rows="2" placeholder="e.g. Rasgulla, Ladoo, Sandesh, Custom cakes, Catering"></textarea>
+        </div>
+        <div class="field">
+          <label data-i18n="label_tone">Tone</label>
+          <select id="bizTone">
+            <option value="professional">Professional</option>
+            <option value="friendly">Friendly & Warm</option>
+            <option value="bold">Bold & Confident</option>
+            <option value="traditional">Traditional & Trusted</option>
+          </select>
+        </div>
+        <div class="field">
+          <label data-i18n="label_lang_out">Output Language</label>
+          <select id="outputLang">
+            <option value="English">English</option>
+            <option value="Hindi">Hindi</option>
+            <option value="Assamese">Assamese</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="output-toggles">
+        <span data-i18n="label_generate">Generate:</span>
+        <label class="toggle-chip">
+          <input type="checkbox" id="chkGoogle" checked /> Google Business
+        </label>
+        <label class="toggle-chip">
+          <input type="checkbox" id="chkFacebook" checked /> Facebook Bio
+        </label>
+        <label class="toggle-chip">
+          <input type="checkbox" id="chkProduct" checked /> Product Descriptions
+        </label>
+      </div>
+
+      <button class="btn-primary" id="generateBtn" onclick="generateDescriptions()">
+        <span class="btn-label" data-i18n="btn_generate">✨ Generate Descriptions</span>
+        <span class="btn-loading hidden">Generating...</span>
+      </button>
+    </div>
+
+    <!-- OUTPUT SECTION -->
+    <div id="outputSection" class="output-section hidden">
+
+      <div id="googleCard" class="card output-card">
+        <div class="output-header">
+          <span class="output-badge google">Google Business</span>
+          <button class="copy-btn" onclick="copyText('googleText')">Copy</button>
+        </div>
+        <div class="output-body" id="googleText"></div>
+      </div>
+
+      <div id="facebookCard" class="card output-card">
+        <div class="output-header">
+          <span class="output-badge facebook">Facebook Bio</span>
+          <button class="copy-btn" onclick="copyText('facebookText')">Copy</button>
+        </div>
+        <div class="output-body" id="facebookText"></div>
+      </div>
+
+      <div id="productCard" class="card output-card">
+        <div class="output-header">
+          <span class="output-badge product">Product Descriptions</span>
+          <button class="copy-btn" onclick="copyText('productText')">Copy</button>
+        </div>
+        <div class="output-body" id="productText"></div>
+      </div>
+
+      <div class="action-row">
+        <button class="btn-secondary" onclick="downloadAll()">⬇ Download All as TXT</button>
+        <button class="btn-secondary" onclick="prefillInvoice()">🧾 Create Invoice</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- PAGE: PRICING -->
+<main id="page-pricing" class="page">
+  <section class="hero">
+    <p class="hero-eyebrow" data-i18n="pricing_eyebrow">Simple & Transparent</p>
+    <h1 class="hero-title" data-i18n="pricing_title">Pricing Plans</h1>
+    <p class="hero-sub" data-i18n="pricing_sub">Perfect add-on for your web design service.</p>
+  </section>
+  <div class="container">
+    <div class="pricing-grid">
+      <div class="card pricing-card">
+        <div class="plan-badge">Basic</div>
+        <div class="plan-price">₹299</div>
+        <div class="plan-period">per business</div>
+        <ul class="plan-features">
+          <li>✅ Google Business Profile</li>
+          <li>✅ Facebook Bio</li>
+          <li>❌ Product Descriptions</li>
+          <li>✅ 1 Revision</li>
+          <li>✅ Delivered in Minutes</li>
+        </ul>
+        <button class="btn-primary" onclick="prefillInvoiceAmount(299)">Create Invoice</button>
+      </div>
+      <div class="card pricing-card featured">
+        <div class="plan-badge popular">Most Popular</div>
+        <div class="plan-badge">Pro</div>
+        <div class="plan-price">₹499</div>
+        <div class="plan-period">per business</div>
+        <ul class="plan-features">
+          <li>✅ Google Business Profile</li>
+          <li>✅ Facebook Bio</li>
+          <li>✅ Product Descriptions (up to 5)</li>
+          <li>✅ 2 Revisions</li>
+          <li>✅ Delivered in Minutes</li>
+        </ul>
+        <button class="btn-primary" onclick="prefillInvoiceAmount(499)">Create Invoice</button>
+      </div>
+      <div class="card pricing-card">
+        <div class="plan-badge">Bundle</div>
+        <div class="plan-price">₹599</div>
+        <div class="plan-period">per business</div>
+        <ul class="plan-features">
+          <li>✅ Everything in Pro</li>
+          <li>✅ WhatsApp Business Bio</li>
+          <li>✅ Product Descriptions (up to 10)</li>
+          <li>✅ Unlimited Revisions</li>
+          <li>✅ Priority Support</li>
+        </ul>
+        <button class="btn-primary" onclick="prefillInvoiceAmount(599)">Create Invoice</button>
+      </div>
+    </div>
+
+    <div class="card bundle-banner">
+      <div class="bundle-left">
+        <span class="bundle-tag">🔥 Bundle Deal</span>
+        <h3>Website + Business Description</h3>
+        <p>Add BizWrite to any website package for just <strong>₹500 extra</strong>. Massive value for your clients.</p>
+      </div>
+      <button class="btn-primary" onclick="prefillInvoiceAmount(500)">Add to Invoice</button>
+    </div>
+  </div>
+</main>
+
+<!-- PAGE: INVOICE -->
+<main id="page-invoice" class="page">
+  <section class="hero">
+    <p class="hero-eyebrow">Professional Billing</p>
+    <h1 class="hero-title">Invoice Generator</h1>
+    <p class="hero-sub">Create and print a clean invoice for your client.</p>
+  </section>
+  <div class="container">
+    <div class="invoice-layout">
+      <!-- Invoice Form -->
+      <div class="card invoice-form-card">
+        <h3>Invoice Details</h3>
+        <div class="form-grid">
+          <div class="field full">
+            <label>Your Business Name</label>
+            <input type="text" id="inv_your_name" placeholder="Your Name / Studio Name" />
+          </div>
+          <div class="field full">
+            <label>Your Contact / UPI</label>
+            <input type="text" id="inv_your_contact" placeholder="phone / UPI ID / email" />
+          </div>
+          <div class="field full">
+            <label>Client Name</label>
+            <input type="text" id="inv_client_name" placeholder="Client Business Name" />
+          </div>
+          <div class="field full">
+            <label>Client Contact</label>
+            <input type="text" id="inv_client_contact" placeholder="Phone / Email" />
+          </div>
+          <div class="field">
+            <label>Invoice Date</label>
+            <input type="date" id="inv_date" />
+          </div>
+          <div class="field">
+            <label>Invoice Number</label>
+            <input type="text" id="inv_number" placeholder="e.g. BW-001" />
+          </div>
+        </div>
+
+        <h4 style="margin: 1.5rem 0 0.75rem;">Services</h4>
+        <div id="inv_items"></div>
+        <button class="btn-secondary small" onclick="addInvoiceItem()">+ Add Item</button>
+
+        <div class="inv-total-row">
+          <span>Total</span>
+          <span id="inv_total_display">₹0</span>
+        </div>
+        <button class="btn-primary" style="width:100%;margin-top:1rem" onclick="printInvoice()">🖨 Print / Save PDF</button>
+      </div>
+
+      <!-- Invoice Preview -->
+      <div class="card invoice-preview" id="invoicePreview">
+        <div class="inv-header">
+          <div>
+            <div class="inv-brand" id="prev_your_name">Your Studio</div>
+            <div class="inv-contact" id="prev_your_contact"></div>
+          </div>
+          <div class="inv-meta">
+            <div><strong>Invoice #</strong> <span id="prev_number">BW-001</span></div>
+            <div><strong>Date:</strong> <span id="prev_date"></span></div>
+          </div>
+        </div>
+        <div class="inv-divider"></div>
+        <div class="inv-bill-to">
+          <div class="inv-label">Billed To</div>
+          <div id="prev_client_name" class="inv-client"></div>
+          <div id="prev_client_contact" class="inv-client-contact"></div>
+        </div>
+        <table class="inv-table">
+          <thead>
+            <tr><th>Service</th><th>Amount</th></tr>
+          </thead>
+          <tbody id="prev_items"></tbody>
+        </table>
+        <div class="inv-divider"></div>
+        <div class="inv-total-preview">
+          <span>Total</span>
+          <span id="prev_total">₹0</span>
+        </div>
+        <div class="inv-footer">Thank you for your business! 🙏</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

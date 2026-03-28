@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Digital StudyBuddy — Class 9 & 10 Assignment Helper</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Lora:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet"/>
+  <!-- AI CONFIG -->
+  <script src="../../../assets/js/config.js"></script>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon">📚</div>
+      <div>
+        <div class="logo-name">Smart Digital StudyBuddy</div>
+        <div class="logo-sub">Class 9 &amp; 10 · Study Smart</div>
+      </div>
+    </div>
+    <nav class="nav">
+      <button class="nav-btn active" data-page="ask" onclick="showPage('ask')">Ask a Question</button>
+      <button class="nav-btn" data-page="history" onclick="showPage('history')">My Sessions</button>
+      <button class="nav-btn" data-page="tips" onclick="showPage('tips')">Study Tips</button>
+    </nav>
+    <div class="streak-badge" id="streakBadge">🔥 <span id="streakCount">0</span> day streak</div>
+  </div>
+</header>
+
+<!-- PAGE: ASK -->
+<main id="page-ask" class="page active">
+
+  <section class="hero">
+    <div class="hero-orb orb1"></div>
+    <div class="hero-orb orb2"></div>
+    <div class="hero-text">
+      <p class="hero-greeting" id="greeting">Good morning! 👋</p>
+      <h1 class="hero-title">What are you studying<br/><em>today?</em></h1>
+      <p class="hero-sub">Ask me anything — I'll explain it step by step, like a friend who gets it.</p>
+    </div>
+  </section>
+
+  <div class="container">
+
+    <!-- Subject Selector -->
+    <div class="subject-row">
+      <button class="subject-btn active" data-subject="Maths" onclick="setSubject(this)">
+        <span class="subj-icon">🔢</span><span>Maths</span>
+      </button>
+      <button class="subject-btn" data-subject="Science" onclick="setSubject(this)">
+        <span class="subj-icon">🔬</span><span>Science</span>
+      </button>
+      <button class="subject-btn" data-subject="English" onclick="setSubject(this)">
+        <span class="subj-icon">📝</span><span>English</span>
+      </button>
+      <button class="subject-btn" data-subject="Social Science" onclick="setSubject(this)">
+        <span class="subj-icon">🌍</span><span>Social Science</span>
+      </button>
+    </div>
+
+    <!-- Class Level -->
+    <div class="class-row">
+      <span class="class-label">Class:</span>
+      <button class="class-btn active" data-class="9" onclick="setClass(this)">Class 9</button>
+      <button class="class-btn" data-class="10" onclick="setClass(this)">Class 10</button>
+    </div>
+
+    <!-- Question Input Card -->
+    <div class="card ask-card">
+      <div class="ask-top">
+        <div class="ask-mode-tabs">
+          <button class="mode-tab active" onclick="setMode('text', this)">✏️ Type Question</button>
+          <button class="mode-tab" onclick="setMode('photo', this)">📷 Upload Photo</button>
+        </div>
+      </div>
+
+      <!-- Text Mode -->
+      <div id="modeText">
+        <textarea id="questionInput" rows="4"
+          placeholder="Type your question here… e.g. 'Explain the Pythagorean theorem with an example' or 'What caused World War 1?'"></textarea>
+        <div class="char-counter"><span id="charCount">0</span> / 500</div>
+      </div>
+
+      <!-- Photo Mode -->
+      <div id="modePhoto" class="hidden">
+        <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+          <div class="upload-icon">📷</div>
+          <p>Click to upload a photo of your homework</p>
+          <span class="upload-hint">JPG, PNG supported · Max 5MB</span>
+        </div>
+        <input type="file" id="fileInput" accept="image/*" class="hidden" onchange="handleFileUpload(event)" />
+        <div id="imagePreview" class="image-preview hidden">
+          <img id="previewImg" src="" alt="Homework photo" />
+          <button class="remove-img" onclick="removeImage()">✕ Remove</button>
+        </div>
+        <textarea id="photoNote" rows="2" placeholder="Add any extra context (optional)…" style="margin-top:0.75rem"></textarea>
+      </div>
+
+      <!-- Mode: explanation style -->
+      <div class="explain-style-row">
+        <span class="style-label">Explain as:</span>
+        <label class="style-chip">
+          <input type="radio" name="style" value="step" checked /> Step-by-step
+        </label>
+        <label class="style-chip">
+          <input type="radio" name="style" value="simple" /> Simple summary
+        </label>
+        <label class="style-chip">
+          <input type="radio" name="style" value="exam" /> Exam-ready answer
+        </label>
+      </div>
+
+      <button class="btn-primary" id="askBtn" onclick="askQuestion()">
+        <span class="btn-label">🧠 Get Explanation</span>
+        <span class="btn-loading hidden"><span class="spinner"></span> Thinking…</span>
+      </button>
+    </div>
+
+    <!-- Answer Section -->
+    <div id="answerSection" class="hidden">
+      <div class="card answer-card">
+        <div class="answer-header">
+          <div class="answer-meta">
+            <span class="answer-subject-badge" id="answerSubjectBadge"></span>
+            <span class="answer-class-badge" id="answerClassBadge"></span>
+          </div>
+          <div class="answer-actions">
+            <button class="icon-btn" title="Copy" onclick="copyAnswer()">📋</button>
+            <button class="icon-btn" title="Save to My Sessions" onclick="saveSession()">💾</button>
+          </div>
+        </div>
+        <div class="answer-body" id="answerBody"></div>
+
+        <!-- Follow-up -->
+        <div class="followup-row">
+          <input type="text" id="followupInput" placeholder="Still confused? Ask a follow-up…" />
+          <button class="btn-followup" onclick="askFollowup()">Ask →</button>
+        </div>
+      </div>
+
+      <!-- Quick Suggestions -->
+      <div class="suggestions-row" id="suggestionsRow"></div>
+    </div>
+
+  </div>
+</main>
+
+<!-- PAGE: HISTORY -->
+<main id="page-history" class="page">
+  <section class="hero small-hero">
+    <h1 class="hero-title">My Sessions</h1>
+    <p class="hero-sub">Your saved questions and explanations.</p>
+  </section>
+  <div class="container">
+    <div id="historyEmpty" class="empty-state">
+      <div class="empty-icon">📂</div>
+      <p>No saved sessions yet.<br/>Ask a question and save it!</p>
+      <button class="btn-primary" onclick="showPage('ask')">Ask Now →</button>
+    </div>
+    <div id="historyList"></div>
+  </div>
+</main>
+
+<!-- PAGE: TIPS -->
+<main id="page-tips" class="page">
+  <section class="hero small-hero">
+    <h1 class="hero-title">Study Tips 💡</h1>
+    <p class="hero-sub">Smart habits for Class 9 &amp; 10 students.</p>
+  </section>
+  <div class="container">
+    <div class="tips-grid">
+
+      <div class="card tip-card">
+        <div class="tip-icon">⏱️</div>
+        <h3>Pomodoro Technique</h3>
+        <p>Study for 25 minutes, rest for 5. After 4 cycles, take a 20-minute break. Your brain learns better in short bursts.</p>
+        <div class="tip-tag">Productivity</div>
+      </div>
+
+      <div class="card tip-card">
+        <div class="tip-icon">✍️</div>
+        <h3>Write to Remember</h3>
+        <p>Don't just read — write summaries in your own words. For Maths, write out each step. For History, make timelines.</p>
+        <div class="tip-tag">Memory</div>
+      </div>
+
+      <div class="card tip-card">
+        <div class="tip-icon">🔁</div>
+        <h3>Spaced Repetition</h3>
+        <p>Revise a topic after 1 day, then 3 days, then 7 days. This tricks your brain into storing info in long-term memory.</p>
+        <div class="tip-tag">Revision</div>
+      </div>
+
+      <div class="card tip-card">
+        <div class="tip-icon">🎯</div>
+        <h3>Understand, Don't Mug</h3>
+        <p>For CBSE Class 9 & 10, understanding concepts earns more marks than memorising. Ask "why" before you ask "what".</p>
+        <div class="tip-tag">Strategy</div>
+      </div>
+
+      <div class="card tip-card">
+        <div class="tip-icon">📐</div>
+        <h3>Maths: Show Every Step</h3>
+        <p>Even if you get the right answer, examiners give step marks. Practice writing every calculation clearly.</p>
+        <div class="tip-tag">Maths</div>
+      </div>
+
+      <div class="card tip-card">
+        <div class="tip-icon">🌐</div>
+        <h3>Social Science: Use Maps</h3>
+        <p>For Geography and History, drawing rough maps and diagrams helps you remember locations, events, and connections.</p>
+        <div class="tip-tag">Social Science</div>
+      </div>
+
+      <div class="card tip-card">
+        <div class="tip-icon">📖</div>
+        <h3>English: Read Every Day</h3>
+        <p>Read newspapers or short stories for 15 minutes daily. It improves comprehension, grammar, and writing speed naturally.</p>
+        <div class="tip-tag">English</div>
+      </div>
+
+      <div class="card tip-card">
+        <div class="tip-icon">🔬</div>
+        <h3>Science: Draw Diagrams</h3>
+        <p>Label diagrams neatly — they carry easy marks. Practice drawing the human heart, plant cells, and circuit diagrams weekly.</p>
+        <div class="tip-tag">Science</div>
+      </div>
+
+    </div>
+
+    <!-- Pomodoro Timer -->
+    <div class="card pomodoro-card">
+      <h3>⏱️ Quick Pomodoro Timer</h3>
+      <div class="pomo-display" id="pomoDisplay">25:00</div>
+      <div class="pomo-controls">
+        <button class="btn-secondary" onclick="setPomodoro(25)">25 min</button>
+        <button class="btn-secondary" onclick="setPomodoro(5)">5 min break</button>
+        <button class="btn-primary" id="pomoBtn" onclick="togglePomodoro()">▶ Start</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Digital ScriptWala – WhatsApp Business Script Generator</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <!-- AI CONFIG -->
+  <script src="../../../assets/js/config.js"></script>
+</head>
+<body>
+
+  <!-- DECORATIVE BG -->
+  <div class="noise-overlay"></div>
+  <div class="bg-blob b1"></div>
+  <div class="bg-blob b2"></div>
+  <div class="bg-blob b3"></div>
+  <div class="grid-lines"></div>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-wa">💬</span>
+        <span class="logo-text">Smart Digital Script<em>Wala</em></span>
+      </div>
+      <nav class="header-nav">
+        <a href="#pricing">Pricing</a>
+        <a href="#generator" class="nav-cta">Generate Scripts →</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-eyebrow">
+      <span class="pulse-dot"></span> AI-Powered for Indian Businesses
+    </div>
+    <h1 class="hero-title">
+      WhatsApp scripts<br/>
+      <span class="hero-highlight">your customers</span><br/>
+      can't ignore.
+    </h1>
+    <p class="hero-sub">
+      Reply templates · Product descriptions · Promo offers · Festive messages.<br/>
+      In <strong>English, Hinglish, Assamese</strong> — ready in seconds.
+    </p>
+    <div class="hero-tags">
+      <span>🛍️ Retail Shops</span>
+      <span>🍽️ Restaurants</span>
+      <span>💇 Salons</span>
+      <span>🏥 Clinics</span>
+      <span>📦 Wholesalers</span>
+      <span>+ any business</span>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing-section" id="pricing">
+    <div class="pricing-label">Simple Pricing</div>
+    <h2 class="section-title">One tool. Two plans.</h2>
+    <div class="pricing-row">
+
+      <div class="plan-card">
+        <div class="plan-header">
+          <span class="plan-icon">⚡</span>
+          <div>
+            <div class="plan-name">One-Time Pack</div>
+            <div class="plan-price">₹500 <span>one-time</span></div>
+          </div>
+        </div>
+        <ul class="plan-features">
+          <li>Full script bundle generated once</li>
+          <li>All 4 template categories</li>
+          <li>All 4 tone styles</li>
+          <li>Download as .txt file</li>
+          <li>No subscription needed</li>
+        </ul>
+        <a href="#generator" class="plan-btn">Get My Scripts</a>
+      </div>
+
+      <div class="plan-card featured">
+        <div class="plan-badge">Best Value</div>
+        <div class="plan-header">
+          <span class="plan-icon">🔄</span>
+          <div>
+            <div class="plan-name">Monthly Plan</div>
+            <div class="plan-price">₹200 <span>/month</span></div>
+          </div>
+        </div>
+        <ul class="plan-features">
+          <li>Unlimited script generation</li>
+          <li>New festive templates monthly</li>
+          <li>Edit & re-generate anytime</li>
+          <li>Priority support</li>
+          <li>Cancel anytime</li>
+        </ul>
+        <a href="#generator" class="plan-btn featured-btn">Start Generating</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- GENERATOR -->
+  <section class="generator-section" id="generator">
+    <div class="gen-header">
+      <div class="pricing-label">The Generator</div>
+      <h2 class="section-title">Tell us about your business</h2>
+      <p class="section-sub">Fill the form below — we'll create a full WhatsApp script pack instantly.</p>
+    </div>
+
+    <div class="gen-card">
+
+      <!-- STEP 1: BUSINESS INFO -->
+      <div class="form-step">
+        <div class="step-num">01</div>
+        <div class="step-body">
+          <h3 class="step-title">Business Details</h3>
+
+          <div class="field-row">
+            <div class="field-group">
+              <label for="bizName">Business Name</label>
+              <input type="text" id="bizName" placeholder="e.g. Sharma General Store, Priya Beauty Parlour"/>
+            </div>
+            <div class="field-group">
+              <label for="bizType">Business Type</label>
+              <input type="text" id="bizType" placeholder="e.g. Grocery, Salon, Restaurant, Pharmacy"/>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="products">Products / Services (comma-separated)</label>
+            <input type="text" id="products" placeholder="e.g. Rice, Dal, Mustard Oil, Home Delivery, Bulk Orders"/>
+          </div>
+
+          <div class="field-group">
+            <label for="ownerName">Owner / Contact Name <span class="optional">(optional)</span></label>
+            <input type="text" id="ownerName" placeholder="e.g. Raju Bhai, Priya Di"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2: TONE -->
+      <div class="form-step">
+        <div class="step-num">02</div>
+        <div class="step-body">
+          <h3 class="step-title">Choose Your Tone</h3>
+          <p class="step-hint">Pick one tone for your scripts.</p>
+          <div class="tone-grid">
+            <label class="tone-option">
+              <input type="radio" name="tone" value="Formal / Professional" checked/>
+              <div class="tone-card">
+                <span class="tone-icon">👔</span>
+                <span class="tone-name">Formal</span>
+                <span class="tone-desc">Professional & official</span>
+              </div>
+            </label>
+            <label class="tone-option">
+              <input type="radio" name="tone" value="Friendly & Casual"/>
+              <div class="tone-card">
+                <span class="tone-icon">😊</span>
+                <span class="tone-name">Friendly</span>
+                <span class="tone-desc">Warm & approachable</span>
+              </div>
+            </label>
+            <label class="tone-option">
+              <input type="radio" name="tone" value="Hinglish (Hindi+English mix)"/>
+              <div class="tone-card">
+                <span class="tone-icon">🇮🇳</span>
+                <span class="tone-name">Hinglish</span>
+                <span class="tone-desc">Hindi + English mix</span>
+              </div>
+            </label>
+            <label class="tone-option">
+              <input type="radio" name="tone" value="Assamese regional feel"/>
+              <div class="tone-card">
+                <span class="tone-icon">🌿</span>
+                <span class="tone-name">Assamese</span>
+                <span class="tone-desc">Local NE India feel</span>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3: TEMPLATE TYPES -->
+      <div class="form-step">
+        <div class="step-num">03</div>
+        <div class="step-body">
+          <h3 class="step-title">Select Template Types</h3>
+          <p class="step-hint">Pick one or more to include in your script pack.</p>
+          <div class="template-grid">
+
+            <label class="template-option">
+              <input type="checkbox" name="templates" value="reply" checked/>
+              <div class="template-card">
+                <span class="tmpl-icon">💬</span>
+                <span class="tmpl-name">Reply Templates</span>
+                <span class="tmpl-desc">Greetings, FAQs, Follow-ups</span>
+              </div>
+            </label>
+
+            <label class="template-option">
+              <input type="checkbox" name="templates" value="product" checked/>
+              <div class="template-card">
+                <span class="tmpl-icon">🛒</span>
+                <span class="tmpl-name">Product Descriptions</span>
+                <span class="tmpl-desc">Showcase what you sell</span>
+              </div>
+            </label>
+
+            <label class="template-option">
+              <input type="checkbox" name="templates" value="promo" checked/>
+              <div class="template-card">
+                <span class="tmpl-icon">🎯</span>
+                <span class="tmpl-name">Promo & Offers</span>
+                <span class="tmpl-desc">Sales, discounts, deals</span>
+              </div>
+            </label>
+
+            <label class="template-option">
+              <input type="checkbox" name="templates" value="festive" checked/>
+              <div class="template-card">
+                <span class="tmpl-icon">🪔</span>
+                <span class="tmpl-name">Festive Messages</span>
+                <span class="tmpl-desc">Diwali, Eid, Bihu, Christmas</span>
+              </div>
+            </label>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- GENERATE BUTTON -->
+      <button class="generate-btn" id="generateBtn">
+        <span class="gen-btn-text">✨ Generate My WhatsApp Scripts</span>
+        <span class="gen-btn-loader" id="genLoader" hidden>
+          <span class="ld"></span><span class="ld"></span><span class="ld"></span>
+        </span>
+      </button>
+
+      <!-- ERROR -->
+      <div class="error-box" id="errorBox" hidden>
+        <span>⚠</span> <span id="errorMsg"></span>
+      </div>
+
+    </div><!-- /gen-card -->
+  </section>
+
+  <!-- OUTPUT SECTION -->
+  <section class="output-section" id="outputSection" hidden>
+    <div class="output-header-row">
+      <div>
+        <div class="pricing-label">Your Script Pack</div>
+        <h2 class="section-title" style="text-align:left;">Ready to copy &amp; send! 🚀</h2>
+      </div>
+      <div class="output-actions">
+        <button class="out-btn" id="regenBtn">🔄 Re-generate</button>
+        <button class="out-btn primary" id="downloadAllBtn">⬇ Download All (.txt)</button>
+      </div>
+    </div>
+
+    <!-- TAB BAR -->
+    <div class="tab-bar" id="tabBar"></div>
+
+    <!-- TEMPLATE PANELS -->
+    <div class="panels-container" id="panelsContainer"></div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-logo">💬 Script<em>Wala</em></div>
+      <p>WhatsApp script packs for Indian small businesses.</p>
+      <p class="footer-copy">© 2025 ScriptWala · Built for Bharat · Powered by AI</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

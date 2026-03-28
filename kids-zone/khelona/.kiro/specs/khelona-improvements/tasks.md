@@ -1,0 +1,249 @@
+# Implementation Plan: Khelona Improvements
+
+## Overview
+
+Incremental patches to six self-contained HTML/CSS/JS game files and the homepage. No build tools — every change is a direct edit to an existing HTML file. Tasks are ordered so cross-cutting helpers (home button, audio, tap targets, how-to-play) are added first, then game-specific changes follow.
+
+## Tasks
+
+- [x] 1. Homepage fixes — age badge and difficulty badges
+  - [x] 1.1 Update age badge text in `index.html`
+    - Change `.age-badge` text from `"👶 Ages 3-6 Years"` to `"👶 Ages 0-3 Years"`
+    - _Requirements: 1.1_
+  - [x] 1.2 Add `.card-difficulty` CSS and difficulty badge markup to each game card in `index.html`
+    - Add `.card-difficulty`, `.card-difficulty.easy`, `.card-difficulty.medium` CSS rules to `<style>`
+    - Insert `<span class="card-difficulty easy">Easy</span>` or `medium` into each card's `.card-meta` div
+    - Assignments: A-Z Speller → Medium, Color Match → Easy, Memory Match → Easy, Number Speller → Medium, Word Builder 1 → Easy, Word Builder 2 → Easy
+    - _Requirements: 11.1, 11.2, 11.3, 11.4, 11.5, 11.6, 11.7, 11.8_
+  - [ ]* 1.3 Write unit tests for homepage changes
+    - Assert `.age-badge` text equals `"👶 Ages 0-3 Years"`
+    - Assert each of the 6 `.game-card` elements contains a `.card-difficulty` child with correct text
+    - _Requirements: 1.1, 11.1–11.8_
+  - [ ]* 1.4 Write property test for difficulty badge presence (Property 10)
+    - **Property 10: Every game card has a difficulty badge**
+    - **Validates: Requirements 11.1, 11.8**
+
+- [x] 2. Cross-cutting — home button on all 6 game pages
+  - [x] 2.1 Add `.home-btn` CSS and `<a>` element to `games/a-z-speller/index.html`
+    - Add CSS for `.home-btn` (fixed top-left, z-index 1000) to `<style>`
+    - Add `<a href="../../index.html" class="home-btn" aria-label="Home">🏠 Home</a>` as first child of `<body>`
+    - _Requirements: 2.1, 2.7_
+  - [x] 2.2 Add home button to `games/color-match/index.html`
+    - Same CSS and HTML as 2.1
+    - _Requirements: 2.2, 2.7_
+  - [x] 2.3 Add home button to `games/memory-match/index.html`
+    - Same CSS and HTML as 2.1
+    - _Requirements: 2.3, 2.7_
+  - [x] 2.4 Add home button to `games/number-speller/index.html`
+    - Same CSS and HTML as 2.1
+    - _Requirements: 2.4, 2.7_
+  - [x] 2.5 Add home button to `games/word-builder-1/index.html`
+    - Same CSS and HTML as 2.1
+    - _Requirements: 2.5, 2.7_
+  - [x] 2.6 Add home button to `games/word-builder-2/index.html`
+    - Same CSS and HTML as 2.1
+    - _Requirements: 2.6, 2.7_
+  - [ ]* 2.7 Write unit tests for home button on all game pages
+    - Assert each game page has `a.home-btn[href="../../index.html"]`
+    - _Requirements: 2.1–2.7_
+  - [ ]* 2.8 Write property test for home button presence (Property 1)
+    - **Property 1: Home button present on all game pages**
+    - **Validates: Requirements 2.1–2.7**
+
+- [x] 3. Cross-cutting — tap target sizing (80px min) on all 6 game pages
+  - [x] 3.1 Patch `.tile` min-size in `games/a-z-speller/index.html`
+    - Add `min-width: 80px; min-height: 80px;` to the `.tile` CSS rule
+    - _Requirements: 3.1_
+  - [x] 3.2 Patch `.btn` min-size in `games/color-match/index.html`
+    - Add `min-height: 80px;` to the `.btn` CSS rule
+    - _Requirements: 3.2_
+  - [x] 3.3 Patch `.card` min-size in `games/memory-match/index.html`
+    - Add `min-width: 80px; min-height: 80px;` to the `.card` CSS rule
+    - _Requirements: 3.3_
+  - [x] 3.4 Patch `.tile` min-size in `games/number-speller/index.html`
+    - Add `min-width: 80px; min-height: 80px;` to the `.tile` CSS rule
+    - _Requirements: 3.4_
+  - [x] 3.5 Patch `.tile` min-size in `games/word-builder-1/index.html`
+    - Add `min-width: 80px; min-height: 80px;` to the `.tile` CSS rule
+    - _Requirements: 3.5_
+  - [x] 3.6 Patch `.tile` min-size in `games/word-builder-2/index.html`
+    - Add `min-width: 80px; min-height: 80px;` to the `.tile` CSS rule
+    - _Requirements: 3.6_
+  - [ ]* 3.7 Write property test for tap target sizing (Property 2)
+    - **Property 2: Tap targets meet minimum size**
+    - **Validates: Requirements 3.1–3.6**
+
+- [x] 4. Cross-cutting — `playSound` helper and usage on all 6 game pages
+  - [x] 4.1 Add `_ac` AudioContext and `playSound(type)` function to `games/a-z-speller/index.html`
+    - Insert the standardised `playSound` helper (types: `tap`, `correct`, `wrong`, `win`) into `<script>`
+    - Call `playSound('tap')` on letter tile tap, `playSound('correct')` on correct answer, `playSound('wrong')` on wrong answer, `playSound('win')` on game complete
+    - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5_
+  - [x] 4.2 Add `playSound` to `games/color-match/index.html`
+    - Same helper; call `playSound('correct')` on correct answer, `playSound('wrong')` on wrong answer, `playSound('win')` on game end with score
+    - _Requirements: 4.2, 4.3, 4.4, 4.5_
+  - [x] 4.3 Replace existing `playSound` in `games/memory-match/index.html` with standardised version
+    - Map old type names (`flip` → `tap`, `match` → `correct`) to new ones; keep `wrong` and `win` as-is
+    - _Requirements: 4.2, 4.3, 4.4, 4.5_
+  - [x] 4.4 Add `playSound` to `games/number-speller/index.html`
+    - Same helper; wire `tap`, `correct`, `wrong`, `win` to appropriate game events
+    - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5_
+  - [x] 4.5 Add `playSound` to `games/word-builder-1/index.html`
+    - Same helper; wire `tap`, `correct`, `wrong`, `win` to appropriate game events
+    - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5_
+  - [x] 4.6 Add `playSound` to `games/word-builder-2/index.html`
+    - Same helper; wire `tap`, `correct`, `wrong`, `win` to appropriate game events
+    - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5_
+  - [ ]* 4.7 Write property tests for audio feedback (Properties 3 & 4)
+    - **Property 3: Correct answer plays correct sound**
+    - **Property 4: Wrong answer plays wrong sound**
+    - **Validates: Requirements 4.2, 4.3**
+
+- [x] 5. Cross-cutting — how-to-play overlay on all 6 game pages
+  - [x] 5.1 Add HTP overlay HTML, CSS, and JS to `games/a-z-speller/index.html`
+    - Add `.htp-overlay`, `.htp-card`, `.htp-btn` CSS (z-index 200, hidden by default, `.show` makes it visible)
+    - Add overlay HTML with emoji 🔤, title "How to Play", ≤3-sentence description, and "Got it! 👍" button
+    - Add `initHtp(key)` and `dismissHtp()` JS functions with sessionStorage guard (try/catch)
+    - Call `initHtp('htp_az')` on page load
+    - _Requirements: 10.1, 10.2, 10.3, 10.4_
+  - [x] 5.2 Add HTP overlay to `games/color-match/index.html`
+    - Same pattern; key `htp_cm`, emoji 🎨, description for Color Match rules
+    - _Requirements: 10.1, 10.2, 10.3, 10.4_
+  - [x] 5.3 Add HTP overlay to `games/memory-match/index.html`
+    - Same pattern; key `htp_mm`, emoji 🃏, description for Memory Match rules
+    - _Requirements: 10.1, 10.2, 10.3, 10.4_
+  - [x] 5.4 Add HTP overlay to `games/number-speller/index.html`
+    - Same pattern; key `htp_ns`, emoji 🔢, description for Number Speller rules
+    - _Requirements: 10.1, 10.2, 10.3, 10.4_
+  - [x] 5.5 Add HTP overlay to `games/word-builder-1/index.html`
+    - Same pattern; key `htp_wb1`, emoji 🧩, description for Word Builder rules
+    - _Requirements: 10.1, 10.2, 10.3, 10.4_
+  - [x] 5.6 Add HTP overlay to `games/word-builder-2/index.html`
+    - Same pattern; key `htp_wb2`, emoji 🧩, description for Word Builder rules
+    - _Requirements: 10.1, 10.2, 10.3, 10.4_
+  - [ ]* 5.7 Write unit tests for HTP overlay behaviour
+    - Assert overlay gains `show` class when sessionStorage key absent
+    - Assert `dismissHtp()` sets sessionStorage key and removes `show` class
+    - _Requirements: 10.1, 10.3, 10.4_
+  - [ ]* 5.8 Write property tests for HTP overlay (Properties 8 & 9)
+    - **Property 8: How-to-Play shown on first session visit**
+    - **Property 9: How-to-Play not shown after dismissal**
+    - **Validates: Requirements 10.1, 10.4**
+
+- [x] 6. Checkpoint — verify cross-cutting changes
+  - Ensure all tests pass, ask the user if questions arise.
+
+- [x] 7. Color Match — remove timer, keep lives only
+  - [x] 7.1 Remove timer variables, `tick()`, and `setInterval` from `games/color-match/index.html`
+    - Delete `timeLeft`, `TOTAL_TIME`, `timerInterval` variable declarations
+    - Delete the `tick()` function
+    - Remove the `setInterval(tick, 1000)` call from `startGame()`
+    - Remove `clearInterval(timerInterval)` from `endGame()`
+    - _Requirements: 6.1, 6.2_
+  - [x] 7.2 Remove timer ring HTML and CSS from `games/color-match/index.html`
+    - Delete the `<div class="timer-ring-wrap">…</div>` element from the DOM
+    - Delete CSS rules for `.timer-ring-wrap`, `.timer-svg`, `.timer-bg`, `.timer-arc`, `.timer-label`
+    - _Requirements: 6.2_
+  - [x] 7.3 Update `endGame()` and end screen in `games/color-match/index.html`
+    - Ensure `endGame()` is only reachable via `lives <= 0` branch
+    - Change end screen title to always show `"💔 Out of Lives!"`
+    - Update `endMsg` to display total correct answers (`score`) rather than a time-based message
+    - _Requirements: 6.3, 6.4, 6.5_
+  - [ ]* 7.4 Write unit tests for Color Match timer removal
+    - Assert no `timerInterval` variable or `tick` function exists in the script
+    - Assert `endGame` is only called from the `lives <= 0` branch
+    - Assert end screen shows score (correct answers count)
+    - _Requirements: 6.1–6.5_
+  - [ ]* 7.5 Write property tests for Color Match lives mechanic (Properties 5 & 6)
+    - **Property 5: Color Match ends only on lives exhaustion**
+    - **Property 6: Color Match lives decrement on wrong answer**
+    - **Validates: Requirements 6.1, 6.3, 6.4**
+
+- [x] 8. A-Z Speller — word replacements
+  - [x] 8.1 Patch the `AW` data array in `games/a-z-speller/index.html` with toddler-friendly words
+    - E: replace ELM 🌳 → EAR 👂
+    - I: replace IVY 🌿 → INK 🖊️
+    - O: replace OAK 🌳 → OAT 🌾
+    - Q: replace QUIZ ❓ → QUACK 🦆 and QUAIL 🐦 → QUEEN 👑
+    - U: replace URN 🏺 → UP ⬆️
+    - X: replace XRAY 🦴 → XMAS 🎄 and XMAS 🎄 → BOX 📦
+    - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7_
+  - [ ]* 8.2 Write unit tests for A-Z Speller word replacements
+    - Assert `AW[4].w` contains EAR, `AW[8].w` contains INK, `AW[14].w` contains OAT
+    - Assert `AW[16].w` contains QUACK and QUEEN
+    - Assert `AW[20].w` contains UP, `AW[23].w` contains XMAS and BOX
+    - _Requirements: 5.1–5.7_
+
+- [x] 9. A-Z Speller — letter picker mode
+  - [x] 9.1 Add `pickALetterMode` flag and `buildLetterPicker()` function to `games/a-z-speller/index.html`
+    - Declare `let pickALetterMode = false;`
+    - Implement `buildLetterPicker()` to generate 26 letter buttons inside `#letterPicker`, each calling `startFromLetter(i)`
+    - Call `buildLetterPicker()` on page load
+    - _Requirements: 7.1_
+  - [x] 9.2 Add letter picker grid HTML to the start overlay in `games/a-z-speller/index.html`
+    - Add `<div class="letter-picker" id="letterPicker"></div>` inside `#ovStart` above the existing play button
+    - Rename/relabel the existing play button to `"▶ Play All A→Z"`
+    - Add `.lp-btn` CSS (grid cell, coloured background, min 48px, readable font)
+    - _Requirements: 7.1, 7.3_
+  - [x] 9.3 Implement `startFromLetter(idx)` in `games/a-z-speller/index.html`
+    - Validate `idx` is 0–25 (fallback to 0 if out of range)
+    - Hide start and end overlays, set `lIdx = idx`, `wIdx = 0`, reset `spl` and `clStars`, set `pickALetterMode = true`, call `buildRound()`
+    - _Requirements: 7.2_
+  - [x] 9.4 Add single-letter completion screen logic to `games/a-z-speller/index.html`
+    - After both words for the chosen letter are completed in `pickALetterMode`, show a completion overlay with "Pick Another Letter" (returns to start screen) and "Play Again" (replays same letter) buttons
+    - _Requirements: 7.4_
+  - [ ]* 9.5 Write unit tests for letter picker
+    - Assert `#letterPicker` contains 26 buttons after `buildLetterPicker()`
+    - Assert `startFromLetter(5)` sets `lIdx === 5`
+    - Assert `pickALetterMode` is `true` after `startFromLetter()`
+    - _Requirements: 7.1, 7.2, 7.3, 7.4_
+  - [ ]* 9.6 Write property test for letter picker index (Property 7)
+    - **Property 7: A-Z Speller letter picker sets correct start index**
+    - **Validates: Requirements 7.2**
+
+- [x] 10. Word Builder 1 & 2 — word replacements
+  - [x] 10.1 Patch `WORDS` array in `games/word-builder-1/index.html`
+    - Replace `{ word: "JAR", emoji: "🫙", … }` with `{ word: "BAG", emoji: "👜", … }`
+    - Replace `{ word: "MAP", emoji: "🗺️", … }` with `{ word: "MOP", emoji: "🧹", … }`
+    - _Requirements: 8.1, 8.2_
+  - [x] 10.2 Patch `WORDS` array in `games/word-builder-2/index.html`
+    - Same replacements as 10.1
+    - _Requirements: 8.3, 8.4_
+  - [ ]* 10.3 Write unit tests for Word Builder word replacements
+    - Assert neither `WORDS` array contains `{ word: "JAR" }` or `{ word: "MAP" }`
+    - Assert both arrays contain `{ word: "BAG" }` and `{ word: "MOP" }`
+    - _Requirements: 8.1–8.4_
+
+- [x] 11. Memory Match — easy/normal mode selector
+  - [x] 11.1 Add `currentMode` state and `setMode(mode)` function to `games/memory-match/index.html`
+    - Declare `let currentMode = 'easy';` and set `totalPairs = 4` as default
+    - Implement `setMode(mode)` to update `currentMode`, `totalPairs`, toggle `.active` on mode buttons, and call `newGame()`
+    - _Requirements: 9.1, 9.5_
+  - [x] 11.2 Add mode selector HTML to the controls bar in `games/memory-match/index.html`
+    - Insert `<div class="mode-btns">` with "⭐ Easy (4 pairs)" and "🧠 Normal (8 pairs)" buttons inside `.controls`
+    - "Easy" button has `.active` class by default
+    - Add `.mode-btns`, `.mode-btn`, `.mode-btn.active` CSS
+    - _Requirements: 9.2, 9.5_
+  - [x] 11.3 Ensure grid layout adapts to mode in `games/memory-match/index.html`
+    - Easy (8 cards): `grid-template-columns: repeat(4, 1fr)` → 2×4 layout
+    - Normal (16 cards): `grid-template-columns: repeat(4, 1fr)` → 4×4 layout
+    - `newGame()` must use `totalPairs` (not a hardcoded value) when slicing card data
+    - _Requirements: 9.3, 9.4_
+  - [ ]* 11.4 Write unit tests for Memory Match mode selector
+    - Assert `currentMode === 'easy'` and `totalPairs === 4` on init
+    - Assert `setMode('normal')` sets `totalPairs === 8`
+    - Assert game board has 8 cards in Easy and 16 cards in Normal
+    - _Requirements: 9.1–9.5_
+  - [ ]* 11.5 Write property test for Memory Match card matching (Property 11)
+    - **Property 11: Memory Match card matching correctness**
+    - **Validates: Requirements 12.2, 12.3**
+
+- [x] 12. Final checkpoint — ensure all tests pass
+  - Ensure all tests pass, ask the user if questions arise.
+
+## Notes
+
+- Tasks marked with `*` are optional and can be skipped for a faster MVP
+- Each task references specific requirements for traceability
+- Cross-cutting tasks (2–5) should be completed before game-specific tasks (7–11)
+- Property tests validate universal correctness properties; unit tests validate specific examples and edge cases
+- All changes are direct edits to existing HTML files — no build step required

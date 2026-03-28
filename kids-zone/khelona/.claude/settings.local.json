@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls \"d:/WEB DEV/web PRACTICE/games/kids/age -\\(0-3\\)/\")",
+      "Bash(ls \"d:/WEB DEV/web PRACTICE/games/kids/age -\\(0-3\\)/games/\")",
+      "Bash(ls \"d:/WEB DEV/web PRACTICE/games/kids/age -\\(0-3\\)/shared/\")",
+      "Bash(for dir:*)",
+      "Bash(do echo:*)",
+      "Read(//d/WEB DEV/web PRACTICE/games/kids/age -\\(0-3\\)/games/**)",
+      "Bash(done)",
+      "Bash(find \"d:/WEB DEV/web PRACTICE/games/kids/age -\\(0-3\\)\" -type f -name \"*.js\" -o -name \"*.html\")",
+      "Bash(find 'd:/WEB DEV/web PRACTICE/games/kids/age -\\(0-3\\)/games/animal-sounds' -type f)",
+      "Bash(ls -la 'd:/WEB DEV/web PRACTICE/games/kids/age -\\(0-3\\)/games/')",
+      "Bash(ls -la \"d:/WEB DEV/web PRACTICE/games/kids/age -\\(0-3\\)/games/animal-sounds/\")"
+    ]
+  }
+}

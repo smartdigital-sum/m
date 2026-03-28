@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Emotion Mirror</title>
+  <link rel="stylesheet" href="../../shared/common.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: background-color 0.6s ease;
+      background-color: #FFD93D;
+      overflow-x: hidden;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .top-bar {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .score-display {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #2d3436;
+      background: rgba(255,255,255,0.7);
+      padding: 6px 18px;
+      border-radius: 24px;
+      min-width: 120px;
+      text-align: center;
+    }
+
+    .top-controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .mode-toggle, .hint-btn {
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 16px;
+      padding: 8px 16px;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      color: #2d3436;
+      outline: none;
+    }
+
+    .mode-toggle {
+      background: rgba(255,255,255,0.85);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .hint-btn {
+      background: #ffeaa7;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .mode-toggle:active, .hint-btn:active {
+      transform: scale(0.93);
+    }
+
+    .mode-toggle:focus-visible, .hint-btn:focus-visible {
+      outline: 3px solid #0984e3;
+      outline-offset: 2px;
+    }
+
+    /* Start screen */
+    .start-screen {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .start-screen h1 {
+      font-size: 2.6rem;
+      color: #2d3436;
+    }
+
+    .start-screen p {
+      font-size: 1.3rem;
+      color: #636e72;
+      max-width: 400px;
+    }
+
+    .start-btn {
+      font-size: 1.8rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 24px;
+      padding: 16px 48px;
+      cursor: pointer;
+      background: #55efc4;
+      color: #2d3436;
+      box-shadow: 0 4px 16px rgba(85,239,196,0.4);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .start-btn:active { transform: scale(0.95); }
+    .start-btn:focus-visible { outline: 3px solid #0984e3; outline-offset: 2px; }
+
+    /* Game screen */
+    .game-screen {
+      flex: 1;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      padding: 16px;
+      width: 100%;
+    }
+
+    .game-screen.active { display: flex; }
+
+    .emotion-face {
+      font-size: 150px;
+      line-height: 1;
+      animation: faceBounce 1.6s ease-in-out infinite;
+      transition: transform 0.3s ease;
+      cursor: default;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
+    }
+
+    .emotion-face.hint-active {
+      animation: faceHint 0.6s ease-in-out;
+    }
+
+    @keyframes faceBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-18px); }
+    }
+
+    @keyframes faceHint {
+      0%   { transform: scale(1) rotate(0deg); }
+      15%  { transform: scale(1.3) rotate(-15deg); }
+      30%  { transform: scale(1.35) rotate(12deg); }
+      45%  { transform: scale(1.3) rotate(-10deg); }
+      60%  { transform: scale(1.25) rotate(8deg); }
+      75%  { transform: scale(1.15) rotate(-4deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+
+    .options-grid {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 420px;
+    }
+
+    .emotion-tile {
+      min-width: 90px;
+      min-height: 90px;
+      font-size: 2.5rem;
+      border: 3px solid rgba(255,255,255,0.6);
+      border-radius: 20px;
+      background: rgba(255,255,255,0.85);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      padding: 10px 18px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+    }
+
+    .emotion-tile:active { transform: scale(0.92); }
+    .emotion-tile:focus-visible { outline: 3px solid #0984e3; outline-offset: 2px; }
+
+    .emotion-tile .tile-label {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #2d3436;
+      display: none;
+    }
+
+    .emotion-tile.show-label .tile-label {
+      display: block;
+    }
+
+    .emotion-tile.correct-flash {
+      animation: correctPop 0.4s ease;
+      border-color: #55efc4;
+      box-shadow: 0 0 20px rgba(85,239,196,0.6);
+    }
+
+    .emotion-tile.wrong-shake {
+      animation: wrongShake 0.5s ease;
+      border-color: #ff7675;
+    }
+
+    @keyframes correctPop {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes wrongShake {
+      0%, 100% { transform: translateX(0); }
+      20%  { transform: translateX(-12px); }
+      40%  { transform: translateX(12px); }
+      60%  { transform: translateX(-8px); }
+      80%  { transform: translateX(8px); }
+    }
+
+    .encourage-msg {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #2d3436;
+      min-height: 2.2rem;
+      transition: opacity 0.3s ease;
+      text-align: center;
+    }
+
+    .live-region {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .back-btn {
+      position: fixed;
+      bottom: 16px;
+      left: 16px;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      padding: 8px 16px;
+      cursor: pointer;
+      background: rgba(255,255,255,0.7);
+      color: #2d3436;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.15s ease;
+    }
+
+    .back-btn:active { transform: scale(0.95); }
+    .back-btn:focus-visible { outline: 3px solid #0984e3; outline-offset: 2px; }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .emotion-face { font-size: 110px; }
+      .emotion-tile { min-width: 75px; min-height: 75px; font-size: 2rem; }
+      .options-grid { gap: 12px; }
+      .score-display { font-size: 1.3rem; }
+      .start-screen h1 { font-size: 2rem; }
+    }
+
+    @media (max-width: 360px) {
+      .emotion-face { font-size: 90px; }
+      .emotion-tile { min-width: 65px; min-height: 65px; font-size: 1.7rem; }
+    }
+  </style>
+</head>
+<body>
+  <div id="liveRegion" class="live-region" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- How-to-Play Overlay -->
+  <div id="htpOverlay" class="htp-overlay" role="dialog" aria-modal="true" aria-label="How to play">
+    <div class="htp-card">
+      <div class="htp-em">😊</div>
+      <div class="htp-title">How to Play</div>
+      <div class="htp-desc">Look at the big face and tap the emotion tile that matches how it feels! Use "Feel It!" for a hint.</div>
+      <button class="htp-btn" onclick="KhelonaShared.dismissHtp('htp_em')" aria-label="Got it, start playing">Got it! 👍</button>
+    </div>
+  </div>
+
+  <!-- Start Screen -->
+  <div class="start-screen" id="startScreen">
+    <h1>Emotion Mirror</h1>
+    <p>Look at the face! Tap the feeling that matches it!</p>
+    <button class="start-btn" id="startBtn" aria-label="Start game">Play!</button>
+  </div>
+
+  <!-- Game Screen -->
+  <div class="game-screen" id="gameScreen">
+    <div class="top-bar">
+      <div class="score-display" id="scoreDisplay" aria-label="Score">0</div>
+      <div class="top-controls">
+        <button class="hint-btn" id="hintBtn" aria-label="Feel It! Hint">Feel It!</button>
+        <button class="mode-toggle" id="modeToggle" aria-label="Toggle emoji or word mode">Emoji</button>
+      </div>
+    </div>
+    <div class="emotion-face" id="emotionFace" role="img" aria-label="Emotion face"></div>
+    <div class="options-grid" id="optionsGrid" role="group" aria-label="Emotion options"></div>
+    <div class="encourage-msg" id="encourageMsg" aria-live="assertive"></div>
+  </div>
+
+  <a href="../../index.html" class="home-btn" aria-label="Go to home">🏠</a>
+  <button class="back-btn" id="backBtn" aria-label="Back to start" style="display:none;">Back</button>
+
+  <script src="../../shared/common.js"></script>
+  <script>
+    const EMOTIONS = [
+      { en: 'Happy', hi: 'खुश', as: 'খুশী', emoji: '😊', bgColor: '#FFD93D' },
+      { en: 'Sad', hi: 'उदास', as: 'খেদজনক', emoji: '😢', bgColor: '#74B9FF' },
+      { en: 'Angry', hi: 'गुस्सा', as: 'খং', emoji: '😠', bgColor: '#FF7675' },
+      { en: 'Surprised', hi: 'हैरान', as: 'বিস্মিত', emoji: '😲', bgColor: '#A29BFE' },
+      { en: 'Scared', hi: 'डरा हुआ', as: 'ভয় পায়', emoji: '😨', bgColor: '#636E72' },
+      { en: 'Sleepy', hi: 'नींद आ रही', as: 'ঘুম', emoji: '😴', bgColor: '#B2BEC3' },
+      { en: 'Excited', hi: 'उत्साहित', as: 'উৎসাহী', emoji: '🤩', bgColor: '#FD79A8' },
+      { en: 'Bored', hi: 'बोर', as: 'বিৰক্ত', emoji: '😑', bgColor: '#DFE6E9' },
+      { en: 'Silly', hi: 'मजाकिया', as: 'কৌতুকীয়া', emoji: '🤪', bgColor: '#55EFC4' },
+      { en: 'Loving', hi: 'प्यार', as: 'প্ৰেম', emoji: '🥰', bgColor: '#FAB1A0' },
+      { en: 'Confused', hi: 'भ्रमित', as: 'বিভ্ৰান্ত', emoji: '😕', bgColor: '#FFEAA7' },
+      { en: 'Proud', hi: 'गर्वित', as: 'গৌৰৱান্বিত', emoji: '😤', bgColor: '#E17055' }
+    ];
+
+    let score = 0, currentEmotion = null, wordMode = false, streak = 0;
+
+    const $ = id => document.getElementById(id);
+    const startScreen = $('startScreen');
+    const gameScreen = $('gameScreen');
+    const scoreDisplay = $('scoreDisplay');
+    const emotionFace = $('emotionFace');
+    const optionsGrid = $('optionsGrid');
+    const encourageMsg = $('encourageMsg');
+    const hintBtn = $('hintBtn');
+    const modeToggle = $('modeToggle');
+    const startBtn = $('startBtn');
+    const backBtn = $('backBtn');
+
+    const WRONG_MSGS = ['Try again! \u{1F917}', 'Almost! \u{1F604}', 'Keep going! \u{1F4AA}'];
+
+    function startGame() {
+      score = 0;
+      streak = 0;
+      scoreDisplay.textContent = '0';
+      encourageMsg.textContent = '';
+      startScreen.style.display = 'none';
+      gameScreen.classList.add('active');
+      backBtn.style.display = '';
+      newRound();
+    }
+
+    function newRound() {
+      const idx = Math.floor(Math.random() * EMOTIONS.length);
+      currentEmotion = EMOTIONS[idx];
+      document.body.style.backgroundColor = currentEmotion.bgColor;
+
+      emotionFace.textContent = currentEmotion.emoji;
+      emotionFace.setAttribute('aria-label', 'Guess this emotion: ' + currentEmotion.en);
+      emotionFace.classList.remove('hint-active');
+
+      encourageMsg.textContent = '';
+
+      // Build options: 1 correct + 2 distractors
+      let pool = EMOTIONS.filter(e => e !== currentEmotion);
+      let picks = KhelonaShared.shuffle(pool).slice(0, 2);
+      picks.push(currentEmotion);
+      picks = KhelonaShared.shuffle(picks);
+
+      optionsGrid.innerHTML = '';
+      picks.forEach(em => {
+        const tile = document.createElement('button');
+        tile.className = 'emotion-tile' + (wordMode ? ' show-label' : '');
+        tile.setAttribute('aria-label', em.en);
+        tile.innerHTML = '<span>' + em.emoji + '</span><span class="tile-label">' + em.en + '</span>';
+        tile.addEventListener('click', () => handleAnswer(em === currentEmotion, em, tile));
+        optionsGrid.appendChild(tile);
+      });
+    }
+
+    function handleAnswer(correct, emotion, tile) {
+      if (correct) {
+        score++;
+        streak++;
+        scoreDisplay.textContent = String(score);
+        KhelonaShared.playSound('correct');
+        KhelonaShared.announce('Correct! ' + currentEmotion.en);
+        tile.classList.add('correct-flash');
+
+        if (streak > 0 && streak % 5 === 0) {
+          const rect = emotionFace.getBoundingClientRect();
+          KhelonaShared.spawnConfetti(rect.left + rect.width / 2, rect.top + rect.height / 2, 40);
+          KhelonaShared.playSound('win');
+        }
+
+        setTimeout(() => newRound(), 600);
+      } else {
+        streak = 0;
+        KhelonaShared.playSound('wrong');
+        KhelonaShared.announce('Try again.');
+        tile.classList.add('wrong-shake');
+        encourageMsg.textContent = WRONG_MSGS[Math.floor(Math.random() * WRONG_MSGS.length)];
+
+        setTimeout(() => tile.classList.remove('wrong-shake'), 500);
+      }
+    }
+
+    function showHint() {
+      emotionFace.classList.remove('hint-active');
+      void emotionFace.offsetWidth;
+      emotionFace.classList.add('hint-active');
+      KhelonaShared.playSound('tap');
+      KhelonaShared.announce(currentEmotion.en + '!');
+      setTimeout(() => emotionFace.classList.remove('hint-active'), 650);
+    }
+
+    function toggleWordMode() {
+      wordMode = !wordMode;
+      modeToggle.textContent = wordMode ? 'Word' : 'Emoji';
+      modeToggle.setAttribute('aria-label', wordMode ? 'Switch to emoji mode' : 'Switch to word mode');
+      const tiles = optionsGrid.querySelectorAll('.emotion-tile');
+      tiles.forEach(t => {
+        if (wordMode) t.classList.add('show-label');
+        else t.classList.remove('show-label');
+      });
+    }
+
+    function goBack() {
+      gameScreen.classList.remove('active');
+      startScreen.style.display = '';
+      backBtn.style.display = 'none';
+      document.body.style.backgroundColor = '#FFD93D';
+      encourageMsg.textContent = '';
+    }
+
+    // Init
+    KhelonaShared.initHtp('htp_em');
+    KhelonaShared.enableButtonKeyboard();
+
+    startBtn.addEventListener('click', () => {
+      KhelonaShared.dismissHtp('htp_em');
+      KhelonaShared.playSound('tap');
+      startGame();
+    });
+
+    hintBtn.addEventListener('click', showHint);
+    modeToggle.addEventListener('click', () => {
+      KhelonaShared.playSound('tap');
+      toggleWordMode();
+    });
+    backBtn.addEventListener('click', () => {
+      KhelonaShared.playSound('tap');
+      goBack();
+    });
+  </script>
+</body>
+</html>

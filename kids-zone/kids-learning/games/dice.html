@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dice Game — Kids Fun Learning</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" /><link rel="stylesheet" href="../assets/css/theme.css" />
+  </head>
+  <body class="kid-site theme-dice">
+    <a href="#main-content" class="kid-skip-link">Skip to main content</a>
+    <div class="kid-bubbles" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="kid-wrap">
+      <div class="kid-topbar">
+        <button type="button" class="kid-sound-toggle" id="kid-sound-btn" aria-pressed="false">
+          <span class="kid-sound-icon" aria-hidden="true">🔊</span><span class="kid-sound-label">Sound on</span>
+        </button>
+      </div>
+      <a href="../index.html" class="kid-back">⬅ Back to home</a>
+      <header class="kid-header">
+        <h1 id="main-content" tabindex="-1">🎲 Dice Game 🎲</h1>
+        <p>Roll the dice and solve the math!</p>
+      </div>
+      <div class="kid-tabs">
+        <button type="button" class="kid-tab kid-tab--a active" data-mode="add">➕ Add</button>
+        <button type="button" class="kid-tab kid-tab--b" data-mode="multiply">✖️ Multiply</button>
+        <button type="button" class="kid-tab kid-tab--c" data-mode="higher">⬆️ Higher/Lower</button>
+      </div>
+      <section class="kid-panel" id="game-panel">
+        <div class="dice-area">
+          <div class="dice-display" id="dice-1">🎲</div>
+          <div class="dice-operator" id="dice-op">+</div>
+          <div class="dice-display" id="dice-2">🎲</div>
+        </div>
+        <div class="dice-question" id="dice-question">Roll the dice!</div>
+        <div class="dice-input-area" id="dice-input-area" style="display:none">
+          <input type="number" class="kid-input" id="dice-answer" placeholder="?" aria-label="Your answer" />
+          <button type="button" class="kid-btn-primary" id="check-btn">Check!</button>
+        </div>
+        <div class="kid-actions">
+          <button type="button" class="kid-btn-primary" id="roll-btn">🎲 Roll!</button>
+        </div>
+        <div class="kid-msg" id="message" aria-live="polite"></div>
+        <div class="kid-scores">
+          <div><div class="val" id="dice-correct">0</div><div>✅ Correct</div></div>
+          <div><div class="val" id="dice-wrong">0</div><div>❌ Wrong</div></div>
+        </div>
+      </section>
+    </div>
+    <script src="../assets/js/sounds.js"></script>
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/effects.js"></script>
+    <script src="../assets/js/common.js"></script>
+    <script src="../assets/js/dice.js"></script>
+  </body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spot the Difference — Kids Fun Learning</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../assets/css/theme.css" />
+  </head>
+  <body class="kid-site theme-spotdiff">
+    <a href="#main-content" class="kid-skip-link">Skip to main content</a>
+    <div class="kid-bubbles" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="kid-wrap">
+      <div class="kid-topbar">
+        <button type="button" class="kid-sound-toggle" id="kid-sound-btn" aria-pressed="false">
+          <span class="kid-sound-icon" aria-hidden="true">🔊</span>
+          <span class="kid-sound-label">Sound on</span>
+        </button>
+      </div>
+      <a href="../index.html" class="kid-back">⬅ Back to home</a>
+      <header class="kid-header">
+        <h1 id="main-content" tabindex="-1">👁️ Spot the Difference 👁️</h1>
+        <p>Find all the differences between the two pictures!</p>
+      </header>
+      <section class="kid-panel" id="game-panel">
+        <div class="spotdiff-info">
+          <div class="kid-pill">Found: <span id="found-count">0</span> / <span id="total-diffs">0</span></div>
+        </div>
+        <div class="spotdiff-images">
+          <div class="spotdiff-img-wrap">
+            <div class="spotdiff-label">Image 1</div>
+            <canvas id="canvas-1" width="280" height="280"></canvas>
+          </div>
+          <div class="spotdiff-img-wrap">
+            <div class="spotdiff-label">Image 2</div>
+            <canvas id="canvas-2" width="280" height="280"></canvas>
+          </div>
+        </div>
+        <div class="kid-actions">
+          <button type="button" class="kid-btn-primary" id="new-btn">🔄 New puzzle</button>
+        </div>
+        <div class="kid-msg" id="message" aria-live="polite"></div>
+      </section>
+      <section class="kid-panel kid-result" id="result-area" aria-live="polite">
+        <div class="big" id="result-icon" aria-hidden="true">🎉</div>
+        <h2 id="result-title">Eagle eyes!</h2>
+        <p id="result-message">You found all the differences!</p>
+        <button type="button" class="kid-btn-restart" id="play-again-btn">New puzzle 🔄</button>
+      </section>
+    </div>
+    <script src="../assets/js/sounds.js"></script>
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/effects.js"></script>
+    <script src="../assets/js/common.js"></script>
+    <script src="../assets/js/spotdiff.js"></script>
+  </body>
+</html>

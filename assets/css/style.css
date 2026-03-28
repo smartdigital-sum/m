@@ -4021,3 +4021,378 @@ body {
 .icon-bg-quiz       { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
 .icon-bg-memory     { background: linear-gradient(135deg, #ec4899, #f43f5e); }
 .icon-bg-reflex     { background: linear-gradient(135deg, #06b6d4, #22d3ee); }
+
+/* ===================================================
+   NEW STYLES FOR STUDY ZONE & TABS
+   =================================================== */
+
+.scroll-wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 20px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.scroll-wrapper::-webkit-scrollbar {
+  height: 6px;
+}
+.scroll-wrapper::-webkit-scrollbar-thumb {
+  background-color: var(--border);
+  border-radius: 4px;
+}
+
+.scroll-wrapper .demos-grid,
+.scroll-wrapper .games-grid,
+.scroll-wrapper .study-zone-grid {
+  display: flex !important;
+  flex-wrap: nowrap;
+  gap: 20px;
+  width: max-content;
+  padding: 10px;
+}
+
+.scroll-wrapper .demo-card,
+.scroll-wrapper .game-card,
+.scroll-wrapper .study-zone-card {
+  width: 320px;
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+}
+
+.study-zone-section {
+  padding: 5rem 0;
+  background-color: var(--light);
+}
+
+.study-zone-card {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 32px 24px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s;
+  border: 1px solid var(--border);
+  cursor: pointer;
+}
+
+.study-zone-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(99, 102, 241, 0.12);
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+.tab-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.tab-content {
+  display: none;
+  animation: fadeEffect 0.5s;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.ai-services-placeholder {
+  min-height: 200px;
+  border: 2px dashed var(--border);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray);
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-align: center;
+  padding: 40px 20px;
+  background-color: var(--white);
+}
+
+@keyframes fadeEffect {
+  from {opacity: 0; transform: translateY(10px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+
+/* ======================================================== */
+/* AI SERVICES PORTAL MERGED CSS */
+/* ======================================================== */
+
+.ai-services-wrapper {
+    --ai-primary: #6366f1;
+    --ai-primary-hover: #4f46e5;
+    --ai-bg: transparent;
+    --ai-card-bg: rgba(17, 24, 39, 0.7);
+    --ai-card-border: rgba(255, 255, 255, 0.08);
+    --ai-text-main: #f9fafb;
+    --ai-text-muted: #9ca3af;
+    --ai-glass: blur(12px) saturate(180%);
+}
+
+
+        
+
+        
+
+        
+
+        .ai-search-container {
+            max-width: 600px;
+            margin: -2rem auto 3rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .ai-search-input {
+            width: 100%;
+            background: var(--ai-card-bg);
+            backdrop-filter: var(--ai-glass);
+            border: 1px solid var(--ai-card-border);
+            border-radius: 16px;
+            padding: 1rem 1.5rem 1rem 3.5rem;
+            color: var(--ai-text-main);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .ai-search-input:focus {
+            border-color: var(--ai-primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        .ai-search-icon {
+            position: absolute;
+            left: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--ai-text-muted);
+            pointer-events: none;
+        }
+
+        .ai-badge {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            font-size: 0.65rem;
+            font-weight: 800;
+            padding: 0.25rem 0.6rem;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .ai-badge-new { background: #10b981; color: white; }
+        .ai-badge-beta { background: #f59e0b; color: white; }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links a {
+            color: var(--ai-text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover { color: var(--ai-primary); }
+
+        /* No results message */
+        .ai-no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--ai-text-muted);
+            display: none;
+        }
+
+        /* Ambient Background Elements */
+        .bg-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.15) 0%, transparent 40%);
+        }
+
+        .portal-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 1.5rem;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .header h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2.25rem; }
+        }
+
+        .header p {
+            color: var(--ai-text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .ai-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .ai-card {
+            background: var(--ai-card-bg);
+            backdrop-filter: var(--ai-glass);
+            -webkit-backdrop-filter: var(--ai-glass);
+            border: 1px solid var(--ai-card-border);
+            border-radius: 24px;
+            padding: 1.75rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        .ai-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            background: rgba(17, 24, 39, 0.85);
+        }
+
+        .ai-card-icon {
+            font-size: 2rem;
+            margin-bottom: 1.25rem;
+            background: rgba(255, 255, 255, 0.03);
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .ai-card-tag {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--ai-primary);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .ai-card h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--ai-text-main);
+        }
+
+        .ai-card p {
+            font-size: 0.95rem;
+            color: var(--ai-text-muted);
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .ai-card-footer {
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--ai-primary);
+            gap: 0.5rem;
+        }
+
+        .ai-card-footer svg {
+            transition: transform 0.3s ease;
+        }
+
+        .ai-card:hover .ai-card-footer svg {
+            transform: translateX(4px);
+        }
+
+        .footer {
+            margin-top: auto;
+            padding: 4rem 1.5rem 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .footer p {
+            color: var(--ai-text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .ai-card {
+            animation: fadeIn 0.6s ease forwards;
+            opacity: 0;
+        }
+
+        .ai-card:nth-child(1) { animation-delay: 0.1s; }
+        .ai-card:nth-child(2) { animation-delay: 0.15s; }
+        .ai-card:nth-child(3) { animation-delay: 0.2s; }
+        .ai-card:nth-child(4) { animation-delay: 0.25s; }
+        .ai-card:nth-child(5) { animation-delay: 0.3s; }
+        .ai-card:nth-child(6) { animation-delay: 0.35s; }
+        .ai-card:nth-child(7) { animation-delay: 0.4s; }
+        .ai-card:nth-child(8) { animation-delay: 0.45s; }
+        .ai-card:nth-child(9) { animation-delay: 0.5s; }
+
+    

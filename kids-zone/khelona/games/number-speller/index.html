@@ -1,0 +1,1037 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Number Speller!</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../shared/common.css">
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        user-select: none;
+      }
+      body {
+        min-height: 100vh;
+        font-family: "Fredoka One", cursive;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow-x: hidden;
+        background: #f0f4ff;
+        background-image:
+          radial-gradient(circle at 12% 18%, #ffe0f7 0%, transparent 28%),
+          radial-gradient(circle at 88% 80%, #d0f0ff 0%, transparent 28%),
+          radial-gradient(circle at 50% 50%, #fff8e0 0%, transparent 50%);
+      }
+
+      /* floating numbers bg */
+      .fbg {
+        position: fixed;
+        pointer-events: none;
+        z-index: 0;
+        font-family: "Nunito", sans-serif;
+        font-weight: 900;
+        opacity: 0.07;
+        animation: frise linear infinite;
+      }
+      @keyframes frise {
+        0% {
+          transform: translateY(110vh) rotate(0deg);
+        }
+        100% {
+          transform: translateY(-15vh) rotate(360deg);
+        }
+      }
+
+      .wrap {
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 13px;
+        width: 100%;
+        max-width: 480px;
+        padding: 14px 13px 24px;
+      }
+
+      /* title */
+      .title {
+        font-family: "Nunito", sans-serif;
+        font-weight: 900;
+        font-size: 2rem;
+        background: linear-gradient(135deg, #ff6b6b, #ffd93d, #6bcb77, #4d96ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-align: center;
+        filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.05));
+      }
+
+      /* progress bar */
+      .prog-wrap {
+        width: 100%;
+        background: white;
+        border-radius: 50px;
+        height: 14px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07);
+        overflow: hidden;
+      }
+      .prog-bar {
+        height: 100%;
+        border-radius: 50px;
+        background: linear-gradient(90deg, #ff6b6b, #ffd93d, #6bcb77);
+        transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .prog-lbl {
+        font-family: "Nunito", sans-serif;
+        font-weight: 900;
+        font-size: 0.78rem;
+        color: #9b5cf6;
+        letter-spacing: 1px;
+      }
+
+      /* number card */
+      .ncard {
+        background: white;
+        border-radius: 32px;
+        box-shadow: 0 10px 36px rgba(0, 0, 0, 0.1);
+        padding: 22px 30px 18px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        position: relative;
+        overflow: hidden;
+      }
+      .ncard::before {
+        content: "";
+        position: absolute;
+        top: -50px;
+        right: -50px;
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        opacity: 0.06;
+      }
+
+      .num-display {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+        width: 100%;
+      }
+      .digit-box {
+        width: 100px;
+        height: 100px;
+        border-radius: 26px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Nunito", sans-serif;
+        font-weight: 900;
+        font-size: 4.8rem;
+        color: white;
+        box-shadow: 0 8px 0 rgba(0, 0, 0, 0.15);
+        animation: dbox 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+      }
+      .digit-box::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 48%;
+        border-radius: 26px 26px 50% 50%;
+        background: rgba(255, 255, 255, 0.22);
+      }
+      @keyframes dbox {
+        from {
+          transform: scale(0.4) rotate(-15deg);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      .digit-box.shake {
+        animation: dshake 0.35s ease;
+      }
+      @keyframes dshake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-8px);
+        }
+        75% {
+          transform: translateX(8px);
+        }
+      }
+      .digit-box.bounce {
+        animation: dbounce 0.4s ease;
+      }
+      @keyframes dbounce {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        40% {
+          transform: scale(1.18);
+        }
+      }
+
+      .equals {
+        font-family: "Nunito", sans-serif;
+        font-weight: 900;
+        font-size: 2.8rem;
+        color: #ddd;
+      }
+      .dot-row {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        justify-content: center;
+        max-width: 260px;
+        min-height: 28px;
+      }
+      .dot {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        animation: din 0.25s ease backwards;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+      }
+      @keyframes din {
+        from {
+          transform: scale(0);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      .phint {
+        font-size: 0.72rem;
+        color: #bbb;
+        font-family: "Nunito", sans-serif;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+      }
+
+      /* slots */
+      .slots {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .slot {
+        width: 52px;
+        height: 58px;
+        border-radius: 14px;
+        border: 3px dashed #e0d4f7;
+        background: #faf5ff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.9rem;
+        color: #9b5cf6;
+        transition: all 0.18s;
+      }
+      .slot.filled {
+        border-style: solid;
+        border-color: #9b5cf6;
+        background: white;
+        box-shadow: 0 3px 10px rgba(155, 92, 246, 0.14);
+      }
+      .slot.correct {
+        border-color: #6bcb77;
+        background: #f0fff4;
+        animation: sc 0.35s ease;
+      }
+      @keyframes sc {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.15);
+        }
+      }
+      .slot.wrong {
+        border-color: #ff6b6b;
+        background: #fff0f0;
+        animation: sw 0.35s ease;
+      }
+      @keyframes sw {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-7px);
+        }
+        75% {
+          transform: translateX(7px);
+        }
+      }
+
+      .reveal {
+        display: flex;
+        gap: 5px;
+        justify-content: center;
+        min-height: 36px;
+        align-items: center;
+      }
+      .rl {
+        display: inline-block;
+        font-size: 1.9rem;
+        animation: rb 0.4s ease backwards;
+      }
+      @keyframes rb {
+        0% {
+          transform: translateY(14px) scale(0.4);
+          opacity: 0;
+        }
+        70% {
+          transform: translateY(-5px) scale(1.2);
+        }
+        100% {
+          transform: translateY(0) scale(1);
+          opacity: 1;
+        }
+      }
+
+      /* tiles */
+      .tiles {
+        background: white;
+        border-radius: 22px;
+        box-shadow: 0 5px 18px rgba(0, 0, 0, 0.07);
+        padding: 13px 10px;
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+      }
+      .tile {
+        width: 56px;
+        height: 56px;
+        min-width: 80px;
+        min-height: 80px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.75rem;
+        color: white;
+        cursor: pointer;
+        box-shadow: 0 5px 0 rgba(0, 0, 0, 0.17);
+        border: none;
+        outline: none;
+        position: relative;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        animation: tin 0.28s ease backwards;
+        transition:
+          transform 0.1s,
+          box-shadow 0.1s,
+          opacity 0.2s;
+      }
+      .tile::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 45%;
+        border-radius: 15px 15px 50% 50%;
+        background: rgba(255, 255, 255, 0.2);
+      }
+      @keyframes tin {
+        from {
+          transform: scale(0) rotate(-20deg);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      .tile:hover:not(:disabled) {
+        transform: translateY(-4px);
+        box-shadow: 0 9px 0 rgba(0, 0, 0, 0.17);
+      }
+      .tile:active:not(:disabled) {
+        transform: translateY(2px);
+        box-shadow: 0 2px 0 rgba(0, 0, 0, 0.17);
+      }
+      .tile:disabled {
+        opacity: 0.15;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      /* bottom */
+      .bot {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        gap: 10px;
+      }
+      .erase {
+        background: white;
+        border: 3px solid #f0e6ff;
+        border-radius: 50px;
+        padding: 9px 22px;
+        font-family: "Fredoka One", cursive;
+        font-size: 0.92rem;
+        color: #9b5cf6;
+        cursor: pointer;
+        box-shadow: 0 3px 0 #e0cfff;
+        transition:
+          transform 0.1s,
+          box-shadow 0.1s;
+      }
+      .erase:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 0 #e0cfff;
+      }
+      .erase:active {
+        transform: translateY(1px);
+        box-shadow: 0 1px 0 #e0cfff;
+      }
+      .score-pill {
+        font-family: "Nunito", sans-serif;
+        font-weight: 900;
+        font-size: 0.88rem;
+        color: #9b5cf6;
+        background: white;
+        border-radius: 50px;
+        padding: 9px 18px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+        white-space: nowrap;
+      }
+
+      /* toast */
+      .toast {
+        position: fixed;
+        top: 46px;
+        left: 50%;
+        transform: translateX(-50%) translateY(-14px);
+        background: white;
+        border-radius: 50px;
+        padding: 9px 24px;
+        font-size: 1.2rem;
+        font-family: "Nunito", sans-serif;
+        font-weight: 900;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.11);
+        opacity: 0;
+        pointer-events: none;
+        z-index: 99;
+        white-space: nowrap;
+        transition:
+          opacity 0.2s,
+          transform 0.2s;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      /* overlays */
+      .ov {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(240, 244, 255, 0.97);
+        z-index: 50;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        text-align: center;
+        padding: 30px;
+      }
+      .ov.show {
+        display: flex;
+      }
+      .ov-em {
+        font-size: 5rem;
+        animation: wobble 2s ease-in-out infinite;
+      }
+      @keyframes wobble {
+        0%,
+        100% {
+          transform: rotate(-4deg) scale(1);
+        }
+        50% {
+          transform: rotate(4deg) scale(1.06);
+        }
+      }
+      .ov-ttl {
+        font-family: "Nunito", sans-serif;
+        font-weight: 900;
+        font-size: 2.3rem;
+        background: linear-gradient(135deg, #ff6b6b, #ffd93d, #6bcb77, #4d96ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .ov-sub {
+        font-size: 0.9rem;
+        color: #888;
+        font-family: "Nunito", sans-serif;
+        font-weight: 700;
+        max-width: 300px;
+        line-height: 1.6;
+      }
+      .pbtn {
+        padding: 14px 42px;
+        border: none;
+        border-radius: 50px;
+        font-family: "Nunito", sans-serif;
+        font-size: 1.2rem;
+        font-weight: 900;
+        color: white;
+        background: linear-gradient(135deg, #ff6b6b, #ffd93d);
+        cursor: pointer;
+        box-shadow: 0 6px 0 rgba(255, 107, 107, 0.35);
+        transition:
+          transform 0.1s,
+          box-shadow 0.1s;
+      }
+      .pbtn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 9px 0 rgba(255, 107, 107, 0.35);
+      }
+      .pbtn:active {
+        transform: translateY(2px);
+        box-shadow: 0 3px 0 rgba(255, 107, 107, 0.35);
+      }
+
+      /* end result grid */
+      .res-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+        max-width: 360px;
+      }
+      .rg {
+        width: 58px;
+        padding: 7px 4px;
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+        font-family: "Nunito", sans-serif;
+        font-weight: 900;
+      }
+      .rg-num {
+        font-size: 1.6rem;
+        color: white;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      }
+      .rg-word {
+        font-size: 0.52rem;
+        color: white;
+        opacity: 0.85;
+        letter-spacing: 0.5px;
+      }
+      .rg-star {
+        font-size: 0.7rem;
+      }
+
+      /* level badge */
+      .lv-badge {
+        font-family: "Nunito", sans-serif;
+        font-weight: 900;
+        font-size: 0.75rem;
+        padding: 5px 14px;
+        border-radius: 50px;
+        color: white;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+      }
+    </style>
+  </head>
+  <body>
+    <a href="../../index.html" class="home-btn" aria-label="Home">🏠 Home</a>
+    <!-- How to Play overlay -->
+    <div class="htp-overlay" id="htpOverlay" role="dialog" aria-label="How to play instructions">
+      <div class="htp-card">
+        <div class="htp-em">🔢</div>
+        <div class="htp-title">How to Play</div>
+        <div class="htp-desc">See the number and count the dots, then tap the letter tiles to spell it out! Spell all numbers from 1 to 20 to win!</div>
+        <button class="htp-btn" onclick="KhelonaShared.dismissHtp('htp_ns')" aria-label="Close how to play">Got it! 👍</button>
+      </div>
+    </div>
+    <!-- floating bg numbers -->
+    <div
+      class="fbg"
+      style="
+        left: 6%;
+        font-size: 5rem;
+        animation-duration: 22s;
+        animation-delay: 0s;
+      "
+    >
+      3
+    </div>
+    <div
+      class="fbg"
+      style="
+        left: 25%;
+        font-size: 4rem;
+        animation-duration: 28s;
+        animation-delay: 5s;
+      "
+    >
+      7
+    </div>
+    <div
+      class="fbg"
+      style="
+        left: 60%;
+        font-size: 6rem;
+        animation-duration: 19s;
+        animation-delay: 2s;
+      "
+    >
+      1
+    </div>
+    <div
+      class="fbg"
+      style="
+        left: 80%;
+        font-size: 4.5rem;
+        animation-duration: 24s;
+        animation-delay: 8s;
+      "
+    >
+      9
+    </div>
+    <div
+      class="fbg"
+      style="
+        left: 45%;
+        font-size: 5.5rem;
+        animation-duration: 31s;
+        animation-delay: 13s;
+      "
+    >
+      5
+    </div>
+
+    <!-- START -->
+    <div class="ov show" id="ovStart" role="dialog" aria-label="Game start screen">
+      <div class="ov-em">🔢</div>
+      <div class="ov-ttl">Number Speller!</div>
+      <div class="ov-sub">
+        See the number, count the dots,<br />then tap the letters to spell it!
+        🌟<br /><br />Numbers <strong>1 – 20</strong>, all to spell!
+      </div>
+      <button class="pbtn" onclick="startGame()" aria-label="Start counting game">▶ Let's Count!</button>
+    </div>
+
+    <!-- END -->
+    <div class="ov" id="ovEnd" role="dialog" aria-label="Game over screen">
+      <div class="ov-em">🏆</div>
+      <div class="ov-ttl">All Done!</div>
+      <div
+        style="
+          font-family: &quot;Nunito&quot;, sans-serif;
+          font-weight: 900;
+          font-size: 2.4rem;
+          color: #ff6b6b;
+        "
+        id="endTotal"
+      ></div>
+      <div class="res-grid" id="resGrid"></div>
+      <button class="pbtn" onclick="startGame()" aria-label="Play again">🔄 Play Again!</button>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <div class="wrap">
+      <h1 class="title">🔢 Number Speller!</h1>
+
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          gap: 10px;
+        "
+      >
+        <div class="prog-lbl" id="progLbl">1 / 20</div>
+        <div class="lv-badge" id="lvBadge">Level 1</div>
+      </div>
+      <div class="prog-wrap" style="width: 100%">
+        <div class="prog-bar" id="progBar" style="width: 0%"></div>
+      </div>
+
+      <!-- Number card -->
+      <div class="ncard" id="ncard">
+        <div class="num-display">
+          <div class="digit-box" id="digitBox">1</div>
+          <div class="equals">=</div>
+          <div class="dot-row" id="dotRow"></div>
+        </div>
+        <div class="phint">Spell this number! 👇</div>
+        <div class="slots" id="slots"></div>
+        <div class="reveal" id="reveal"></div>
+      </div>
+
+      <!-- tiles -->
+      <div class="tiles" id="tiles"></div>
+
+      <!-- bottom -->
+      <div class="bot">
+        <button class="erase" onclick="eraseBtn()">⬅ Erase</button>
+        <div class="score-pill" id="scorePill">⭐ 0 / 20</div>
+      </div>
+    </div>
+
+    <script src="../../shared/common.js"></script>
+    <div id="liveRegion" class="live-region" aria-live="polite" aria-atomic="true"></div>
+    <script>
+      KhelonaShared.initHtp('htp_ns');
+      KhelonaShared.enableButtonKeyboard();
+
+      const NUMS = [
+        { n: 1, w: "ONE", c: "#FF6B6B" },
+        { n: 2, w: "TWO", c: "#FF922B" },
+        { n: 3, w: "THREE", c: "#e6b800" },
+        { n: 4, w: "FOUR", c: "#6BCB77" },
+        { n: 5, w: "FIVE", c: "#4D96FF" },
+        { n: 6, w: "SIX", c: "#C77DFF" },
+        { n: 7, w: "SEVEN", c: "#f783ac" },
+        { n: 8, w: "EIGHT", c: "#FF6B6B" },
+        { n: 9, w: "NINE", c: "#FF922B" },
+        { n: 10, w: "TEN", c: "#e6b800" },
+        { n: 11, w: "ELEVEN", c: "#6BCB77" },
+        { n: 12, w: "TWELVE", c: "#4D96FF" },
+        { n: 13, w: "THIRTEEN", c: "#C77DFF" },
+        { n: 14, w: "FOURTEEN", c: "#f783ac" },
+        { n: 15, w: "FIFTEEN", c: "#FF6B6B" },
+        { n: 16, w: "SIXTEEN", c: "#FF922B" },
+        { n: 17, w: "SEVENTEEN", c: "#e6b800" },
+        { n: 18, w: "EIGHTEEN", c: "#6BCB77" },
+        { n: 19, w: "NINETEEN", c: "#4D96FF" },
+        { n: 20, w: "TWENTY", c: "#C77DFF" },
+      ];
+
+      const TC = [
+        "#FF6B6B",
+        "#FF922B",
+        "#FFD93D",
+        "#6BCB77",
+        "#4D96FF",
+        "#C77DFF",
+        "#f783ac",
+        "#20c997",
+      ];
+      const ALPHA = "ABCDEFGHIJKLMNOPRSTUW".split("");
+
+      let idx = 0,
+        stars = 0,
+        pa = [],
+        tm = [],
+        locked = false,
+        fTry = true;
+      let results = new Array(20).fill(null);
+
+      const shuffle = (a) => {
+        for (let i = a.length - 1; i > 0; i--) {
+          const j = 0 | (Math.random() * (i + 1));
+          [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+      };
+
+      function levelOf(i) {
+        return i < 5
+          ? "Level 1"
+          : i < 10
+            ? "Level 2"
+            : i < 15
+              ? "Level 3"
+              : "Level 4";
+      }
+      function levelColor(i) {
+        return i < 5
+          ? "#6BCB77"
+          : i < 10
+            ? "#4D96FF"
+            : i < 15
+              ? "#C77DFF"
+              : "#FF6B6B";
+      }
+
+      function startGame() {
+        document.getElementById("ovStart").classList.remove("show");
+        document.getElementById("ovEnd").classList.remove("show");
+        idx = 0;
+        stars = 0;
+        results = new Array(20).fill(null);
+        buildRound();
+      }
+
+      function buildRound() {
+        locked = false;
+        fTry = true;
+        pa = [];
+        document.getElementById("reveal").innerHTML = "";
+
+        const nd = NUMS[idx];
+
+        // progress
+        document.getElementById("progLbl").textContent = idx + 1 + " / 20";
+        document.getElementById("progBar").style.width = (idx / 20) * 100 + "%";
+        const lb = document.getElementById("lvBadge");
+        lb.textContent = levelOf(idx);
+        lb.style.background = levelColor(idx);
+
+        // digit box
+        const db = document.getElementById("digitBox");
+        db.textContent = nd.n;
+        db.style.background = nd.c;
+        db.classList.remove("shake", "bounce");
+        void db.offsetWidth;
+        db.classList.add("bounce");
+
+        // ncard accent
+        document.getElementById("ncard").style.setProperty("--ac", nd.c);
+        document.querySelector(".ncard::before");
+
+        // dots (max 20, shown as ≤10 per row)
+        const dr = document.getElementById("dotRow");
+        dr.innerHTML = "";
+        const shown = Math.min(nd.n, 20);
+        for (let i = 0; i < shown; i++) {
+          const dot = document.createElement("div");
+          dot.className = "dot";
+          dot.style.background = nd.c;
+          dot.style.animationDelay = i * 0.04 + "s";
+          dr.appendChild(dot);
+        }
+        if (nd.n > 20) {
+          const more = document.createElement("div");
+          more.style.cssText =
+            "font-size:0.75rem;color:#aaa;font-family:Nunito,sans-serif;font-weight:700;display:flex;align-items:center";
+          more.textContent = "…";
+          dr.appendChild(more);
+        }
+
+        // slots
+        const sEl = document.getElementById("slots");
+        sEl.innerHTML = "";
+        nd.w.split("").forEach(() => {
+          const s = document.createElement("div");
+          s.className = "slot";
+          sEl.appendChild(s);
+        });
+
+        // tiles
+        const correct = nd.w.split("");
+        const wSet = new Set(correct);
+        const extraN = Math.max(2, Math.min(5, 10 - correct.length));
+        const extras = shuffle(ALPHA.filter((l) => !wSet.has(l))).slice(
+          0,
+          extraN,
+        );
+        const pool = shuffle([...correct, ...extras]);
+
+        tm = [];
+        const tEl = document.getElementById("tiles");
+        tEl.innerHTML = "";
+        pool.forEach((letter, i) => {
+          const btn = document.createElement("button");
+          btn.className = "tile";
+          btn.textContent = letter;
+          btn.style.background = TC[i % TC.length];
+          btn.style.animationDelay = i * 0.045 + "s";
+          btn.onclick = () => tapTile(i);
+          tEl.appendChild(btn);
+          tm.push({ letter, el: btn });
+        });
+
+        updateScore();
+      }
+
+      function tapTile(id) {
+        if (locked) return;
+        const m = tm[id];
+        if (m.el.disabled) return;
+        const wd = NUMS[idx].w;
+        if (pa.length >= wd.length) return;
+        const si = pa.length;
+        pa.push({ letter: m.letter, id });
+        m.el.disabled = true;
+        KhelonaShared.playSound('tap');
+        const slots = document.querySelectorAll(".slot");
+        slots[si].classList.add("filled");
+        slots[si].innerHTML =
+          `<span style="font-size:1.9rem">${m.letter}</span>`;
+        if (pa.length === wd.length) checkAnswer();
+      }
+
+      function eraseBtn() {
+        if (locked || !pa.length) return;
+        const last = pa.pop();
+        const slots = document.querySelectorAll(".slot");
+        slots[pa.length].classList.remove("filled", "correct", "wrong");
+        slots[pa.length].innerHTML = "";
+        tm[last.id].el.disabled = false;
+      }
+
+      function checkAnswer() {
+        locked = true;
+        const nd = NUMS[idx];
+        const formed = pa.map((p) => p.letter).join("");
+        const slots = document.querySelectorAll(".slot");
+
+        if (formed === nd.w) {
+          slots.forEach((s, i) =>
+            setTimeout(() => s.classList.add("correct"), i * 65),
+          );
+          const db = document.getElementById("digitBox");
+          db.classList.remove("bounce");
+          void db.offsetWidth;
+          db.classList.add("bounce");
+          const r = db.getBoundingClientRect();
+          setTimeout(
+            () => KhelonaShared.spawnConfetti(r.left + r.width / 2, r.top + r.height / 2, 24),
+            200,
+          );
+
+          if (fTry) {
+            stars++;
+            results[idx] = 1;
+          } else {
+            results[idx] = 0;
+          }
+          showToast(praise(), "#6BCB77");
+          showReveal(nd.w, nd.c);
+          KhelonaShared.playSound('correct');
+          KhelonaShared.announce('Correct!');
+
+          setTimeout(() => {
+            idx++;
+            if (idx >= 20) endGame();
+            else buildRound();
+          }, 1700);
+        } else {
+          fTry = false;
+          slots.forEach((s) => s.classList.add("wrong"));
+          const db = document.getElementById("digitBox");
+          db.classList.remove("shake");
+          void db.offsetWidth;
+          db.classList.add("shake");
+          showToast("Not quite! Try again 💪", "#FF6B6B");
+          KhelonaShared.playSound('wrong');
+          KhelonaShared.announce('Try again.');
+          setTimeout(() => {
+            slots.forEach((s) => s.classList.remove("wrong"));
+            pa = [];
+            tm.forEach((m) => (m.el.disabled = false));
+            slots.forEach((s) => {
+              s.classList.remove("filled", "correct");
+              s.innerHTML = "";
+            });
+            locked = false;
+          }, 850);
+        }
+      }
+
+      function showReveal(word, color) {
+        const rev = document.getElementById("reveal");
+        rev.innerHTML = "";
+        word.split("").forEach((ch, i) => {
+          const s = document.createElement("span");
+          s.className = "rl";
+          s.textContent = ch;
+          s.style.animationDelay = i * 0.09 + "s";
+          s.style.color = color;
+          rev.appendChild(s);
+        });
+      }
+
+      function endGame() {
+        document.getElementById("progBar").style.width = "100%";
+        const total = results.filter((r) => r === 1).length;
+        document.getElementById("endTotal").textContent =
+          "⭐ " + total + " / 20";
+
+        const grid = document.getElementById("resGrid");
+        grid.innerHTML = "";
+        NUMS.forEach((nd, i) => {
+          const d = document.createElement("div");
+          d.className = "rg";
+          d.style.background =
+            results[i] === 1
+              ? "#6BCB77"
+              : results[i] === 0
+                ? "#FF922B"
+                : "#ccc";
+          d.innerHTML = `<div class="rg-num">${nd.n}</div><div class="rg-word">${nd.w}</div><div class="rg-star">${results[i] === 1 ? "⭐" : results[i] === 0 ? "👏" : ""}</div>`;
+          grid.appendChild(d);
+        });
+
+        setTimeout(
+          () => KhelonaShared.spawnConfetti(window.innerWidth / 2, window.innerHeight * 0.3, 44),
+          250,
+        );
+        KhelonaShared.playSound('win');
+        KhelonaShared.announce('Game over! Score: ' + total + ' out of 20');
+        document.getElementById("ovEnd").classList.add("show");
+      }
+
+      function updateScore() {
+        document.getElementById("scorePill").textContent =
+          "⭐ " + stars + " / 20";
+      }
+
+      function praise() {
+        const p = [
+          "🌟 Correct!",
+          "🎉 You got it!",
+          "⭐ Amazing!",
+          "🥳 Brilliant!",
+          "🚀 Super!",
+          "✨ Wow!",
+          "👏 Great job!",
+          "🔢 Number star!",
+        ];
+        return p[0 | (Math.random() * p.length)];
+      }
+
+      function showToast(msg, color) {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.style.color = color;
+        t.classList.add("show");
+        clearTimeout(t._t);
+        t._t = setTimeout(() => t.classList.remove("show"), 1000);
+      }
+
+    </script>
+  </body>
+</html>

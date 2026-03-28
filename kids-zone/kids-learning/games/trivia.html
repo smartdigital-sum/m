@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trivia Challenge — Kids Fun Learning</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" /><link rel="stylesheet" href="../assets/css/theme.css" />
+  </head>
+  <body class="kid-site theme-trivia">
+    <a href="#main-content" class="kid-skip-link">Skip to main content</a>
+    <div class="kid-bubbles" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="kid-wrap">
+      <div class="kid-topbar">
+        <button type="button" class="kid-sound-toggle" id="kid-sound-btn" aria-pressed="false">
+          <span class="kid-sound-icon" aria-hidden="true">🔊</span><span class="kid-sound-label">Sound on</span>
+        </button>
+      </div>
+      <a href="../index.html" class="kid-back">⬅ Back to home</a>
+      <header class="kid-header">
+        <h1 id="main-content" tabindex="-1">🎯 Trivia Challenge 🎯</h1>
+        <p>Random fun facts — how many can you get right?</p>
+      </header>
+      <section class="kid-panel" id="quiz-panel">
+        <div class="kid-quiz-head">
+          <div class="kid-pill">Question <span id="q-num">1</span> / <span id="total-q">10</span></div>
+          <div class="kid-pill kid-pill--score">⭐ Score: <span id="score">0</span></div>
+        </div>
+        <div class="trivia-qbox">
+          <div class="trivia-category" id="trivia-cat">General</div>
+          <div class="trivia-question" id="question" aria-live="polite">Loading...</div>
+        </div>
+        <div class="kid-options" id="options" role="group" aria-label="Answer choices"></div>
+        <button type="button" class="kid-btn-next" id="next-btn" style="display:none">Next ➡</button>
+        <div class="kid-dots" id="progress-dots"></div>
+        <div class="kid-msg" id="message" aria-live="polite"></div>
+      </section>
+      <section class="kid-panel kid-result" id="result-area" aria-live="polite">
+        <div class="big" id="result-icon" aria-hidden="true">🎉</div>
+        <h2 id="result-title">Great!</h2>
+        <p id="result-message"></p>
+        <button type="button" class="kid-btn-restart" id="restart-btn">Play again 🔄</button>
+      </section>
+    </div>
+    <script src="../assets/js/sounds.js"></script>
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/effects.js"></script>
+    <script src="../assets/js/common.js"></script>
+    <script src="../assets/js/trivia.js"></script>
+  </body>
+</html>

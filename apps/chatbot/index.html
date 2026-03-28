@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Digital ChatBot – AI Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="bot.css" />
+</head>
+<body>
+
+  <!-- ===== Dummy page content (just for testing context) ===== -->
+  <header class="demo-header">
+    <div class="demo-logo">⚡ Smart Digital ChatBot</div>
+    <p class="demo-tagline">AI Assistant · Digital Services · Assam</p>
+  </header>
+
+  <main class="demo-body">
+    <h1>Test Page</h1>
+    <p>This page exists only to test the floating AI chatbot. Click the <strong>🤖 button</strong> at the bottom-right corner.</p>
+    <ul>
+      <li>Try asking: <em>"What services do you offer?"</em></li>
+      <li>Try asking: <em>"How much does a website cost?"</em></li>
+      <li>Try asking: <em>"Are you open right now?"</em></li>
+      <li>Try asking: <em>"How do I contact you?"</em></li>
+    </ul>
+  </main>
+
+  <!-- ===== CHATBOT WIDGET ===== -->
+
+  <!-- Floating toggle button -->
+  <div id="sd-bot-btn" onclick="toggleBot()" title="Chat with us">
+    <span id="sd-bot-icon">🤖</span>
+    <span id="sd-bot-close-icon" style="display:none;">✕</span>
+  </div>
+
+  <!-- Chat window -->
+  <div id="sd-bot-window">
+    <div id="sd-bot-header">
+      <div class="header-info">
+        <div class="header-avatar">SD</div>
+        <div>
+          <div class="header-name">Smart Digital Assistant</div>
+          <div class="header-status">● Online</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="sd-bot-messages"></div>
+
+    <div id="sd-bot-typing" style="display:none;">
+      <span></span><span></span><span></span>
+    </div>
+
+    <div id="sd-bot-input">
+      <input
+        id="sd-user-input"
+        type="text"
+        placeholder="Ask me anything…"
+        onkeydown="if(event.key==='Enter') sendMessage()"
+        autocomplete="off"
+      />
+      <button id="sd-send-btn" onclick="sendMessage()">
+        ➤
+      </button>
+    </div>
+  </div>
+
+  <script src="../../../assets/js/config.js"></script>
+  <script src="bot.js"></script>
+</body>
+</html>

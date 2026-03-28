@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spelling Game — Kids Fun Learning</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../assets/css/theme.css" />
+  </head>
+  <body class="kid-site theme-spelling">
+    <a href="#main-content" class="kid-skip-link">Skip to main content</a>
+
+    <div class="kid-bubbles" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div class="kid-wrap">
+      <div class="kid-topbar">
+        <button type="button" class="kid-sound-toggle" id="kid-sound-btn" aria-pressed="false">
+          <span class="kid-sound-icon" aria-hidden="true">🔊</span>
+          <span class="kid-sound-label">Sound on</span>
+        </button>
+      </div>
+
+      <a href="../index.html" class="kid-back">⬅ Back to home</a>
+
+      <header class="kid-header">
+        <h1 id="main-content" tabindex="-1">📝 Spelling Game 📝</h1>
+        <p>Tap letters in order — spell the secret word!</p>
+      </header>
+
+      <section class="kid-panel">
+        <div class="kid-progress"><i id="progress"></i></div>
+        <p class="spelling-count">
+          Words completed: <span id="word-count">0</span> / <span id="total-words">0</span>
+        </p>
+
+        <div class="kid-hint">
+          <div class="kid-cat" id="category">Category</div>
+          <p class="hint-text" id="hint">Hint about the word…</p>
+        </div>
+
+        <div class="kid-word-big" id="word-display" aria-hidden="true">_ _ _ _ _</div>
+
+        <div class="answer-center">
+          <div class="kid-answer-line" id="answer-display" aria-live="polite"></div>
+        </div>
+
+        <div class="kid-letters" id="letter-buttons" role="group" aria-label="Letter choices"></div>
+
+        <div class="kid-actions">
+          <button type="button" class="kid-btn-primary" id="check-btn">
+            ✅ Check answer
+          </button>
+          <button type="button" class="kid-undo-btn" id="undo-btn">
+            ⬅ Undo
+          </button>
+          <button type="button" class="kid-btn-secondary" id="skip-btn">
+            ⏭️ Skip word
+          </button>
+        </div>
+
+        <div class="kid-msg" id="message" aria-live="polite"></div>
+
+        <div class="kid-scores">
+          <div>
+            <div class="val" id="correct-count">0</div>
+            <div>✅ Correct</div>
+          </div>
+          <div>
+            <div class="val" id="skip-count">0</div>
+            <div>⏭️ Skipped</div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script src="../assets/js/sounds.js"></script>
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/effects.js"></script>
+    <script src="../assets/js/common.js"></script>
+    <script src="../assets/js/spelling.js"></script>
+  </body>
+</html>

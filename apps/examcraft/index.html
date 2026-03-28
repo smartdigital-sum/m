@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Digital ExamCraft — AI Question Paper Generator</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/7.8.2/docx.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <!-- AI CONFIG -->
+  <script src="../../../assets/js/config.js"></script>
+</head>
+<body>
+
+<!-- SETTINGS MODAL -->
+<div id="settingsModal" class="modal-overlay hidden">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-icon">⚙️</span>
+      <h2 data-en="API Configuration" data-hi="API कॉन्फ़िगरेशन" data-as="API কনফিগাৰেচন">API Configuration</h2>
+      <button class="modal-close" onclick="closeSettings()">✕</button>
+    </div>
+    <div class="modal-body">
+      <label class="field-label" data-en="Groq API Key" data-hi="Groq API कुंजी" data-as="Groq API কী">Groq API Key</label>
+      <div class="api-key-row">
+        <input type="password" id="apiKeyInput" placeholder="gsk_..." />
+        <button class="toggle-eye" onclick="toggleKey()">👁</button>
+      </div>
+      <p class="hint" data-en="Your key is stored locally in your browser only." data-hi="आपकी key केवल आपके ब्राउज़र में स्थानीय रूप से संग्रहीत है।" data-as="আপোনাৰ key কেৱল আপোনাৰ ব্ৰাউজাৰত স্থানীয়ভাৱে সংৰক্ষিত।">Your key is stored locally in your browser only.</p>
+      <div class="modal-actions">
+        <button class="btn-save" onclick="saveApiKey()" data-en="Save Key" data-hi="Key सेव करें" data-as="Key সংৰক্ষণ কৰক">Save Key</button>
+        <button class="btn-cancel" onclick="closeSettings()" data-en="Cancel" data-hi="रद्द करें" data-as="বাতিল কৰক">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-mark">EC</div>
+      <div>
+        <div class="brand-name">Smart Digital ExamCraft</div>
+        <div class="brand-tagline" data-en="AI-Powered Question Papers" data-hi="AI-संचालित प्रश्न पत्र" data-as="AI-চালিত প্ৰশ্নপত্ৰ">AI-Powered Question Papers</div>
+      </div>
+    </div>
+    <div class="header-controls">
+      <div class="lang-switcher">
+        <button onclick="setLang('en')" class="lang-btn active" id="btn-en">EN</button>
+        <button onclick="setLang('hi')" class="lang-btn" id="btn-hi">HI</button>
+        <button onclick="setLang('as')" class="lang-btn" id="btn-as">AS</button>
+      </div>
+      <button class="settings-btn" onclick="openSettings()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span data-en="Settings" data-hi="सेटिंग" data-as="ছেটিং">Settings</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN LAYOUT -->
+<main class="app-main">
+
+  <!-- LEFT: FORM PANEL -->
+  <aside class="form-panel">
+    <div class="panel-title" data-en="Paper Configuration" data-hi="प्रश्नपत्र विन्यास" data-as="প্ৰশ্নপত্ৰ কনফিগাৰেচন">Paper Configuration</div>
+
+    <div class="form-section">
+      <label class="field-label" data-en="School / Institution Name" data-hi="विद्यालय / संस्था नाम" data-as="বিদ্যালয় / প্ৰতিষ্ঠানৰ নাম">School / Institution Name</label>
+      <input type="text" id="schoolName" class="field-input" placeholder="e.g. St. Mary's High School" />
+    </div>
+
+    <div class="form-row">
+      <div class="form-section">
+        <label class="field-label" data-en="Class" data-hi="कक्षा" data-as="শ্ৰেণী">Class</label>
+        <select id="classSelect" class="field-input">
+          <option value="">— Select —</option>
+          <option>Class 1</option><option>Class 2</option><option>Class 3</option>
+          <option>Class 4</option><option>Class 5</option><option>Class 6</option>
+          <option>Class 7</option><option>Class 8</option><option>Class 9</option>
+          <option>Class 10</option>
+        </select>
+      </div>
+      <div class="form-section">
+        <label class="field-label" data-en="Subject" data-hi="विषय" data-as="বিষয়">Subject</label>
+        <select id="subjectSelect" class="field-input">
+          <option value="">— Select —</option>
+          <option>Mathematics</option><option>Science</option><option>English</option>
+          <option>Hindi</option><option>Assamese</option><option>Social Studies</option>
+          <option>History</option><option>Geography</option><option>Physics</option>
+          <option>Chemistry</option><option>Biology</option><option>Computer Science</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <label class="field-label" data-en="Topic / Chapter" data-hi="विषय / अध्याय" data-as="বিষয় / অধ্যায়">Topic / Chapter</label>
+      <input type="text" id="topicInput" class="field-input" placeholder="e.g. Photosynthesis, Fractions, The French Revolution" />
+    </div>
+
+    <div class="form-section">
+      <label class="field-label" data-en="Difficulty Level" data-hi="कठिनाई स्तर" data-as="কঠিনতাৰ স্তৰ">Difficulty Level</label>
+      <div class="difficulty-group">
+        <label class="diff-option">
+          <input type="radio" name="difficulty" value="Easy" />
+          <span data-en="Easy" data-hi="आसान" data-as="সহজ">Easy</span>
+        </label>
+        <label class="diff-option">
+          <input type="radio" name="difficulty" value="Medium" checked />
+          <span data-en="Medium" data-hi="मध्यम" data-as="মধ্যম">Medium</span>
+        </label>
+        <label class="diff-option">
+          <input type="radio" name="difficulty" value="Hard" />
+          <span data-en="Hard" data-hi="कठिन" data-as="কঠিন">Hard</span>
+        </label>
+        <label class="diff-option">
+          <input type="radio" name="difficulty" value="Mixed" />
+          <span data-en="Mixed" data-hi="मिश्रित" data-as="মিশ্ৰিত">Mixed</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <label class="field-label" data-en="Question Types" data-hi="प्रश्न प्रकार" data-as="প্ৰশ্নৰ ধৰণ">Question Types</label>
+      <div class="qtype-group">
+        <label class="qtype-option"><input type="checkbox" name="qtype" value="MCQ" checked /><span>MCQ</span></label>
+        <label class="qtype-option"><input type="checkbox" name="qtype" value="ShortAnswer" checked /><span data-en="Short Answer" data-hi="लघु उत्तर" data-as="চুটি উত্তৰ">Short Answer</span></label>
+        <label class="qtype-option"><input type="checkbox" name="qtype" value="LongAnswer" checked /><span data-en="Long Answer" data-hi="दीर्घ उत्तर" data-as="দীঘল উত্তৰ">Long Answer</span></label>
+        <label class="qtype-option"><input type="checkbox" name="qtype" value="TrueFalse" /><span data-en="True / False" data-hi="सत्य / असत्य" data-as="সত্য / মিছা">True / False</span></label>
+        <label class="qtype-option"><input type="checkbox" name="qtype" value="FillBlank" /><span data-en="Fill in the Blank" data-hi="रिक्त स्थान" data-as="খালী ঠাই পূৰণ">Fill in the Blank</span></label>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-section">
+        <label class="field-label" data-en="Total Questions" data-hi="कुल प्रश्न" data-as="মুঠ প্ৰশ্ন">Total Questions</label>
+        <input type="number" id="totalQ" class="field-input" value="20" min="5" max="60" />
+      </div>
+      <div class="form-section">
+        <label class="field-label" data-en="Total Marks" data-hi="कुल अंक" data-as="মুঠ নম্বৰ">Total Marks</label>
+        <input type="number" id="totalMarks" class="field-input" value="50" min="10" max="200" />
+      </div>
+    </div>
+
+    <div class="form-section">
+      <label class="field-label" data-en="Time Allowed (minutes)" data-hi="समय सीमा (मिनट)" data-as="অনুমতি সময় (মিনিট)">Time Allowed (minutes)</label>
+      <input type="number" id="timeLimit" class="field-input" value="90" min="30" max="240" />
+    </div>
+
+    <div class="form-section">
+      <label class="field-label" data-en="Special Instructions (optional)" data-hi="विशेष निर्देश (वैकल्पिक)" data-as="বিশেষ নিৰ্দেশনা (ঐচ্ছিক)">Special Instructions (optional)</label>
+      <textarea id="instructions" class="field-input" rows="3" placeholder="e.g. Attempt all questions. Use blue pen only."></textarea>
+    </div>
+
+    <button class="generate-btn" onclick="generatePaper()">
+      <span id="genBtnText" data-en="✦ Generate Question Paper" data-hi="✦ प्रश्नपत्र बनाएं" data-as="✦ প্ৰশ্নপত্ৰ তৈয়াৰ কৰক">✦ Generate Question Paper</span>
+    </button>
+
+    <div id="apiKeyWarning" class="api-warning hidden">
+      ⚠️ <span data-en="Please set your API key in Settings first." data-hi="कृपया पहले Settings में API Key सेट करें।" data-as="অনুগ্ৰহ কৰি প্ৰথমে Settings-ত API Key ছেট কৰক।">Please set your API key in Settings first.</span>
+    </div>
+  </aside>
+
+  <!-- RIGHT: OUTPUT PANEL -->
+  <section class="output-panel">
+
+    <!-- Placeholder -->
+    <div class="output-placeholder" id="outputPlaceholder">
+      <div class="placeholder-icon">📄</div>
+      <h3 data-en="Your question paper will appear here" data-hi="आपका प्रश्नपत्र यहाँ दिखेगा" data-as="আপোনাৰ প্ৰশ্নপত্ৰ ইয়াত দেখা যাব">Your question paper will appear here</h3>
+      <p data-en="Fill in the form and click Generate." data-hi="फॉर्म भरें और Generate पर क्लिक करें।" data-as="ফৰ্মটো পূৰণ কৰি Generate ক্লিক কৰক।">Fill in the form and click Generate.</p>
+    </div>
+
+    <!-- Loading -->
+    <div class="output-loading hidden" id="outputLoading">
+      <div class="loading-spinner"></div>
+      <p id="loadingText" data-en="Generating your question paper…" data-hi="आपका प्रश्नपत्र बन रहा है…" data-as="আপোনাৰ প্ৰশ্নপত্ৰ তৈয়াৰ হৈ আছে…">Generating your question paper…</p>
+    </div>
+
+    <!-- Result -->
+    <div class="output-result hidden" id="outputResult">
+      <!-- Export Bar -->
+      <div class="export-bar">
+        <span class="export-label" data-en="Export as:" data-hi="निर्यात करें:" data-as="ৰপ্তানি কৰক:">Export as:</span>
+        <button class="export-btn pdf-btn" onclick="exportPDF()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          PDF
+        </button>
+        <button class="export-btn docx-btn" onclick="exportDOCX()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          DOCX
+        </button>
+        <button class="export-btn print-btn" onclick="printPaper()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          <span data-en="Print" data-hi="प्रिंट" data-as="প্ৰিণ্ট">Print</span>
+        </button>
+        <button class="export-btn regen-btn" onclick="generatePaper()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+          <span data-en="Regenerate" data-hi="पुनः बनाएं" data-as="পুনৰায় তৈয়াৰ কৰক">Regenerate</span>
+        </button>
+      </div>
+
+      <!-- The actual paper preview -->
+      <div class="paper-preview" id="paperPreview">
+        <!-- Filled by JS -->
+      </div>
+    </div>
+
+  </section>
+</main>
+
+<footer class="site-footer">
+  <span>ExamCraft Pro &copy; 2025 &nbsp;|&nbsp; <span data-en="Built for educators across India" data-hi="भारत के शिक्षकों के लिए निर्मित" data-as="ভাৰতৰ শিক্ষকসকলৰ বাবে নিৰ্মিত">Built for educators across India</span></span>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

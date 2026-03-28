@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Digital PatraLekhak — Complaint & Legal Letter Writer</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&family=Noto+Serif+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+  <!-- AI CONFIG -->
+  <script src="../../../assets/js/config.js"></script>
+  <!-- jsPDF for PDF export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">
+      <span class="logo-seal">✉</span>
+      <div>
+        <div class="logo-name">Smart Digital PatraLekhak</div>
+        <div class="logo-tagline">Complaint &amp; Legal Letter Writer</div>
+      </div>
+    </div>
+    <nav class="nav">
+      <button class="nav-btn active" data-page="writer" onclick="showPage('writer')">Write Letter</button>
+      <button class="nav-btn" data-page="saved" onclick="showPage('saved')">Saved Letters</button>
+      <button class="nav-btn" data-page="guide" onclick="showPage('guide')">How It Works</button>
+    </nav>
+    <div class="lang-switcher">
+      <button class="lang-btn active" onclick="setUILang('en')">EN</button>
+      <button class="lang-btn" onclick="setUILang('hi')">हि</button>
+      <button class="lang-btn" onclick="setUILang('as')">অ</button>
+    </div>
+  </div>
+</header>
+
+<!-- PAGE: WRITER -->
+<main id="page-writer" class="page active">
+  <section class="hero">
+    <div class="hero-rule"></div>
+    <p class="hero-eyebrow" data-i18n="hero_eyebrow">Professional · Formal · Ready to Send</p>
+    <h1 class="hero-title" data-i18n="hero_title">Your Voice.<br/><em>Their Language.</em></h1>
+    <p class="hero-sub" data-i18n="hero_sub">Describe your problem in simple words — we'll write a powerful formal letter for you.</p>
+    <div class="hero-rule"></div>
+  </section>
+
+  <div class="container">
+    <div class="layout-grid">
+
+      <!-- LEFT: FORM -->
+      <div class="form-col">
+
+        <!-- Step 1: Letter Type -->
+        <div class="step-block">
+          <div class="step-label"><span class="step-num">1</span> <span data-i18n="step1">Choose Letter Type</span></div>
+          <div class="type-grid">
+            <button class="type-btn active" data-type="Bank Dispute" onclick="setType(this)">
+              <span class="type-icon">🏦</span>
+              <span class="type-name" data-i18n="type_bank">Bank Dispute</span>
+            </button>
+            <button class="type-btn" data-type="Electricity / Water Complaint" onclick="setType(this)">
+              <span class="type-icon">⚡</span>
+              <span class="type-name" data-i18n="type_elec">Electricity / Water</span>
+            </button>
+            <button class="type-btn" data-type="Telecom Complaint" onclick="setType(this)">
+              <span class="type-icon">📡</span>
+              <span class="type-name" data-i18n="type_telecom">Telecom</span>
+            </button>
+            <button class="type-btn" data-type="School / College Grievance" onclick="setType(this)">
+              <span class="type-icon">🎓</span>
+              <span class="type-name" data-i18n="type_school">School / College</span>
+            </button>
+            <button class="type-btn" data-type="RTI Application" onclick="setType(this)">
+              <span class="type-icon">📋</span>
+              <span class="type-name" data-i18n="type_rti">RTI Application</span>
+            </button>
+            <button class="type-btn" data-type="Legal Notice" onclick="setType(this)">
+              <span class="type-icon">⚖️</span>
+              <span class="type-name" data-i18n="type_legal">Legal Notice</span>
+            </button>
+            <button class="type-btn" data-type="Government Office Complaint" onclick="setType(this)">
+              <span class="type-icon">🏛️</span>
+              <span class="type-name" data-i18n="type_govt">Govt Office</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 2: Sender & Recipient -->
+        <div class="step-block">
+          <div class="step-label"><span class="step-num">2</span> <span data-i18n="step2">Your Details &amp; Recipient</span></div>
+          <div class="form-grid">
+            <div class="field">
+              <label data-i18n="label_sender_name">Your Full Name</label>
+              <input type="text" id="senderName" placeholder="e.g. Ramesh Kumar Sharma"/>
+            </div>
+            <div class="field">
+              <label data-i18n="label_sender_addr">Your Address</label>
+              <input type="text" id="senderAddr" placeholder="Village/Town, District, State"/>
+            </div>
+            <div class="field">
+              <label data-i18n="label_sender_phone">Phone / Email</label>
+              <input type="text" id="senderContact" placeholder="Phone number or email"/>
+            </div>
+            <div class="field">
+              <label data-i18n="label_recipient">Addressed To</label>
+              <input type="text" id="recipientName" placeholder="e.g. The Branch Manager, SBI"/>
+            </div>
+            <div class="field">
+              <label data-i18n="label_recipient_addr">Recipient Office / Address</label>
+              <input type="text" id="recipientAddr" placeholder="Office name and address"/>
+            </div>
+            <div class="field">
+              <label data-i18n="label_ref">Reference No. (if any)</label>
+              <input type="text" id="refNumber" placeholder="Complaint ID / Account No. / Application No."/>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Problem Description -->
+        <div class="step-block">
+          <div class="step-label"><span class="step-num">3</span> <span data-i18n="step3">Describe Your Problem</span></div>
+          <textarea id="problemDesc" rows="5"
+            placeholder="Write in your own words — Hindi, Assamese or English is fine. E.g: 'My electricity connection was cut without notice even though I paid the bill on 5th March. I have the receipt. This is the third time it happened. I want them to reconnect and give compensation.'"></textarea>
+          <div class="char-hint" data-i18n="char_hint">More detail = better letter. Include dates, amounts, names where possible.</div>
+        </div>
+
+        <!-- Step 4: Options -->
+        <div class="step-block">
+          <div class="step-label"><span class="step-num">4</span> <span data-i18n="step4">Letter Options</span></div>
+          <div class="options-row">
+            <div class="field half">
+              <label data-i18n="label_out_lang">Letter Language</label>
+              <select id="outputLang">
+                <option value="English">English</option>
+                <option value="Hindi">हिन्दी (Hindi)</option>
+                <option value="Assamese">অসমীয়া (Assamese)</option>
+              </select>
+            </div>
+            <div class="field half">
+              <label data-i18n="label_tone">Tone</label>
+              <select id="letterTone">
+                <option value="firm and formal">Firm & Formal</option>
+                <option value="polite but assertive">Polite but Assertive</option>
+                <option value="urgent and demanding">Urgent & Demanding</option>
+                <option value="legal and strict">Legal & Strict</option>
+              </select>
+            </div>
+          </div>
+          <div class="checkbox-row">
+            <label class="check-chip">
+              <input type="checkbox" id="chkDeadline" checked/>
+              <span data-i18n="chk_deadline">Include 15-day response deadline</span>
+            </label>
+            <label class="check-chip">
+              <input type="checkbox" id="chkCC"/>
+              <span data-i18n="chk_cc">Add CC to higher authority</span>
+            </label>
+            <label class="check-chip">
+              <input type="checkbox" id="chkRTI"/>
+              <span data-i18n="chk_rti">Mention RTI threat if ignored</span>
+            </label>
+          </div>
+        </div>
+
+        <button class="btn-primary" id="generateBtn" onclick="generateLetter()">
+          <span class="btn-label" data-i18n="btn_generate">✍️ Generate Formal Letter</span>
+          <span class="btn-loading hidden"><span class="dot-pulse"></span> Writing your letter…</span>
+        </button>
+      </div>
+
+      <!-- RIGHT: PREVIEW -->
+      <div class="preview-col">
+        <div class="preview-header">
+          <span class="preview-title" data-i18n="preview_title">Letter Preview</span>
+          <div class="preview-actions" id="previewActions" style="display:none">
+            <button class="action-btn" onclick="copyLetter()" title="Copy">📋 Copy</button>
+            <button class="action-btn" onclick="downloadTXT()" title="Download TXT">⬇ TXT</button>
+            <button class="action-btn highlight" onclick="downloadPDF()" title="Download PDF">📄 PDF</button>
+            <button class="action-btn" onclick="saveLetter()" title="Save">💾 Save</button>
+          </div>
+        </div>
+
+        <div class="letter-paper" id="letterPaper">
+          <div class="paper-placeholder" id="paperPlaceholder">
+            <div class="placeholder-icon">📄</div>
+            <p data-i18n="placeholder_text">Your formal letter will appear here after generation.</p>
+          </div>
+          <div id="letterContent" class="letter-content hidden"></div>
+        </div>
+
+        <!-- Regenerate / Edit -->
+        <div id="postActions" class="post-actions hidden">
+          <button class="btn-secondary small" onclick="generateLetter()">↺ Regenerate</button>
+          <button class="btn-secondary small" onclick="makeEditable()">✏️ Edit Letter</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<!-- PAGE: SAVED -->
+<main id="page-saved" class="page">
+  <section class="hero small-hero">
+    <h1 class="hero-title">Saved Letters</h1>
+    <p class="hero-sub">All your previously generated letters.</p>
+  </section>
+  <div class="container">
+    <div id="savedEmpty" class="empty-state">
+      <div class="empty-icon">🗂️</div>
+      <p>No saved letters yet.<br/>Generate one and click Save!</p>
+      <button class="btn-primary" onclick="showPage('writer')">Write a Letter →</button>
+    </div>
+    <div id="savedList"></div>
+  </div>
+</main>
+
+<!-- PAGE: GUIDE -->
+<main id="page-guide" class="page">
+  <section class="hero small-hero">
+    <h1 class="hero-title">How It Works</h1>
+    <p class="hero-sub">Simple steps to get your letter in minutes.</p>
+  </section>
+  <div class="container">
+    <div class="guide-steps">
+      <div class="guide-step">
+        <div class="guide-num">1</div>
+        <div class="guide-body">
+          <h3>Choose Letter Type</h3>
+          <p>Select from 7 categories — Bank, Electricity, Telecom, School, RTI, Legal Notice, or Government Office.</p>
+        </div>
+      </div>
+      <div class="guide-connector"></div>
+      <div class="guide-step">
+        <div class="guide-num">2</div>
+        <div class="guide-body">
+          <h3>Fill Your Details</h3>
+          <p>Enter your name, address, and who the letter is going to. Add a reference number if you have one.</p>
+        </div>
+      </div>
+      <div class="guide-connector"></div>
+      <div class="guide-step">
+        <div class="guide-num">3</div>
+        <div class="guide-body">
+          <h3>Describe Your Problem</h3>
+          <p>Write in simple Hindi, Assamese, or English. Just tell us what happened — dates, amounts, what you want. We handle the formal language.</p>
+        </div>
+      </div>
+      <div class="guide-connector"></div>
+      <div class="guide-step">
+        <div class="guide-num">4</div>
+        <div class="guide-body">
+          <h3>Generate & Download</h3>
+          <p>Click Generate. Your professional letter appears instantly. Download as PDF or TXT, or print directly.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-section">
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFAQ(this)">Can I write my problem in Hindi or Assamese? <span class="faq-arrow">▼</span></div>
+          <div class="faq-a">Yes! You can describe your problem in any language — Hindi, Assamese, or English. The AI understands all three and will write the output letter in whichever language you choose.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFAQ(this)">Is the letter legally valid? <span class="faq-arrow">▼</span></div>
+          <div class="faq-a">The letters follow standard formal complaint formats used in India. For serious legal matters, we recommend having a local advocate review the letter before sending. The RTI and Legal Notice formats follow standard Indian templates.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFAQ(this)">Where do I send the letter after downloading? <span class="faq-arrow">▼</span></div>
+          <div class="faq-a">Print the letter, sign it, and send via Registered Post (Speed Post) to keep a delivery record. For bank and telecom complaints, you can also email the PDF directly to their grievance email.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFAQ(this)">What is an RTI Application? <span class="faq-arrow">▼</span></div>
+          <div class="faq-a">RTI stands for Right to Information. Under the RTI Act 2005, any Indian citizen can request information from any government office. This is a powerful tool to get answers when offices don't respond to regular complaints.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFAQ(this)">Can I edit the letter after it's generated? <span class="faq-arrow">▼</span></div>
+          <div class="faq-a">Yes! Click the "Edit Letter" button below the preview to make manual changes directly in the letter. You can then download the edited version.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pricing for the service operator -->
+    <div class="pricing-banner">
+      <div class="pricing-banner-left">
+        <span class="pricing-tag">💼 For Service Providers</span>
+        <h3>Charge Your Clients</h3>
+        <p>Simple complaint letter: <strong>₹100 – ₹150</strong><br/>RTI / Legal Notice: <strong>₹150 – ₹200</strong><br/>Urgent same-day: <strong>₹200 + ₹50 extra</strong></p>
+      </div>
+      <div class="pricing-banner-right">
+        <div class="pricing-tip">💡 Deliver in under 5 minutes. Very high perceived value for Tier 2/3 clients.</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Digital ShopWrite — Product Description Generator</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- AI CONFIG -->
+  <script src="../../../assets/js/config.js"></script>
+</head>
+<body>
+
+<!-- SETTINGS MODAL -->
+<div id="settingsModal" class="modal-overlay hidden">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-header-icon">🔑</div>
+      <div>
+        <h2 data-en="API Settings" data-hi="API सेटिंग" data-as="API ছেটিং">API Settings</h2>
+        <p data-en="Connect your Groq account" data-hi="अपना Groq खाता जोड़ें" data-as="আপোনাৰ Groq একাউণ্ট সংযোগ কৰক">Connect your Groq account</p>
+      </div>
+      <button class="modal-close" onclick="closeSettings()">✕</button>
+    </div>
+    <div class="modal-body">
+      <label class="field-label" data-en="Groq API Key" data-hi="Groq API कुंजी" data-as="Groq API কী">Groq API Key</label>
+      <div class="api-row">
+        <input type="password" id="apiKeyInput" class="field-input" placeholder="gsk_…" />
+        <button class="eye-btn" onclick="toggleKeyVis()">👁</button>
+      </div>
+      <p class="modal-hint" data-en="Stored locally in your browser. Never shared." data-hi="केवल आपके ब्राउज़र में संग्रहीत। कभी साझा नहीं।" data-as="কেৱল আপোনাৰ ব্ৰাউজাৰত সংৰক্ষিত। কেতিয়াও শ্বেয়াৰ কৰা নহয়।">Stored locally in your browser. Never shared.</p>
+      <div class="modal-btns">
+        <button class="btn-primary" onclick="saveKey()" data-en="Save &amp; Close" data-hi="सेव करें" data-as="সংৰক্ষণ কৰক">Save &amp; Close</button>
+        <button class="btn-ghost" onclick="closeSettings()" data-en="Cancel" data-hi="रद्द करें" data-as="বাতিল">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-logo">SW</div>
+      <div class="brand-text">
+        <span class="brand-name">Smart Digital ShopWrite</span>
+        <span class="brand-sub" data-en="Product Copy Generator" data-hi="उत्पाद विवरण जनरेटर" data-as="পণ্যৰ বিৱৰণ জেনেৰেটৰ">Product Copy Generator</span>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="lang-bar">
+        <button class="lang-btn active" id="lbtn-en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" id="lbtn-hi" onclick="setLang('hi')">HI</button>
+        <button class="lang-btn" id="lbtn-as" onclick="setLang('as')">AS</button>
+      </div>
+      <button class="api-btn" onclick="openSettings()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06-.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span data-en="Settings" data-hi="सेटिंग" data-as="ছেটিং">Settings</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO STRIP -->
+<div class="hero-strip">
+  <div class="hero-inner">
+    <h1 data-en="Turn any product into a sales machine" data-hi="किसी भी उत्पाद को बिक्री मशीन बनाएं" data-as="যিকোনো পণ্যক বিক্ৰী যন্ত্ৰলৈ পৰিণত কৰক">Turn any product into a sales machine</h1>
+    <p data-en="AI-crafted descriptions, SEO keywords &amp; hashtags — ready in seconds." data-hi="AI-निर्मित विवरण, SEO कीवर्ड और हैशटैग — सेकंडों में तैयार।" data-as="AI-নিৰ্মিত বিৱৰণ, SEO কীৱাৰ্ড আৰু হেচটেগ — কেইছেকেণ্ডমানতে প্ৰস্তুত।">AI-crafted descriptions, SEO keywords &amp; hashtags — ready in seconds.</p>
+  </div>
+  <div class="hero-badges">
+    <span class="badge">🌐 Website Copy</span>
+    <span class="badge">🔍 SEO Ready</span>
+    <span class="badge">#️⃣ Hashtags</span>
+    <span class="badge">⚡ 3 Variants</span>
+  </div>
+</div>
+
+<!-- MAIN -->
+<main class="app-body">
+
+  <!-- INPUT COLUMN -->
+  <div class="input-col">
+    <div class="card">
+      <div class="card-title" data-en="Product Details" data-hi="उत्पाद विवरण" data-as="পণ্যৰ বিৱৰণ">Product Details</div>
+
+      <!-- Category -->
+      <div class="field-group">
+        <label class="field-label" data-en="Product Category" data-hi="उत्पाद श्रेणी" data-as="পণ্যৰ শ্ৰেণী">Product Category</label>
+        <div class="cat-grid" id="catGrid">
+          <!-- JS fills this -->
+        </div>
+      </div>
+
+      <!-- Product Name -->
+      <div class="field-group">
+        <label class="field-label" data-en="Product Name" data-hi="उत्पाद नाम" data-as="পণ্যৰ নাম">Product Name</label>
+        <input type="text" id="productName" class="field-input" placeholder="e.g. Basmati Rice 5kg Premium Pack" />
+      </div>
+
+      <!-- Key Features -->
+      <div class="field-group">
+        <label class="field-label" data-en="Key Features / USPs" data-hi="मुख्य विशेषताएं" data-as="মূল বৈশিষ্ট্যসমূহ">Key Features / USPs</label>
+        <textarea id="features" class="field-input" rows="3" placeholder="e.g. Organic, aged 2 years, farm fresh, no preservatives, free delivery above ₹500…"></textarea>
+      </div>
+
+      <!-- Price -->
+      <div class="field-row">
+        <div class="field-group">
+          <label class="field-label" data-en="Price (₹)" data-hi="मूल्य (₹)" data-as="মূল্য (₹)">Price (₹)</label>
+          <input type="text" id="price" class="field-input" placeholder="e.g. 299" />
+        </div>
+        <div class="field-group">
+          <label class="field-label" data-en="Target Audience" data-hi="लक्षित दर्शक" data-as="লক্ষ্য দৰ্শক">Target Audience</label>
+          <select id="audience" class="field-input">
+            <option value="general shoppers">General Shoppers</option>
+            <option value="homemakers">Homemakers</option>
+            <option value="young professionals">Young Professionals</option>
+            <option value="health conscious buyers">Health Conscious</option>
+            <option value="budget buyers">Budget Buyers</option>
+            <option value="premium buyers">Premium Buyers</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Tone -->
+      <div class="field-group">
+        <label class="field-label" data-en="Writing Tone" data-hi="लेखन शैली" data-as="লেখাৰ ধৰণ">Writing Tone</label>
+        <div class="tone-group">
+          <label class="tone-chip"><input type="radio" name="tone" value="professional" checked /><span data-en="Professional" data-hi="व्यावसायिक" data-as="পেছাদাৰী">Professional</span></label>
+          <label class="tone-chip"><input type="radio" name="tone" value="friendly & warm" /><span data-en="Friendly" data-hi="मित्रवत" data-as="বন্ধুত্বপূৰ্ণ">Friendly</span></label>
+          <label class="tone-chip"><input type="radio" name="tone" value="luxury & premium" /><span data-en="Luxury" data-hi="लक्जरी" data-as="বিলাসী">Luxury</span></label>
+          <label class="tone-chip"><input type="radio" name="tone" value="exciting & bold" /><span data-en="Bold" data-hi="साहसी" data-as="সাহসী">Bold</span></label>
+          <label class="tone-chip"><input type="radio" name="tone" value="simple & clear" /><span data-en="Simple" data-hi="सरल" data-as="সৰল">Simple</span></label>
+        </div>
+      </div>
+
+      <!-- Output Language -->
+      <div class="field-group">
+        <label class="field-label" data-en="Generate descriptions in:" data-hi="विवरण किस भाषा में बनाएं:" data-as="বিৱৰণ কোন ভাষাত তৈয়াৰ কৰিব:">Generate descriptions in:</label>
+        <div class="tone-group">
+          <label class="tone-chip"><input type="radio" name="outlang" value="English" checked /><span>English</span></label>
+          <label class="tone-chip"><input type="radio" name="outlang" value="Hindi" /><span>हिंदी</span></label>
+          <label class="tone-chip"><input type="radio" name="outlang" value="Assamese" /><span>অসমীয়া</span></label>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <button class="generate-btn" id="generateBtn" onclick="generateDescriptions()">
+        <span id="genBtnLabel" data-en="✦ Generate Descriptions" data-hi="✦ विवरण बनाएं" data-as="✦ বিৱৰণ তৈয়াৰ কৰক">✦ Generate Descriptions</span>
+      </button>
+
+      <div id="apiWarn" class="warn-box hidden">
+        ⚠️ <span data-en="Please set your API key in Settings." data-hi="कृपया Settings में API Key सेट करें।" data-as="অনুগ্ৰহ কৰি Settings-ত API Key ছেট কৰক।">Please set your API key in Settings.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- OUTPUT COLUMN -->
+  <div class="output-col">
+
+    <!-- Placeholder -->
+    <div class="output-placeholder" id="outPlaceholder">
+      <div class="ph-illustration">
+        <div class="ph-box ph-b1"></div>
+        <div class="ph-box ph-b2"></div>
+        <div class="ph-box ph-b3"></div>
+      </div>
+      <h3 data-en="Your product descriptions will appear here" data-hi="आपके उत्पाद विवरण यहाँ दिखेंगे" data-as="আপোনাৰ পণ্যৰ বিৱৰণ ইয়াত দেখা যাব">Your product descriptions will appear here</h3>
+      <p data-en="Fill in the details and hit Generate." data-hi="विवरण भरें और Generate पर क्लिक करें।" data-as="বিৱৰণ পূৰণ কৰি Generate ক্লিক কৰক।">Fill in the details and hit Generate.</p>
+    </div>
+
+    <!-- Loading -->
+    <div class="output-loading hidden" id="outLoading">
+      <div class="loader-ring"></div>
+      <p id="loadMsg" data-en="Crafting your product copy…" data-hi="आपका उत्पाद विवरण तैयार हो रहा है…" data-as="আপোনাৰ পণ্যৰ বিৱৰণ তৈয়াৰ হৈ আছে…">Crafting your product copy…</p>
+    </div>
+
+    <!-- Results -->
+    <div id="outResults" class="hidden">
+
+      <!-- Tabs -->
+      <div class="result-tabs" id="resultTabs"></div>
+
+      <!-- Tab Content -->
+      <div id="tabContent"></div>
+
+      <!-- SEO + Hashtags Row -->
+      <div class="extras-row" id="extrasRow">
+        <div class="extra-card" id="seoCard">
+          <div class="extra-card-title">🔍 <span data-en="SEO Keywords" data-hi="SEO कीवर्ड" data-as="SEO কীৱাৰ্ড">SEO Keywords</span></div>
+          <div class="seo-tags" id="seoTags"></div>
+        </div>
+        <div class="extra-card" id="hashCard">
+          <div class="extra-card-title">#️⃣ <span data-en="Hashtags" data-hi="हैशटैग" data-as="হেচটেগ">Hashtags</span></div>
+          <div class="hash-tags" id="hashTags"></div>
+          <button class="copy-all-btn" onclick="copyAll('hashTags')" data-en="Copy All Hashtags" data-hi="सभी हैशटैग कॉपी करें" data-as="সকলো হেচটেগ কপি কৰক">Copy All Hashtags</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <span>ShopWrite AI &copy; 2025 &nbsp;·&nbsp; <span data-en="Empowering local shops across India" data-hi="भारत की स्थानीय दुकानों को सशक्त बनाना" data-as="ভাৰতৰ স্থানীয় দোকানসমূহক শক্তিশালী কৰা">Empowering local shops across India</span></span>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

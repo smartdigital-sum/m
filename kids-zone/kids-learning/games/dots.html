@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Connect the Dots — Kids Fun Learning</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../assets/css/theme.css" />
+  </head>
+  <body class="kid-site theme-dots">
+    <a href="#main-content" class="kid-skip-link">Skip to main content</a>
+    <div class="kid-bubbles" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="kid-wrap">
+      <div class="kid-topbar">
+        <button type="button" class="kid-sound-toggle" id="kid-sound-btn" aria-pressed="false">
+          <span class="kid-sound-icon" aria-hidden="true">🔊</span>
+          <span class="kid-sound-label">Sound on</span>
+        </button>
+      </div>
+      <a href="../index.html" class="kid-back">⬅ Back to home</a>
+      <header class="kid-header">
+        <h1 id="main-content" tabindex="-1">✏️ Connect the Dots ✏️</h1>
+        <p>Click the dots in order to reveal the picture!</p>
+      </header>
+      <div class="kid-diff-row">
+        <button type="button" class="kid-diff is-on" data-diff="easy">🌱 Easy (1-10)</button>
+        <button type="button" class="kid-diff" data-diff="medium">🔥 Medium (1-15)</button>
+        <button type="button" class="kid-diff" data-diff="hard">💪 Hard (1-20)</button>
+      </div>
+      <section class="kid-panel" id="game-panel">
+        <div class="dots-info">
+          <span>Next dot: </span><span class="dots-next-num" id="next-num">1</span>
+          <span class="dots-hint" id="dots-hint"></span>
+        </div>
+        <div class="dots-canvas-wrap">
+          <canvas id="dots-canvas" width="400" height="400"></canvas>
+        </div>
+        <div class="kid-actions">
+          <button type="button" class="kid-btn-primary" id="new-btn">🔄 New picture</button>
+        </div>
+        <div class="kid-msg" id="message" aria-live="polite"></div>
+      </section>
+      <section class="kid-panel kid-result" id="result-area" aria-live="polite">
+        <div class="big" id="result-icon" aria-hidden="true">🎉</div>
+        <h2 id="result-title">Amazing!</h2>
+        <p id="result-message">You revealed the picture!</p>
+        <button type="button" class="kid-btn-restart" id="play-again-btn">New picture 🔄</button>
+      </section>
+    </div>
+    <script src="../assets/js/sounds.js"></script>
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/effects.js"></script>
+    <script src="../assets/js/common.js"></script>
+    <script src="../assets/js/dots.js"></script>
+  </body>
+</html>

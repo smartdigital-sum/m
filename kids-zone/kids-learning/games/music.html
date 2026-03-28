@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Music Maker — Kids Fun Learning</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../assets/css/theme.css" />
+  </head>
+  <body class="kid-site theme-music">
+    <a href="#main-content" class="kid-skip-link">Skip to main content</a>
+
+    <div class="kid-bubbles" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div class="kid-wrap">
+      <div class="kid-topbar">
+        <button type="button" class="kid-sound-toggle" id="kid-sound-btn" aria-pressed="false">
+          <span class="kid-sound-icon" aria-hidden="true">🔊</span>
+          <span class="kid-sound-label">Sound on</span>
+        </button>
+      </div>
+
+      <a href="../index.html" class="kid-back">⬅ Back to home</a>
+
+      <header class="kid-header">
+        <h1 id="main-content" tabindex="-1">🎵 Music Maker 🎵</h1>
+        <p>Play piano keys and learn simple melodies!</p>
+      </header>
+
+      <div class="kid-tabs">
+        <button type="button" class="kid-tab kid-tab--a active" data-mode="free">🎹 Free play</button>
+        <button type="button" class="kid-tab kid-tab--b" data-mode="learn">📖 Learn a song</button>
+        <button type="button" class="kid-tab kid-tab--c" data-mode="challenge">🎯 Follow me</button>
+      </div>
+
+      <section class="kid-panel" id="music-panel">
+        <!-- Free Play Mode -->
+        <div class="music-mode" id="free-mode">
+          <p class="music-instruction">Tap or press keys to play! Use keyboard A-S-D-F-G-H-J for white keys, W-E-T-Y-U for black keys.</p>
+          <div class="music-piano" id="piano">
+            <div class="piano-white-keys" id="white-keys"></div>
+            <div class="piano-black-keys" id="black-keys"></div>
+          </div>
+          <div class="music-note-display" id="note-display">♪</div>
+        </div>
+
+        <!-- Learn Mode -->
+        <div class="music-mode" id="learn-mode" style="display: none">
+          <div class="music-song-info">
+            <div class="music-song-name" id="song-name">Twinkle Twinkle</div>
+            <div class="music-song-progress">
+              <span id="song-progress">0</span> / <span id="song-total">0</span> notes
+            </div>
+          </div>
+          <div class="music-guided-notes" id="guided-notes"></div>
+          <div class="music-piano" id="piano-learn">
+            <div class="piano-white-keys" id="white-keys-learn"></div>
+            <div class="piano-black-keys" id="black-keys-learn"></div>
+          </div>
+          <div class="kid-actions">
+            <button type="button" class="kid-btn-primary" id="play-song-btn">▶️ Play song</button>
+            <button type="button" class="kid-btn-secondary" id="next-song-btn">⏭️ Next song</button>
+          </div>
+          <div class="kid-msg" id="learn-message" aria-live="polite"></div>
+        </div>
+
+        <!-- Challenge Mode -->
+        <div class="music-mode" id="challenge-mode" style="display: none">
+          <div class="kid-quiz-head">
+            <div class="kid-pill">Round <span id="round-num">1</span></div>
+            <div class="kid-pill kid-pill--score">⭐ Score: <span id="ch-score">0</span></div>
+          </div>
+          <p class="music-instruction" id="challenge-prompt">Listen and repeat the melody!</p>
+          <div class="music-guided-notes" id="challenge-sequence"></div>
+          <div class="music-piano" id="piano-challenge">
+            <div class="piano-white-keys" id="white-keys-challenge"></div>
+            <div class="piano-black-keys" id="black-keys-challenge"></div>
+          </div>
+          <div class="kid-actions">
+            <button type="button" class="kid-btn-primary" id="listen-btn">👂 Listen</button>
+          </div>
+          <div class="kid-msg" id="challenge-message" aria-live="polite"></div>
+        </div>
+      </section>
+    </div>
+
+    <script src="../assets/js/sounds.js"></script>
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/effects.js"></script>
+    <script src="../assets/js/common.js"></script>
+    <script src="../assets/js/music.js"></script>
+  </body>
+</html>

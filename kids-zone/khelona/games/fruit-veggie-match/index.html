@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Fruit & Veggie Match</title>
+  <link rel="stylesheet" href="../../shared/common.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Nunito", sans-serif;
+      background: linear-gradient(135deg, #e0f7fa 0%, #fff9c4 50%, #f1f8e9 100%);
+      min-height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+    }
+
+    /* ===== Header ===== */
+    .header {
+      width: 100%;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .header-title {
+      font-size: 1.3rem;
+      font-weight: 900;
+      color: #333;
+      text-align: center;
+      flex: 1;
+    }
+    .score-display {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: #555;
+      background: rgba(255,255,255,0.85);
+      padding: 6px 14px;
+      border-radius: 50px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .score-num {
+      font-weight: 900;
+      color: #ff6b6b;
+      min-width: 20px;
+      text-align: center;
+    }
+
+    /* ===== Star Row ===== */
+    .star-row {
+      display: flex;
+      gap: 4px;
+      padding: 4px 0;
+    }
+    .star-icon {
+      font-size: 1.5rem;
+      filter: grayscale(1) opacity(0.35);
+      transition: filter 0.4s;
+    }
+    .star-icon.filled {
+      filter: none;
+      animation: starPop 0.4s ease;
+    }
+    @keyframes starPop {
+      0% { transform: scale(0.5); }
+      60% { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+
+    /* ===== Controls Row ===== */
+    .controls-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 12px;
+      flex-wrap: wrap;
+    }
+
+    /* ===== Category Filter ===== */
+    .category-filter {
+      display: flex;
+      gap: 6px;
+    }
+    .cat-btn {
+      padding: 8px 18px;
+      border: 2.5px solid #ddd;
+      border-radius: 50px;
+      background: white;
+      font-family: "Nunito", sans-serif;
+      font-weight: 800;
+      font-size: 0.9rem;
+      color: #777;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+    .cat-btn.active {
+      border-color: #ff6b6b;
+      color: #ff6b6b;
+      background: #fff0f0;
+      box-shadow: 0 2px 12px rgba(255,107,107,0.2);
+    }
+    .cat-btn:hover { transform: translateY(-1px); }
+    .cat-btn:focus-visible {
+      outline: 3px solid #4d96ff;
+      outline-offset: 2px;
+    }
+
+    /* ===== Mode Toggle ===== */
+    .mode-toggle {
+      padding: 8px 16px;
+      border: 2.5px solid #bbb;
+      border-radius: 50px;
+      background: white;
+      font-family: "Nunito", sans-serif;
+      font-weight: 800;
+      font-size: 0.85rem;
+      color: #666;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+    .mode-toggle.active {
+      border-color: #4d96ff;
+      color: #4d96ff;
+      background: #eef4ff;
+    }
+    .mode-toggle:hover { transform: translateY(-1px); }
+    .mode-toggle:focus-visible {
+      outline: 3px solid #4d96ff;
+      outline-offset: 2px;
+    }
+
+    /* ===== Game Area ===== */
+    .game-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      width: 100%;
+      max-width: 420px;
+      padding: 10px 16px 20px;
+    }
+
+    /* ===== Shadow Target ===== */
+    .shadow-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 160px;
+      height: 160px;
+    }
+    .shadow-target {
+      font-size: 120px;
+      line-height: 1;
+      filter: brightness(0);
+      transition: filter 0.6s ease, transform 0.4s ease;
+      cursor: default;
+    }
+    .shadow-target.correct-reveal {
+      filter: brightness(1);
+      transform: scale(1.15);
+    }
+    .shadow-target.shake {
+      animation: shakeIt 0.45s ease;
+    }
+    @keyframes shakeIt {
+      0%, 100% { transform: translateX(0); }
+      15% { transform: translateX(-12px) rotate(-4deg); }
+      30% { transform: translateX(10px) rotate(4deg); }
+      45% { transform: translateX(-8px) rotate(-2deg); }
+      60% { transform: translateX(6px) rotate(2deg); }
+      75% { transform: translateX(-3px); }
+    }
+    .shadow-label {
+      position: absolute;
+      bottom: -28px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: #888;
+      white-space: nowrap;
+    }
+    .shadow-container.drop-active {
+      outline: 4px dashed #4d96ff;
+      outline-offset: 8px;
+      border-radius: 24px;
+    }
+
+    /* ===== Options Grid ===== */
+    .options-grid {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .fruit-tile {
+      min-width: 90px;
+      min-height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      background: white;
+      border: 3.5px solid #e8e8e8;
+      border-radius: 22px;
+      cursor: pointer;
+      transition: all 0.15s;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    .fruit-tile:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.14);
+      border-color: #4d96ff;
+    }
+    .fruit-tile:active {
+      transform: scale(0.93);
+    }
+    .fruit-tile:focus-visible {
+      outline: 3px solid #4d96ff;
+      outline-offset: 3px;
+    }
+    .fruit-tile[draggable="true"] {
+      cursor: grab;
+    }
+    .fruit-tile.dragging {
+      opacity: 0.5;
+      transform: scale(0.9);
+    }
+
+    /* ===== Correct pop on tile ===== */
+    @keyframes tileCorrectPop {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.25); }
+      100% { transform: scale(1); }
+    }
+    .fruit-tile.correct-pop {
+      animation: tileCorrectPop 0.35s ease;
+      border-color: #6bcb77;
+      background: #f0fff0;
+    }
+
+    /* ===== Start Screen ===== */
+    .start-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      padding: 30px;
+      text-align: center;
+    }
+    .start-screen.hidden { display: none; }
+    .start-emoji { font-size: 5rem; line-height: 1.2; }
+    .start-title {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: #333;
+    }
+    .start-sub {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #888;
+    }
+    .start-btn {
+      padding: 16px 48px;
+      border: none;
+      border-radius: 50px;
+      font-family: "Nunito", sans-serif;
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: white;
+      background: linear-gradient(135deg, #6bcb77, #4d96ff);
+      cursor: pointer;
+      box-shadow: 0 6px 0 rgba(75,150,255,0.3);
+      transition: transform 0.1s, box-shadow 0.1s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .start-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 0 rgba(75,150,255,0.3); }
+    .start-btn:active { transform: translateY(3px); box-shadow: 0 2px 0 rgba(75,150,255,0.3); }
+    .start-btn:focus-visible {
+      outline: 3px solid #4d96ff;
+      outline-offset: 3px;
+    }
+
+    /* ===== Bounce on correct round ===== */
+    @keyframes bounceIn {
+      0% { transform: scale(0.3); opacity: 0; }
+      50% { transform: scale(1.08); }
+      70% { transform: scale(0.95); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .bounce-in {
+      animation: bounceIn 0.45s ease;
+    }
+  </style>
+</head>
+<body>
+
+  <a href="../../index.html" class="home-btn" aria-label="Back to home">Home</a>
+
+  <div id="liveRegion" class="live-region" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- How-to-Play Overlay -->
+  <div id="htpOverlay" class="htp-overlay" role="dialog" aria-modal="true" aria-label="How to play">
+    <div class="htp-card">
+      <div class="htp-em">🍎🥕</div>
+      <div class="htp-title">Fruit & Veggie Match</div>
+      <div class="htp-desc">
+        Look at the shadow shape. Tap the matching fruit or veggie from the three choices!
+      </div>
+      <button class="htp-btn" id="htpDismiss" aria-label="Start playing">Let's Go!</button>
+    </div>
+  </div>
+
+  <!-- Start Screen -->
+  <div id="startScreen" class="start-screen">
+    <div class="start-emoji">🍎🥕🍊🥦</div>
+    <div class="start-title">Fruit & Veggie Match</div>
+    <div class="start-sub">Match the shadow!</div>
+    <button id="startBtn" class="start-btn" aria-label="Start game">Play!</button>
+  </div>
+
+  <!-- Game Screen (hidden initially) -->
+  <div id="gameScreen" style="display:none; width:100%; flex:1; display:none; flex-direction:column; align-items:center;">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="header-title">Fruit & Veggie Match</div>
+      <div class="score-display">
+        <span>Score:</span>
+        <span class="score-num" id="scoreNum">0</span>
+      </div>
+    </div>
+
+    <!-- Star Row -->
+    <div class="star-row" id="starRow" role="img" aria-label="Stars earned">
+      <span class="star-icon">⭐</span>
+      <span class="star-icon">⭐</span>
+      <span class="star-icon">⭐</span>
+      <span class="star-icon">⭐</span>
+      <span class="star-icon">⭐</span>
+      <span class="star-icon">⭐</span>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls-row">
+      <div class="category-filter" role="group" aria-label="Category filter">
+        <button class="cat-btn active" data-cat="all" aria-label="All produce" aria-pressed="true">All</button>
+        <button class="cat-btn" data-cat="fruit" aria-label="Fruits only" aria-pressed="false">Fruits</button>
+        <button class="cat-btn" data-cat="veggie" aria-label="Vegetables only" aria-pressed="false">Veggies</button>
+      </div>
+      <button class="mode-toggle" id="modeToggle" aria-label="Toggle drag mode" aria-pressed="false">Tap Mode</button>
+    </div>
+
+    <!-- Game Area -->
+    <div class="game-area" id="gameArea">
+      <div class="shadow-container" id="shadowContainer" aria-label="Match target">
+        <span class="shadow-target" id="shadowTarget" role="img" aria-label="Shadow to match"></span>
+        <div class="shadow-label" id="shadowLabel"></div>
+      </div>
+      <div class="options-grid" id="optionsGrid" role="group" aria-label="Match options"></div>
+    </div>
+  </div>
+
+  <script src="../../shared/common.js"></script>
+  <script>
+    (function() {
+      'use strict';
+
+      const PRODUCE = [
+        { en: 'Apple', hi: 'सेब', as: 'আপেল', emoji: '🍎', category: 'fruit' },
+        { en: 'Banana', hi: 'केला', as: 'কলা', emoji: '🍌', category: 'fruit' },
+        { en: 'Orange', hi: 'संतरा', as: 'কমলা', emoji: '🍊', category: 'fruit' },
+        { en: 'Grapes', hi: 'अंगूर', as: 'আঙুৰ', emoji: '🍇', category: 'fruit' },
+        { en: 'Strawberry', hi: 'स्ट्रॉबेरी', as: 'ষ্ট্ৰবেৰী', emoji: '🍓', category: 'fruit' },
+        { en: 'Watermelon', hi: 'तरबूज', as: 'তৰমুজ', emoji: '🍉', category: 'fruit' },
+        { en: 'Mango', hi: 'आम', as: 'আম', emoji: '🥭', category: 'fruit' },
+        { en: 'Pear', hi: 'नाशपाती', as: 'পিয়াজ', emoji: '🍐', category: 'fruit' },
+        { en: 'Carrot', hi: 'गाजर', as: 'গাজৰ', emoji: '🥕', category: 'veggie' },
+        { en: 'Broccoli', hi: 'ब्रोकली', as: 'ব্ৰকলি', emoji: '🥦', category: 'veggie' },
+        { en: 'Corn', hi: 'मक्का', as: 'ভুট্টা', emoji: '🌽', category: 'veggie' },
+        { en: 'Tomato', hi: 'टमाटर', as: 'বিলাহী', emoji: '🍅', category: 'veggie' },
+        { en: 'Potato', hi: 'आलू', as: 'আলু', emoji: '🥔', category: 'veggie' },
+        { en: 'Pea', hi: 'मटर', as: 'মটৰ', emoji: '🫛', category: 'veggie' },
+        { en: 'Eggplant', hi: 'बैंगन', as: 'বেঙেনা', emoji: '🍆', category: 'veggie' },
+        { en: 'Onion', hi: 'प्याज', as: 'পিয়াজ', emoji: '🧅', category: 'veggie' }
+      ];
+
+      let score = 0;
+      let currentProduce = null;
+      let currentCategory = 'all';
+      let dragMode = false;
+      let locked = false;
+
+      const $ = (sel) => document.querySelector(sel);
+      const $$ = (sel) => document.querySelectorAll(sel);
+
+      const startScreen = $('#startScreen');
+      const gameScreen = $('#gameScreen');
+      const startBtn = $('#startBtn');
+      const shadowTarget = $('#shadowTarget');
+      const shadowLabel = $('#shadowLabel');
+      const shadowContainer = $('#shadowContainer');
+      const optionsGrid = $('#optionsGrid');
+      const scoreNum = $('#scoreNum');
+      const starRow = $('#starRow');
+      const modeToggle = $('#modeToggle');
+      const catBtns = $$('.cat-btn');
+
+      // Init HTP
+      KhelonaShared.initHtp('htp_fvm');
+      document.getElementById('htpDismiss').addEventListener('click', function() {
+        KhelonaShared.dismissHtp('htp_fvm');
+      });
+      KhelonaShared.enableButtonKeyboard();
+
+      // Start Game
+      startBtn.addEventListener('click', function() {
+        KhelonaShared.playSound('tap');
+        startScreen.classList.add('hidden');
+        gameScreen.style.display = 'flex';
+        score = 0;
+        scoreNum.textContent = '0';
+        resetStars();
+        newRound();
+      });
+
+      // Category Filter
+      catBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          KhelonaShared.playSound('tap');
+          setCategory(btn.dataset.cat);
+        });
+      });
+
+      // Mode Toggle
+      modeToggle.addEventListener('click', function() {
+        KhelonaShared.playSound('tap');
+        toggleDragMode();
+      });
+
+      function setCategory(cat) {
+        currentCategory = cat;
+        catBtns.forEach(function(btn) {
+          const isActive = btn.dataset.cat === cat;
+          btn.classList.toggle('active', isActive);
+          btn.setAttribute('aria-pressed', isActive);
+        });
+        newRound();
+      }
+
+      function toggleDragMode() {
+        dragMode = !dragMode;
+        modeToggle.textContent = dragMode ? 'Drag Mode' : 'Tap Mode';
+        modeToggle.classList.toggle('active', dragMode);
+        modeToggle.setAttribute('aria-pressed', dragMode);
+        newRound();
+      }
+
+      function getPool() {
+        if (currentCategory === 'all') return PRODUCE.slice();
+        return PRODUCE.filter(function(p) { return p.category === currentCategory; });
+      }
+
+      function newRound() {
+        locked = false;
+        var pool = getPool();
+        if (pool.length < 3) pool = PRODUCE.slice();
+
+        // Pick target
+        var target = pool[Math.floor(Math.random() * pool.length)];
+
+        // Pick 2 distractors from same pool (not the target)
+        var distractors = pool.filter(function(p) { return p.emoji !== target.emoji; });
+        KhelonaShared.shuffle(distractors);
+        var choices = distractors.slice(0, 2);
+        choices.push(target);
+        KhelonaShared.shuffle(choices);
+
+        currentProduce = target;
+
+        // Render shadow
+        shadowTarget.textContent = target.emoji;
+        shadowTarget.setAttribute('aria-label', 'Match the ' + target.en);
+        shadowTarget.classList.remove('correct-reveal', 'shake');
+        shadowLabel.textContent = target.en;
+        shadowContainer.classList.remove('drop-active');
+
+        // Animate shadow in
+        shadowTarget.classList.remove('bounce-in');
+        void shadowTarget.offsetWidth;
+        shadowTarget.classList.add('bounce-in');
+
+        // Render options
+        optionsGrid.innerHTML = '';
+        choices.forEach(function(item) {
+          var tile = document.createElement('button');
+          tile.className = 'fruit-tile';
+          tile.textContent = item.emoji;
+          tile.setAttribute('aria-label', item.en);
+          tile.dataset.emoji = item.emoji;
+
+          if (dragMode) {
+            tile.setAttribute('draggable', 'true');
+            tile.addEventListener('dragstart', onDragStart);
+            tile.addEventListener('dragend', onDragEnd);
+            // Also support touch drag
+            tile.addEventListener('touchstart', onTouchStart, { passive: false });
+          }
+
+          tile.addEventListener('click', function() {
+            handleAnswer(item.emoji === target.emoji, item, tile);
+          });
+
+          optionsGrid.appendChild(tile);
+        });
+
+        // Drop zone for drag mode
+        if (dragMode) {
+          shadowContainer.addEventListener('dragover', onDragOver);
+          shadowContainer.addEventListener('dragleave', onDragLeave);
+          shadowContainer.addEventListener('drop', onDrop);
+          shadowContainer.classList.add('drop-active');
+        }
+      }
+
+      // ===== Drag Mode Events =====
+      var draggedEmoji = null;
+
+      function onDragStart(e) {
+        draggedEmoji = e.target.dataset.emoji;
+        e.target.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', draggedEmoji);
+      }
+
+      function onDragEnd(e) {
+        e.target.classList.remove('dragging');
+        draggedEmoji = null;
+      }
+
+      function onDragOver(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+      }
+
+      function onDragLeave(e) {
+        // no-op
+      }
+
+      function onDrop(e) {
+        e.preventDefault();
+        shadowContainer.classList.remove('drop-active');
+        var emoji = e.dataTransfer.getData('text/plain');
+        var correct = emoji === currentProduce.emoji;
+        var tile = optionsGrid.querySelector('[data-emoji="' + emoji + '"]');
+        handleAnswer(correct, currentProduce, tile);
+      }
+
+      // ===== Touch Drag Support =====
+      var touchDragEl = null;
+      var touchClone = null;
+
+      function onTouchStart(e) {
+        e.preventDefault();
+        var tile = e.currentTarget;
+        touchDragEl = tile;
+        draggedEmoji = tile.dataset.emoji;
+
+        // Create floating clone
+        touchClone = document.createElement('div');
+        touchClone.textContent = draggedEmoji;
+        touchClone.style.cssText = 'position:fixed;font-size:3rem;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);';
+        document.body.appendChild(touchClone);
+        var t = e.touches[0];
+        touchClone.style.left = t.clientX + 'px';
+        touchClone.style.top = t.clientY + 'px';
+
+        tile.classList.add('dragging');
+
+        document.addEventListener('touchmove', onTouchMove, { passive: false });
+        document.addEventListener('touchend', onTouchEnd);
+      }
+
+      function onTouchMove(e) {
+        e.preventDefault();
+        if (!touchClone) return;
+        var t = e.touches[0];
+        touchClone.style.left = t.clientX + 'px';
+        touchClone.style.top = t.clientY + 'px';
+      }
+
+      function onTouchEnd(e) {
+        document.removeEventListener('touchmove', onTouchMove);
+        document.removeEventListener('touchend', onTouchEnd);
+
+        if (touchClone) {
+          touchClone.remove();
+          touchClone = null;
+        }
+        if (touchDragEl) {
+          touchDragEl.classList.remove('dragging');
+        }
+
+        // Check if drop is over shadow
+        var t = e.changedTouches[0];
+        var rect = shadowContainer.getBoundingClientRect();
+        var isOver = t.clientX >= rect.left && t.clientX <= rect.right && t.clientY >= rect.top && t.clientY <= rect.bottom;
+        if (isOver && draggedEmoji) {
+          var correct = draggedEmoji === currentProduce.emoji;
+          var tile = optionsGrid.querySelector('[data-emoji="' + draggedEmoji + '"]');
+          handleAnswer(correct, currentProduce, tile);
+        }
+        touchDragEl = null;
+        draggedEmoji = null;
+      }
+
+      // ===== Handle Answer =====
+      function handleAnswer(correct, item, tile) {
+        if (locked) return;
+        locked = true;
+
+        if (correct) {
+          score++;
+          scoreNum.textContent = score;
+          KhelonaShared.playSound('correct');
+          KhelonaShared.announce('Correct! ' + item.en);
+
+          // Reveal shadow
+          shadowTarget.classList.remove('shake');
+          shadowTarget.classList.add('correct-reveal');
+
+          // Pop tile
+          if (tile) tile.classList.add('correct-pop');
+
+          // Update stars
+          updateStars();
+
+          // Confetti every 6
+          if (score % 6 === 0) {
+            var rect = shadowContainer.getBoundingClientRect();
+            KhelonaShared.spawnConfetti(rect.left + rect.width / 2, rect.top, 30);
+            KhelonaShared.playSound('win');
+          }
+
+          setTimeout(function() {
+            newRound();
+          }, 900);
+        } else {
+          KhelonaShared.playSound('wrong');
+          KhelonaShared.announce('Try again.');
+          shadowTarget.classList.add('shake');
+          setTimeout(function() {
+            shadowTarget.classList.remove('shake');
+            locked = false;
+          }, 500);
+        }
+      }
+
+      // ===== Stars =====
+      function resetStars() {
+        starRow.querySelectorAll('.star-icon').forEach(function(s) {
+          s.classList.remove('filled');
+        });
+      }
+
+      function updateStars() {
+        var stars = starRow.querySelectorAll('.star-icon');
+        var count = Math.min(score, stars.length);
+        for (var i = 0; i < stars.length; i++) {
+          if (i < count) {
+            stars[i].classList.add('filled');
+          }
+        }
+        // Reset star row after all 6 filled
+        if (score > stars.length && score % 6 === 0) {
+          resetStars();
+          var fillCount = Math.min(score % 6, stars.length);
+          for (var j = 0; j < fillCount; j++) {
+            stars[j].classList.add('filled');
+          }
+        }
+      }
+
+    })();
+  </script>
+</body>
+</html>

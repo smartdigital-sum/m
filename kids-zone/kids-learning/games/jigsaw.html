@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jigsaw Puzzle — Kids Fun Learning</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../assets/css/theme.css" />
+  </head>
+  <body class="kid-site theme-jigsaw">
+    <a href="#main-content" class="kid-skip-link">Skip to main content</a>
+    <div class="kid-bubbles" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="kid-wrap">
+      <div class="kid-topbar">
+        <button type="button" class="kid-sound-toggle" id="kid-sound-btn" aria-pressed="false">
+          <span class="kid-sound-icon" aria-hidden="true">🔊</span>
+          <span class="kid-sound-label">Sound on</span>
+        </button>
+      </div>
+      <a href="../index.html" class="kid-back">⬅ Back to home</a>
+      <header class="kid-header">
+        <h1 id="main-content" tabindex="-1">🧩 Jigsaw Puzzle 🧩</h1>
+        <p>Drag pieces to the right spot to complete the picture!</p>
+      </header>
+      <div class="kid-diff-row">
+        <button type="button" class="kid-diff is-on" data-diff="easy">🌱 Easy (2x2)</button>
+        <button type="button" class="kid-diff" data-diff="medium">🔥 Medium (3x3)</button>
+        <button type="button" class="kid-diff" data-diff="hard">💪 Hard (4x4)</button>
+      </div>
+      <section class="kid-panel" id="game-panel">
+        <div class="jigsaw-info">
+          <span>Placed: </span><span id="placed-count">0</span> / <span id="total-pieces">0</span>
+        </div>
+        <div class="jigsaw-area">
+          <div class="jigsaw-board" id="jigsaw-board"></div>
+          <div class="jigsaw-tray" id="jigsaw-tray"></div>
+        </div>
+        <div class="kid-actions">
+          <button type="button" class="kid-btn-secondary" id="hint-btn">👁️ Show picture</button>
+          <button type="button" class="kid-btn-primary" id="new-btn">🔄 New puzzle</button>
+        </div>
+        <div class="kid-msg" id="message" aria-live="polite"></div>
+      </section>
+      <section class="kid-panel kid-result" id="result-area" aria-live="polite">
+        <div class="big" id="result-icon" aria-hidden="true">🎉</div>
+        <h2 id="result-title">Complete!</h2>
+        <p id="result-message">You solved the puzzle!</p>
+        <button type="button" class="kid-btn-restart" id="play-again-btn">New puzzle 🔄</button>
+      </section>
+    </div>
+    <script src="../assets/js/sounds.js"></script>
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/effects.js"></script>
+    <script src="../assets/js/common.js"></script>
+    <script src="../assets/js/jigsaw.js"></script>
+  </body>
+</html>

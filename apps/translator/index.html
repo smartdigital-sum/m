@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Digital LipiAntar – Assamese · Hindi · English Translator</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <!-- AI CONFIG -->
+  <script src="../../../assets/js/config.js"></script>
+</head>
+<body>
+
+  <!-- BACKGROUND -->
+  <div class="bg-texture"></div>
+  <div class="bg-circle c1"></div>
+  <div class="bg-circle c2"></div>
+  <div class="bg-circle c3"></div>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-devanagari">Smart Digital</span> <span class="logo-devanagari">लिपि</span><span class="logo-latin">Antar</span>
+      </div>
+      <nav class="header-nav">
+        <a href="#pricing">Pricing</a>
+        <a href="#translate" class="nav-cta">Translate Now</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge">🇮🇳 Made for Northeast India</div>
+    <h1 class="hero-title">
+      Translate Documents<br/>
+      <em>Government. Legal. Official.</em>
+    </h1>
+    <p class="hero-sub">
+      Assamese ↔ Hindi ↔ English — instantly.<br/>
+      Built for government offices, schools & NGOs across Assam.
+    </p>
+    <div class="hero-langs">
+      <span class="lang-pill">অসমীয়া</span>
+      <span class="lang-arrow">⇄</span>
+      <span class="lang-pill">हिन्दी</span>
+      <span class="lang-arrow">⇄</span>
+      <span class="lang-pill">English</span>
+    </div>
+  </section>
+
+  <!-- PRICING SECTION -->
+  <section class="pricing-section" id="pricing">
+    <h2 class="section-title">Simple, Transparent Pricing</h2>
+    <p class="section-sub">Pay per document. No subscriptions. No hidden fees.</p>
+    <div class="pricing-grid">
+
+      <div class="price-card">
+        <div class="price-icon">📄</div>
+        <div class="price-tag">₹50</div>
+        <div class="price-label">Short Notice</div>
+        <ul class="price-features">
+          <li>Up to 300 words</li>
+          <li>School circulars</li>
+          <li>Short official notices</li>
+          <li>Instant delivery</li>
+        </ul>
+      </div>
+
+      <div class="price-card featured">
+        <div class="featured-badge">Most Popular</div>
+        <div class="price-icon">📋</div>
+        <div class="price-tag">₹100</div>
+        <div class="price-label">Standard Document</div>
+        <ul class="price-features">
+          <li>300–800 words</li>
+          <li>Government letters</li>
+          <li>NGO reports</li>
+          <li>Legal summaries</li>
+        </ul>
+      </div>
+
+      <div class="price-card">
+        <div class="price-icon">📁</div>
+        <div class="price-tag">₹150</div>
+        <div class="price-label">Long Document</div>
+        <ul class="price-features">
+          <li>800+ words</li>
+          <li>Full legal documents</li>
+          <li>Multi-page reports</li>
+          <li>Priority processing</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TRANSLATOR SECTION -->
+  <section class="translator-section" id="translate">
+    <h2 class="section-title">Translate Your Document</h2>
+    <p class="section-sub">Paste text, or upload a file (.txt, .docx, .pdf)</p>
+
+    <div class="translator-card">
+
+      <!-- CONTROLS ROW -->
+      <div class="controls-row">
+        <div class="lang-selector-group">
+          <label>From</label>
+          <select id="sourceLang">
+            <option value="Assamese">অসমীয়া (Assamese)</option>
+            <option value="Hindi">हिन्दी (Hindi)</option>
+            <option value="English" selected>English</option>
+          </select>
+        </div>
+
+        <button class="swap-btn" id="swapBtn" title="Swap languages">⇄</button>
+
+        <div class="lang-selector-group">
+          <label>To</label>
+          <select id="targetLang">
+            <option value="Assamese" selected>অসমীয়া (Assamese)</option>
+            <option value="Hindi">हिन्दी (Hindi)</option>
+            <option value="English">English</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- INPUT AREA -->
+      <div class="input-area">
+        <div class="upload-strip">
+          <label class="upload-btn" for="fileInput">
+            <span>📎 Upload File</span>
+            <input type="file" id="fileInput" accept=".txt,.pdf,.docx" hidden/>
+          </label>
+          <span class="upload-hint">Supports .txt · .docx · .pdf</span>
+          <span class="file-name" id="fileName"></span>
+        </div>
+
+        <textarea
+          id="sourceText"
+          placeholder="Paste your document text here... or upload a file above.&#10;&#10;Example: Government notice, school circular, legal letter..."
+          rows="10"
+        ></textarea>
+
+        <div class="input-footer">
+          <span class="word-count" id="wordCount">0 words</span>
+          <span class="price-estimate" id="priceEstimate"></span>
+        </div>
+      </div>
+
+      <!-- TRANSLATE BUTTON -->
+      <button class="translate-btn" id="translateBtn">
+        <span class="btn-text">Translate Document</span>
+        <span class="btn-loader" id="btnLoader" hidden>
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        </span>
+      </button>
+
+      <!-- OUTPUT AREA -->
+      <div class="output-area" id="outputArea" hidden>
+        <div class="output-header">
+          <span class="output-label">Translation</span>
+          <div class="output-actions">
+            <button class="action-btn" id="copyBtn">📋 Copy</button>
+            <button class="action-btn primary" id="downloadBtn">⬇ Download .txt</button>
+          </div>
+        </div>
+        <div class="output-text" id="outputText"></div>
+        <div class="output-meta" id="outputMeta"></div>
+      </div>
+
+      <!-- ERROR AREA -->
+      <div class="error-area" id="errorArea" hidden>
+        <span class="error-icon">⚠</span>
+        <span id="errorMsg"></span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- WHY US -->
+  <section class="features-section">
+    <h2 class="section-title">Why LipiAntar?</h2>
+    <div class="features-grid">
+      <div class="feature-item">
+        <div class="feature-icon">🏛️</div>
+        <h3>Government-Ready</h3>
+        <p>Handles official language, formal tone, and bureaucratic terminology used in Assam's offices.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">⚡</div>
+        <h3>Instant Results</h3>
+        <p>No waiting, no email chains. Upload and translate in seconds — right in your browser.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🔒</div>
+        <h3>Private & Secure</h3>
+        <p>Your documents are never stored. Translation happens in real-time and is immediately discarded.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🌐</div>
+        <h3>Low Competition</h3>
+        <p>No major platform targets Assamese ↔ Hindi pairs. Be first in your city.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <span class="logo-devanagari">लिपि</span><span class="logo-latin">Antar</span>
+      </div>
+      <p class="footer-tagline">Bridging languages. Bridging Assam.</p>
+      <p class="footer-copy">© 2025 LipiAntar · Built for Northeast India · Powered by AI</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

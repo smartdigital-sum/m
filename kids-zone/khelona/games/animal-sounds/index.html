@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Animal Sounds — Khelona</title>
+  <link rel="stylesheet" href="../../shared/common.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(160deg, #d4fc79 0%, #96e6a1 50%, #a8edea 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      user-select: none;
+      -webkit-user-select: none;
+      overflow-x: hidden;
+    }
+
+    /* ── Start Screen ───────────────────────── */
+    .start-screen {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      padding: 32px 24px;
+      text-align: center;
+    }
+
+    .start-icon {
+      font-size: 5rem;
+      animation: wiggle 2.2s ease-in-out infinite;
+    }
+
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(-7deg); }
+      50%       { transform: rotate(7deg);  }
+    }
+
+    .start-screen h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #2d3436;
+    }
+
+    .start-screen p {
+      font-size: 1.15rem;
+      color: #555;
+      max-width: 300px;
+      line-height: 1.5;
+    }
+
+    .start-preview {
+      font-size: 2rem;
+      letter-spacing: 6px;
+    }
+
+    .start-btn {
+      font-size: 1.7rem;
+      font-weight: 800;
+      border: none;
+      border-radius: 30px;
+      padding: 16px 52px;
+      cursor: pointer;
+      background: linear-gradient(135deg, #fd79a8, #e84393);
+      color: white;
+      box-shadow: 0 6px 24px rgba(232,67,147,0.4);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .start-btn:active  { transform: scale(0.94); box-shadow: 0 3px 12px rgba(232,67,147,0.3); }
+    .start-btn:focus-visible { outline: 3px solid #2d3436; outline-offset: 3px; }
+
+    /* ── Game Area ──────────────────────────── */
+    .game-area { display: none; flex-direction: column; align-items: center; width: 100%; }
+    .game-area.active { display: flex; }
+
+    .top-bar {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px 4px;
+    }
+
+    .game-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #2d3436;
+    }
+
+    .total-counter {
+      font-size: 1.05rem;
+      font-weight: 700;
+      background: rgba(255,255,255,0.7);
+      padding: 6px 14px;
+      border-radius: 20px;
+      color: #2d3436;
+    }
+
+    /* ── Progress Dots ──────────────────────── */
+    .progress-area {
+      display: flex;
+      gap: 10px;
+      padding: 8px 0 2px;
+    }
+
+    .pdot {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.5);
+      border: 2px solid rgba(0,0,0,0.12);
+      transition: background 0.3s, transform 0.3s, border-color 0.3s;
+    }
+    .pdot.done {
+      background: #00b894;
+      border-color: #00b894;
+      transform: scale(1.3);
+    }
+
+    /* ── Animal Grid ────────────────────────── */
+    .animal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      padding: 8px 16px 24px;
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .animal-card {
+      position: relative;
+      border-radius: 22px;
+      padding: 18px 10px 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      border: 3px solid rgba(255,255,255,0.6);
+      box-shadow: 0 4px 18px rgba(0,0,0,0.10);
+      transition: border-color 0.3s, box-shadow 0.3s;
+      min-height: 130px;
+      -webkit-tap-highlight-color: transparent;
+      overflow: visible;
+    }
+
+    .animal-card:focus-visible { outline: 3px solid #0984e3; outline-offset: 2px; }
+
+    .animal-card.heard {
+      border-color: #00b894;
+      box-shadow: 0 4px 18px rgba(0,184,148,0.28);
+    }
+
+    .animal-card.heard::after {
+      content: '✓';
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      font-size: 1rem;
+      font-weight: 900;
+      color: #00b894;
+    }
+
+    .animal-card.bounce {
+      animation: cardBounce 0.45s ease;
+    }
+
+    @keyframes cardBounce {
+      0%   { transform: scale(1)    rotate(0deg);  }
+      25%  { transform: scale(1.13) rotate(-5deg); }
+      50%  { transform: scale(1.16) rotate(5deg);  }
+      75%  { transform: scale(1.09) rotate(-2deg); }
+      100% { transform: scale(1)    rotate(0deg);  }
+    }
+
+    .animal-emoji {
+      font-size: 58px;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .animal-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #2d3436;
+      pointer-events: none;
+    }
+
+    /* ── Sound Bubble ───────────────────────── */
+    .sound-bubble {
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%) scale(0);
+      transform-origin: center bottom;
+      background: #2d3436;
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 800;
+      padding: 7px 16px;
+      border-radius: 22px;
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 20;
+      transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .sound-bubble.show { transform: translateX(-50%) scale(1); }
+
+    .sound-bubble::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 7px solid transparent;
+      border-top-color: #2d3436;
+    }
+
+    /* ── Celebration ────────────────────────── */
+    .celebrate {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(6px);
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+
+    .celebrate.show { opacity: 1; pointer-events: all; }
+
+    .celebrate-emoji {
+      font-size: 5rem;
+    }
+
+    /* Re-trigger animation every time .show is added */
+    .celebrate.show .celebrate-emoji {
+      animation: popIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+
+    @keyframes popIn {
+      0%   { transform: scale(0) rotate(-20deg); }
+      100% { transform: scale(1) rotate(0deg);   }
+    }
+
+    .celebrate-msg { font-size: 2.2rem; font-weight: 800; color: #2d3436; }
+    .celebrate-sub { font-size: 1.05rem; color: #636e72; }
+  </style>
+</head>
+<body>
+
+  <a href="../../index.html" class="home-btn" aria-label="Go to home">🏠</a>
+
+  <!-- How-to-Play Overlay -->
+  <div id="htpOverlay" class="htp-overlay" role="dialog" aria-modal="true" aria-label="How to play">
+    <div class="htp-card">
+      <div style="font-size:2.6rem;line-height:1.4;">🐄🐶🐱🦆</div>
+      <div class="htp-title">How to Play</div>
+      <div class="htp-desc">Tap each animal to hear the sound it makes! Tap all 6 to win a surprise! 🎉</div>
+      <button class="htp-btn" onclick="KhelonaShared.dismissHtp('htp_as')" aria-label="Got it, start playing">Got it! 👍</button>
+    </div>
+  </div>
+
+  <!-- Start Screen -->
+  <div class="start-screen" id="startScreen">
+    <div class="start-icon">🐾</div>
+    <h1>Animal Sounds</h1>
+    <p>Tap each animal and hear the sound it makes!</p>
+    <div class="start-preview">🐄🦁🐸🐝</div>
+    <button class="start-btn" id="startBtn">▶ Play!</button>
+  </div>
+
+  <!-- Game Area -->
+  <div class="game-area" id="gameArea">
+    <div class="top-bar">
+      <div class="game-title">🐾 Animal Sounds</div>
+      <div class="total-counter" id="totalCounter">0 🐾</div>
+    </div>
+    <div class="progress-area" id="progressArea"></div>
+    <div class="animal-grid" id="animalGrid"></div>
+  </div>
+
+  <!-- Celebration Overlay -->
+  <div class="celebrate" id="celebrate">
+    <div class="celebrate-emoji" id="celebEmoji">🌟</div>
+    <div class="celebrate-msg">Amazing!</div>
+    <div class="celebrate-sub" id="celebSub">You heard them all!</div>
+  </div>
+
+  <div id="liveRegion" class="live-region" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="../../shared/common.js"></script>
+  <script>
+    KhelonaShared.initHtp('htp_as');
+    KhelonaShared.enableButtonKeyboard();
+
+    // ── Animal data ────────────────────────────────────────────────────
+    const ANIMALS = [
+      { id: 'cow',      emoji: '🐄', name: 'Cow',      sound: 'MOOOO!',  bg: '#fff9e6' },
+      { id: 'dog',      emoji: '🐶', name: 'Dog',      sound: 'WOOF!',   bg: '#fff3e0' },
+      { id: 'cat',      emoji: '🐱', name: 'Cat',      sound: 'MEOW!',   bg: '#fce4ec' },
+      { id: 'duck',     emoji: '🦆', name: 'Duck',     sound: 'QUACK!',  bg: '#e8f5e9' },
+      { id: 'lion',     emoji: '🦁', name: 'Lion',     sound: 'ROAR!',   bg: '#fff8e1' },
+      { id: 'sheep',    emoji: '🐑', name: 'Sheep',    sound: 'BAAA!',   bg: '#e3f2fd' },
+      { id: 'pig',      emoji: '🐷', name: 'Pig',      sound: 'OINK!',   bg: '#fde0ef' },
+      { id: 'elephant', emoji: '🐘', name: 'Elephant', sound: 'PAWOO!',  bg: '#f3e5f5' },
+      { id: 'chicken',  emoji: '🐔', name: 'Chicken',  sound: 'CLUCK!',  bg: '#fffde7' },
+      { id: 'owl',      emoji: '🦉', name: 'Owl',      sound: 'HOOT!',   bg: '#e8f5e9' },
+      { id: 'frog',     emoji: '🐸', name: 'Frog',     sound: 'RIBBIT!', bg: '#e0f2f1' },
+      { id: 'bee',      emoji: '🐝', name: 'Bee',      sound: 'BZZZ!',   bg: '#fffff0' },
+    ];
+
+    const ROUND_SIZE = 6;
+    const CELEB = ['🌟','🎉','🏆','🌈','🎊','⭐','🥳','🦄'];
+    let round = [], heardInRound = 0, totalHeard = 0;
+
+    // ── Web Audio ──────────────────────────────────────────────────────
+    const _ac = new (window.AudioContext || window.webkitAudioContext)();
+
+    // Simple tone: frequency glide, any oscillator type
+    function _tone(freq, type, start, dur, gain, freqEnd) {
+      const o = _ac.createOscillator(), g = _ac.createGain();
+      o.connect(g); g.connect(_ac.destination);
+      o.type = type;
+      o.frequency.setValueAtTime(freq, _ac.currentTime + start);
+      if (freqEnd !== undefined)
+        o.frequency.exponentialRampToValueAtTime(freqEnd, _ac.currentTime + start + dur);
+      g.gain.setValueAtTime(0, _ac.currentTime + start);
+      g.gain.linearRampToValueAtTime(gain, _ac.currentTime + start + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.001, _ac.currentTime + start + dur);
+      o.start(_ac.currentTime + start);
+      o.stop(_ac.currentTime + start + dur + 0.02);
+    }
+
+    // Vibrato tone: adds LFO wobble for organic animal sounds
+    function _vib(freq, vRate, vDepth, type, start, dur, gain) {
+      const o = _ac.createOscillator(), lfo = _ac.createOscillator();
+      const lg = _ac.createGain(), g = _ac.createGain();
+      lfo.frequency.value = vRate; lg.gain.value = vDepth;
+      lfo.connect(lg); lg.connect(o.frequency);
+      o.frequency.value = freq; o.type = type;
+      o.connect(g); g.connect(_ac.destination);
+      const t = _ac.currentTime + start;
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(gain, t + 0.05);
+      g.gain.setValueAtTime(gain, t + dur - 0.12);
+      g.gain.linearRampToValueAtTime(0, t + dur);
+      lfo.start(t); o.start(t);
+      lfo.stop(t + dur); o.stop(t + dur);
+    }
+
+    async function playAnimalSound(id) {
+      if (_ac.state === 'suspended') await _ac.resume();
+
+      switch (id) {
+        // Cow: low sawtooth with slow vibrato → "mooo"
+        case 'cow':      _vib(140, 5, 12, 'sawtooth', 0, 0.9, 0.28); break;
+
+        // Dog: two quick frequency-drop bursts → "woof woof"
+        case 'dog':
+          _tone(550, 'sawtooth', 0,    0.14, 0.25, 230);
+          _tone(500, 'sawtooth', 0.28, 0.14, 0.2,  200);
+          break;
+
+        // Cat: smooth rising-then-falling sine → "meow"
+        case 'cat': {
+          const o = _ac.createOscillator(), g = _ac.createGain();
+          o.connect(g); g.connect(_ac.destination); o.type = 'sine';
+          const t = _ac.currentTime;
+          o.frequency.setValueAtTime(380, t);
+          o.frequency.linearRampToValueAtTime(680, t + 0.25);
+          o.frequency.linearRampToValueAtTime(480, t + 0.55);
+          g.gain.setValueAtTime(0, t);
+          g.gain.linearRampToValueAtTime(0.2, t + 0.04);
+          g.gain.setValueAtTime(0.2, t + 0.4);
+          g.gain.linearRampToValueAtTime(0, t + 0.55);
+          o.start(t); o.stop(t + 0.56);
+          break;
+        }
+
+        // Duck: short buzzy square-wave drop → "quack"
+        case 'duck':     _tone(420, 'square', 0, 0.18, 0.28, 200); break;
+
+        // Lion: deep sawtooth with slow wobble → "roar"
+        case 'lion':     _vib(90, 3, 15, 'sawtooth', 0, 0.85, 0.38); break;
+
+        // Sheep: mid sawtooth with fast vibrato → "baa"
+        case 'sheep':    _vib(280, 9, 25, 'sawtooth', 0, 0.6, 0.22); break;
+
+        // Pig: two sharp nasal bursts with clear gap → "oink"
+        case 'pig':
+          _tone(380, 'sawtooth', 0,    0.1, 0.18, 520);
+          _tone(420, 'sawtooth', 0.16, 0.1, 0.15, 360);
+          break;
+
+        // Elephant: sawtooth sweep from low to high → trumpet "pawoo"
+        case 'elephant': _tone(200, 'sawtooth', 0, 0.5, 0.28, 800); break;
+
+        // Chicken: three fast high square-wave clucks
+        case 'chicken':
+          [0, 0.14, 0.28].forEach(s => _tone(880, 'square', s, 0.1, 0.12, 730));
+          break;
+
+        // Owl: two descending sine hoots
+        case 'owl':
+          _tone(440, 'sine', 0,   0.25, 0.2, 400);
+          _tone(400, 'sine', 0.4, 0.25, 0.2, 360);
+          break;
+
+        // Frog: FM synthesis for creaky ribbit
+        case 'frog': {
+          const carr = _ac.createOscillator(), mod = _ac.createOscillator();
+          const mg = _ac.createGain(), g = _ac.createGain();
+          mod.frequency.value = 55; mg.gain.value = 180;
+          mod.connect(mg); mg.connect(carr.frequency);
+          carr.frequency.value = 160; carr.type = 'sine';
+          carr.connect(g); g.connect(_ac.destination);
+          const t = _ac.currentTime;
+          g.gain.setValueAtTime(0, t);
+          g.gain.linearRampToValueAtTime(0.28, t + 0.03);
+          g.gain.setValueAtTime(0.28, t + 0.2);
+          g.gain.linearRampToValueAtTime(0, t + 0.32);
+          mod.start(t); carr.start(t);
+          mod.stop(t + 0.32); carr.stop(t + 0.33);
+          break;
+        }
+
+        // Bee: fast-vibrato square wave → buzz
+        case 'bee':      _vib(200, 22, 40, 'square', 0, 0.5, 0.08); break;
+      }
+    }
+
+    // ── Game Logic ─────────────────────────────────────────────────────
+    function startGame() {
+      document.getElementById('startScreen').style.display = 'none';
+      document.getElementById('gameArea').classList.add('active');
+      newRound();
+    }
+
+    function newRound() {
+      round = KhelonaShared.shuffle([...ANIMALS]).slice(0, ROUND_SIZE);
+      heardInRound = 0;
+      renderGrid();
+      renderProgress();
+    }
+
+    function renderGrid() {
+      const grid = document.getElementById('animalGrid');
+      grid.innerHTML = '';
+      round.forEach(animal => {
+        const card = document.createElement('div');
+        card.className = 'animal-card';
+        card.style.background = animal.bg;
+        card.dataset.id = animal.id;
+        card.setAttribute('role', 'button');
+        card.setAttribute('tabindex', '0');
+        card.setAttribute('aria-label', `${animal.name} — tap to hear`);
+        card.innerHTML = `
+          <div class="sound-bubble" id="bubble-${animal.id}">${animal.sound}</div>
+          <div class="animal-emoji">${animal.emoji}</div>
+          <div class="animal-name">${animal.name}</div>
+        `;
+        card.addEventListener('click', () => tapAnimal(animal, card));
+        grid.appendChild(card);
+      });
+    }
+
+    function renderProgress() {
+      const area = document.getElementById('progressArea');
+      area.innerHTML = '';
+      for (let i = 0; i < ROUND_SIZE; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'pdot';
+        dot.id = `pdot-${i}`;
+        area.appendChild(dot);
+      }
+    }
+
+    function tapAnimal(animal, card) {
+      const alreadyHeard = card.classList.contains('heard');
+
+      // Always play sound + bounce (toddlers love re-tapping)
+      playAnimalSound(animal.id);
+      KhelonaShared.announce(`${animal.name} says ${animal.sound}`);
+
+      card.classList.remove('bounce');
+      void card.offsetWidth; // force reflow to restart animation
+      card.classList.add('bounce');
+
+      const bubble = document.getElementById(`bubble-${animal.id}`);
+      bubble.classList.add('show');
+      clearTimeout(bubble._t);
+      bubble._t = setTimeout(() => bubble.classList.remove('show'), 1500);
+
+      if (!alreadyHeard) {
+        card.classList.add('heard');
+        heardInRound++;
+        totalHeard++;
+        document.getElementById(`pdot-${heardInRound - 1}`).classList.add('done');
+        document.getElementById('totalCounter').textContent = `${totalHeard} 🐾`;
+
+        if (heardInRound === ROUND_SIZE) {
+          setTimeout(celebrate, 700);
+        }
+      }
+    }
+
+    function celebrate() {
+      KhelonaShared.spawnConfetti();
+      KhelonaShared.playSound('win');
+      const emoji = CELEB[Math.floor(Math.random() * CELEB.length)];
+      document.getElementById('celebEmoji').textContent = emoji;
+      document.getElementById('celebSub').textContent = `You heard all ${ROUND_SIZE} animals! 🎉`;
+      const overlay = document.getElementById('celebrate');
+      overlay.classList.add('show');
+      setTimeout(() => {
+        overlay.classList.remove('show');
+        newRound();
+      }, 2200);
+    }
+
+    document.getElementById('startBtn').addEventListener('click', startGame);
+  </script>
+</body>
+</html>

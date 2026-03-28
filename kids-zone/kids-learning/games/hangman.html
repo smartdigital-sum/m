@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hangman — Kids Fun Learning</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../assets/css/theme.css" />
+  </head>
+  <body class="kid-site theme-hangman">
+    <a href="#main-content" class="kid-skip-link">Skip to main content</a>
+
+    <div class="kid-bubbles" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div class="kid-wrap">
+      <div class="kid-topbar">
+        <button type="button" class="kid-sound-toggle" id="kid-sound-btn" aria-pressed="false">
+          <span class="kid-sound-icon" aria-hidden="true">🔊</span>
+          <span class="kid-sound-label">Sound on</span>
+        </button>
+      </div>
+
+      <a href="../index.html" class="kid-back">⬅ Back to home</a>
+
+      <header class="kid-header">
+        <h1 id="main-content" tabindex="-1">🎯 Hangman 🎯</h1>
+        <p>Guess the word one letter at a time!</p>
+      </header>
+
+      <div class="kid-tabs" id="category-tabs">
+        <button type="button" class="kid-tab kid-tab--a active" data-cat="animals">🐾 Animals</button>
+        <button type="button" class="kid-tab kid-tab--b" data-cat="food">🍕 Food</button>
+        <button type="button" class="kid-tab kid-tab--c" data-cat="places">🌍 Places</button>
+      </div>
+
+      <section class="kid-panel" id="game-panel">
+        <div class="hangman-layout">
+          <div class="hangman-drawing-area">
+            <canvas id="hangman-canvas" width="200" height="240"></canvas>
+            <div class="hangman-lives">
+              <span id="lives-display"></span>
+            </div>
+          </div>
+
+          <div class="hangman-word-area">
+            <div class="hangman-hint" id="category-label">Category: Animals</div>
+            <div class="hangman-word" id="word-display" aria-live="polite"></div>
+            <div class="hangman-wrong" id="wrong-letters"></div>
+          </div>
+        </div>
+
+        <div class="hangman-keyboard" id="keyboard" role="group" aria-label="Letter keyboard"></div>
+
+        <div class="kid-actions">
+          <button type="button" class="kid-btn-secondary" id="hint-btn">💡 Hint</button>
+          <button type="button" class="kid-btn-primary" id="new-word-btn">🔄 New word</button>
+        </div>
+
+        <div class="kid-msg" id="message" aria-live="polite"></div>
+
+        <div class="kid-scores">
+          <div>
+            <div class="val" id="wins">0</div>
+            <div>🏆 Wins</div>
+          </div>
+          <div>
+            <div class="val" id="losses" style="color: #ff7675">0</div>
+            <div>💔 Losses</div>
+          </div>
+          <div>
+            <div class="val" id="streak" style="color: #f39c12">0</div>
+            <div>🔥 Streak</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="kid-panel kid-result" id="result-area" aria-live="polite">
+        <div class="big" id="result-icon" aria-hidden="true">🎉</div>
+        <h2 id="result-title">Amazing!</h2>
+        <p id="result-message">You guessed the word!</p>
+        <button type="button" class="kid-btn-restart" id="play-again-btn">Play again 🔄</button>
+      </section>
+    </div>
+
+    <script src="../assets/js/sounds.js"></script>
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/effects.js"></script>
+    <script src="../assets/js/common.js"></script>
+    <script src="../assets/js/hangman.js"></script>
+  </body>
+</html>

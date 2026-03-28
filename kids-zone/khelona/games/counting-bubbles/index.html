@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Counting Bubbles</title>
+  <link rel="stylesheet" href="../../shared/common.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #a8e6cf 0%, #88d8c0 30%, #56c5d6 60%, #7ec8e3 100%);
+      min-height: 100vh;
+      overflow: hidden;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .game-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+      padding: 10px;
+      position: relative;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 500px;
+      padding: 8px 12px;
+      background: rgba(255,255,255,0.25);
+      border-radius: 16px;
+      backdrop-filter: blur(6px);
+      margin-bottom: 8px;
+    }
+
+    .header h1 {
+      font-size: 1.4rem;
+      color: #1a5276;
+      text-shadow: 0 1px 2px rgba(255,255,255,0.6);
+    }
+
+    .stats {
+      display: flex;
+      gap: 16px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1a5276;
+    }
+
+    .bubble-stage {
+      position: relative;
+      width: 100%;
+      max-width: 500px;
+      height: 320px;
+      overflow: hidden;
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(135,206,250,0.15) 0%, rgba(0,119,190,0.2) 100%);
+      margin-bottom: 12px;
+      flex-shrink: 0;
+    }
+
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.9) 0%, rgba(173,216,255,0.6) 30%, rgba(100,180,255,0.35) 60%, rgba(60,140,220,0.2) 100%);
+      box-shadow: inset 0 -4px 8px rgba(0,80,160,0.12), 0 2px 8px rgba(0,0,0,0.08);
+      cursor: pointer;
+      transition: transform 0.15s;
+      will-change: transform, bottom;
+    }
+
+    .bubble:hover {
+      transform: scale(1.12);
+    }
+
+    .bubble.popping {
+      animation: popAnim 0.35s ease-out forwards;
+    }
+
+    @keyframes popAnim {
+      0% { transform: scale(1); opacity: 1; }
+      40% { transform: scale(1.4); opacity: 0.7; }
+      100% { transform: scale(0); opacity: 0; }
+    }
+
+    @keyframes floatUp {
+      0% { bottom: -70px; opacity: 0; }
+      5% { opacity: 1; }
+      85% { opacity: 1; }
+      100% { bottom: 340px; opacity: 0; }
+    }
+
+    .count-btn {
+      display: block;
+      margin: 0 auto 12px;
+      padding: 10px 32px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      border: 3px solid #2980b9;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #3498db, #2ecc71);
+      color: #fff;
+      cursor: pointer;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 12px rgba(41,128,185,0.3);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .count-btn:hover, .count-btn:focus-visible {
+      transform: scale(1.06);
+      box-shadow: 0 6px 18px rgba(41,128,185,0.45);
+      outline: 3px solid #f39c12;
+      outline-offset: 2px;
+    }
+    .count-btn:active {
+      transform: scale(0.97);
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .number-tile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-width: 90px;
+      min-height: 90px;
+      border: 3px solid rgba(255,255,255,0.7);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.55);
+      backdrop-filter: blur(4px);
+      cursor: pointer;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1a5276;
+      transition: transform 0.15s, background 0.2s, box-shadow 0.15s;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+      padding: 6px;
+    }
+    .number-tile .tile-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-top: 2px;
+      color: #2c3e50;
+    }
+    .number-tile:hover, .number-tile:focus-visible {
+      transform: scale(1.07);
+      background: rgba(255,255,255,0.8);
+      box-shadow: 0 5px 16px rgba(0,0,0,0.12);
+      outline: 3px solid #f39c12;
+      outline-offset: 2px;
+    }
+    .number-tile:active {
+      transform: scale(0.95);
+    }
+    .number-tile.correct-flash {
+      background: rgba(46,204,113,0.55) !important;
+      border-color: #27ae60 !important;
+    }
+    .number-tile.wrong-shake {
+      animation: shake 0.4s ease;
+      background: rgba(231,76,60,0.4) !important;
+      border-color: #e74c3c !important;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-8px); }
+      40% { transform: translateX(8px); }
+      60% { transform: translateX(-6px); }
+      80% { transform: translateX(6px); }
+    }
+
+    /* Start screen overlay */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+    .overlay.hidden { display: none; }
+
+    .start-screen, .htp-screen {
+      background: #fff;
+      border-radius: 24px;
+      padding: 36px 32px;
+      text-align: center;
+      max-width: 340px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    }
+    .start-screen h2, .htp-screen h2 {
+      font-size: 1.8rem;
+      color: #1a5276;
+      margin-bottom: 12px;
+    }
+    .start-screen p, .htp-screen p {
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    .play-btn, .dismiss-btn {
+      padding: 14px 40px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      color: #fff;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .play-btn {
+      background: linear-gradient(135deg, #2ecc71, #27ae60);
+      box-shadow: 0 4px 14px rgba(46,204,113,0.4);
+    }
+    .dismiss-btn {
+      background: linear-gradient(135deg, #3498db, #2980b9);
+      box-shadow: 0 4px 14px rgba(52,152,219,0.4);
+    }
+    .play-btn:hover, .dismiss-btn:hover,
+    .play-btn:focus-visible, .dismiss-btn:focus-visible {
+      transform: scale(1.06);
+      outline: 3px solid #f39c12;
+      outline-offset: 2px;
+    }
+
+    .htp-btn {
+      background: rgba(255,255,255,0.4);
+      border: 2px solid rgba(255,255,255,0.6);
+      border-radius: 12px;
+      padding: 6px 12px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      color: #1a5276;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .htp-btn:hover, .htp-btn:focus-visible {
+      background: rgba(255,255,255,0.7);
+      outline: 3px solid #f39c12;
+      outline-offset: 2px;
+    }
+
+    .live-region {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (max-width: 420px) {
+      .header h1 { font-size: 1.1rem; }
+      .bubble-stage { height: 240px; }
+      .number-tile { min-width: 70px; min-height: 70px; font-size: 1.6rem; }
+      .options-grid { gap: 8px; max-width: 300px; }
+      .count-btn { padding: 8px 24px; font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Start screen -->
+  <div class="overlay" id="startOverlay">
+    <div class="start-screen">
+      <h2>Counting Bubbles</h2>
+      <p>Tap the bubbles, count them, then pick the right number!</p>
+      <button class="play-btn" id="playBtn" aria-label="Start playing">Let's Play!</button>
+    </div>
+  </div>
+
+  <!-- HTP overlay -->
+  <div class="overlay hidden" id="htpOverlay">
+    <div class="htp-screen">
+      <h2>How to Play</h2>
+      <p>Bubbles float up on the screen. Tap them to pop! Then press "Count!" to hear the count again, and pick the number that matches how many bubbles you see.</p>
+      <button class="dismiss-btn" id="htpDismissBtn" aria-label="Close instructions">Got it!</button>
+    </div>
+  </div>
+
+  <!-- Game wrapper -->
+  <button class="home-btn" id="homeBtn" aria-label="Go to home">&#x1F3E0;</button>
+  <div class="game-wrapper" id="gameWrapper" style="display:none;">
+    <div class="header">
+      <h1>Counting Bubbles</h1>
+      <div class="stats">
+        <span id="scoreDisplay" aria-label="Score">Score: 0</span>
+      </div>
+      <button class="htp-btn" id="htpBtn" aria-label="How to play">&#x2753;</button>
+    </div>
+
+    <div class="bubble-stage" id="bubbleStage" role="img" aria-label="Bubbles floating on screen"></div>
+
+    <button class="count-btn" id="countBtn" aria-label="Replay bubble count sequence">&#x1F50A; Count!</button>
+
+    <div class="options-grid" id="optionsGrid" role="group" aria-label="Number options"></div>
+  </div>
+
+  <div id="liveRegion" class="live-region" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="../../shared/common.js"></script>
+  <script>
+    (() => {
+      const NUMBERS = [
+        { value: 1, en: 'One', hi: 'एक', as: 'এক' },
+        { value: 2, en: 'Two', hi: 'दो', as: 'দুই' },
+        { value: 3, en: 'Three', hi: 'तीन', as: 'তিনি' },
+        { value: 4, en: 'Four', hi: 'चार', as: 'চাৰি' },
+        { value: 5, en: 'Five', hi: 'पाँच', as: 'পাঁচ' },
+        { value: 6, en: 'Six', hi: 'छह', as: 'ছয়' },
+        { value: 7, en: 'Seven', hi: 'सात', as: 'সাত' },
+        { value: 8, en: 'Eight', hi: 'आठ', as: 'আঠ' },
+        { value: 9, en: 'Nine', hi: 'नौ', as: 'ন' },
+        { value: 10, en: 'Ten', hi: 'दस', as: 'দশ' }
+      ];
+
+      let score = 0;
+      let currentCount = 0;
+      let hardMode = false;
+      let round = 0;
+      let poppedBubbles = 0;
+      let answering = false;
+      let bubbleElements = [];
+      let bubbleTimeouts = [];
+
+      const startOverlay = document.getElementById('startOverlay');
+      const htpOverlay = document.getElementById('htpOverlay');
+      const gameWrapper = document.getElementById('gameWrapper');
+      const bubbleStage = document.getElementById('bubbleStage');
+      const optionsGrid = document.getElementById('optionsGrid');
+      const scoreDisplay = document.getElementById('scoreDisplay');
+      const playBtn = document.getElementById('playBtn');
+      const htpBtn = document.getElementById('htpBtn');
+      const htpDismissBtn = document.getElementById('htpDismissBtn');
+      const countBtn = document.getElementById('countBtn');
+      const homeBtn = document.getElementById('homeBtn');
+
+      function rand(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      function shuffle(arr) {
+        const a = [...arr];
+        for (let i = a.length - 1; i > 0; i--) {
+          const j = rand(0, i);
+          [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+      }
+
+      function getLabel(numObj) {
+        return numObj.en;
+      }
+
+      function clearStage() {
+        bubbleElements = [];
+        bubbleTimeouts.forEach(t => clearTimeout(t));
+        bubbleTimeouts = [];
+        bubbleStage.innerHTML = '';
+      }
+
+      function clearOptions() {
+        optionsGrid.innerHTML = '';
+      }
+
+      function startGame() {
+        score = 0;
+        round = 0;
+        hardMode = false;
+        poppedBubbles = 0;
+        answering = false;
+        scoreDisplay.textContent = 'Score: 0';
+        startOverlay.classList.add('hidden');
+        gameWrapper.style.display = 'flex';
+        newRound();
+      }
+
+      function newRound() {
+        round++;
+        if (round > 5) hardMode = true;
+        currentCount = hardMode ? rand(1, 10) : rand(1, 5);
+        poppedBubbles = 0;
+        answering = false;
+        clearStage();
+        clearOptions();
+        createBubbles();
+        createOptions();
+        KhelonaShared.announce(currentCount + ' bubbles. Pick the number.');
+      }
+
+      function createBubbles() {
+        const stageRect = bubbleStage.getBoundingClientRect();
+        const stageW = bubbleStage.offsetWidth;
+        const stageH = bubbleStage.offsetHeight;
+
+        for (let i = 0; i < currentCount; i++) {
+          const size = rand(40, 60);
+          const bubble = document.createElement('div');
+          bubble.className = 'bubble';
+          bubble.style.width = size + 'px';
+          bubble.style.height = size + 'px';
+          const maxLeft = Math.max(10, stageW - size - 10);
+          bubble.style.left = rand(10, maxLeft) + 'px';
+          const duration = rand(4, 8);
+          const delay = rand(0, 20) / 10;
+          bubble.style.animation = `floatUp ${duration}s ${delay}s linear forwards`;
+
+          bubble.setAttribute('role', 'button');
+          bubble.setAttribute('aria-label', 'Pop bubble');
+          bubble.setAttribute('tabindex', '0');
+
+          bubble.addEventListener('click', () => popBubble(bubble));
+          bubble.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              popBubble(bubble);
+            }
+          });
+
+          bubbleStage.appendChild(bubble);
+          bubbleElements.push(bubble);
+        }
+      }
+
+      function popBubble(el) {
+        if (el.classList.contains('popping')) return;
+        el.classList.add('popping');
+        KhelonaShared.playSound('tap');
+        poppedBubbles++;
+        const t = setTimeout(() => {
+          if (el.parentNode) el.parentNode.removeChild(el);
+        }, 350);
+        bubbleTimeouts.push(t);
+      }
+
+      function popAllBubbles(callback) {
+        let delay = 0;
+        const remaining = bubbleElements.filter(b => !b.classList.contains('popping'));
+        remaining.forEach((b, i) => {
+          const t = setTimeout(() => {
+            popBubble(b);
+          }, delay);
+          bubbleTimeouts.push(t);
+          delay += 150;
+        });
+        const t2 = setTimeout(callback, delay + 400);
+        bubbleTimeouts.push(t2);
+      }
+
+      function countSequence() {
+        KhelonaShared.playSound('tap');
+        let delay = 400;
+        for (let i = 1; i < currentCount; i++) {
+          const t = setTimeout(() => {
+            KhelonaShared.playSound('tap');
+          }, delay);
+          bubbleTimeouts.push(t);
+          delay += 400;
+        }
+      }
+
+      function createOptions() {
+        clearOptions();
+        const correct = currentCount;
+        const distractors = new Set();
+        while (distractors.size < 2) {
+          let d = rand(Math.max(1, correct - 3), Math.min(10, correct + 3));
+          if (d !== correct) distractors.add(d);
+        }
+        const options = shuffle([correct, ...distractors]);
+
+        options.forEach(val => {
+          const numObj = NUMBERS[val - 1];
+          const btn = document.createElement('button');
+          btn.className = 'number-tile';
+          btn.setAttribute('aria-label', val + ', ' + getLabel(numObj));
+          btn.innerHTML = `<span>${val}</span><span class="tile-label">${getLabel(numObj)}</span>`;
+          btn.addEventListener('click', () => handleAnswer(val === correct, val, btn));
+          optionsGrid.appendChild(btn);
+        });
+      }
+
+      function handleAnswer(correct, value, btnEl) {
+        if (answering) return;
+        answering = true;
+
+        if (correct) {
+          score++;
+          scoreDisplay.textContent = 'Score: ' + score;
+          KhelonaShared.playSound('correct');
+          KhelonaShared.announce('Correct!');
+          btnEl.classList.add('correct-flash');
+
+          popAllBubbles(() => {
+            if (score % 5 === 0) {
+              KhelonaShared.playSound('win');
+              const rect = btnEl.getBoundingClientRect();
+              KhelonaShared.spawnConfetti(rect.left + rect.width / 2, rect.top, 40);
+            }
+            setTimeout(() => newRound(), 800);
+          });
+        } else {
+          KhelonaShared.playSound('wrong');
+          KhelonaShared.announce('Try again.');
+          btnEl.classList.add('wrong-shake');
+          setTimeout(() => {
+            btnEl.classList.remove('wrong-shake');
+            answering = false;
+          }, 500);
+        }
+      }
+
+      playBtn.addEventListener('click', () => {
+        KhelonaShared.initHtp('htp_cb');
+        KhelonaShared.enableButtonKeyboard();
+        startGame();
+      });
+
+      htpBtn.addEventListener('click', () => {
+        htpOverlay.classList.remove('hidden');
+      });
+
+      htpDismissBtn.addEventListener('click', () => {
+        htpOverlay.classList.add('hidden');
+        KhelonaShared.dismissHtp('htp_cb');
+      });
+
+      countBtn.addEventListener('click', () => {
+        countSequence();
+      });
+
+      homeBtn.addEventListener('click', () => {
+        window.location.href = '../../index.html';
+      });
+    })();
+  </script>
+</body>
+</html>

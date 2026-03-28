@@ -57,10 +57,10 @@
                 <ul class="nav-menu" id="navMenu">
                     <li><a href="#home" class="nav-link" data-en="Home" data-as="ঘৰ">Home</a></li>
                     <li><a href="#updates" class="nav-link" data-en="Updates" data-as="আপডেট">Updates</a></li>
-                    <li><a href="#demos" class="nav-link" data-en="Websites" data-as="ৱেবছাইট">Websites</a></li>
+                    <li><a href="#websites" class="nav-link" data-en="Websites" data-as="ৱেবছাইট">Websites</a></li>
                     <li><a href="#services" class="nav-link" data-en="Services" data-as="সেৱা">Services</a></li>
                     <!--                     <li><a href="#calculator" class="nav-link" data-en="Pricing" data-as="মূল্য">Pricing</a></li> -->
-                    <li><a href="#games" class="nav-link" data-en="Games" data-as="গেমছ">Games</a></li>
+                    
                     <li><a href="#gallery" class="nav-link" data-en="Gallery" data-as="গেলেৰী">Gallery</a></li>
                     <li><a href="#certificates" class="nav-link" data-en="Certs" data-as="প্ৰমাণপত্ৰ">Certs</a></li>
                 </ul>
@@ -314,14 +314,60 @@
     </div></div>
             </div>
         </div>
-    </section><section class="demos-section" id="demos">
+    </section>
+
+    <!-- ===== STUDY ZONE ===== -->
+    <section class="study-zone-section" id="study-zone">
         <div class="container">
             <div class="section-head">
-                <h2 class="section-title" data-en="Demo Websites" data-as="ডেমো ৱেবছাইট">Demo Websites</h2>
-                <p class="section-sub" data-en="Functional sample sites built by us" data-as="আমাৰ দ্বাৰা নিৰ্মিত কাৰ্যকৰী নমুনা ছাইট">Functional sample sites built by us</p>
+                <h2 class="section-title" data-en="Study Zone" data-as="ষ্টাডি জ'ন">Study Zone</h2>
+                <p class="section-sub" data-en="Educational websites for kids" data-as="শিশুসকলৰ বাবে শিক্ষামূলক ৱেবছাইট">Educational websites for kids</p>
             </div>
+            <div class="scroll-wrapper">
+                
+                <div class="study-zone-grid">
+                    <!-- Khelona Hub Card (Featured) -->
+                    <div class="study-zone-card" style="border: 2px solid var(--primary); background: rgba(99, 102, 241, 0.05);">
+                        <div class="demo-icon" style="font-size: 2.5rem; display: flex; align-items: center; justify-content: center; width: 70px; height: 70px; margin: 0 auto 15px; border-radius: 16px; background: linear-gradient(135deg, #ff6b6b, #ffd93d, #6bcb77, #4d96ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">🎮</div>
+                        <h3 style="font-family: 'Fredoka One', cursive; margin-bottom: 5px; color: var(--primary);">Khelona Hub</h3>
+                        <p style="color: var(--gray); font-size: 14px; margin-top: 10px;">Explore all 10+ educational games for kids.</p>
+                        <a href="kids-zone/khelona/index.html" class="btn btn-primary btn-sm" style="margin-top: 20px; width: 100%; border-radius: 50px;"><i class="fas fa-play-circle"></i> Play More</a>
+                    </div>
+                    <!-- Kids Fun Learning Hub Card (Featured) -->
+                    <div class="study-zone-card" style="border: 2px solid #a855f7; background: rgba(168, 85, 247, 0.05);">
+                        <div class="demo-icon" style="font-size: 2.5rem; display: flex; align-items: center; justify-content: center; width: 70px; height: 70px; margin: 0 auto 15px; border-radius: 16px; background: linear-gradient(135deg, #a855f7, #6366f1, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">🌟</div>
+                        <h3 style="font-family: 'Fredoka One', cursive; margin-bottom: 5px; color: #a855f7;">Fun Learning Hub</h3>
+                        <p style="color: var(--gray); font-size: 14px; margin-top: 10px;">Play 25+ brain games for ages 3-6!</p>
+                        <a href="kids-zone/kids-learning/index.html" class="btn btn-primary btn-sm" style="margin-top: 20px; width: 100%; border-radius: 50px; background: #a855f7; border-color: #a855f7;"><i class="fas fa-rocket"></i> Play Now</a>
+                    </div>
+                </div>
+</div>
+        </div>
+    </section>
 
-            <div class="demos-grid">
+
+    <!-- ===== WEBSITES (Demos & Games) ===== -->
+    <section class="demos-section" id="websites">
+        <div class="container">
+            <div class="section-head">
+                <h2 class="section-title" data-en="Websites" data-as="ৱেবছাইট">Websites</h2>
+                <p class="section-sub" data-en="Check out our demo sites and interactive projects" data-as="আমাৰ ডেমো ছাইট আৰু ইণ্টাৰেক্টিভ প্ৰজেক্ট চাওক">Check out our demo sites and interactive projects</p>
+                <div class="punch-widget-inline" data-id="games-hype" style="justify-content: center; margin: 1.5rem auto 0; width: fit-content; display: flex;">
+                    <button class="punch-btn-sm" onclick="doPunch(this)">👊</button>
+                    <span class="punch-count-sm">0</span>
+                    <span class="punch-label-sm" data-en="Fun!" data-as="মজা!">Fun!</span>
+                </div>
+            </div>
+            
+            <div class="tab-container">
+                <button class="filter-btn active" onclick="switchTab('website', 'demo-sites-tab', this)">Demo Sites</button>
+                <button class="filter-btn" onclick="switchTab('website', 'games-projects-tab', this)">Games & Projects</button>
+            </div>
+            
+            <div id="demo-sites-tab" class="tab-content website-tab active">
+                <div class="scroll-wrapper">
+                    <div class="demos-grid">
+                        
                 <!-- Demo 1: Medical Shop -->
                 <div class="demo-card">
                     <div class="demo-icon icon-bg-medical"><i class="fas fa-pills"></i></div>
@@ -653,177 +699,15 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== SERVICES ===== -->
-    <section class="services-section" id="services">
-        <div class="container">
-            <div class="section-head">
-                <h2 class="section-title" data-en="Our Services" data-as="আমাৰ সেৱাসমূহ">Our Services</h2>
-                <p class="section-sub" data-en="Comprehensive digital solutions for everyone" data-as="সকলোৰ বাবে সম্পূৰ্ণ ডিজিটেল সমাধান">Comprehensive digital solutions for everyone</p>
-            </div>
-
-            <div class="services-grid">
-                <!-- NEW DIGITAL SERVICES -->
-                <div class="service-card highlight-card reveal active" onclick="openServiceModal('Website Creation','website')">
-                    <div class="svc-icon icon-bg-primary"><i class="fas fa-globe"></i></div>
-                    <div class="svc-badge pulse-badge">HOT &amp; LIVE</div>
-                    <h3 data-en="Website Creation" data-as="ৱেবছাইট নিৰ্মাণ">Website Creation</h3>
-                    <p class="dark-desc" data-en="Professional websites for local businesses &amp; personal portfolios." data-as="স্থানীয় ব্যৱসায় আৰু ব্যক্তিগত পৰ্টফলিঅ'ৰ বাবে পেছাদাৰী ৱেবছাইট।">Professional
-                        websites for local businesses &amp; personal portfolios.</p>
-                    <span class="price-tag">₹3,000–16,000</span>
-                </div>
-
-                <div class="service-card highlight-card reveal active" onclick="openServiceModal('WhatsApp Automation','bot')">
-                    <div class="svc-icon icon-bg-whatsapp"><i class="fab fa-whatsapp"></i></div>
-                    <div class="svc-badge pulse-badge">NEW &amp; LIVE</div>
-                    <h3 data-en="n8n WhatsApp Bot" data-as="n8n হোৱাটছএপ বট">n8n WhatsApp Bot</h3>
-                    <p class="dark-desc" data-en="Automated status, replies &amp; customer engagement bots using n8n." data-as="n8n ব্যৱহাৰ কৰি স্বয়ংক্ৰিয় ষ্টেটাছ, উত্তৰ আৰু গ্ৰাহক সংযোগ বট।">
-                        Automated status, replies &amp; customer engagement bots using n8n.</p>
-                    <span class="price-tag">₹1,500–5,000</span>
-                </div>
-
-                <!-- OFFLINE / UNDER CONSTRUCTION SERVICES -->
-                <div class="service-card disabled-card reveal" style="display: none;">
-                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-id-card"></i></div>
-                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
-                    <h3 data-en="PAN Card" data-as="পেন কাৰ্ড">PAN Card</h3>
-                    <p data-en="New application, correction &amp; tracking" data-as="নতুন আৱেদন, সংশোধন আৰু ট্ৰেকিং">New
-                        application, correction &amp; tracking</p>
-                    <span class="price-tag text-red">Coming Soon</span>
-                </div>
-
-                <div class="service-card disabled-card reveal" style="display: none;">
-                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-fingerprint"></i></div>
-                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
-                    <h3 data-en="Aadhaar Services" data-as="আধাৰ সেৱা">Aadhaar Services</h3>
-                    <p data-en="Update, correction &amp; enrollment help" data-as="আপডেট, সংশোধন আৰু নথিভুক্তিৰ সহায়">
-                        Update, correction &amp; enrollment help</p>
-                    <span class="price-tag text-red">Coming Soon</span>
-                </div>
-
-                <div class="service-card disabled-card reveal" style="display: none;">
-                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-print"></i></div>
-                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
-                    <h3 data-en="Printing &amp; Scanning" data-as="প্ৰিন্টিং আৰু স্কেনিং">Printing &amp; Scanning</h3>
-                    <p data-en="B&amp;W, color printing, scanning &amp; PDF" data-as="বি&amp;ডব্লু, কালাৰ প্ৰিন্টিং, স্কেনিং আৰু PDF">B&amp;W, color printing, scanning &amp; PDF</p>
-                    <span class="price-tag text-red">Coming Soon</span>
-                </div>
-
-                <div class="service-card disabled-card reveal" style="display: none;">
-                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-camera"></i></div>
-                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
-                    <h3 data-en="Passport Photo" data-as="পাছপোৰ্ট ফটো">Passport Photo</h3>
-                    <p data-en="Professional passport-size &amp; ID photos" data-as="পেছাদাৰী পাছপোৰ্ট আৰু পৰিচয়পত্ৰৰ ফটো">
-                        Professional passport-size &amp; ID photos</p>
-                    <span class="price-tag text-red">Coming Soon</span>
-                </div>
-
-                <div class="service-card disabled-card reveal" style="display: none;">
-                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-file-alt"></i></div>
-                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
-                    <h3 data-en="Govt. Form Filling" data-as="চৰকাৰী ফৰ্ম পূৰণ">Govt. Form Filling</h3>
-                    <p data-en="All government online forms &amp; applications" data-as="সকলো চৰকাৰী অনলাইন ফৰ্ম আৰু আৱেদন">
-                        All government online forms &amp; applications</p>
-                    <span class="price-tag text-red">Coming Soon</span>
-                </div>
-
-                <div class="service-card disabled-card reveal" style="display: none;">
-                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-ticket-alt"></i></div>
-                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
-                    <h3 data-en="Ticket Booking" data-as="টিকট বুকিং">Ticket Booking</h3>
-                    <p data-en="Railway, bus &amp; flight ticket booking" data-as="ৰেল, বাছ আৰু বিমান টিকট বুকিং">Railway,
-                        bus &amp; flight ticket booking</p>
-                    <span class="price-tag text-red">Coming Soon</span>
-                </div>
-
-                <div class="service-card disabled-card reveal" style="display: none;">
-                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-vote-yea"></i></div>
-                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
-                    <h3 data-en="Voter ID Services" data-as="ভোটাৰ পৰিচয়পত্ৰ সেৱা">Voter ID Services</h3>
-                    <p data-en="New registration &amp; correction" data-as="নতুন নথিভুক্তি আৰু সংশোধন">New registration &amp;
-                        correction</p>
-                    <span class="price-tag text-red">Coming Soon</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== QUOTE CALCULATOR ===== -->
-    <section class="calculator-section" id="calculator" style="display: none;">
-        <div class="container">
-            <div class="section-head">
-                <h2 class="section-title" data-en="Quick Quote Calculator" data-as="দ্ৰুত মূল্য গণনাকাৰী">Quick Quote
-                    Calculator</h2>
-                <p class="section-sub" data-en="Get an instant price estimate" data-as="তাৎক্ষণিক মূল্য অনুমান পাওক">Get
-                    an instant price estimate</p>
-            </div>
-            <div class="calc-card">
-                <div class="calc-grid">
-                    <div class="calc-field">
-                        <label data-en="Select Service" data-as="সেৱা বাছক">Select Service</label>
-                        <select id="quoteService" onchange="calcQuote()">
-                            <option value="0" data-en="Choose a service..." data-as="এটা সেৱা বাছক...">Choose a
-                                service...</option>
-                            <option value="150" data-en="PAN Card — ₹150" data-as="পেন কাৰ্ড — ₹150">PAN Card — ₹150
-                            </option>
-                            <option value="100" data-en="Aadhaar Update — ₹100" data-as="আধাৰ আপডেট — ₹100">Aadhaar
-                                Update — ₹100</option>
-                            <option value="100" data-en="Voter ID — ₹100" data-as="ভোটাৰ পৰিচয়পত্ৰ — ₹100">Voter ID —
-                                ₹100</option>
-                            <option value="2" data-en="Photocopy (per page) — ₹2" data-as="ফটোকপি (প্ৰতি পৃষ্ঠা) — ₹2">
-                                Photocopy (per page) — ₹2</option>
-                            <option value="5" data-en="B&amp;W Print (per page) — ₹5" data-as="বি&amp;ডব্লু প্ৰিন্ট (প্ৰতি পৃষ্ঠা) — ₹5">B&amp;W Print (per page) — ₹5</option>
-                            <option value="15" data-en="Color Print (per page) — ₹15" data-as="কালাৰ প্ৰিন্ট (প্ৰতি পৃষ্ঠা) — ₹15">Color Print (per page) — ₹15</option>
-                            <option value="20" data-en="Lamination — ₹20" data-as="লেমিনেচন — ₹20">Lamination — ₹20
-                            </option>
-                            <option value="50" data-en="Passport Photo (set) — ₹50" data-as="পাছপোৰ্ট ফটো (ছেট) — ₹50">
-                                Passport Photo (set) — ₹50</option>
-                            <option value="100" data-en="Form Filling — ₹100" data-as="ফৰ্ম পূৰণ — ₹100">Form Filling —
-                                ₹100</option>
-                            <option value="40" data-en="Railway Ticket — ₹40" data-as="ৰেলৱে টিকট — ₹40">Railway Ticket
-                                — ₹40</option>
-                        </select>
-                    </div>
-                    <div class="calc-field">
-                        <label data-en="Quantity" data-as="পৰিমাণ">Quantity</label>
-                        <input type="number" id="quoteQty" value="1" min="1" oninput="calcQuote()" onchange="calcQuote()">
-                    </div>
-                </div>
-                <div class="calc-result" id="calcResult">
-                    <div class="calc-result-label" data-en="Estimated Total" data-as="আনুমানিক মুঠ">Estimated Total
-                    </div>
-                    <div class="calc-total">₹<span id="calcTotal">0</span></div>
-                    <p class="calc-note" data-en="*Final price may vary based on requirements" data-as="*প্ৰয়োজনীয়তাৰ ওপৰত চূড়ান্ত মূল্য পৰিবৰ্তিত হ'ব পাৰে">*Final price may vary based on
-                        requirements</p>
-                </div>
-                <div style="text-align:center; margin-top:1.5rem;">
-                    <a href="https://wa.me/918638759478" class="btn btn-primary" target="_blank" data-en="Book on WhatsApp" data-as="WhatsApp ত বুক কৰক">Book on WhatsApp</a>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-
             
-    <!-- ===== GAMES & PROJECTS ===== -->
-    <section class="games-section" id="games">
-        <div class="container">
-            <div class="section-head">
-                <h2 class="section-title" data-en="Games &amp; Projects" data-as="গেমছ আৰু প্ৰজেক্ট">Games &amp; Projects</h2>
-                <p class="section-sub" data-en="Play our custom-built interactive games" data-as="আমাৰ কাষ্টম-বিল্ট ইণ্টাৰেক্টিভ গেমছ খেলক">Play our custom-built interactive games</p>
-                
-                <!-- PUNCH WIDGET - Games Section (Centered) -->
-                <div class="punch-widget-inline" data-id="games-hype" style="justify-content: center; margin: 1.5rem auto 0; width: fit-content; display: flex;">
-                    <button class="punch-btn-sm" onclick="doPunch(this)">👊</button>
-                    <span class="punch-count-sm">0</span>
-                    <span class="punch-label-sm" data-en="Fun!" data-as="মজা!">Fun!</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="games-grid">
+            <div id="games-projects-tab" class="tab-content website-tab">
+                <div class="scroll-wrapper">
+                    <div class="games-grid" style="padding-top: 10px;">
+                        
                 <!-- Game 1 -->
                 <div class="game-card">
                     <div class="game-icon icon-bg-primary"><i class="fas fa-gamepad"></i></div>
@@ -907,9 +791,316 @@
                         <a href="https://github.com/Suman1590/pigGame-Ch.git" target="_blank" class="btn btn-outline-dark btn-sm"><i class="fab fa-github"></i> Code</a>
                     </div>
                 </div>
+            
+                    </div>
+                </div>
             </div>
         </div>
     </section>
+
+
+    <!-- ===== SERVICES ===== -->
+    <section class="services-section" id="services">
+        <div class="container">
+            <div class="section-head">
+                <h2 class="section-title" data-en="Our Services" data-as="আমাৰ সেৱাসমূহ">Our Services</h2>
+                <p class="section-sub" data-en="Comprehensive digital solutions for everyone" data-as="সকলোৰ বাবে সম্পূৰ্ণ ডিজিটেল সমাধান">Comprehensive digital solutions for everyone</p>
+            </div>
+
+            <div class="tab-container">
+                <button class="filter-btn active" onclick="switchTab('service', 'offline-services-tab', this)">Offline Services</button>
+                <button class="filter-btn" onclick="switchTab('service', 'ai-services-tab', this)">AI Powered Services</button>
+            </div>
+
+            <div id="offline-services-tab" class="tab-content service-tab active">
+                <div class="services-grid">
+                    
+                <!-- NEW DIGITAL SERVICES -->
+                <div class="service-card highlight-card reveal active" onclick="openServiceModal('Website Creation','website')">
+                    <div class="svc-icon icon-bg-primary"><i class="fas fa-globe"></i></div>
+                    <div class="svc-badge pulse-badge">HOT &amp; LIVE</div>
+                    <h3 data-en="Website Creation" data-as="ৱেবছাইট নিৰ্মাণ">Website Creation</h3>
+                    <p class="dark-desc" data-en="Professional websites for local businesses &amp; personal portfolios." data-as="স্থানীয় ব্যৱসায় আৰু ব্যক্তিগত পৰ্টফলিঅ'ৰ বাবে পেছাদাৰী ৱেবছাইট।">Professional
+                        websites for local businesses &amp; personal portfolios.</p>
+                    <span class="price-tag">₹3,000–16,000</span>
+                </div>
+
+                <div class="service-card highlight-card reveal active" onclick="openServiceModal('WhatsApp Automation','bot')">
+                    <div class="svc-icon icon-bg-whatsapp"><i class="fab fa-whatsapp"></i></div>
+                    <div class="svc-badge pulse-badge">NEW &amp; LIVE</div>
+                    <h3 data-en="n8n WhatsApp Bot" data-as="n8n হোৱাটছএপ বট">n8n WhatsApp Bot</h3>
+                    <p class="dark-desc" data-en="Automated status, replies &amp; customer engagement bots using n8n." data-as="n8n ব্যৱহাৰ কৰি স্বয়ংক্ৰিয় ষ্টেটাছ, উত্তৰ আৰু গ্ৰাহক সংযোগ বট।">
+                        Automated status, replies &amp; customer engagement bots using n8n.</p>
+                    <span class="price-tag">₹1,500–5,000</span>
+                </div>
+
+                <!-- OFFLINE / UNDER CONSTRUCTION SERVICES -->
+                <div class="service-card disabled-card reveal" style="display: none;">
+                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-id-card"></i></div>
+                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
+                    <h3 data-en="PAN Card" data-as="পেন কাৰ্ড">PAN Card</h3>
+                    <p data-en="New application, correction &amp; tracking" data-as="নতুন আৱেদন, সংশোধন আৰু ট্ৰেকিং">New
+                        application, correction &amp; tracking</p>
+                    <span class="price-tag text-red">Coming Soon</span>
+                </div>
+
+                <div class="service-card disabled-card reveal" style="display: none;">
+                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-fingerprint"></i></div>
+                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
+                    <h3 data-en="Aadhaar Services" data-as="আধাৰ সেৱা">Aadhaar Services</h3>
+                    <p data-en="Update, correction &amp; enrollment help" data-as="আপডেট, সংশোধন আৰু নথিভুক্তিৰ সহায়">
+                        Update, correction &amp; enrollment help</p>
+                    <span class="price-tag text-red">Coming Soon</span>
+                </div>
+
+                <div class="service-card disabled-card reveal" style="display: none;">
+                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-print"></i></div>
+                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
+                    <h3 data-en="Printing &amp; Scanning" data-as="প্ৰিন্টিং আৰু স্কেনিং">Printing &amp; Scanning</h3>
+                    <p data-en="B&amp;W, color printing, scanning &amp; PDF" data-as="বি&amp;ডব্লু, কালাৰ প্ৰিন্টিং, স্কেনিং আৰু PDF">B&amp;W, color printing, scanning &amp; PDF</p>
+                    <span class="price-tag text-red">Coming Soon</span>
+                </div>
+
+                <div class="service-card disabled-card reveal" style="display: none;">
+                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-camera"></i></div>
+                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
+                    <h3 data-en="Passport Photo" data-as="পাছপোৰ্ট ফটো">Passport Photo</h3>
+                    <p data-en="Professional passport-size &amp; ID photos" data-as="পেছাদাৰী পাছপোৰ্ট আৰু পৰিচয়পত্ৰৰ ফটো">
+                        Professional passport-size &amp; ID photos</p>
+                    <span class="price-tag text-red">Coming Soon</span>
+                </div>
+
+                <div class="service-card disabled-card reveal" style="display: none;">
+                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-file-alt"></i></div>
+                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
+                    <h3 data-en="Govt. Form Filling" data-as="চৰকাৰী ফৰ্ম পূৰণ">Govt. Form Filling</h3>
+                    <p data-en="All government online forms &amp; applications" data-as="সকলো চৰকাৰী অনলাইন ফৰ্ম আৰু আৱেদন">
+                        All government online forms &amp; applications</p>
+                    <span class="price-tag text-red">Coming Soon</span>
+                </div>
+
+                <div class="service-card disabled-card reveal" style="display: none;">
+                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-ticket-alt"></i></div>
+                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
+                    <h3 data-en="Ticket Booking" data-as="টিকট বুকিং">Ticket Booking</h3>
+                    <p data-en="Railway, bus &amp; flight ticket booking" data-as="ৰেল, বাছ আৰু বিমান টিকট বুকিং">Railway,
+                        bus &amp; flight ticket booking</p>
+                    <span class="price-tag text-red">Coming Soon</span>
+                </div>
+
+                <div class="service-card disabled-card reveal" style="display: none;">
+                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-vote-yea"></i></div>
+                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
+                    <h3 data-en="Voter ID Services" data-as="ভোটাৰ পৰিচয়পত্ৰ সেৱা">Voter ID Services</h3>
+                    <p data-en="New registration &amp; correction" data-as="নতুন নথিভুক্তি আৰু সংশোধন">New registration &amp;
+                        correction</p>
+                    <span class="price-tag text-red">Coming Soon</span>
+                </div>
+            
+                </div>
+            </div>
+            
+            <div id="ai-services-tab" class="tab-content service-tab">
+
+    <!-- AI Services Migrated Portal -->
+    <div class="ai-services-wrapper">
+        <div class="section-head" style="margin-bottom: 2rem;">
+            <div class="ai-card-tag" style="text-align: center; margin-bottom: 10px;">Smart Digital Hub</div>
+            <p style="text-align: center; color: var(--gray);">Access our suite of professional AI-powered tools designed to streamline your business and personal growth.</p>
+        </div>
+        <div class="ai-search-container">
+            <span class="ai-search-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </span>
+            <input type="text" id="toolSearch" class="ai-search-input" placeholder="Search for AI tools (e.g. 'translator', 'resume', 'business')...">
+        </div>
+        <div class="ai-grid" id="toolGrid">
+            <!-- LipiAntar -->
+            <a href="apps/translator/index.html" class="ai-card" data-name="lipiantar translator language translation assamese hindi">
+                <div class="ai-ai-card-icon">🌍</div>
+                <div class="ai-ai-card-tag">Language / AI</div>
+                <h3>LipiAntar</h3>
+                <p>Professional document translation for Assamese, Hindi, and English. Built for legal and official documents.</p>
+                <div class="ai-ai-card-footer">
+                    Open Service 
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </div>
+            </a>
+
+            <!-- BizWrite -->
+            <a href="apps/bizwrite/index.html" class="ai-card" data-name="bizwrite business ai profile generator social media bio">
+                <div class="ai-ai-card-icon">🏪</div>
+                <div class="ai-ai-card-tag">Business / AI</div>
+                <h3>BizWrite</h3>
+                <p>Generate professional business profiles, social media bios, and product descriptions in seconds.</p>
+                <div class="ai-ai-card-footer">
+                    Open Service 
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </div>
+            </a>
+
+            <!-- PatraLekhak -->
+            <a href="apps/patralekhak/index.html" class="ai-card" data-name="patralekhak legal legal ai letter writer formal complaints">
+                <div class="ai-badge ai-ai-badge-beta">BETA</div>
+                <div class="ai-ai-card-icon">✉️</div>
+                <div class="ai-ai-card-tag">Legal / AI</div>
+                <h3>PatraLekhak</h3>
+                <p>Convert your simple complaints into powerful formal and legal letters. Support for multiples languages.</p>
+                <div class="ai-ai-card-footer">
+                    Open Service 
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </div>
+            </a>
+
+            <!-- ScriptWala -->
+            <a href="apps/scriptwala/index.html" class="ai-card" data-name="scriptwala marketing ai whatsapp script generator promotions">
+                <div class="ai-ai-card-icon">💬</div>
+                <div class="ai-ai-card-tag">Marketing / AI</div>
+                <h3>ScriptWala</h3>
+                <p>Create high-converting WhatsApp scripts for promotions, festive tags, and customer relations.</p>
+                <div class="ai-ai-card-footer">
+                    Open Service 
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </div>
+            </a>
+
+            <!-- StudyBuddy -->
+            <a href="apps/studybuddy/index.html" class="ai-card" data-name="studybuddy education ai homework helper assignment students class 9 10">
+                <div class="ai-ai-card-icon">📚</div>
+                <div class="ai-ai-card-tag">Education / AI</div>
+                <h3>StudyBuddy</h3>
+                <p>The ultimate homework and assignment helper for Class 9 & 10 students. Study smarter, not harder.</p>
+                <div class="ai-ai-card-footer">
+                    Open Service 
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </div>
+            </a>
+
+            <!-- ChatBot -->
+            <a href="apps/chatbot/index.html" class="ai-card" data-name="chatbot smart assistant support ai floating chat">
+                <div class="ai-ai-card-icon">🤖</div>
+                <div class="ai-ai-card-tag">Support / AI</div>
+                <h3>Smart Assistant</h3>
+                <p>Integrate a floating AI chatbot into any page to handle customer queries and automated support.</p>
+                <div class="ai-ai-card-footer">
+                    Open Service 
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </div>
+            </a>
+
+            <!-- ExamCraft -->
+            <a href="apps/examcraft/index.html" class="ai-card" data-name="examcraft pro question paper generator tool ai prep">
+                <div class="ai-badge ai-ai-badge-new">New</div>
+                <div class="ai-ai-card-icon">📝</div>
+                <div class="ai-ai-card-tag">Tools / AI</div>
+                <h3>ExamCraft Pro</h3>
+                <p>Generate professional question papers for any subject and level in minutes. Save hours of prep.</p>
+                <div class="ai-ai-card-footer">
+                    Open Service 
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </div>
+            </a>
+
+            <!-- ShopWrite -->
+            <a href="apps/shopwrite/index.html" class="ai-card" data-name="shopwrite ai e-commerce product copy seo keywords hashtags">
+                <div class="ai-ai-card-icon">🛒</div>
+                <div class="ai-ai-card-tag">E-commerce / AI</div>
+                <h3>ShopWrite AI</h3>
+                <p>E-commerce product copy generator with built-in SEO keywords and hashtags for maximum reach.</p>
+                <div class="ai-ai-card-footer">
+                    Open Service 
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </div>
+            </a>
+
+            <!-- Resume Builder -->
+            <a href="apps/resume-builder/index.html" class="ai-card" data-name="resume builder career ai ats-friendly professional template">
+                <div class="ai-badge ai-ai-badge-new">New</div>
+                <div class="ai-ai-card-icon">📄</div>
+                <div class="ai-ai-card-tag">Career / AI</div>
+                <h3>Resume Builder</h3>
+                <p>Create professional, ATS-friendly resumes in 60 seconds. Modern templates and AI content.</p>
+                <div class="ai-ai-card-footer">
+                    Open Service 
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </div>
+            </a>
+
+            <!-- No Results Found -->
+            <div id="noResults" class="ai-no-results">
+                <h3>No matching tools found</h3>
+                <p>Try searching for different keywords or categories.</p>
+            </div>
+        </div>
+    </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ===== SERVICES ===== -->
+    
+
+    <!-- ===== QUOTE CALCULATOR ===== -->
+    <section class="calculator-section" id="calculator" style="display: none;">
+        <div class="container">
+            <div class="section-head">
+                <h2 class="section-title" data-en="Quick Quote Calculator" data-as="দ্ৰুত মূল্য গণনাকাৰী">Quick Quote
+                    Calculator</h2>
+                <p class="section-sub" data-en="Get an instant price estimate" data-as="তাৎক্ষণিক মূল্য অনুমান পাওক">Get
+                    an instant price estimate</p>
+            </div>
+            <div class="calc-card">
+                <div class="calc-grid">
+                    <div class="calc-field">
+                        <label data-en="Select Service" data-as="সেৱা বাছক">Select Service</label>
+                        <select id="quoteService" onchange="calcQuote()">
+                            <option value="0" data-en="Choose a service..." data-as="এটা সেৱা বাছক...">Choose a
+                                service...</option>
+                            <option value="150" data-en="PAN Card — ₹150" data-as="পেন কাৰ্ড — ₹150">PAN Card — ₹150
+                            </option>
+                            <option value="100" data-en="Aadhaar Update — ₹100" data-as="আধাৰ আপডেট — ₹100">Aadhaar
+                                Update — ₹100</option>
+                            <option value="100" data-en="Voter ID — ₹100" data-as="ভোটাৰ পৰিচয়পত্ৰ — ₹100">Voter ID —
+                                ₹100</option>
+                            <option value="2" data-en="Photocopy (per page) — ₹2" data-as="ফটোকপি (প্ৰতি পৃষ্ঠা) — ₹2">
+                                Photocopy (per page) — ₹2</option>
+                            <option value="5" data-en="B&amp;W Print (per page) — ₹5" data-as="বি&amp;ডব্লু প্ৰিন্ট (প্ৰতি পৃষ্ঠা) — ₹5">B&amp;W Print (per page) — ₹5</option>
+                            <option value="15" data-en="Color Print (per page) — ₹15" data-as="কালাৰ প্ৰিন্ট (প্ৰতি পৃষ্ঠা) — ₹15">Color Print (per page) — ₹15</option>
+                            <option value="20" data-en="Lamination — ₹20" data-as="লেমিনেচন — ₹20">Lamination — ₹20
+                            </option>
+                            <option value="50" data-en="Passport Photo (set) — ₹50" data-as="পাছপোৰ্ট ফটো (ছেট) — ₹50">
+                                Passport Photo (set) — ₹50</option>
+                            <option value="100" data-en="Form Filling — ₹100" data-as="ফৰ্ম পূৰণ — ₹100">Form Filling —
+                                ₹100</option>
+                            <option value="40" data-en="Railway Ticket — ₹40" data-as="ৰেলৱে টিকট — ₹40">Railway Ticket
+                                — ₹40</option>
+                        </select>
+                    </div>
+                    <div class="calc-field">
+                        <label data-en="Quantity" data-as="পৰিমাণ">Quantity</label>
+                        <input type="number" id="quoteQty" value="1" min="1" oninput="calcQuote()" onchange="calcQuote()">
+                    </div>
+                </div>
+                <div class="calc-result" id="calcResult">
+                    <div class="calc-result-label" data-en="Estimated Total" data-as="আনুমানিক মুঠ">Estimated Total
+                    </div>
+                    <div class="calc-total">₹<span id="calcTotal">0</span></div>
+                    <p class="calc-note" data-en="*Final price may vary based on requirements" data-as="*প্ৰয়োজনীয়তাৰ ওপৰত চূড়ান্ত মূল্য পৰিবৰ্তিত হ'ব পাৰে">*Final price may vary based on
+                        requirements</p>
+                </div>
+                <div style="text-align:center; margin-top:1.5rem;">
+                    <a href="https://wa.me/918638759478" class="btn btn-primary" target="_blank" data-en="Book on WhatsApp" data-as="WhatsApp ত বুক কৰক">Book on WhatsApp</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+            
+    <!-- ===== GAMES & PROJECTS ===== -->
+    
 
     <!-- ===== DEMO WEBSITES ===== -->
     
@@ -1262,11 +1453,7 @@
             if (calc) calc.style.display = 'none';
 
             // Move demos section up, right after Updates
-            const demosSection = document.getElementById('demos');
-            const updatesSection = document.getElementById('updates');
-            if (demosSection && updatesSection) {
-                updatesSection.parentNode.insertBefore(demosSection, updatesSection.nextSibling);
-            }
+            // DOM reordering removed
         });
 
         // Function to enlarge logo to 80% screen size

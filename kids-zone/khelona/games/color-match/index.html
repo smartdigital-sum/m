@@ -1,0 +1,708 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🎨 Color Match!</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Nunito:wght@700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../shared/common.css">
+    <style>
+      :root {
+        --bg: #fff8f0;
+        --card: #ffffff;
+        --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        background: var(--bg);
+        font-family: "Baloo 2", cursive;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        position: relative;
+        background-image:
+          radial-gradient(circle at 15% 20%, #ffe0f7 0%, transparent 35%),
+          radial-gradient(circle at 85% 80%, #d0f0ff 0%, transparent 35%),
+          radial-gradient(circle at 50% 50%, #fff3d0 0%, transparent 60%);
+      }
+
+      /* Floating bg dots */
+      .bg-dot {
+        position: fixed;
+        border-radius: 50%;
+        opacity: 0.18;
+        animation: floatDot linear infinite;
+        pointer-events: none;
+        z-index: 0;
+      }
+      @keyframes floatDot {
+        0% {
+          transform: translateY(110vh) rotate(0deg);
+        }
+        100% {
+          transform: translateY(-20vh) rotate(360deg);
+        }
+      }
+
+      .wrapper {
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 22px;
+        width: 100%;
+        max-width: 480px;
+        padding: 20px;
+      }
+
+      /* Header */
+      .header {
+        text-align: center;
+      }
+      .title {
+        font-family: "Nunito", sans-serif;
+        font-size: 2.6rem;
+        font-weight: 900;
+        background: linear-gradient(135deg, #ff6b6b, #ffd93d, #6bcb77, #4d96ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        line-height: 1.1;
+        letter-spacing: -1px;
+        filter: drop-shadow(0 2px 0px rgba(0, 0, 0, 0.08));
+      }
+      .subtitle {
+        font-size: 1rem;
+        color: #aaa;
+        font-weight: 600;
+        margin-top: 2px;
+      }
+
+      /* Stats bar */
+      .stats {
+        display: flex;
+        gap: 14px;
+        width: 100%;
+        justify-content: center;
+      }
+      .stat-pill {
+        background: white;
+        border-radius: 50px;
+        padding: 8px 22px;
+        font-size: 1rem;
+        font-weight: 800;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: #333;
+        transition: transform 0.15s;
+      }
+      .stat-pill.bump {
+        animation: bump 0.3s ease;
+      }
+      @keyframes bump {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.18);
+        }
+      }
+
+      /* Timer ring */
+      /* removed */
+
+      /* Color display blob */
+      .color-stage {
+        background: white;
+        border-radius: 32px;
+        box-shadow: var(--shadow);
+        padding: 32px 28px 28px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 18px;
+        position: relative;
+        overflow: hidden;
+      }
+      .color-stage::before {
+        content: "";
+        position: absolute;
+        top: -30px;
+        right: -30px;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        opacity: 0.07;
+        background: currentColor;
+      }
+      .question-label {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: #bbb;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+      .color-blob {
+        width: 130px;
+        height: 130px;
+        border-radius: 50% 42% 55% 40% / 45% 55% 40% 55%;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.18);
+        transition:
+          background 0.25s,
+          transform 0.15s;
+        animation: morphBlob 6s ease-in-out infinite;
+        cursor: default;
+      }
+      @keyframes morphBlob {
+        0%,
+        100% {
+          border-radius: 50% 42% 55% 40% / 45% 55% 40% 55%;
+        }
+        33% {
+          border-radius: 38% 55% 40% 58% / 55% 38% 58% 40%;
+        }
+        66% {
+          border-radius: 60% 35% 50% 45% / 40% 58% 38% 55%;
+        }
+      }
+      .color-blob.pop {
+        animation:
+          popAnim 0.35s ease forwards,
+          morphBlob 6s ease-in-out 0.35s infinite;
+      }
+      @keyframes popAnim {
+        0% {
+          transform: scale(1);
+        }
+        40% {
+          transform: scale(1.22);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+      .color-blob.wrong {
+        animation:
+          shake 0.4s ease,
+          morphBlob 6s ease-in-out 0.4s infinite;
+      }
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        20% {
+          transform: translateX(-12px);
+        }
+        40% {
+          transform: translateX(12px);
+        }
+        60% {
+          transform: translateX(-8px);
+        }
+        80% {
+          transform: translateX(8px);
+        }
+      }
+
+      /* Answer buttons */
+      .buttons-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        width: 100%;
+      }
+      .btn {
+        padding: 18px 10px;
+        min-height: 80px;
+        border: none;
+        border-radius: 20px;
+        font-family: "Nunito", sans-serif;
+        font-size: 1.15rem;
+        font-weight: 900;
+        color: white;
+        cursor: pointer;
+        box-shadow: 0 6px 0px rgba(0, 0, 0, 0.15);
+        transition:
+          transform 0.1s,
+          box-shadow 0.1s,
+          filter 0.15s;
+        position: relative;
+        overflow: hidden;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+        letter-spacing: 0.5px;
+      }
+      .btn::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 40%;
+        background: rgba(255, 255, 255, 0.18);
+        border-radius: 20px 20px 50% 50%;
+      }
+      .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 9px 0px rgba(0, 0, 0, 0.15);
+        filter: brightness(1.08);
+      }
+      .btn:active {
+        transform: translateY(2px);
+        box-shadow: 0 3px 0px rgba(0, 0, 0, 0.15);
+      }
+      .btn:disabled {
+        cursor: not-allowed;
+        filter: brightness(0.6);
+        transform: none;
+      }
+      .btn.correct-flash {
+        animation: correctFlash 0.4s ease;
+      }
+      .btn.wrong-flash {
+        animation: wrongFlash 0.4s ease;
+      }
+      @keyframes correctFlash {
+        0%,
+        100% {
+          filter: brightness(1);
+        }
+        50% {
+          filter: brightness(1.5) saturate(1.5);
+        }
+      }
+      @keyframes wrongFlash {
+        0%,
+        100% {
+          filter: brightness(1);
+        }
+        25%,
+        75% {
+          filter: brightness(0.5);
+        }
+      }
+
+      /* Feedback toast */
+      .toast {
+        position: fixed;
+        top: 60px;
+        left: 50%;
+        transform: translateX(-50%) translateY(-20px);
+        background: white;
+        border-radius: 50px;
+        padding: 12px 28px;
+        font-family: "Nunito", sans-serif;
+        font-weight: 900;
+        font-size: 1.3rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+        opacity: 0;
+        transition:
+          opacity 0.2s,
+          transform 0.2s;
+        pointer-events: none;
+        z-index: 99;
+        white-space: nowrap;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      /* Screen overlays */
+      .overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(255, 248, 240, 0.96);
+        z-index: 50;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        text-align: center;
+        padding: 30px;
+      }
+      .overlay.show {
+        display: flex;
+      }
+      .overlay-title {
+        font-family: "Nunito", sans-serif;
+        font-size: 3rem;
+        font-weight: 900;
+        line-height: 1.1;
+      }
+      .overlay-sub {
+        font-size: 1.2rem;
+        color: #777;
+        font-weight: 700;
+        max-width: 300px;
+      }
+      .overlay-score {
+        font-family: "Nunito", sans-serif;
+        font-size: 4rem;
+        font-weight: 900;
+        color: #ff6b6b;
+        line-height: 1;
+      }
+      .play-btn {
+        padding: 16px 44px;
+        border: none;
+        border-radius: 50px;
+        font-family: "Nunito", sans-serif;
+        font-size: 1.3rem;
+        font-weight: 900;
+        color: white;
+        background: linear-gradient(135deg, #ff6b6b, #ffd93d);
+        cursor: pointer;
+        box-shadow: 0 8px 0 rgba(255, 107, 107, 0.4);
+        transition:
+          transform 0.1s,
+          box-shadow 0.1s;
+        letter-spacing: 1px;
+      }
+      .play-btn:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 0 rgba(255, 107, 107, 0.4);
+      }
+      .play-btn:active {
+        transform: translateY(2px);
+        box-shadow: 0 4px 0 rgba(255, 107, 107, 0.4);
+      }
+
+      /* Streak badge */
+      .streak {
+        font-size: 0.95rem;
+        color: #f59e0b;
+        font-weight: 800;
+        min-height: 22px;
+        transition: opacity 0.3s;
+      }
+
+    </style>
+  </head>
+  <body>
+    <a href="../../index.html" class="home-btn" aria-label="Home">🏠 Home</a>
+    <!-- How to Play overlay -->
+    <div class="htp-overlay" id="htpOverlay">
+      <div class="htp-card">
+        <div class="htp-em">🎨</div>
+        <div class="htp-title">How to Play</div>
+        <div class="htp-desc">Look at the colored shape and tap the button with the matching color name. You have 3 lives — wrong answers cost a life. How many can you get right?</div>
+        <button class="htp-btn" onclick="KhelonaShared.dismissHtp('htp_cm')">Got it! 👍</button>
+      </div>
+    </div>
+    <!-- Floating bg dots -->
+    <div
+      class="bg-dot"
+      style="
+        width: 80px;
+        height: 80px;
+        background: #ff6b6b;
+        left: 5%;
+        animation-duration: 18s;
+        animation-delay: 0s;
+      "
+    ></div>
+    <div
+      class="bg-dot"
+      style="
+        width: 60px;
+        height: 60px;
+        background: #ffd93d;
+        left: 20%;
+        animation-duration: 22s;
+        animation-delay: 4s;
+      "
+    ></div>
+    <div
+      class="bg-dot"
+      style="
+        width: 100px;
+        height: 100px;
+        background: #6bcb77;
+        left: 75%;
+        animation-duration: 15s;
+        animation-delay: 2s;
+      "
+    ></div>
+    <div
+      class="bg-dot"
+      style="
+        width: 50px;
+        height: 50px;
+        background: #4d96ff;
+        left: 85%;
+        animation-duration: 19s;
+        animation-delay: 7s;
+      "
+    ></div>
+    <div
+      class="bg-dot"
+      style="
+        width: 70px;
+        height: 70px;
+        background: #ff922b;
+        left: 50%;
+        animation-duration: 24s;
+        animation-delay: 1s;
+      "
+    ></div>
+    <div
+      class="bg-dot"
+      style="
+        width: 45px;
+        height: 45px;
+        background: #cc5de8;
+        left: 35%;
+        animation-duration: 20s;
+        animation-delay: 9s;
+      "
+    ></div>
+
+    <!-- Start screen -->
+    <div class="overlay show" id="startScreen" role="dialog" aria-label="Game start screen">
+      <div class="overlay-title">🎨<br />Color Match!</div>
+      <div class="overlay-sub">
+        Look at the colored shape and tap the right color name — fast!
+      </div>
+      <button class="play-btn" onclick="startGame()" aria-label="Start the game">▶ Let's Play!</button>
+    </div>
+
+    <!-- Game Over screen -->
+    <div class="overlay" id="endScreen" role="dialog" aria-label="Game over screen">
+      <div class="overlay-title" id="endEmoji">💔 Out of Lives!</div>
+      <div class="overlay-sub">Your score:</div>
+      <div class="overlay-score" id="finalScore" aria-live="polite">0</div>
+      <div class="overlay-sub" id="endMsg"></div>
+      <button class="play-btn" onclick="startGame()" aria-label="Play again">🔄 Play Again!</button>
+    </div>
+
+    <!-- Toast feedback -->
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <div class="wrapper">
+      <div class="header">
+        <h1 class="title">🎨 Color Match!</h1>
+        <div class="subtitle">Tap the matching color!</div>
+      </div>
+
+      <div class="stats" role="status" aria-label="Game stats">
+        <div class="stat-pill" id="scorePill">
+          ⭐ <span id="scoreDisplay" aria-label="Score">0</span>
+        </div>
+        <div class="stat-pill" id="livePill">
+          ❤️ <span id="livesDisplay" aria-label="Lives remaining">3</span>
+        </div>
+      </div>
+
+      <div class="color-stage">
+        <div class="question-label" id="questionLabel">What color is this?</div>
+        <div class="color-blob" id="colorBlob" role="img" aria-label="Colored shape to identify"></div>
+        <div class="streak" id="streakLabel" aria-live="polite"></div>
+      </div>
+
+      <div class="buttons-grid" id="buttonsGrid" role="group" aria-label="Answer choices"></div>
+    </div>
+
+    <script src="../../shared/common.js"></script>
+    <div id="liveRegion" class="live-region" aria-live="polite" aria-atomic="true"></div>
+    <script>
+      KhelonaShared.initHtp('htp_cm');
+      KhelonaShared.enableButtonKeyboard();
+
+      const COLORS = [
+        { name: "Red", hex: "#ff4757" },
+        { name: "Blue", hex: "#4d96ff" },
+        { name: "Green", hex: "#6bcb77" },
+        { name: "Yellow", hex: "#ffd93d" },
+        { name: "Orange", hex: "#ff922b" },
+        { name: "Purple", hex: "#cc5de8" },
+        { name: "Pink", hex: "#f783ac" },
+        { name: "Teal", hex: "#20c997" },
+      ];
+
+      const BUTTON_COLORS = [
+        "#ff4757",
+        "#4d96ff",
+        "#6bcb77",
+        "#ffd93d",
+        "#ff922b",
+        "#cc5de8",
+        "#f783ac",
+        "#20c997",
+      ];
+
+      // Map name->hex for button bg
+      const colorMap = {};
+      COLORS.forEach((c) => (colorMap[c.name] = c.hex));
+
+      let score = 0,
+        lives = 3,
+        streak = 0;
+      let currentColor = null;
+      let canClick = true;
+
+      function pickRandom(arr, exclude) {
+        let pool =
+          exclude !== undefined ? arr.filter((x) => x !== exclude) : arr;
+        return pool[Math.floor(Math.random() * pool.length)];
+      }
+
+      function newRound() {
+        canClick = true;
+        currentColor = COLORS[Math.floor(Math.random() * COLORS.length)];
+        const blob = document.getElementById("colorBlob");
+        blob.style.background = currentColor.hex;
+        blob.style.boxShadow = `0 10px 40px ${currentColor.hex}88`;
+        blob.classList.remove("pop", "wrong");
+
+        // Build 4 options: correct + 3 random wrong
+        let wrongs = COLORS.filter((c) => c.name !== currentColor.name);
+        KhelonaShared.shuffle(wrongs);
+        const options = KhelonaShared.shuffle([
+          currentColor,
+          wrongs[0],
+          wrongs[1],
+          wrongs[2],
+        ]);
+
+        const grid = document.getElementById("buttonsGrid");
+        grid.innerHTML = "";
+        options.forEach((col, i) => {
+          const btn = document.createElement("button");
+          btn.className = "btn";
+          btn.textContent = col.name;
+          btn.setAttribute('aria-label', col.name);
+          btn.style.background = col.hex;
+          btn.style.boxShadow = `0 6px 0px ${col.hex}99`;
+          btn.onclick = () => handleAnswer(col.name === currentColor.name, btn);
+          grid.appendChild(btn);
+        });
+      }
+
+      function handleAnswer(correct, btn) {
+        if (!canClick) return;
+        canClick = false;
+        const blob = document.getElementById("colorBlob");
+        disableButtons();
+
+        if (correct) {
+          score++;
+          streak++;
+          document.getElementById("scoreDisplay").textContent = score;
+          document.getElementById("scorePill").classList.add("bump");
+          setTimeout(
+            () => document.getElementById("scorePill").classList.remove("bump"),
+            400,
+          );
+          blob.classList.add("pop");
+          btn.classList.add("correct-flash");
+          const rect = btn.getBoundingClientRect();
+          KhelonaShared.spawnConfetti(rect.left + rect.width / 2, rect.top, 14);
+          updateStreak();
+          showToast(randomPraise(), "#6bcb77");
+          KhelonaShared.playSound('correct');
+          KhelonaShared.announce('Correct! Score: ' + score);
+          setTimeout(newRound, 600);
+        } else {
+          lives--;
+          streak = 0;
+          document.getElementById("livesDisplay").textContent = lives;
+          document.getElementById("livePill").classList.add("bump");
+          setTimeout(
+            () => document.getElementById("livePill").classList.remove("bump"),
+            400,
+          );
+          blob.classList.add("wrong");
+          btn.classList.add("wrong-flash");
+          updateStreak();
+          showToast("Oops! Try again! 😅", "#ff4757");
+          KhelonaShared.playSound('wrong');
+          KhelonaShared.announce('Wrong. ' + lives + ' lives remaining');
+          if (lives <= 0) {
+            setTimeout(endGame, 700);
+          } else {
+            setTimeout(newRound, 700);
+          }
+        }
+      }
+
+      function disableButtons() {
+        document.querySelectorAll(".btn").forEach((b) => (b.disabled = true));
+      }
+
+      function updateStreak() {
+        const el = document.getElementById("streakLabel");
+        if (streak >= 3) el.textContent = `🔥 ${streak} streak!`;
+        else el.textContent = "";
+      }
+
+      function randomPraise() {
+        const msgs = [
+          "Amazing! 🌟",
+          "Correct! 🎉",
+          "Brilliant! 💫",
+          "You got it! 🥳",
+          "Perfect! ✨",
+          "Super! 🚀",
+          "Wow! 🎊",
+          "Great! 👏",
+        ];
+        return msgs[Math.floor(Math.random() * msgs.length)];
+      }
+
+      function showToast(msg, color) {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.style.color = color;
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), 900);
+      }
+
+      function startGame() {
+        score = 0;
+        lives = 3;
+        streak = 0;
+        document.getElementById("scoreDisplay").textContent = 0;
+        document.getElementById("livesDisplay").textContent = 3;
+        document.getElementById("streakLabel").textContent = "";
+        document.getElementById("startScreen").classList.remove("show");
+        document.getElementById("endScreen").classList.remove("show");
+        newRound();
+      }
+
+      function endGame() {
+        disableButtons();
+        document.getElementById("finalScore").textContent = score;
+        const msgs =
+          score >= 15
+            ? "🏆 AMAZING! You're a Color Genius!"
+            : score >= 10
+              ? "🌟 Awesome job! Keep it up!"
+              : score >= 5
+                ? "🎉 Good try! Play again to improve!"
+                : "😊 Keep practicing, you'll get there!";
+        document.getElementById("endMsg").textContent = msgs;
+        document.getElementById("endEmoji").textContent = "💔 Out of Lives!";
+        KhelonaShared.playSound('win');
+        document.getElementById("endScreen").classList.add("show");
+      }
+    </script>
+  </body>
+</html>

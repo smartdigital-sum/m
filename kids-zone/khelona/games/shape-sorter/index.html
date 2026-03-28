@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🔷 Shape Sorter!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../shared/common.css">
+  <style>
+    :root {
+      --primary: #6C5CE7;
+      --secondary: #A29BFE;
+      --bg: #F8F5FF;
+      --card-bg: #FFFFFF;
+      --text: #2D3436;
+      --success: #00B894;
+      --error: #FF6B6B;
+      --shadow: 0 4px 20px rgba(108, 92, 231, 0.15);
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--bg);
+      min-height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .wrapper {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .title {
+      font-family: 'Fredoka One', cursive;
+      font-size: 2rem;
+      color: var(--primary);
+      margin: 0;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: var(--secondary);
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
+    .stats {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .stat-pill {
+      background: var(--card-bg);
+      border-radius: 50px;
+      padding: 8px 20px;
+      font-size: 1.2rem;
+      font-weight: 800;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text);
+    }
+
+    .shape-stage {
+      width: 220px;
+      height: 220px;
+      background: var(--card-bg);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+      position: relative;
+      overflow: hidden;
+      border: 3px solid var(--secondary);
+      transition: transform 0.3s ease;
+    }
+
+    .shape-stage svg {
+      width: 160px;
+      height: 160px;
+      color: var(--primary);
+    }
+
+    .shape-stage.pulse {
+      animation: stagePulse 0.5s ease;
+    }
+
+    @keyframes stagePulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+
+    .shape-label {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.4rem;
+      color: var(--primary);
+      margin-bottom: 16px;
+      min-height: 2rem;
+      text-align: center;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      width: 100%;
+      max-width: 360px;
+    }
+
+    .shape-option {
+      background: var(--card-bg);
+      border: 3px solid transparent;
+      border-radius: 20px;
+      padding: 14px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: all 0.2s ease;
+      min-width: 80px;
+      min-height: 80px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      color: var(--text);
+      outline: none;
+    }
+
+    .shape-option svg {
+      width: 64px;
+      height: 64px;
+    }
+
+    .shape-option:hover, .shape-option:focus-visible {
+      border-color: var(--primary);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 25px rgba(108, 92, 231, 0.25);
+    }
+
+    .shape-option:focus-visible {
+      outline: 3px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .shape-option.correct-flash {
+      border-color: var(--success);
+      background: #E6FFF5;
+      animation: correctPop 0.4s ease;
+    }
+
+    .shape-option.wrong-shake {
+      border-color: var(--error);
+      background: #FFE6E6;
+      animation: shake 0.4s ease;
+    }
+
+    @keyframes correctPop {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-8px); }
+      40% { transform: translateX(8px); }
+      60% { transform: translateX(-6px); }
+      80% { transform: translateX(6px); }
+    }
+
+    .shape-option .shape-name {
+      font-size: 0.95rem;
+      font-weight: 800;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .challenge-btn {
+      margin-top: 16px;
+      background: var(--card-bg);
+      border: 2px solid var(--secondary);
+      border-radius: 50px;
+      padding: 10px 24px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--primary);
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: all 0.2s ease;
+    }
+
+    .challenge-btn:hover, .challenge-btn:focus-visible {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .challenge-btn:focus-visible {
+      outline: 3px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .bg-emoji {
+      position: fixed;
+      font-size: 2rem;
+      opacity: 0.15;
+      pointer-events: none;
+      animation: floatEmoji 8s ease-in-out infinite;
+      z-index: 0;
+    }
+
+    @keyframes floatEmoji {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      25% { transform: translateY(-20px) rotate(10deg); }
+      50% { transform: translateY(-10px) rotate(-5deg); }
+      75% { transform: translateY(-25px) rotate(8deg); }
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(108, 92, 231, 0.85);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .overlay-title {
+      font-family: 'Fredoka One', cursive;
+      font-size: 3rem;
+      color: #fff;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .overlay-sub {
+      font-size: 1.3rem;
+      color: rgba(255,255,255,0.9);
+      font-weight: 700;
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    .play-btn {
+      background: #fff;
+      color: var(--primary);
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.5rem;
+      border: none;
+      border-radius: 50px;
+      padding: 16px 48px;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      transition: transform 0.2s ease;
+    }
+
+    .play-btn:hover, .play-btn:focus-visible {
+      transform: scale(1.05);
+    }
+
+    .play-btn:focus-visible {
+      outline: 3px solid #fff;
+      outline-offset: 3px;
+    }
+
+    .htp-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .htp-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .htp-card {
+      background: #fff;
+      border-radius: 24px;
+      padding: 32px 28px;
+      max-width: 360px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.25);
+    }
+
+    .htp-em {
+      font-size: 3rem;
+      margin-bottom: 12px;
+    }
+
+    .htp-title {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.8rem;
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+
+    .htp-desc {
+      font-size: 1.1rem;
+      color: var(--text);
+      font-weight: 600;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+    .htp-btn {
+      background: var(--primary);
+      color: #fff;
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 50px;
+      padding: 12px 36px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .htp-btn:hover, .htp-btn:focus-visible {
+      transform: scale(1.05);
+    }
+
+    .htp-btn:focus-visible {
+      outline: 3px solid var(--primary);
+      outline-offset: 3px;
+    }
+
+    .live-region {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 480px) {
+      .title { font-size: 1.6rem; }
+      .shape-stage { width: 180px; height: 180px; }
+      .shape-stage svg { width: 130px; height: 130px; }
+      .options-grid { gap: 8px; max-width: 300px; }
+      .shape-option { padding: 10px 6px; min-height: 70px; }
+      .shape-option svg { width: 48px; height: 48px; }
+      .overlay-title { font-size: 2.2rem; }
+    }
+  </style>
+</head>
+<body>
+  <a href="../../index.html" class="home-btn" aria-label="Home">🏠 Home</a>
+
+  <div class="htp-overlay" id="htpOverlay" role="dialog" aria-label="How to play">
+    <div class="htp-card">
+      <div class="htp-em">🔷</div>
+      <div class="htp-title">How to Play</div>
+      <div class="htp-desc">A big shape will appear! Tap the matching shape at the bottom. Get it right to score a point!</div>
+      <button class="htp-btn" onclick="KhelonaShared.dismissHtp('htp_ss')" aria-label="Close how to play">Got it! 👍</button>
+    </div>
+  </div>
+
+  <div class="overlay show" id="startScreen" role="dialog" aria-label="Start game">
+    <div class="overlay-title">🔷<br>Shape Sorter!</div>
+    <div class="overlay-sub">Tap the matching shape!</div>
+    <button class="play-btn" onclick="startGame()" aria-label="Start playing">▶ Let's Play!</button>
+  </div>
+
+  <div class="wrapper">
+    <div class="header">
+      <h1 class="title">🔷 Shape Sorter!</h1>
+      <div class="subtitle">Tap the matching shape!</div>
+    </div>
+    <div class="stats">
+      <div class="stat-pill">⭐ <span id="scoreDisplay" aria-label="Score">0</span></div>
+    </div>
+    <div class="shape-stage" id="shapeStage" role="img" aria-label="Target shape">
+    </div>
+    <div class="shape-label" id="shapeLabel"></div>
+    <div class="options-grid" id="optionsGrid" role="group" aria-label="Shape choices"></div>
+    <button class="challenge-btn hidden" id="challengeBtn" onclick="toggleChallenge()">🙈 Hide Labels</button>
+  </div>
+
+  <script src="../../shared/common.js"></script>
+  <div id="liveRegion" class="live-region" aria-live="polite" aria-atomic="true"></div>
+  <script>
+    const SHAPES = [
+      { id: 'circle', en: 'Circle', hi: 'वृत्त', as: 'বৰ্ত্ত', color: '#FF6B6B', svg: '<circle cx="50" cy="50" r="45" fill="currentColor"/>' },
+      { id: 'square', en: 'Square', hi: 'वर्ग', as: 'বৰ্গ', color: '#4D96FF', svg: '<rect x="5" y="5" width="90" height="90" fill="currentColor"/>' },
+      { id: 'triangle', en: 'Triangle', hi: 'त्रिभुज', as: 'ত্ৰিভুজ', color: '#6BCB77', svg: '<polygon points="50,5 95,95 5,95" fill="currentColor"/>' },
+      { id: 'star', en: 'Star', hi: 'तारा', as: 'তাৰা', color: '#FFD93D', svg: '<polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="currentColor"/>' },
+      { id: 'heart', en: 'Heart', hi: 'दिल', as: 'হৃদয়', color: '#F783AC', svg: '<path d="M50 88 C20 60 5 35 25 18 C35 10 50 18 50 30 C50 18 65 10 75 18 C95 35 80 60 50 88Z" fill="currentColor"/>' },
+      { id: 'rectangle', en: 'Rectangle', hi: 'आयत', as: 'আয়ত', color: '#FF922B', svg: '<rect x="5" y="20" width="90" height="60" fill="currentColor"/>' },
+      { id: 'oval', en: 'Oval', hi: 'अंडाकार', as: 'ডিম্বাকাৰ', color: '#C77DFF', svg: '<ellipse cx="50" cy="50" rx="45" ry="30" fill="currentColor"/>' },
+      { id: 'diamond', en: 'Diamond', hi: 'हीरा', as: 'হীৰা', color: '#20C997', svg: '<polygon points="50,5 95,50 50,95 5,50" fill="currentColor"/>' },
+      { id: 'pentagon', en: 'Pentagon', hi: 'पंचभुज', as: 'পঞ্চভুজ', color: '#E07B00', svg: '<polygon points="50,5 97,38 79,95 21,95 3,38" fill="currentColor"/>' },
+      { id: 'hexagon', en: 'Hexagon', hi: 'षट्भुज', as: 'ষট্ভুজ', color: '#FF4757', svg: '<polygon points="50,5 93,27 93,73 50,95 7,73 7,27" fill="currentColor"/>' }
+    ];
+
+    const BASIC_SHAPES = SHAPES.slice(0, 6);
+    const EXTENDED_SHAPES = SHAPES.slice(6);
+
+    let score = 0;
+    let challengeMode = false;
+    let currentShape = null;
+    let roundShapes = [];
+    let consecutiveCorrect = 0;
+
+    const bgEmojis = ['🔷', '🔺', '🟦', '⭐', '❤️', '🟠', '💜', '🟢'];
+    function spawnBgEmojis() {
+      for (let i = 0; i < 6; i++) {
+        const el = document.createElement('div');
+        el.className = 'bg-emoji';
+        el.textContent = bgEmojis[Math.floor(Math.random() * bgEmojis.length)];
+        el.style.left = Math.random() * 90 + '%';
+        el.style.top = Math.random() * 90 + '%';
+        el.style.animationDelay = (Math.random() * 5) + 's';
+        el.style.animationDuration = (6 + Math.random() * 6) + 's';
+        document.body.appendChild(el);
+      }
+    }
+
+    function makeSvg(shape, size) {
+      return `<svg viewBox="0 0 100 100" width="${size}" height="${size}" style="color:${shape.color}" role="img" aria-label="${shape.en}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">${shape.svg}</svg></svg>`;
+    }
+
+    function getShapePool() {
+      if (score >= 10) {
+        return SHAPES;
+      }
+      return BASIC_SHAPES;
+    }
+
+    function startGame() {
+      score = 0;
+      consecutiveCorrect = 0;
+      challengeMode = false;
+      document.getElementById('scoreDisplay').textContent = '0';
+      document.getElementById('startScreen').classList.remove('show');
+      document.getElementById('challengeBtn').classList.add('hidden');
+      document.getElementById('challengeBtn').textContent = '🙈 Hide Labels';
+      newRound();
+    }
+
+    function newRound() {
+      const pool = getShapePool();
+      currentShape = pool[Math.floor(Math.random() * pool.length)];
+
+      const distractors = pool.filter(s => s.id !== currentShape.id);
+      KhelonaShared.shuffle(distractors);
+      const chosen = distractors.slice(0, 3);
+
+      roundShapes = [currentShape, ...chosen];
+      KhelonaShared.shuffle(roundShapes);
+
+      const stage = document.getElementById('shapeStage');
+      stage.innerHTML = makeSvg(currentShape, 160);
+      stage.classList.remove('pulse');
+      void stage.offsetWidth;
+      stage.classList.add('pulse');
+      stage.setAttribute('aria-label', 'Target shape: ' + currentShape.en);
+
+      const label = document.getElementById('shapeLabel');
+      label.textContent = currentShape.en;
+      if (challengeMode) {
+        label.style.visibility = 'hidden';
+      } else {
+        label.style.visibility = 'visible';
+      }
+
+      const grid = document.getElementById('optionsGrid');
+      grid.innerHTML = '';
+      roundShapes.forEach(shape => {
+        const btn = document.createElement('button');
+        btn.className = 'shape-option';
+        btn.setAttribute('aria-label', shape.en);
+        const nameClass = (challengeMode) ? 'visibility:hidden' : '';
+        btn.innerHTML = makeSvg(shape, 64) + `<span class="shape-name" style="${nameClass}">${shape.en}</span>`;
+        btn.addEventListener('click', () => handleAnswer(shape.id === currentShape.id, shape, btn));
+        grid.appendChild(btn);
+      });
+
+      KhelonaShared.announce('Find the ' + currentShape.en);
+
+      if (score >= 10 && document.getElementById('challengeBtn').classList.contains('hidden')) {
+        document.getElementById('challengeBtn').classList.remove('hidden');
+      }
+    }
+
+    function handleAnswer(correct, shape, btn) {
+      if (correct) {
+        score++;
+        consecutiveCorrect++;
+        document.getElementById('scoreDisplay').textContent = score;
+        KhelonaShared.playSound('correct');
+        KhelonaShared.announce('Correct! That is a ' + currentShape.en + '!');
+        btn.classList.add('correct-flash');
+
+        if (score % 5 === 0) {
+          const rect = btn.getBoundingClientRect();
+          KhelonaShared.spawnConfetti(rect.left + rect.width / 2, rect.top + rect.height / 2, 30);
+          KhelonaShared.playSound('win');
+        }
+
+        if (score >= 10 && document.getElementById('challengeBtn').classList.contains('hidden')) {
+          document.getElementById('challengeBtn').classList.remove('hidden');
+        }
+
+        setTimeout(() => {
+          newRound();
+        }, 600);
+      } else {
+        KhelonaShared.playSound('wrong');
+        KhelonaShared.announce('Try again. That is a ' + shape.en + '. Find the ' + currentShape.en + '.');
+        consecutiveCorrect = 0;
+        btn.classList.add('wrong-shake');
+        btn.disabled = true;
+        setTimeout(() => {
+          btn.classList.remove('wrong-shake');
+          btn.disabled = false;
+        }, 500);
+      }
+    }
+
+    function toggleChallenge() {
+      challengeMode = !challengeMode;
+      const btn = document.getElementById('challengeBtn');
+      if (challengeMode) {
+        btn.textContent = '🐵 Show Labels';
+        KhelonaShared.announce('Labels hidden. Challenge mode on!');
+      } else {
+        btn.textContent = '🙈 Hide Labels';
+        KhelonaShared.announce('Labels shown. Challenge mode off.');
+      }
+      newRound();
+    }
+
+    KhelonaShared.initHtp('htp_ss');
+    KhelonaShared.enableButtonKeyboard();
+    spawnBgEmojis();
+  </script>
+</body>
+</html>

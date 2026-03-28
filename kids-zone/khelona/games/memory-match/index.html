@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Match Game 🎮</title>
+    <link rel="stylesheet" href="../../shared/common.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@600;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6C63FF;
+            --secondary: #FF6584;
+            --accent: #43E97B;
+            --bg1: #A18CD1;
+            --bg2: #FBC2EB;
+            --card-bg: #ffffff;
+            --shadow: rgba(0,0,0,0.15);
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--bg1) 0%, var(--bg2) 50%, #F6D365 100%);
+            overflow-x: hidden;
+            transition: background 0.5s;
+        }
+
+        body.category-animals {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        }
+        body.category-fruits {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #4facfe 100%);
+        }
+        body.category-vehicles {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 50%, #667eea 100%);
+        }
+
+        .floating-emoji {
+            position: fixed;
+            font-size: 2rem;
+            opacity: 0.15;
+            pointer-events: none;
+            animation: floatUp 8s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.15; }
+            90% { opacity: 0.15; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-family: 'Fredoka One', cursive;
+            font-size: 2.2rem;
+            color: white;
+            text-shadow: 3px 3px 0px rgba(0,0,0,0.2);
+            margin-bottom: 5px;
+        }
+
+        .header .subtitle {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.9);
+            font-weight: 700;
+        }
+
+        /* Controls Bar */
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .lang-toggle {
+            display: flex;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.5);
+        }
+
+        .lang-btn {
+            padding: 8px 18px;
+            border: none;
+            background: transparent;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 0.95rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .lang-btn.active {
+            background: white;
+            color: var(--primary);
+            border-radius: 50px;
+        }
+
+        .category-btns {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .cat-btn {
+            padding: 8px 16px;
+            border: 2px solid rgba(255,255,255,0.6);
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .cat-btn:hover, .cat-btn.active {
+            background: white;
+            color: var(--primary);
+            transform: scale(1.05);
+            border-color: white;
+        }
+
+        /* Stats */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            background: rgba(255,255,255,0.25);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 10px 20px;
+            text-align: center;
+            border: 2px solid rgba(255,255,255,0.4);
+            min-width: 100px;
+        }
+
+        .stat-box .label {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.85);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-box .value {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.6rem;
+            color: white;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.15);
+        }
+
+        /* Game Board */
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            max-width: 500px;
+            margin: 0 auto 20px;
+        }
+
+        .card {
+            aspect-ratio: 1;
+            min-width: 80px;
+            min-height: 80px;
+            perspective: 800px;
+            cursor: pointer;
+        }
+
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 16px;
+        }
+
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card.matched .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card.matched {
+            animation: matchBounce 0.6s ease;
+        }
+
+        @keyframes matchBounce {
+            0% { transform: scale(1); }
+            30% { transform: scale(1.15); }
+            50% { transform: scale(0.95); }
+            70% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            box-shadow: 0 6px 20px var(--shadow);
+            border: 3px solid rgba(255,255,255,0.6);
+        }
+
+        .card-back {
+            background: linear-gradient(135deg, #6C63FF, #FF6584);
+            color: white;
+        }
+
+        .card-back::before {
+            content: '?';
+            font-family: 'Fredoka One', cursive;
+            font-size: 3rem;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.2);
+        }
+
+        .card-back::after {
+            content: '';
+            position: absolute;
+            inset: 6px;
+            border: 2px dashed rgba(255,255,255,0.4);
+            border-radius: 12px;
+        }
+
+        .card-front {
+            background: white;
+            transform: rotateY(180deg);
+            gap: 4px;
+        }
+
+        .card-front .emoji {
+            font-size: 2.8rem;
+            line-height: 1;
+        }
+
+        .card-front .name {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: #555;
+            text-align: center;
+            line-height: 1.2;
+            padding: 0 4px;
+        }
+
+        .card.matched .card-front {
+            background: linear-gradient(135deg, #43E97B, #38F9D7);
+            border-color: #43E97B;
+        }
+
+        .card.matched .card-front .name {
+            color: white;
+        }
+
+        /* Buttons */
+        .btn-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #6C63FF, #FF6584);
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #43E97B, #38F9D7);
+            color: white;
+        }
+
+        /* Win Screen */
+        .win-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .win-overlay.show {
+            display: flex;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .win-card {
+            background: white;
+            border-radius: 30px;
+            padding: 40px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .win-card .trophy {
+            font-size: 5rem;
+            margin-bottom: 10px;
+            animation: trophySpin 1s ease;
+        }
+
+        @keyframes trophySpin {
+            0% { transform: rotateY(0deg) scale(0); }
+            50% { transform: rotateY(180deg) scale(1.3); }
+            100% { transform: rotateY(360deg) scale(1); }
+        }
+
+        .win-card h2 {
+            font-family: 'Fredoka One', cursive;
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .win-card p {
+            color: #666;
+            font-weight: 700;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .win-card .stars {
+            font-size: 2.5rem;
+            margin: 10px 0;
+        }
+
+        .win-card .btn {
+            margin-top: 15px;
+        }
+
+        /* Confetti Canvas */
+        #confetti-canvas {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 101;
+        }
+
+        /* Responsive */
+        @media (max-width: 500px) {
+            .header h1 { font-size: 1.6rem; }
+            .game-board { gap: 8px; }
+            .card-face { font-size: 2.2rem; border-radius: 12px; }
+            .card-front .emoji { font-size: 2rem; }
+            .card-front .name { font-size: 0.65rem; }
+            .card-back::before { font-size: 2rem; }
+            .stat-box { padding: 8px 14px; min-width: 80px; }
+            .stat-box .value { font-size: 1.3rem; }
+        }
+
+        /* Mode buttons */
+        .mode-btns {
+            display: flex;
+            gap: 8px;
+        }
+        .mode-btn {
+            padding: 8px 16px;
+            border: 2px solid rgba(255,255,255,0.6);
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .mode-btn:hover, .mode-btn.active {
+            background: white;
+            color: var(--primary);
+            transform: scale(1.05);
+            border-color: white;
+        }
+
+        /* Hint pulse on first card */
+        .card.hint .card-inner {
+            animation: hintPulse 0.8s ease 2;
+        }
+
+        @keyframes hintPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+
+        /* Wrong shake */
+        .card.wrong .card-inner {
+            animation: shake 0.4s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: rotateY(180deg) translateX(0); }
+            25% { transform: rotateY(180deg) translateX(-8px); }
+            75% { transform: rotateY(180deg) translateX(8px); }
+        }
+
+
+    </style>
+</head>
+<body>
+    <a href="../../index.html" class="home-btn" aria-label="Home">🏠 Home</a>
+    <!-- How to Play overlay -->
+    <div class="htp-overlay" id="htpOverlay" role="dialog" aria-label="How to play instructions">
+      <div class="htp-card">
+        <div class="htp-em">🃏</div>
+        <div class="htp-title">How to Play</div>
+        <div class="htp-desc">Flip two cards to find matching pairs! Remember where each picture is. Match all pairs to win — try to do it in as few moves as possible!</div>
+        <button class="htp-btn" onclick="KhelonaShared.dismissHtp('htp_mm')" aria-label="Close how to play">Got it! 👍</button>
+      </div>
+    </div>
+    <canvas id="confetti-canvas"></canvas>
+
+    <div class="container">
+        <div class="header">
+            <h1 id="title-text">Memory Match</h1>
+            <div class="subtitle" id="subtitle-text">Find the matching pairs!</div>
+        </div>
+
+        <div class="controls">
+            <div class="lang-toggle">
+                <button class="lang-btn active" onclick="setLanguage('en')" id="lang-en">English</button>
+                <button class="lang-btn" onclick="setLanguage('hi')" id="lang-hi">हिंदी</button>
+                <button class="lang-btn" onclick="setLanguage('as')" id="lang-as">অসমীয়া</button>
+            </div>
+            <div class="category-btns">
+                <button class="cat-btn active" onclick="setCategory('animals')" id="cat-animals">🐾 Animals</button>
+                <button class="cat-btn" onclick="setCategory('fruits')" id="cat-fruits">🍎 Fruits</button>
+                <button class="cat-btn" onclick="setCategory('vehicles')" id="cat-vehicles">🚗 Vehicles</button>
+            </div>
+            <div class="mode-btns">
+                <button class="mode-btn active" onclick="setMode('easy')" id="mode-easy">⭐ Easy (4 pairs)</button>
+                <button class="mode-btn" onclick="setMode('normal')" id="mode-normal">🧠 Normal (8 pairs)</button>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-box">
+                <div class="label" id="moves-label">Moves</div>
+                <div class="value" id="moves-value">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="label" id="pairs-label">Pairs</div>
+                <div class="value" id="pairs-value">0 / 4</div>
+            </div>
+            <div class="stat-box">
+                <div class="label" id="time-label">Time</div>
+                <div class="value" id="time-value">0:00</div>
+            </div>
+        </div>
+
+        <div class="game-board" id="game-board"></div>
+
+        <div class="btn-row">
+            <button class="btn btn-primary" onclick="restartGame()" id="restart-btn">🔄 Restart</button>
+            <button class="btn btn-success" onclick="newGame()" id="newgame-btn">✨ New Game</button>
+        </div>
+    </div>
+
+    <div class="win-overlay" id="win-overlay" role="dialog" aria-label="Game won screen">
+        <div class="win-card">
+            <div class="trophy">🏆</div>
+            <h2 id="win-title">Amazing!</h2>
+            <p id="win-moves">You finished in 0 moves</p>
+            <p id="win-time">Time: 0:00</p>
+            <div class="stars" id="win-stars">⭐⭐⭐</div>
+            <button class="btn btn-primary" onclick="playAgain()" id="play-again-btn" aria-label="Play again">🎮 Play Again</button>
+        </div>
+    </div>
+
+    <script src="../../shared/common.js"></script>
+    <div id="liveRegion" class="live-region" aria-live="polite" aria-atomic="true"></div>
+
+    <script>
+        // ====== DATA ======
+        const gameData = {
+            animals: [
+                { emoji: '🐶', en: 'Dog', hi: 'कुत्ता', as: 'কুকুৰ' },
+                { emoji: '🐱', en: 'Cat', hi: 'बिल्ली', as: 'মেকুৰী' },
+                { emoji: '🐘', en: 'Elephant', hi: 'हाथी', as: 'হাতী' },
+                { emoji: '🦁', en: 'Lion', hi: 'शेर', as: 'সিংহ' },
+                { emoji: '🐵', en: 'Monkey', hi: 'बंदर', as: 'বাঁদৰ' },
+                { emoji: '🐰', en: 'Rabbit', hi: 'खरगोश', as: 'খৰগোছ' },
+                { emoji: '🐻', en: 'Bear', hi: 'भालू', as: 'ভালুক' },
+                { emoji: '🐸', en: 'Frog', hi: 'मेंढक', as: 'ভেকুৰী' },
+                { emoji: '🦋', en: 'Butterfly', hi: 'तितली', as: 'পখিলা' },
+                { emoji: '🐢', en: 'Turtle', hi: 'कछुआ', as: 'কাছ' },
+                { emoji: '🦉', en: 'Owl', hi: 'उल्लू', as: 'উলুক' },
+                { emoji: '🐷', en: 'Pig', hi: 'सूअर', as: 'গাহৰি' },
+            ],
+            fruits: [
+                { emoji: '🍎', en: 'Apple', hi: 'सेब', as: 'আপেল' },
+                { emoji: '🍌', en: 'Banana', hi: 'केला', as: 'কল' },
+                { emoji: '🍇', en: 'Grapes', hi: 'अंगूर', as: 'আঙুৰ' },
+                { emoji: '🍊', en: 'Orange', hi: 'संतरा', as: 'কমলা' },
+                { emoji: '🍓', en: 'Strawberry', hi: 'स्ट्रॉबेरी', as: 'ষ্ট্ৰবেৰী' },
+                { emoji: '🍉', en: 'Watermelon', hi: 'तरबूज', as: 'তৰমুজ' },
+                { emoji: '🥭', en: 'Mango', hi: 'आम', as: 'আম' },
+                { emoji: '🍍', en: 'Pineapple', hi: 'अनानास', as: 'আনাৰস' },
+                { emoji: '🍑', en: 'Peach', hi: 'आड़ू', as: 'আৰু' },
+                { emoji: '🍒', en: 'Cherry', hi: 'चेरी', as: 'চেৰী' },
+                { emoji: '🥝', en: 'Kiwi', hi: 'कीवी', as: 'কিউই' },
+                { emoji: '🍋', en: 'Lemon', hi: 'नींबू', as: 'লেম্বু' },
+            ],
+            vehicles: [
+                { emoji: '🚗', en: 'Car', hi: 'कार', as: 'গাড়ী' },
+                { emoji: '🚌', en: 'Bus', hi: 'बस', as: 'বাছ' },
+                { emoji: '🚂', en: 'Train', hi: 'ट्रेन', as: 'ৰেলগাড়ী' },
+                { emoji: '✈️', en: 'Airplane', hi: 'हवाई जहाज', as: 'বিমান' },
+                { emoji: '🚀', en: 'Rocket', hi: 'रॉकेट', as: 'ৰকেট' },
+                { emoji: '🚲', en: 'Bicycle', hi: 'साइकिल', as: 'চাইকেল' },
+                { emoji: '🚁', en: 'Helicopter', hi: 'हेलीकॉप्टर', as: 'হেলিকপ্টাৰ' },
+                { emoji: '⛵', en: 'Boat', hi: 'नाव', as: 'নৌকা' },
+                { emoji: '🚒', en: 'Fire Truck', hi: 'अग्निशामक', as: 'অগ্নি নিৰ্বাপক' },
+                { emoji: '🚜', en: 'Tractor', hi: 'ट्रैक्टर', as: 'ট্ৰেক্টৰ' },
+                { emoji: '🏍️', en: 'Motorcycle', hi: 'मोटरसाइकिल', as: 'মটৰ চাইকেল' },
+                { emoji: '🚃', en: 'Tram', hi: 'ट्राम', as: 'ট্ৰাম' },
+            ]
+        };
+
+        const translations = {
+            en: {
+                title: 'Memory Match',
+                subtitle: 'Find the matching pairs!',
+                moves: 'Moves',
+                pairs: 'Pairs',
+                time: 'Time',
+                restart: '🔄 Restart',
+                newGame: '✨ New Game',
+                amazing: 'Amazing!',
+                awesome: 'Awesome!',
+                great: 'Great Job!',
+                youFinished: 'You finished in',
+                movesText: 'moves',
+                playAgain: '🎮 Play Again',
+                catAnimals: '🐾 Animals',
+                catFruits: '🍎 Fruits',
+                catVehicles: '🚗 Vehicles',
+            },
+            hi: {
+                title: 'याददाश्त खेल',
+                subtitle: 'जोड़ी ढूंढो!',
+                moves: 'चालें',
+                pairs: 'जोड़े',
+                time: 'समय',
+                restart: '🔄 फिर से',
+                newGame: '✨ नया खेल',
+                amazing: 'शानदार!',
+                awesome: 'बहुत बढ़िया!',
+                great: 'बहुत अच्छा!',
+                youFinished: 'तुमने पूरा किया',
+                movesText: 'चालों में',
+                playAgain: '🎮 फिर खेलो',
+                catAnimals: '🐾 जानवर',
+                catFruits: '🍎 फल',
+                catVehicles: '🚗 वाहन',
+            },
+            as: {
+                title: 'স্মৃতি খেল',
+                subtitle: 'জোৰা বিচাৰক!',
+                moves: 'চাল',
+                pairs: 'জোৰা',
+                time: 'সময়',
+                restart: '🔄 পুনৰ',
+                newGame: '✨ নতুন খেল',
+                amazing: 'অসাধাৰণ!',
+                awesome: 'বহুত ভাল!',
+                great: 'বহুত ভাল কাম!',
+                youFinished: 'তুমি শেষ কৰিলা',
+                movesText: 'চালত',
+                playAgain: '🎮 পুনৰ খেলক',
+                catAnimals: '🐾 জন্তু',
+                catFruits: '🍎 ফল',
+                catVehicles: '🚗 গাড়ী',
+            }
+        };
+
+        // ====== STATE ======
+        let currentLang = 'en';
+        let currentCategory = 'animals';
+        let currentMode = 'easy';
+        let cards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let totalPairs = 4;
+        let moves = 0;
+        let gameTimer = null;
+        let seconds = 0;
+        let isLocked = false;
+        let gameStarted = false;
+
+
+        // ====== FLOATING EMOJIS ======
+        function createFloatingEmojis() {
+            const existing = document.querySelectorAll('.floating-emoji');
+            existing.forEach(e => e.remove());
+
+            const emojis = ['🌟', '⭐', '🎈', '🎉', '💫', '🌈', '🎨', '🧩'];
+            for (let i = 0; i < 12; i++) {
+                const el = document.createElement('div');
+                el.className = 'floating-emoji';
+                el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                el.style.left = Math.random() * 100 + 'vw';
+                el.style.animationDuration = (6 + Math.random() * 6) + 's';
+                el.style.animationDelay = Math.random() * 8 + 's';
+                el.style.fontSize = (1.2 + Math.random() * 1.5) + 'rem';
+                document.body.appendChild(el);
+            }
+        }
+
+        // ====== LANGUAGE ======
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-hi').classList.toggle('active', lang === 'hi');
+            document.getElementById('lang-as').classList.toggle('active', lang === 'as');
+            updateTexts();
+            // Update card names
+            document.querySelectorAll('.card-front .name').forEach(el => {
+                const item = el.dataset.item;
+                if (item !== undefined) {
+                    const parsed = JSON.parse(item);
+                    el.textContent = parsed[lang];
+                }
+            });
+        }
+
+        function updateTexts() {
+            const t = translations[currentLang];
+            document.getElementById('title-text').textContent = t.title;
+            document.getElementById('subtitle-text').textContent = t.subtitle;
+            document.getElementById('moves-label').textContent = t.moves;
+            document.getElementById('pairs-label').textContent = t.pairs;
+            document.getElementById('time-label').textContent = t.time;
+            document.getElementById('restart-btn').textContent = t.restart;
+            document.getElementById('newgame-btn').textContent = t.newGame;
+            document.getElementById('play-again-btn').textContent = t.playAgain;
+            document.getElementById('cat-animals').textContent = t.catAnimals;
+            document.getElementById('cat-fruits').textContent = t.catFruits;
+            document.getElementById('cat-vehicles').textContent = t.catVehicles;
+            updatePairsDisplay();
+        }
+
+        function updatePairsDisplay() {
+            document.getElementById('pairs-value').textContent = `${matchedPairs} / ${totalPairs}`;
+        }
+
+        // ====== CATEGORY ======
+        function setCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('cat-' + cat).classList.add('active');
+            document.body.className = 'category-' + cat;
+            newGame();
+        }
+
+        // ====== MODE ======
+        function setMode(mode) {
+            currentMode = mode;
+            totalPairs = mode === 'easy' ? 4 : 8;
+            document.getElementById('mode-easy').classList.toggle('active', mode === 'easy');
+            document.getElementById('mode-normal').classList.toggle('active', mode === 'normal');
+            newGame();
+        }
+
+        // ====== GAME LOGIC ======
+
+        function pickPairs(category, count) {
+            const items = [...gameData[category]];
+            KhelonaShared.shuffle(items);
+            return items.slice(0, count);
+        }
+
+        function createBoard() {
+            const board = document.getElementById('game-board');
+            board.innerHTML = '';
+
+            const pairs = pickPairs(currentCategory, totalPairs);
+            let cardData = [];
+            pairs.forEach(item => {
+                cardData.push({ ...item });
+                cardData.push({ ...item });
+            });
+            KhelonaShared.shuffle(cardData);
+
+            cards = [];
+            cardData.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.dataset.index = index;
+                card.dataset.id = item.en;
+
+                card.innerHTML = `
+                    <div class="card-inner">
+                        <div class="card-face card-back"></div>
+                        <div class="card-face card-front">
+                            <span class="emoji">${item.emoji}</span>
+                            <span class="name" data-item='${JSON.stringify({ en: item.en, hi: item.hi, as: item.as })}'>${item[currentLang]}</span>
+                        </div>
+                    </div>
+                `;
+
+                card.addEventListener('click', () => flipCard(card));
+                board.appendChild(card);
+                cards.push(card);
+            });
+        }
+
+        function flipCard(card) {
+            if (isLocked) return;
+            if (card.classList.contains('flipped')) return;
+            if (card.classList.contains('matched')) return;
+            if (flippedCards.length >= 2) return;
+
+            // Start timer on first flip
+            if (!gameStarted) {
+                gameStarted = true;
+                startTimer();
+            }
+
+            card.classList.add('flipped');
+            flippedCards.push(card);
+            KhelonaShared.playSound('tap');
+
+            if (flippedCards.length === 2) {
+                moves++;
+                document.getElementById('moves-value').textContent = moves;
+                checkMatch();
+            }
+        }
+
+        function checkMatch() {
+            const [card1, card2] = flippedCards;
+            const match = card1.dataset.id === card2.dataset.id;
+
+            if (match) {
+                isLocked = true;
+                setTimeout(() => {
+                    card1.classList.add('matched');
+                    card2.classList.add('matched');
+                    KhelonaShared.playSound('correct');
+                    KhelonaShared.announce('Correct!');
+                    matchedPairs++;
+                    updatePairsDisplay();
+                    flippedCards = [];
+                    isLocked = false;
+
+                    if (matchedPairs === totalPairs) {
+                        setTimeout(winGame, 500);
+                    }
+                }, 300);
+            } else {
+                isLocked = true;
+                setTimeout(() => {
+                    card1.classList.add('wrong');
+                    card2.classList.add('wrong');
+                    KhelonaShared.playSound('wrong');
+                    KhelonaShared.announce('Try again.');
+                }, 300);
+                setTimeout(() => {
+                    card1.classList.remove('flipped', 'wrong');
+                    card2.classList.remove('flipped', 'wrong');
+                    flippedCards = [];
+                    isLocked = false;
+                }, 900);
+            }
+        }
+
+        // ====== TIMER ======
+        function startTimer() {
+            seconds = 0;
+            clearInterval(gameTimer);
+            gameTimer = setInterval(() => {
+                seconds++;
+                const m = Math.floor(seconds / 60);
+                const s = seconds % 60;
+                document.getElementById('time-value').textContent = `${m}:${s.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(gameTimer);
+        }
+
+        // ====== WIN ======
+        function winGame() {
+            stopTimer();
+            KhelonaShared.playSound('win');
+            KhelonaShared.announce('Game over! You matched all pairs in ' + moves + ' moves!');
+            launchConfetti();
+
+            const t = translations[currentLang];
+            const m = Math.floor(seconds / 60);
+            const s = seconds % 60;
+            const timeStr = `${m}:${s.toString().padStart(2, '0')}`;
+
+            let stars = '⭐';
+            if (moves <= 12) stars = '⭐⭐⭐';
+            else if (moves <= 18) stars = '⭐⭐';
+
+            let title = t.great;
+            if (moves <= 12) title = t.amazing;
+            else if (moves <= 16) title = t.awesome;
+
+            document.getElementById('win-title').textContent = title;
+            document.getElementById('win-moves').textContent = `${t.youFinished} ${moves} ${t.movesText}`;
+            document.getElementById('win-time').textContent = `${t.time}: ${timeStr}`;
+            document.getElementById('win-stars').textContent = stars;
+            document.getElementById('win-overlay').classList.add('show');
+        }
+
+        function playAgain() {
+            document.getElementById('win-overlay').classList.remove('show');
+            newGame();
+        }
+
+        // ====== GAME CONTROL ======
+        function restartGame() {
+            stopTimer();
+            moves = 0;
+            matchedPairs = 0;
+            seconds = 0;
+            gameStarted = false;
+            flippedCards = [];
+            isLocked = false;
+            document.getElementById('moves-value').textContent = '0';
+            document.getElementById('time-value').textContent = '0:00';
+            updatePairsDisplay();
+            cards.forEach(card => {
+                card.classList.remove('flipped', 'matched', 'wrong');
+            });
+        }
+
+        function newGame() {
+            stopTimer();
+            moves = 0;
+            matchedPairs = 0;
+            seconds = 0;
+            gameStarted = false;
+            flippedCards = [];
+            isLocked = false;
+            document.getElementById('moves-value').textContent = '0';
+            document.getElementById('time-value').textContent = '0:00';
+            updatePairsDisplay();
+            createBoard();
+        }
+
+        // ====== CONFETTI ======
+        function launchConfetti() {
+            const canvas = document.getElementById('confetti-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const pieces = [];
+            const colors = ['#FF6584', '#6C63FF', '#43E97B', '#FFD93D', '#FF6B6B', '#4ECDC4', '#F6D365'];
+
+            for (let i = 0; i < 150; i++) {
+                pieces.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    w: 6 + Math.random() * 8,
+                    h: 4 + Math.random() * 6,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    vy: 2 + Math.random() * 4,
+                    vx: (Math.random() - 0.5) * 4,
+                    rot: Math.random() * 360,
+                    rotSpeed: (Math.random() - 0.5) * 10,
+                    opacity: 1
+                });
+            }
+
+            let frame = 0;
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                frame++;
+
+                pieces.forEach(p => {
+                    p.y += p.vy;
+                    p.x += p.vx;
+                    p.rot += p.rotSpeed;
+                    if (frame > 60) p.opacity -= 0.01;
+
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.rot * Math.PI / 180);
+                    ctx.globalAlpha = Math.max(0, p.opacity);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+                    ctx.restore();
+                });
+
+                if (frame < 180) {
+                    requestAnimationFrame(animate);
+                } else {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                }
+            }
+            animate();
+        }
+
+        // ====== INIT ======
+        KhelonaShared.initHtp('htp_mm');
+        KhelonaShared.enableButtonKeyboard();
+
+        window.addEventListener('resize', () => {
+            const canvas = document.getElementById('confetti-canvas');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        createFloatingEmojis();
+        updateTexts();
+        createBoard();
+    </script>
+</body>
+</html>

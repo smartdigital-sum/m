@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Math Games — Kids Fun Learning</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../assets/css/theme.css" />
+  </head>
+  <body class="kid-site theme-math">
+    <a href="#main-content" class="kid-skip-link">Skip to main content</a>
+
+    <div class="kid-bubbles" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div class="kid-wrap">
+      <div class="kid-topbar">
+        <button type="button" class="kid-sound-toggle" id="kid-sound-btn" aria-pressed="false">
+          <span class="kid-sound-icon" aria-hidden="true">🔊</span>
+          <span class="kid-sound-label">Sound on</span>
+        </button>
+      </div>
+
+      <a href="../index.html" class="kid-back">⬅ Back to home</a>
+
+      <header class="kid-header">
+        <h1 id="main-content" tabindex="-1">🔢 Math Games 🔢</h1>
+        <p>Pick a mode and solve the next puzzle!</p>
+      </header>
+
+      <div class="kid-diff-row">
+        <button type="button" class="kid-diff" data-diff="easy">🌱 Easy</button>
+        <button type="button" class="kid-diff is-on" data-diff="medium">🔥 Medium</button>
+        <button type="button" class="kid-diff" data-diff="hard">💪 Hard</button>
+      </div>
+
+      <div class="kid-tabs">
+        <button type="button" class="kid-tab kid-tab--a active addition" data-type="addition">
+          ➕ Addition
+        </button>
+        <button type="button" class="kid-tab kid-tab--b subtraction" data-type="subtraction">
+          ➖ Subtraction
+        </button>
+        <button type="button" class="kid-tab kid-tab--c multiplication" data-type="multiplication">
+          ✖️ Multiply
+        </button>
+      </div>
+
+      <section class="kid-panel" id="main-content">
+        <div class="kid-game-area is-active" id="addition-game">
+          <h2>Addition challenge!</h2>
+          <div class="kid-problem" id="addition-problem" aria-live="polite">5 + 3 = ?</div>
+          <input
+            type="number"
+            class="kid-input"
+            id="addition-answer"
+            placeholder="?"
+            aria-label="Your answer"
+            data-type="addition"
+          />
+          <div>
+            <button type="button" class="kid-btn-primary kid-btn-check" data-type="addition">Check answer!</button>
+          </div>
+          <div class="kid-msg" id="addition-message" aria-live="polite"></div>
+          <div class="kid-scores">
+            <div>
+              <div class="val" id="addition-correct">0</div>
+              <div>✅ Correct</div>
+            </div>
+            <div>
+              <div class="val" id="addition-wrong">0</div>
+              <div>❌ Oops</div>
+            </div>
+          </div>
+          <button type="button" class="kid-btn-secondary kid-btn-new" data-type="addition">New problem ➡</button>
+        </div>
+
+        <div class="kid-game-area" id="subtraction-game">
+          <h2>Subtraction challenge!</h2>
+          <div class="kid-problem" id="subtraction-problem" aria-live="polite">10 − 4 = ?</div>
+          <input
+            type="number"
+            class="kid-input"
+            id="subtraction-answer"
+            placeholder="?"
+            aria-label="Your answer"
+            data-type="subtraction"
+          />
+          <div>
+            <button type="button" class="kid-btn-primary kid-btn-check" data-type="subtraction">Check answer!</button>
+          </div>
+          <div class="kid-msg" id="subtraction-message" aria-live="polite"></div>
+          <div class="kid-scores">
+            <div>
+              <div class="val" id="subtraction-correct">0</div>
+              <div>✅ Correct</div>
+            </div>
+            <div>
+              <div class="val" id="subtraction-wrong">0</div>
+              <div>❌ Oops</div>
+            </div>
+          </div>
+          <button type="button" class="kid-btn-secondary kid-btn-new" data-type="subtraction">New problem ➡</button>
+        </div>
+
+        <div class="kid-game-area" id="multiplication-game">
+          <h2>Multiplication challenge!</h2>
+          <div class="kid-problem" id="multiplication-problem" aria-live="polite">6 × 7 = ?</div>
+          <input
+            type="number"
+            class="kid-input"
+            id="multiplication-answer"
+            placeholder="?"
+            aria-label="Your answer"
+            data-type="multiplication"
+          />
+          <div>
+            <button type="button" class="kid-btn-primary kid-btn-check" data-type="multiplication">Check answer!</button>
+          </div>
+          <div class="kid-msg" id="multiplication-message" aria-live="polite"></div>
+          <div class="kid-scores">
+            <div>
+              <div class="val" id="multiplication-correct">0</div>
+              <div>✅ Correct</div>
+            </div>
+            <div>
+              <div class="val" id="multiplication-wrong">0</div>
+              <div>❌ Oops</div>
+            </div>
+          </div>
+          <button type="button" class="kid-btn-secondary kid-btn-new" data-type="multiplication">New problem ➡</button>
+        </div>
+      </section>
+    </div>
+
+    <script src="../assets/js/sounds.js"></script>
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/effects.js"></script>
+    <script src="../assets/js/common.js"></script>
+    <script src="../assets/js/math.js"></script>
+  </body>
+</html>

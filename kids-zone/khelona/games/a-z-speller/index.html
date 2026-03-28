@@ -1,0 +1,1260 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>A to Z Speller!</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../shared/common.css">
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        user-select: none;
+      }
+      body {
+        min-height: 100vh;
+        background: #fef9f0;
+        font-family: "Fredoka One", cursive;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow-x: hidden;
+        background-image:
+          radial-gradient(circle at 10% 15%, #ffe0f7 0%, transparent 30%),
+          radial-gradient(circle at 90% 80%, #d0f0ff 0%, transparent 30%);
+      }
+      .wrap {
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 11px;
+        width: 100%;
+        max-width: 500px;
+        padding: 12px 13px 22px;
+      }
+      .title {
+        font-family: "Nunito", sans-serif;
+        font-weight: 900;
+        font-size: 1.85rem;
+        background: linear-gradient(135deg, #ff6b6b, #ffd93d, #6bcb77, #4d96ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-align: center;
+      }
+
+      /* alpha bar */
+      .alpha-wrap {
+        width: 100%;
+        background: white;
+        border-radius: 18px;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.07);
+        padding: 7px 9px;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+      .alpha-wrap::-webkit-scrollbar {
+        display: none;
+      }
+      .alpha-row {
+        display: flex;
+        gap: 4px;
+        width: max-content;
+      }
+      .ac {
+        width: 28px;
+        height: 28px;
+        border-radius: 7px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.78rem;
+        font-family: "Nunito", sans-serif;
+        font-weight: 900;
+        flex-shrink: 0;
+        transition:
+          transform 0.2s,
+          background 0.2s;
+      }
+      .ac.pending {
+        background: #f0e6ff;
+        color: #c4b5fd;
+      }
+      .ac.current {
+        color: white;
+        transform: scale(1.28);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
+        animation: cpulse 1.6s ease-in-out infinite;
+      }
+      @keyframes cpulse {
+        0%,
+        100% {
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
+        }
+        50% {
+          box-shadow: 0 2px 18px rgba(0, 0, 0, 0.38);
+        }
+      }
+      .ac.s2 {
+        background: #6bcb77;
+        color: white;
+      }
+      .ac.s1 {
+        background: #ffd93d;
+        color: #333;
+      }
+      .ac.s0 {
+        background: #ff6b6b;
+        color: white;
+        opacity: 0.75;
+      }
+
+      /* letter hero */
+      .letter-hero {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        background: white;
+        border-radius: 24px;
+        box-shadow: 0 5px 18px rgba(0, 0, 0, 0.07);
+        padding: 12px 22px;
+        width: 100%;
+      }
+      .letter-big {
+        font-family: "Nunito", sans-serif;
+        font-weight: 900;
+        font-size: 4.8rem;
+        line-height: 1;
+        text-shadow: 0 4px 0 rgba(0, 0, 0, 0.07);
+        transition: color 0.4s;
+      }
+      .letter-info {
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+        flex: 1;
+      }
+      .letter-lbl {
+        font-size: 0.65rem;
+        color: #aaa;
+        font-family: "Nunito", sans-serif;
+        font-weight: 700;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+      }
+      .wdots {
+        display: flex;
+        gap: 8px;
+      }
+      .wd {
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: #e0d4f7;
+        transition: all 0.3s;
+      }
+      .wd.done {
+        background: #6bcb77;
+        transform: scale(1.15);
+      }
+      .wd.active {
+        background: #9b5cf6;
+        transform: scale(1.25);
+      }
+      .lstars {
+        font-size: 1.3rem;
+        min-height: 22px;
+        letter-spacing: 2px;
+      }
+      .word-badge {
+        margin-left: auto;
+        background: linear-gradient(135deg, #f3e8ff, #e0f0ff);
+        border-radius: 12px;
+        padding: 6px 12px;
+        font-family: "Nunito", sans-serif;
+        font-weight: 900;
+        font-size: 0.72rem;
+        color: #9b5cf6;
+        text-align: center;
+        line-height: 1.3;
+      }
+
+      /* picture card */
+      .pcard {
+        background: white;
+        border-radius: 28px;
+        box-shadow: 0 7px 26px rgba(0, 0, 0, 0.09);
+        padding: 18px 24px 14px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+      }
+      .pemoji {
+        font-size: 5.5rem;
+        line-height: 1;
+        animation: wobble 3s ease-in-out infinite;
+        transition: transform 0.3s;
+      }
+      @keyframes wobble {
+        0%,
+        100% {
+          transform: rotate(-4deg) scale(1);
+        }
+        50% {
+          transform: rotate(4deg) scale(1.06);
+        }
+      }
+      .pemoji.cel {
+        animation: cel 0.6s ease forwards;
+      }
+      @keyframes cel {
+        0% {
+          transform: scale(1);
+        }
+        35% {
+          transform: scale(1.42) rotate(-10deg);
+        }
+        65% {
+          transform: scale(1.18) rotate(8deg);
+        }
+        100% {
+          transform: scale(1) rotate(0);
+        }
+      }
+      .phint {
+        font-size: 0.72rem;
+        color: #bbb;
+        font-family: "Nunito", sans-serif;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+      }
+      .slots {
+        display: flex;
+        gap: 7px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .slot {
+        width: 50px;
+        height: 56px;
+        border-radius: 14px;
+        border: 3px dashed #e0d4f7;
+        background: #faf5ff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.85rem;
+        color: #9b5cf6;
+        transition: all 0.2s;
+      }
+      .slot.filled {
+        border-style: solid;
+        border-color: #9b5cf6;
+        background: white;
+        box-shadow: 0 3px 10px rgba(155, 92, 246, 0.14);
+      }
+      .slot.correct {
+        border-color: #6bcb77;
+        background: #f0fff4;
+        animation: sc 0.35s ease;
+      }
+      @keyframes sc {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.14);
+        }
+      }
+      .slot.wrong {
+        border-color: #ff6b6b;
+        background: #fff0f0;
+        animation: sw 0.35s ease;
+      }
+      @keyframes sw {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-7px);
+        }
+        75% {
+          transform: translateX(7px);
+        }
+      }
+      .reveal {
+        display: flex;
+        gap: 5px;
+        justify-content: center;
+        min-height: 40px;
+        align-items: center;
+      }
+      .rl {
+        display: inline-block;
+        font-size: 2rem;
+        animation: rb 0.4s ease backwards;
+      }
+      @keyframes rb {
+        0% {
+          transform: translateY(14px) scale(0.4);
+          opacity: 0;
+        }
+        70% {
+          transform: translateY(-5px) scale(1.2);
+        }
+        100% {
+          transform: translateY(0) scale(1);
+          opacity: 1;
+        }
+      }
+
+      /* tiles */
+      .tiles {
+        background: white;
+        border-radius: 22px;
+        box-shadow: 0 5px 18px rgba(0, 0, 0, 0.07);
+        padding: 13px 10px;
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+        justify-content: center;
+      }
+      .tile {
+        width: 54px;
+        height: 54px;
+        min-width: 80px;
+        min-height: 80px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        color: white;
+        cursor: pointer;
+        box-shadow: 0 5px 0 rgba(0, 0, 0, 0.17);
+        border: none;
+        outline: none;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        animation: tin 0.28s ease backwards;
+        transition:
+          transform 0.1s,
+          box-shadow 0.1s,
+          opacity 0.2s;
+        position: relative;
+      }
+      .tile::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 45%;
+        border-radius: 14px 14px 50% 50%;
+        background: rgba(255, 255, 255, 0.2);
+      }
+      @keyframes tin {
+        from {
+          transform: scale(0) rotate(-20deg);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      .tile:hover:not(:disabled) {
+        transform: translateY(-4px);
+        box-shadow: 0 9px 0 rgba(0, 0, 0, 0.17);
+      }
+      .tile:active:not(:disabled) {
+        transform: translateY(2px);
+        box-shadow: 0 2px 0 rgba(0, 0, 0, 0.17);
+      }
+      .tile:disabled {
+        opacity: 0.17;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      /* bottom */
+      .bot {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+      }
+      .erase {
+        background: white;
+        border: 3px solid #f0e6ff;
+        border-radius: 50px;
+        padding: 8px 20px;
+        font-family: "Fredoka One", cursive;
+        font-size: 0.92rem;
+        color: #9b5cf6;
+        cursor: pointer;
+        box-shadow: 0 3px 0 #e0cfff;
+        transition:
+          transform 0.1s,
+          box-shadow 0.1s;
+      }
+      .erase:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 0 #e0cfff;
+      }
+      .erase:active {
+        transform: translateY(1px);
+        box-shadow: 0 1px 0 #e0cfff;
+      }
+      .score {
+        font-family: "Nunito", sans-serif;
+        font-weight: 900;
+        font-size: 0.9rem;
+        color: #9b5cf6;
+        background: white;
+        border-radius: 50px;
+        padding: 8px 16px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+      }
+
+      /* toast */
+      .toast {
+        position: fixed;
+        top: 48px;
+        left: 50%;
+        transform: translateX(-50%) translateY(-14px);
+        background: white;
+        border-radius: 50px;
+        padding: 9px 22px;
+        font-size: 1.25rem;
+        font-family: "Nunito", sans-serif;
+        font-weight: 900;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.11);
+        opacity: 0;
+        pointer-events: none;
+        z-index: 99;
+        white-space: nowrap;
+        transition:
+          opacity 0.2s,
+          transform 0.2s;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      /* overlays */
+      .ov {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(254, 249, 240, 0.97);
+        z-index: 50;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        text-align: center;
+        padding: 28px;
+      }
+      .ov.show {
+        display: flex;
+      }
+      .ov-em {
+        font-size: 5rem;
+        animation: wobble 2s ease-in-out infinite;
+      }
+      .ov-ttl {
+        font-family: "Nunito", sans-serif;
+        font-weight: 900;
+        font-size: 2.2rem;
+        background: linear-gradient(135deg, #ff6b6b, #ffd93d, #6bcb77, #4d96ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .ov-sub {
+        font-size: 0.92rem;
+        color: #888;
+        font-family: "Nunito", sans-serif;
+        font-weight: 700;
+        max-width: 300px;
+        line-height: 1.5;
+      }
+      .pbtn {
+        padding: 13px 38px;
+        border: none;
+        border-radius: 50px;
+        font-family: "Nunito", sans-serif;
+        font-size: 1.2rem;
+        font-weight: 900;
+        color: white;
+        background: linear-gradient(135deg, #ff6b6b, #ffd93d);
+        cursor: pointer;
+        box-shadow: 0 6px 0 rgba(255, 107, 107, 0.35);
+        transition:
+          transform 0.1s,
+          box-shadow 0.1s;
+      }
+      .pbtn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 9px 0 rgba(255, 107, 107, 0.35);
+      }
+      .pbtn:active {
+        transform: translateY(2px);
+        box-shadow: 0 3px 0 rgba(255, 107, 107, 0.35);
+      }
+
+      /* end grid */
+      .end-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        justify-content: center;
+        max-width: 380px;
+      }
+      .eg {
+        width: 34px;
+        height: 40px;
+        border-radius: 9px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: "Nunito", sans-serif;
+        font-weight: 900;
+        font-size: 0.78rem;
+        color: white;
+        gap: 1px;
+      }
+      .eg-s {
+        font-size: 0.45rem;
+      }
+
+      /* letter picker */
+      .letter-picker {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+        max-width: 340px;
+        margin: 0 auto 8px;
+      }
+      .lp-btn {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        border: none;
+        font-family: "Nunito", sans-serif;
+        font-weight: 900;
+        font-size: 1.3rem;
+        color: white;
+        cursor: pointer;
+        box-shadow: 0 4px 0 rgba(0,0,0,0.15);
+        transition: transform 0.1s, box-shadow 0.1s;
+      }
+      .lp-btn:hover { transform: translateY(-3px); box-shadow: 0 7px 0 rgba(0,0,0,0.15); }
+      .lp-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 rgba(0,0,0,0.15); }
+      .lp-sep {
+        font-family: "Nunito", sans-serif;
+        font-weight: 700;
+        font-size: 0.8rem;
+        color: #aaa;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        width: 100%;
+        text-align: center;
+        margin: 4px 0 2px;
+      }
+
+    </style>
+  </head>
+  <body>
+    <a href="../../index.html" class="home-btn" aria-label="Home">🏠 Home</a>
+    <!-- How to Play overlay -->
+    <div class="htp-overlay" id="htpOverlay" role="dialog" aria-label="How to play instructions">
+      <div class="htp-card">
+        <div class="htp-em">🔤</div>
+        <div class="htp-title">How to Play</div>
+        <div class="htp-desc">Travel through every letter A to Z! For each letter, spell 2 words by tapping the letter tiles. Get both words right on the first try to earn stars!</div>
+        <button class="htp-btn" onclick="KhelonaShared.dismissHtp('htp_az')" aria-label="Close how to play">Got it! 👍</button>
+      </div>
+    </div>
+    <!-- START -->
+    <div class="ov show" id="ovStart" role="dialog" aria-label="Game start screen">
+      <div class="ov-em">🔤</div>
+      <div class="ov-ttl">A to Z Speller!</div>
+      <div class="ov-sub">
+        Travel through every letter of the alphabet!<br />Spell
+        <strong>2 words per letter</strong> — all the way from A to Z! ⭐
+      </div>
+      <div class="lp-sep">— or pick a letter —</div>
+      <div class="letter-picker" id="letterPicker"></div>
+      <button class="pbtn" onclick="startGame()" aria-label="Play all letters A to Z">▶ Play All A→Z</button>
+    </div>
+
+    <!-- LETTER DONE -->
+    <div class="ov" id="ovLetter">
+      <div class="ov-em" id="olEm">🎉</div>
+      <div class="ov-ttl" id="olTitle">Letter A Done!</div>
+      <div
+        style="font-size: 2rem; min-height: 32px; letter-spacing: 3px"
+        id="olStars"
+      ></div>
+      <div class="ov-sub" id="olNext">Next up: Letter B →</div>
+    </div>
+
+    <!-- SINGLE LETTER COMPLETE -->
+    <div class="ov" id="ovLetterDone">
+      <div class="ov-em" id="oldEm">🌟</div>
+      <div class="ov-ttl" id="oldTitle">Letter A Done!</div>
+      <div style="font-size: 2rem; min-height: 32px; letter-spacing: 3px" id="oldStars"></div>
+      <button class="pbtn" onclick="backToLetterPicker()">🔤 Pick Another Letter</button>
+      <button class="pbtn" style="background: linear-gradient(135deg,#6bcb77,#4d96ff); margin-top: 4px;" onclick="replayLetter()">🔄 Play Again</button>
+    </div>
+
+    <!-- END -->
+    <div class="ov" id="ovEnd" role="dialog" aria-label="Game over screen">
+      <div class="ov-em">🏆</div>
+      <div class="ov-ttl">A to Z Complete!</div>
+      <div
+        style="
+          font-family: &quot;Nunito&quot;, sans-serif;
+          font-weight: 900;
+          font-size: 2.6rem;
+          color: #ff6b6b;
+        "
+        id="endTotal"
+      ></div>
+      <div class="end-grid" id="endGrid"></div>
+      <button class="pbtn" onclick="startGame()" aria-label="Play again">🔄 Play Again!</button>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <div class="wrap">
+      <h1 class="title">🔤 A to Z Speller!</h1>
+
+      <div class="alpha-wrap">
+        <div class="alpha-row" id="alphaRow"></div>
+      </div>
+
+      <div class="letter-hero">
+        <div class="letter-big" id="lBig">A</div>
+        <div class="letter-info">
+          <div class="letter-lbl">Current Letter</div>
+          <div class="wdots" id="wdots"></div>
+          <div class="lstars" id="lstars"></div>
+        </div>
+        <div class="word-badge" id="wBadge">Word<br />1/2</div>
+      </div>
+
+      <div class="pcard">
+        <div class="pemoji" id="pemoji">🐱</div>
+        <div class="phint">Spell the word! 👇</div>
+        <div class="slots" id="slots"></div>
+        <div class="reveal" id="reveal"></div>
+      </div>
+
+      <div class="tiles" id="tiles"></div>
+
+      <div class="bot">
+        <button class="erase" onclick="eraseBtn()">⬅ Erase</button>
+        <div class="score" id="scoreEl">⭐ 0 / 52</div>
+      </div>
+    </div>
+
+    <script src="../../shared/common.js"></script>
+    <div id="liveRegion" class="live-region" aria-live="polite" aria-atomic="true"></div>
+    <script>
+      const AW = [
+        {
+          l: "A",
+          c: "#FF6B6B",
+          w: [
+            { word: "APE", e: "🦍" },
+            { word: "ANT", e: "🐜" },
+          ],
+        },
+        {
+          l: "B",
+          c: "#FF922B",
+          w: [
+            { word: "BEE", e: "🐝" },
+            { word: "BAT", e: "🦇" },
+          ],
+        },
+        {
+          l: "C",
+          c: "#e6b800",
+          w: [
+            { word: "CAT", e: "🐱" },
+            { word: "COW", e: "🐮" },
+          ],
+        },
+        {
+          l: "D",
+          c: "#6BCB77",
+          w: [
+            { word: "DOG", e: "🐶" },
+            { word: "DUCK", e: "🦆" },
+          ],
+        },
+        {
+          l: "E",
+          c: "#4D96FF",
+          w: [
+            { word: "EGG", e: "🥚" },
+            { word: "EAR", e: "👂" },
+          ],
+        },
+        {
+          l: "F",
+          c: "#C77DFF",
+          w: [
+            { word: "FOX", e: "🦊" },
+            { word: "FLY", e: "🪰" },
+          ],
+        },
+        {
+          l: "G",
+          c: "#f783ac",
+          w: [
+            { word: "GOAT", e: "🐐" },
+            { word: "GEM", e: "💎" },
+          ],
+        },
+        {
+          l: "H",
+          c: "#FF6B6B",
+          w: [
+            { word: "HEN", e: "🐔" },
+            { word: "HAT", e: "🎩" },
+          ],
+        },
+        {
+          l: "I",
+          c: "#4D96FF",
+          w: [
+            { word: "ICE", e: "🧊" },
+            { word: "INK", e: "🖊️" },
+          ],
+        },
+        {
+          l: "J",
+          c: "#FF922B",
+          w: [
+            { word: "JAR", e: "🫙" },
+            { word: "JET", e: "✈️" },
+          ],
+        },
+        {
+          l: "K",
+          c: "#c9a800",
+          w: [
+            { word: "KEY", e: "🔑" },
+            { word: "KITE", e: "🪁" },
+          ],
+        },
+        {
+          l: "L",
+          c: "#6BCB77",
+          w: [
+            { word: "LOG", e: "🪵" },
+            { word: "LION", e: "🦁" },
+          ],
+        },
+        {
+          l: "M",
+          c: "#4D96FF",
+          w: [
+            { word: "MAP", e: "🗺️" },
+            { word: "MUG", e: "☕" },
+          ],
+        },
+        {
+          l: "N",
+          c: "#C77DFF",
+          w: [
+            { word: "NET", e: "🥅" },
+            { word: "NUT", e: "🥜" },
+          ],
+        },
+        {
+          l: "O",
+          c: "#6BCB77",
+          w: [
+            { word: "OWL", e: "🦉" },
+            { word: "OAT", e: "🌾" },
+          ],
+        },
+        {
+          l: "P",
+          c: "#f783ac",
+          w: [
+            { word: "PIG", e: "🐷" },
+            { word: "POT", e: "🪴" },
+          ],
+        },
+        {
+          l: "Q",
+          c: "#FF6B6B",
+          w: [
+            { word: "QUACK", e: "🦆" },
+            { word: "QUEEN", e: "👑" },
+          ],
+        },
+        {
+          l: "R",
+          c: "#FF922B",
+          w: [
+            { word: "RAT", e: "🐀" },
+            { word: "ROSE", e: "🌹" },
+          ],
+        },
+        {
+          l: "S",
+          c: "#c9a800",
+          w: [
+            { word: "SUN", e: "☀️" },
+            { word: "STAR", e: "⭐" },
+          ],
+        },
+        {
+          l: "T",
+          c: "#6BCB77",
+          w: [
+            { word: "TUB", e: "🛁" },
+            { word: "TREE", e: "🌳" },
+          ],
+        },
+        {
+          l: "U",
+          c: "#4D96FF",
+          w: [
+            { word: "UFO", e: "🛸" },
+            { word: "UP", e: "⬆️" },
+          ],
+        },
+        {
+          l: "V",
+          c: "#C77DFF",
+          w: [
+            { word: "VAN", e: "🚐" },
+            { word: "VET", e: "🩺" },
+          ],
+        },
+        {
+          l: "W",
+          c: "#6BCB77",
+          w: [
+            { word: "WEB", e: "🕸️" },
+            { word: "WOLF", e: "🐺" },
+          ],
+        },
+        {
+          l: "X",
+          c: "#FF6B6B",
+          w: [
+            { word: "XMAS", e: "🎄" },
+            { word: "BOX", e: "📦" },
+          ],
+        },
+        {
+          l: "Y",
+          c: "#FF922B",
+          w: [
+            { word: "YAK", e: "🐂" },
+            { word: "YAM", e: "🍠" },
+          ],
+        },
+        {
+          l: "Z",
+          c: "#c9a800",
+          w: [
+            { word: "ZAP", e: "⚡" },
+            { word: "ZOO", e: "🦁" },
+          ],
+        },
+      ];
+
+      const TC = [
+        "#FF6B6B",
+        "#FF922B",
+        "#FFD93D",
+        "#6BCB77",
+        "#4D96FF",
+        "#C77DFF",
+        "#f783ac",
+        "#20c997",
+      ];
+      const DL = "ABCDEFGHIJKLMNOPRSTUW".split("");
+
+      let lIdx = 0,
+        wIdx = 0,
+        spl = new Array(26).fill(-1),
+        clStars = 0;
+      let pa = [],
+        tm = [],
+        locked = false,
+        fTry = true;
+      let pickALetterMode = false;
+
+      const shuffle = (a) => {
+        for (let i = a.length - 1; i > 0; i--) {
+          const j = 0 | (Math.random() * (i + 1));
+          [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+      };
+      const totalS = () => spl.reduce((s, v) => s + (v > 0 ? v : 0), 0);
+
+      function startGame() {
+        ["ovStart", "ovEnd"].forEach((id) =>
+          document.getElementById(id).classList.remove("show"),
+        );
+        pickALetterMode = false;
+        lIdx = 0;
+        wIdx = 0;
+        spl = new Array(26).fill(-1);
+        clStars = 0;
+        fTry = true;
+        buildRound();
+      }
+
+      function buildLetterPicker() {
+        const picker = document.getElementById('letterPicker');
+        picker.innerHTML = '';
+        AW.forEach(({ l, c }, i) => {
+          const btn = document.createElement('button');
+          btn.className = 'lp-btn';
+          btn.textContent = l;
+          btn.style.background = c;
+          btn.onclick = () => startFromLetter(i);
+          picker.appendChild(btn);
+        });
+      }
+
+      function startFromLetter(idx) {
+        const safeIdx = (typeof idx === 'number' && idx >= 0 && idx <= 25) ? idx : 0;
+        ['ovStart', 'ovEnd', 'ovLetter', 'ovLetterDone'].forEach(id =>
+          document.getElementById(id).classList.remove('show')
+        );
+        pickALetterMode = true;
+        lIdx = safeIdx;
+        wIdx = 0;
+        clStars = 0;
+        spl = new Array(26).fill(-1);
+        fTry = true;
+        buildRound();
+      }
+
+      function backToLetterPicker() {
+        document.getElementById('ovLetterDone').classList.remove('show');
+        document.getElementById('ovStart').classList.add('show');
+      }
+
+      function replayLetter() {
+        const savedIdx = lIdx;
+        document.getElementById('ovLetterDone').classList.remove('show');
+        startFromLetter(savedIdx);
+      }
+
+      function buildRound() {
+        locked = false;
+        fTry = true;
+        pa = [];
+        document.getElementById("reveal").innerHTML = "";
+        const ld = AW[lIdx],
+          wd = ld.w[wIdx];
+
+        // letter hero
+        const lb = document.getElementById("lBig");
+        lb.textContent = ld.l;
+        lb.style.color = ld.c;
+        document.getElementById("wBadge").innerHTML = `Word<br>${wIdx + 1}/2`;
+
+        // word dots
+        const dotEl = document.getElementById("wdots");
+        dotEl.innerHTML = "";
+        for (let i = 0; i < 2; i++) {
+          const d = document.createElement("div");
+          d.className =
+            "wd" + (i < wIdx ? " done" : i === wIdx ? " active" : "");
+          dotEl.appendChild(d);
+        }
+        document.getElementById("lstars").textContent =
+          clStars > 0 ? "⭐".repeat(clStars) : "";
+
+        // emoji
+        const pe = document.getElementById("pemoji");
+        pe.textContent = wd.e;
+        pe.classList.remove("cel");
+
+        // slots
+        const sEl = document.getElementById("slots");
+        sEl.innerHTML = "";
+        wd.word.split("").forEach((_, i) => {
+          const s = document.createElement("div");
+          s.className = "slot";
+          sEl.appendChild(s);
+        });
+
+        // tiles
+        const correct = wd.word.split("");
+        const wSet = new Set(correct);
+        const extraN = Math.max(2, Math.min(4, 8 - correct.length));
+        const extras = shuffle(DL.filter((l) => !wSet.has(l))).slice(0, extraN);
+        const pool = shuffle([...correct, ...extras]);
+
+        tm = [];
+        const tEl = document.getElementById("tiles");
+        tEl.innerHTML = "";
+        pool.forEach((letter, i) => {
+          const btn = document.createElement("button");
+          btn.className = "tile";
+          btn.textContent = letter;
+          btn.style.background = TC[i % TC.length];
+          btn.style.animationDelay = i * 0.048 + "s";
+          btn.onclick = () => tapTile(i);
+          tEl.appendChild(btn);
+          tm.push({ letter, el: btn });
+        });
+
+        buildAlphaBar();
+        updateScore();
+      }
+
+      function buildAlphaBar() {
+        const row = document.getElementById("alphaRow");
+        row.innerHTML = "";
+        AW.forEach(({ l, c }, i) => {
+          const ch = document.createElement("div");
+          ch.className = "ac";
+          ch.id = "ac" + i;
+          ch.textContent = l;
+          const s = spl[i];
+          if (i === lIdx) {
+            ch.classList.add("current");
+            ch.style.background = c;
+          } else if (s < 0) ch.classList.add("pending");
+          else if (s === 2) ch.classList.add("s2");
+          else if (s === 1) ch.classList.add("s1");
+          else ch.classList.add("s0");
+          row.appendChild(ch);
+        });
+        setTimeout(() => {
+          const cur = document.getElementById("ac" + lIdx);
+          if (cur)
+            cur.scrollIntoView({
+              behavior: "smooth",
+              block: "nearest",
+              inline: "center",
+            });
+        }, 80);
+      }
+
+      function updateScore() {
+        document.getElementById("scoreEl").textContent =
+          "⭐ " + totalS() + " / 52";
+      }
+
+      function tapTile(id) {
+        if (locked) return;
+        const m = tm[id];
+        if (m.el.disabled) return;
+        const wd = AW[lIdx].w[wIdx];
+        if (pa.length >= wd.word.length) return;
+        const si = pa.length;
+        pa.push({ letter: m.letter, id });
+        m.el.disabled = true;
+        KhelonaShared.playSound('tap');
+        const slots = document.querySelectorAll(".slot");
+        slots[si].classList.add("filled");
+        slots[si].innerHTML =
+          `<span style="font-size:1.85rem">${m.letter}</span>`;
+        if (pa.length === wd.word.length) checkAnswer();
+      }
+
+      function eraseBtn() {
+        if (locked || !pa.length) return;
+        const last = pa.pop();
+        const slots = document.querySelectorAll(".slot");
+        const si = pa.length;
+        slots[si].classList.remove("filled", "correct", "wrong");
+        slots[si].innerHTML = "";
+        tm[last.id].el.disabled = false;
+      }
+
+      function checkAnswer() {
+        locked = true;
+        const wd = AW[lIdx].w[wIdx];
+        const formed = pa.map((p) => p.letter).join("");
+        const slots = document.querySelectorAll(".slot");
+
+        if (formed === wd.word) {
+          slots.forEach((s, i) =>
+            setTimeout(() => s.classList.add("correct"), i * 70),
+          );
+          const pe = document.getElementById("pemoji");
+          pe.classList.add("cel");
+          const r = pe.getBoundingClientRect();
+          setTimeout(
+            () => KhelonaShared.spawnConfetti(r.left + r.width / 2, r.top + r.height / 2, 22),
+            200,
+          );
+
+          if (fTry) {
+            clStars++;
+            document.getElementById("lstars").textContent = "⭐".repeat(
+              clStars,
+            );
+          }
+          showToast(praise(), "#6BCB77");
+          showReveal(wd.word);
+          KhelonaShared.playSound('correct');
+          KhelonaShared.announce('Correct!');
+
+          setTimeout(() => {
+            if (wIdx === 0) {
+              wIdx = 1;
+              buildRound();
+            } else {
+              spl[lIdx] = clStars;
+              updateScore();
+              if (pickALetterMode) {
+                // single-letter mode: show completion overlay
+                const ov = document.getElementById('ovLetterDone');
+                document.getElementById('oldEm').textContent = clStars === 2 ? '🌟' : '🎉';
+                document.getElementById('oldTitle').textContent = 'Letter ' + AW[lIdx].l + ' Done!';
+                document.getElementById('oldStars').textContent = clStars > 0 ? '⭐'.repeat(clStars) : '💪 Keep going!';
+                ov.classList.add('show');
+              } else if (lIdx < 25) {
+                showLetterDone(() => {
+                  lIdx++;
+                  wIdx = 0;
+                  clStars = 0;
+                  buildRound();
+                });
+              } else {
+                endGame();
+              }
+            }
+          }, 1650);
+        } else {
+          fTry = false;
+          slots.forEach((s) => s.classList.add("wrong"));
+          showToast("Oops! Try again! 💪", "#FF6B6B");
+          KhelonaShared.playSound('wrong');
+          KhelonaShared.announce('Try again.');
+          setTimeout(() => {
+            slots.forEach((s) => s.classList.remove("wrong"));
+            pa = [];
+            tm.forEach((m) => (m.el.disabled = false));
+            slots.forEach((s) => {
+              s.classList.remove("filled", "correct");
+              s.innerHTML = "";
+            });
+            locked = false;
+          }, 850);
+        }
+      }
+
+      function showReveal(word) {
+        const rev = document.getElementById("reveal");
+        rev.innerHTML = "";
+        word.split("").forEach((ch, i) => {
+          const s = document.createElement("span");
+          s.className = "rl";
+          s.textContent = ch;
+          s.style.animationDelay = i * 0.1 + "s";
+          s.style.color = TC[i % TC.length];
+          rev.appendChild(s);
+        });
+      }
+
+      function showLetterDone(cb) {
+        const ov = document.getElementById("ovLetter");
+        const stars = spl[lIdx];
+        document.getElementById("olEm").textContent = stars === 2 ? "🌟" : "🎉";
+        document.getElementById("olTitle").textContent =
+          "Letter " + AW[lIdx].l + " Done!";
+        document.getElementById("olStars").textContent =
+          stars > 0 ? "⭐".repeat(stars) : "💪 Keep going!";
+        document.getElementById("olNext").textContent =
+          "Next up: Letter " + AW[lIdx + 1].l + " →";
+        ov.classList.add("show");
+        setTimeout(() => {
+          ov.classList.remove("show");
+          cb();
+        }, 1700);
+      }
+
+      function endGame() {
+        const grid = document.getElementById("endGrid");
+        grid.innerHTML = "";
+        spl.forEach((s, i) => {
+          const d = document.createElement("div");
+          d.className = "eg";
+          d.style.background =
+            s === 2
+              ? "#6BCB77"
+              : s === 1
+                ? "#FFD93D"
+                : s === 0
+                  ? "#FF6B6B"
+                  : "#ccc";
+          d.innerHTML =
+            AW[i].l +
+            `<span class="eg-s">${s === 2 ? "⭐⭐" : s === 1 ? "⭐" : s === 0 ? "✗" : ""}</span>`;
+          grid.appendChild(d);
+        });
+        document.getElementById("endTotal").textContent =
+          "⭐ " + totalS() + " / 52";
+        KhelonaShared.playSound('win');
+        KhelonaShared.announce('Game over! Score: ' + totalS() + ' out of 52');
+        setTimeout(() => {
+          KhelonaShared.spawnConfetti(window.innerWidth / 2, window.innerHeight / 3, 40);
+        }, 200);
+        document.getElementById("ovEnd").classList.add("show");
+      }
+
+      function praise() {
+        const p = [
+          "🌟 Correct!",
+          "🎉 You got it!",
+          "⭐ Amazing!",
+          "🥳 Brilliant!",
+          "🚀 Super!",
+          "✨ Wow!",
+          "👏 Great job!",
+        ];
+        return p[0 | (Math.random() * p.length)];
+      }
+
+      function showToast(msg, color) {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.style.color = color;
+        t.classList.add("show");
+        clearTimeout(t._t);
+        t._t = setTimeout(() => t.classList.remove("show"), 950);
+      }
+
+      KhelonaShared.initHtp('htp_az');
+      KhelonaShared.enableButtonKeyboard();
+      buildLetterPicker();
+    </script>
+  </body>
+</html>

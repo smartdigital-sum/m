@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Maze Runner — Kids Fun Learning</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../assets/css/theme.css" />
+  </head>
+  <body class="kid-site theme-maze">
+    <a href="#main-content" class="kid-skip-link">Skip to main content</a>
+
+    <div class="kid-bubbles" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div class="kid-wrap">
+      <div class="kid-topbar">
+        <button type="button" class="kid-sound-toggle" id="kid-sound-btn" aria-pressed="false">
+          <span class="kid-sound-icon" aria-hidden="true">🔊</span>
+          <span class="kid-sound-label">Sound on</span>
+        </button>
+      </div>
+
+      <a href="../index.html" class="kid-back">⬅ Back to home</a>
+
+      <header class="kid-header">
+        <h1 id="main-content" tabindex="-1">🏃 Maze Runner 🏃</h1>
+        <p>Navigate through the maze to reach the star!</p>
+      </header>
+
+      <div class="kid-diff-row">
+        <button type="button" class="kid-diff is-on" data-diff="easy">🌱 Easy (8x8)</button>
+        <button type="button" class="kid-diff" data-diff="medium">🔥 Medium (12x12)</button>
+        <button type="button" class="kid-diff" data-diff="hard">💪 Hard (16x16)</button>
+      </div>
+
+      <section class="kid-panel" id="game-panel">
+        <div class="maze-stats">
+          <div class="maze-stat">
+            <div class="maze-stat-val" id="moves">0</div>
+            <div class="maze-stat-label">Moves</div>
+          </div>
+          <div class="maze-stat">
+            <div class="maze-stat-val" id="timer">0:00</div>
+            <div class="maze-stat-label">Time</div>
+          </div>
+          <div class="maze-stat">
+            <div class="maze-stat-val" id="mazes-solved">0</div>
+            <div class="maze-stat-label">Solved</div>
+          </div>
+        </div>
+
+        <div class="maze-canvas-wrap">
+          <canvas id="maze-canvas" width="400" height="400"></canvas>
+        </div>
+
+        <div class="maze-controls">
+          <div class="maze-dpad">
+            <button type="button" class="maze-btn maze-up" data-dir="up" aria-label="Move up">⬆️</button>
+            <div class="maze-dpad-mid">
+              <button type="button" class="maze-btn maze-left" data-dir="left" aria-label="Move left">⬅️</button>
+              <div class="maze-dpad-center"></div>
+              <button type="button" class="maze-btn maze-right" data-dir="right" aria-label="Move right">➡️</button>
+            </div>
+            <button type="button" class="maze-btn maze-down" data-dir="down" aria-label="Move down">⬇️</button>
+          </div>
+        </div>
+
+        <div class="kid-actions">
+          <button type="button" class="kid-btn-primary" id="new-maze-btn">🔄 New maze</button>
+        </div>
+
+        <div class="kid-msg" id="message" aria-live="polite"></div>
+
+        <p class="maze-tip">💡 Use arrow keys or tap the buttons to move!</p>
+      </section>
+
+      <section class="kid-panel kid-result" id="result-area" aria-live="polite">
+        <div class="big" id="result-icon" aria-hidden="true">🎉</div>
+        <h2 id="result-title">You made it!</h2>
+        <p id="result-message">Great navigation!</p>
+        <div class="kid-scores" id="result-stats"></div>
+        <button type="button" class="kid-btn-restart" id="play-again-btn">New maze 🔄</button>
+      </section>
+    </div>
+
+    <script src="../assets/js/sounds.js"></script>
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/effects.js"></script>
+    <script src="../assets/js/common.js"></script>
+    <script src="../assets/js/maze.js"></script>
+  </body>
+</html>

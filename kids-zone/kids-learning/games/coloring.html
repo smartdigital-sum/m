@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Coloring Studio — Kids Fun Learning</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../assets/css/theme.css" />
+  </head>
+  <body class="kid-site theme-coloring">
+    <a href="#main-content" class="kid-skip-link">Skip to main content</a>
+
+    <div class="kid-bubbles" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div class="kid-wrap">
+      <div class="kid-topbar">
+        <button type="button" class="kid-sound-toggle" id="kid-sound-btn" aria-pressed="false">
+          <span class="kid-sound-icon" aria-hidden="true">🔊</span>
+          <span class="kid-sound-label">Sound on</span>
+        </button>
+      </div>
+
+      <a href="../index.html" class="kid-back">⬅ Back to home</a>
+
+      <header class="kid-header">
+        <h1 id="main-content" tabindex="-1">🎨 Coloring Studio 🎨</h1>
+        <p>Pick a template, a color, and create something awesome!</p>
+      </header>
+
+      <section class="kid-panel kid-templates">
+        <h2 class="template-heading">Choose a template</h2>
+        <div class="kid-tpl-grid">
+          <button type="button" class="kid-tpl is-selected" data-template="blank" title="Blank canvas">🖼️</button>
+          <button type="button" class="kid-tpl" data-template="heart" title="Heart">❤️</button>
+          <button type="button" class="kid-tpl" data-template="star" title="Star">⭐</button>
+          <button type="button" class="kid-tpl" data-template="flower" title="Flower">🌸</button>
+          <button type="button" class="kid-tpl" data-template="sun" title="Sun">☀️</button>
+          <button type="button" class="kid-tpl" data-template="rainbow" title="Rainbow">🌈</button>
+          <button type="button" class="kid-tpl" data-template="tree" title="Tree">🌳</button>
+          <button type="button" class="kid-tpl" data-template="house" title="House">🏠</button>
+        </div>
+      </section>
+
+      <div class="kid-toolbar">
+        <div class="kid-palette" id="color-palette" role="group" aria-label="Color palette"></div>
+        <div class="tool-buttons">
+          <button type="button" class="kid-tool is-on" data-tool="brush" id="brush-tool">🖌️ Brush</button>
+          <button type="button" class="kid-tool" data-tool="eraser" id="eraser-tool">🧹 Eraser</button>
+          <button type="button" class="kid-tool" data-tool="fill" id="fill-tool">🪣 Fill</button>
+        </div>
+        <div class="kid-brush-row">
+          <button type="button" class="kid-brush" data-size="3" title="Small">
+            <span class="kid-brush-dot" style="width: 6px; height: 6px"></span>
+          </button>
+          <button type="button" class="kid-brush is-on" data-size="8" title="Medium">
+            <span class="kid-brush-dot" style="width: 12px; height: 12px"></span>
+          </button>
+          <button type="button" class="kid-brush" data-size="15" title="Large">
+            <span class="kid-brush-dot" style="width: 20px; height: 20px"></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="kid-canvas-wrap">
+        <canvas id="drawing-canvas" width="700" height="500"></canvas>
+        <div class="kid-canvas-actions">
+          <button type="button" class="kid-btn-danger" id="clear-btn">🗑️ Clear</button>
+          <button type="button" class="kid-btn-primary" id="save-btn">💾 Save / download</button>
+        </div>
+        <p class="kid-tip">💡 Drag to draw. Fill clicks an area. Works with touch too!</p>
+      </div>
+    </div>
+
+    <script src="../assets/js/sounds.js"></script>
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/effects.js"></script>
+    <script src="../assets/js/common.js"></script>
+    <script src="../assets/js/coloring.js"></script>
+  </body>
+</html>

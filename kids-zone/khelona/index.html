@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khelona - Fun Learning Games for Kids</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --coral: #ff6b6b;
+            --yellow: #ffd93d;
+            --mint: #6bcb77;
+            --sky: #4d96ff;
+            --lavender: #c77dff;
+            --peach: #ff922b;
+            --pink: #f783ac;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #fef9f0 0%, #fff5f7 50%, #f0f8ff 100%);
+            overflow-x: hidden;
+        }
+
+        /* Floating Background Elements */
+        .floating-bg {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.15;
+        }
+
+        .floating-bg.emoji {
+            font-size: 3rem;
+            animation: float 15s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(10deg); }
+        }
+
+        /* Header */
+        header {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 40px 20px 30px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.9) 0%, transparent 100%);
+        }
+
+        .logo {
+            font-family: 'Fredoka One', cursive;
+            font-size: 3.5rem;
+            background: linear-gradient(135deg, var(--coral), var(--yellow), var(--mint), var(--sky));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 4px 0 rgba(0,0,0,0.1));
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: #888;
+            font-weight: 700;
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+
+        .age-badge {
+            display: inline-block;
+            margin-top: 15px;
+            background: linear-gradient(135deg, var(--lavender), var(--sky));
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 15px rgba(155, 92, 246, 0.3);
+        }
+
+        /* Category Filter */
+        .filter-section {
+            position: relative;
+            z-index: 10;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .filter-title {
+            font-size: 1rem;
+            color: #aaa;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 50px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .filter-btn:focus-visible {
+            outline: 3px solid #4d96ff;
+            outline-offset: 2px;
+        }
+
+        .filter-btn.active {
+            border-color: transparent;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .filter-btn.all.active { background: linear-gradient(135deg, #888, #666); }
+        .filter-btn.letters.active { background: linear-gradient(135deg, var(--coral), var(--yellow)); }
+        .filter-btn.numbers.active { background: linear-gradient(135deg, var(--sky), var(--lavender)); }
+        .filter-btn.colors.active { background: linear-gradient(135deg, var(--peach), var(--coral)); }
+        .filter-btn.memory.active { background: linear-gradient(135deg, var(--lavender), var(--pink)); }
+        .filter-btn.words.active { background: linear-gradient(135deg, var(--mint), var(--sky)); }
+
+        /* Games Grid */
+        .games-container {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .game-card {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+        }
+
+        .game-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
+        .game-card:focus-visible {
+            outline: 3px solid #4d96ff;
+            outline-offset: 4px;
+        }
+
+        .game-card.hidden {
+            display: none;
+        }
+
+        .card-header {
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0.15;
+        }
+
+        .card-header.letters { background: linear-gradient(135deg, #fff5f5, #fffbeb); }
+        .card-header.letters::before { background: linear-gradient(135deg, var(--coral), var(--yellow)); }
+        
+        .card-header.colors { background: linear-gradient(135deg, #fff8f0, #fff5f5); }
+        .card-header.colors::before { background: linear-gradient(135deg, var(--peach), var(--coral), var(--yellow), var(--mint), var(--sky)); }
+        
+        .card-header.memory { background: linear-gradient(135deg, #f8f5ff, #fff5f8); }
+        .card-header.memory::before { background: linear-gradient(135deg, var(--lavender), var(--pink)); }
+        
+        .card-header.numbers { background: linear-gradient(135deg, #f0f8ff, #f8f5ff); }
+        .card-header.numbers::before { background: linear-gradient(135deg, var(--sky), var(--lavender)); }
+        
+        .card-header.words { background: linear-gradient(135deg, #f5fff8, #f0f8ff); }
+        .card-header.words::before { background: linear-gradient(135deg, var(--mint), var(--sky)); }
+
+        .card-content {
+            padding: 20px 25px 25px;
+        }
+
+        .card-title {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.4rem;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .card-desc {
+            font-size: 0.95rem;
+            color: #888;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .card-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-category {
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card-category.letters { background: #fff0f0; color: var(--coral); }
+        .card-category.colors { background: #fff5f0; color: var(--peach); }
+        .card-category.memory { background: #f8f0ff; color: var(--lavender); }
+        .card-category.numbers { background: #f0f5ff; color: var(--sky); }
+        .card-category.words { background: #f0fff5; color: var(--mint); }
+
+        .card-difficulty {
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .card-difficulty.easy   { background: #e8f8ee; color: #2d9e5f; }
+        .card-difficulty.medium { background: #fff3e0; color: #e07b00; }
+
+        .card-age {
+            font-size: 0.85rem;
+            color: #aaa;
+            font-weight: 700;
+        }
+
+        .play-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 15px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, var(--coral), var(--yellow));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .play-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .play-btn:focus-visible {
+            outline: 3px solid #4d96ff;
+            outline-offset: 2px;
+        }
+
+        /* Footer */
+        footer {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 40px;
+        }
+
+        .footer-text {
+            font-size: 1rem;
+            color: #aaa;
+            font-weight: 700;
+        }
+
+        .footer-hearts {
+            font-size: 1.5rem;
+            margin-top: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo { font-size: 2.5rem; }
+            .tagline { font-size: 1rem; }
+            .games-container { grid-template-columns: 1fr; padding: 15px; }
+            .filter-buttons { gap: 8px; }
+            .filter-btn { padding: 8px 16px; font-size: 0.85rem; }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .game-card {
+            animation: fadeInUp 0.6s ease backwards;
+        }
+
+        .game-card:nth-child(1) { animation-delay: 0.1s; }
+        .game-card:nth-child(2) { animation-delay: 0.2s; }
+        .game-card:nth-child(3) { animation-delay: 0.3s; }
+        .game-card:nth-child(4) { animation-delay: 0.4s; }
+        .game-card:nth-child(5) { animation-delay: 0.5s; }
+        .game-card:nth-child(6) { animation-delay: 0.6s; }
+        .game-card:nth-child(7)  { animation-delay: 0.7s; }
+        .game-card:nth-child(8)  { animation-delay: 0.8s; }
+        .game-card:nth-child(9)  { animation-delay: 0.9s; }
+        .game-card:nth-child(10) { animation-delay: 1.0s; }
+    </style>
+</head>
+<body>
+    <!-- Floating Background -->
+    <div class="floating-bg emoji" style="top: 10%; left: 5%;">🎈</div>
+    <div class="floating-bg emoji" style="top: 20%; right: 8%; animation-delay: 2s;">⭐</div>
+    <div class="floating-bg emoji" style="top: 60%; left: 3%; animation-delay: 4s;">🌈</div>
+    <div class="floating-bg emoji" style="top: 70%; right: 5%; animation-delay: 1s;">🎨</div>
+    <div class="floating-bg emoji" style="top: 40%; left: 8%; animation-delay: 3s;">🎵</div>
+
+    <!-- Header -->
+    <header>
+        <h1 class="logo">🎮 Khelona</h1>
+        <p class="tagline">Fun educational games for little learners! Play, learn, and grow with colorful adventures.</p>
+        <span class="age-badge">👶 Ages 0-3 Years</span>
+    </header>
+
+    <!-- Filter Section -->
+    <nav class="filter-section" aria-label="Game categories">
+        <p class="filter-title" id="filter-heading">Choose a Category</p>
+        <div class="filter-buttons" role="group" aria-labelledby="filter-heading">
+            <button class="filter-btn all active" data-filter="all" aria-pressed="true">
+                <span>🎮</span> All Games
+            </button>
+            <button class="filter-btn letters" data-filter="letters" aria-pressed="false">
+                <span>🔤</span> Letters
+            </button>
+            <button class="filter-btn numbers" data-filter="numbers" aria-pressed="false">
+                <span>🔢</span> Numbers
+            </button>
+            <button class="filter-btn colors" data-filter="colors" aria-pressed="false">
+                <span>🎨</span> Colors
+            </button>
+            <button class="filter-btn memory" data-filter="memory" aria-pressed="false">
+                <span>🧠</span> Memory
+            </button>
+            <button class="filter-btn words" data-filter="words" aria-pressed="false">
+                <span>📝</span> Words
+            </button>
+        </div>
+    </nav>
+
+    <!-- Games Grid -->
+    <main class="games-container" aria-label="Available games">
+        <!-- A-Z Speller -->
+        <a href="games/a-z-speller/index.html" class="game-card" data-category="letters" aria-label="A-Z Speller game - Ages 2-3 - Medium difficulty">
+            <div class="card-header letters">
+                <span>🔤</span>
+            </div>
+            <div class="card-content">
+                <h2 class="card-title">A-Z Speller</h2>
+                <p class="card-desc">Travel through every letter of the alphabet! Spell 2 words per letter from A to Z.</p>
+                <div class="card-meta">
+                    <span class="card-category letters">Letters</span>
+                    <span class="card-difficulty medium">Medium</span>
+                    <span class="card-age">Ages 2-3</span>
+                </div>
+                <button class="play-btn">▶ Play Now</button>
+            </div>
+        </a>
+
+        <!-- Color Match -->
+        <a href="games/color-match/index.html" class="game-card" data-category="colors">
+            <div class="card-header colors">
+                <span>🎨</span>
+            </div>
+            <div class="card-content">
+                <h2 class="card-title">Color Match</h2>
+                <p class="card-desc">Look at the colored shape and tap the right color name — fast and fun!</p>
+                <div class="card-meta">
+                    <span class="card-category colors">Colors</span>
+                    <span class="card-difficulty easy">Easy</span>
+                    <span class="card-age">Ages 1-3</span>
+                </div>
+                <button class="play-btn">▶ Play Now</button>
+            </div>
+        </a>
+
+        <!-- Memory Match -->
+        <a href="games/memory-match/index.html" class="game-card" data-category="memory">
+            <div class="card-header memory">
+                <span>🧠</span>
+            </div>
+            <div class="card-content">
+                <h2 class="card-title">Memory Match</h2>
+                <p class="card-desc">Find matching pairs of animals, fruits, and vehicles! Play in English, Hindi, or Assamese!</p>
+                <div class="card-meta">
+                    <span class="card-category memory">Memory</span>
+                    <span class="card-difficulty easy">Easy</span>
+                    <span class="card-age">Ages 2-3</span>
+                </div>
+                <button class="play-btn">▶ Play Now</button>
+            </div>
+        </a>
+
+        <!-- Number Speller -->
+        <a href="games/number-speller/index.html" class="game-card" data-category="numbers">
+            <div class="card-header numbers">
+                <span>🔢</span>
+            </div>
+            <div class="card-content">
+                <h2 class="card-title">Number Speller</h2>
+                <p class="card-desc">See the number, count the dots, then spell it! Learn numbers 1-10.</p>
+                <div class="card-meta">
+                    <span class="card-category numbers">Numbers</span>
+                    <span class="card-difficulty easy">Easy</span>
+                    <span class="card-age">Ages 2-3</span>
+                </div>
+                <button class="play-btn">▶ Play Now</button>
+            </div>
+        </a>
+
+        <!-- Word Builder 1 -->
+        <a href="games/word-builder-1/index.html" class="game-card" data-category="words">
+            <div class="card-header words">
+                <span>📝</span>
+            </div>
+            <div class="card-content">
+                <h2 class="card-title">Word Builder</h2>
+                <p class="card-desc">See the picture, then tap letters to spell 3-letter words! Perfect for beginners.</p>
+                <div class="card-meta">
+                    <span class="card-category words">Words</span>
+                    <span class="card-difficulty easy">Easy</span>
+                    <span class="card-age">Ages 2-3</span>
+                </div>
+                <button class="play-btn">▶ Play Now</button>
+            </div>
+        </a>
+
+        <!-- Word Builder 2 -->
+        <a href="games/word-builder-2/index.html" class="game-card" data-category="words">
+            <div class="card-header words">
+                <span>✏️</span>
+            </div>
+            <div class="card-content">
+                <h2 class="card-title">Word Builder 2</h2>
+                <p class="card-desc">More words to build! See the picture and spell it out! Level up your skills.</p>
+                <div class="card-meta">
+                    <span class="card-category words">Words</span>
+                    <span class="card-difficulty easy">Easy</span>
+                    <span class="card-age">Ages 2-3</span>
+                </div>
+                <button class="play-btn">▶ Play Now</button>
+            </div>
+        </a>
+
+        <!-- Fruit & Veggie Match -->
+        <a href="games/fruit-veggie-match/index.html" class="game-card" data-category="memory" aria-label="Fruit and Veggie Match game - Ages 1-3 - Easy difficulty">
+            <div class="card-header memory">
+                <span>🍎</span>
+            </div>
+            <div class="card-content">
+                <h2 class="card-title">Fruit & Veggie Match</h2>
+                <p class="card-desc">Look at the shadow and find the matching fruit or veggie! Tap or drag to match!</p>
+                <div class="card-meta">
+                    <span class="card-category memory">Memory</span>
+                    <span class="card-difficulty easy">Easy</span>
+                    <span class="card-age">Ages 1-3</span>
+                </div>
+                <button class="play-btn">▶ Play Now</button>
+            </div>
+        </a>
+
+        <!-- Shape Sorter -->
+        <a href="games/shape-sorter/index.html" class="game-card" data-category="memory" aria-label="Shape Sorter game - Ages 2-3 - Easy difficulty">
+            <div class="card-header memory">
+                <span>🔷</span>
+            </div>
+            <div class="card-content">
+                <h2 class="card-title">Shape Sorter</h2>
+                <p class="card-desc">A big shape appears — tap the matching one! Unlock challenge mode without labels!</p>
+                <div class="card-meta">
+                    <span class="card-category memory">Memory</span>
+                    <span class="card-difficulty easy">Easy</span>
+                    <span class="card-age">Ages 2-3</span>
+                </div>
+                <button class="play-btn">▶ Play Now</button>
+            </div>
+        </a>
+
+        <!-- Animal Sounds -->
+        <a href="games/animal-sounds/index.html" class="game-card" data-category="memory" aria-label="Animal Sounds game - Ages 0-3 - Easy difficulty">
+            <div class="card-header memory">
+                <span>🐾</span>
+            </div>
+            <div class="card-content">
+                <h2 class="card-title">Animal Sounds</h2>
+                <p class="card-desc">Tap the animals and hear what they say! Cow, dog, frog and more — tap all 6 to celebrate!</p>
+                <div class="card-meta">
+                    <span class="card-category memory">Memory</span>
+                    <span class="card-difficulty easy">Easy</span>
+                    <span class="card-age">Ages 0-3</span>
+                </div>
+                <button class="play-btn">▶ Play Now</button>
+            </div>
+        </a>
+
+        <!-- Emotion Mirror -->
+        <a href="games/emotion-mirror/index.html" class="game-card" data-category="memory" aria-label="Emotion Mirror game - Ages 1-3 - Easy difficulty">
+            <div class="card-header memory">
+                <span>😊</span>
+            </div>
+            <div class="card-content">
+                <h2 class="card-title">Emotion Mirror</h2>
+                <p class="card-desc">Look at the big face and tap the feeling that matches it! Learn emotions with fun!</p>
+                <div class="card-meta">
+                    <span class="card-category memory">Memory</span>
+                    <span class="card-difficulty easy">Easy</span>
+                    <span class="card-age">Ages 1-3</span>
+                </div>
+                <button class="play-btn">▶ Play Now</button>
+            </div>
+        </a>
+    </main>
+
+    <!-- Footer -->
+    <footer role="contentinfo">
+        <p class="footer-text">Made with love for little learners everywhere</p>
+        <p class="footer-hearts" aria-hidden="true">💖 🌟 🎈 🌈 🎨</p>
+    </footer>
+
+    <script>
+        // Filter functionality
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const gameCards = document.querySelectorAll('.game-card');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Update active button
+                filterButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                    btn.setAttribute('aria-pressed', 'false');
+                });
+                button.classList.add('active');
+                button.setAttribute('aria-pressed', 'true');
+
+                // Filter games
+                const filter = button.dataset.filter;
+                gameCards.forEach(card => {
+                    if (filter === 'all' || card.dataset.category === filter) {
+                        card.classList.remove('hidden');
+                        card.style.animation = 'none';
+                        setTimeout(() => {
+                            card.style.animation = '';
+                        }, 10);
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+            });
+        });
+
+        // Add hover sound effect (optional - using Web Audio API)
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        
+        function playPopSound() {
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = 600;
+            oscillator.type = 'sine';
+            
+            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.1);
+        }
+
+        gameCards.forEach(card => {
+            card.addEventListener('mouseenter', playPopSound);
+        });
+    </script>
+</body>
+</html>

@@ -1449,3 +1449,47 @@ console.log(
   "%cKachua Tiniali, Kampur, Assam — Your Digital Partner",
   "color:#f97316;font-size:13px;",
 );
+
+// ─── TAB SWITCHING LOGIC ──────────────────────────────────
+function switchTab(group, targetId, btn) {
+  // Find all tab contents in the same group
+  const contents = document.querySelectorAll(`.${group}-tab`);
+  contents.forEach(el => el.classList.remove('active'));
+  
+  // Find all buttons in the parent container
+  const btns = btn.parentNode.querySelectorAll('.filter-btn');
+  btns.forEach(b => b.classList.remove('active'));
+  
+  // Activate target
+  document.getElementById(targetId).classList.add('active');
+  btn.classList.add('active');
+}
+
+
+// ─── AI PORTAL TOOL SEARCH ──────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+    const aiSearchInput = document.getElementById('toolSearch');
+    const aiToolCards = document.querySelectorAll('.ai-card');
+    const aiNoResults = document.getElementById('noResults');
+
+    if (aiSearchInput) {
+        aiSearchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase().trim();
+            let hasVisible = false;
+
+            aiToolCards.forEach(card => {
+                const name = card.getAttribute('data-name');
+                if (name.includes(term)) {
+                    card.style.display = 'flex';
+                    hasVisible = true;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            if (aiNoResults) {
+                aiNoResults.style.display = hasVisible ? 'none' : 'block';
+            }
+        });
+    }
+});

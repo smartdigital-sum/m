@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Number Bonds — Kids Fun Learning</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" /><link rel="stylesheet" href="../assets/css/theme.css" />
+  </head>
+  <body class="kid-site theme-bonds">
+    <a href="#main-content" class="kid-skip-link">Skip to main content</a>
+    <div class="kid-bubbles" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="kid-wrap">
+      <div class="kid-topbar">
+        <button type="button" class="kid-sound-toggle" id="kid-sound-btn" aria-pressed="false">
+          <span class="kid-sound-icon" aria-hidden="true">🔊</span><span class="kid-sound-label">Sound on</span>
+        </button>
+      </div>
+      <a href="../index.html" class="kid-back">⬅ Back to home</a>
+      <header class="kid-header">
+        <h1 id="main-content" tabindex="-1">🔢 Number Bonds 🔢</h1>
+        <p>Find the missing number that completes the bond!</p>
+      </header>
+      <div class="kid-diff-row">
+        <button type="button" class="kid-diff is-on" data-diff="easy">🌱 To 10</button>
+        <button type="button" class="kid-diff" data-diff="medium">🔥 To 20</button>
+        <button type="button" class="kid-diff" data-diff="hard">💪 To 100</button>
+      </div>
+      <section class="kid-panel" id="game-panel">
+        <div class="bonds-visual">
+          <div class="bonds-top" id="bonds-total">10</div>
+          <div class="bonds-line"></div>
+          <div class="bonds-bottom">
+            <div class="bonds-num" id="bonds-known">7</div>
+            <div class="bonds-mystery">?</div>
+            <input type="number" class="kid-input bonds-input" id="bonds-answer" placeholder="?" aria-label="Missing number" />
+          </div>
+        </div>
+        <div>
+          <button type="button" class="kid-btn-primary" id="check-btn">Check answer!</button>
+          <button type="button" class="kid-btn-secondary" id="next-btn">New problem ➡</button>
+        </div>
+        <div class="kid-msg" id="message" aria-live="polite"></div>
+        <div class="kid-scores">
+          <div><div class="val" id="bonds-correct">0</div><div>✅ Correct</div></div>
+          <div><div class="val" id="bonds-streak" style="color:#f39c12">0</div><div>🔥 Streak</div></div>
+        </div>
+      </section>
+    </div>
+    <script src="../assets/js/sounds.js"></script>
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/effects.js"></script>
+    <script src="../assets/js/common.js"></script>
+    <script src="../assets/js/bonds.js"></script>
+  </body>
+</html>
