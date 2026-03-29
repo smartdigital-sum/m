@@ -14,8 +14,8 @@
 // For production, route requests through a backend proxy instead.
 
 const CONFIG = window.SMART_DIGITAL_CONFIG || {};
-const API_KEY = CONFIG.OPENROUTER?.API_KEY || CONFIG.OPENROUTER_API_KEY || "";
-const IS_PLACEHOLDER = API_KEY === "YOUR_OPENROUTER_API_KEY_HERE" || API_KEY === "";
+const API_KEY = CONFIG.GROQ?.API_KEY || CONFIG.GROQ_API_KEY || "";
+const IS_PLACEHOLDER = API_KEY === "YOUR_GROQ_API_KEY_HERE" || API_KEY === "";
 
 // System prompt: tells the Groq LLM who it is and what it knows.
 const BOT_SYSTEM = `
@@ -132,7 +132,7 @@ function toggleBot() {
   if (isOpen) {
     if (IS_PLACEHOLDER && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")) {
       addBubble(
-        "⚠️ **API Key Missing**: Please open `assets/js/config.js` and replace 'YOUR_OPENROUTER_API_KEY_HERE' with your real OpenRouter API key to enable the AI.",
+        "⚠️ **API Key Missing**: Please open `assets/js/config.js` and replace 'YOUR_GROQ_API_KEY_HERE' with your real Groq API key to enable the AI.",
         "bot"
       );
     }
@@ -164,7 +164,7 @@ async function sendMessage() {
     if (IS_PLACEHOLDER && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")) {
       throw new Error("MISSING_KEY");
     }
-    const replyText = await callAI();
+    const replyText = await callGroq();
     addBubble(replyText, "bot");
     // Add assistant reply to history for next turn
     conversationHistory.push({ role: "assistant", content: replyText });
@@ -190,8 +190,8 @@ async function sendMessage() {
 
 // ── API CALL ─────────────────────────────────────────────────────────────────
 
-async function callAI() {
-  // OpenRouter uses OpenAI-compatible format
+async function callGroq() {
+  // Groq uses OpenAI-compatible format, so we pass the system prompt as a message
   const messages = [
     { role: "system", content: BOT_SYSTEM },
     ...conversationHistory,
@@ -200,12 +200,10 @@ async function callAI() {
   // If we're on a live site, use the Netlify Function (hides your API Key)
   const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
   
-  let url = "https://openrouter.ai/api/v1/chat/completions";
+  let url = "https://api.groq.com/openai/v1/chat/completions";
   let headers = { 
     "Content-Type": "application/json", 
-    "Authorization": `Bearer ${API_KEY}`,
-    "HTTP-Referer": "https://smartdigitalkampur.netlify.app/",
-    "X-Title": "Smart Digital"
+    "Authorization": `Bearer ${API_KEY}` 
   };
 
   if (!isLocal) {
@@ -218,7 +216,7 @@ async function callAI() {
     headers: headers,
     body: JSON.stringify({
       messages: messages,
-      model: "stepfun/step-3-5-flash",
+      model: "llama-3.3-70b-versatile",
       temperature: 0.4,
       max_tokens: 300,
     }),
@@ -231,7 +229,7 @@ async function callAI() {
 
   const data = await response.json();
   const text = data.choices && data.choices[0]?.message?.content?.trim();
-  if (!text) throw new Error("Empty response from OpenRouter API");
+  if (!text) throw new Error("Empty response from Groq API");
   return text;
 }
 

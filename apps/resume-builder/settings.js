@@ -7,7 +7,7 @@
 //  1. Replace 'YOUR_UPI_ID' with your UPI ID (e.g. name@paytm)
 //  2. Save → Open index.html in a browser → Done!
 //
-//  API key is set in ../../config.js (uses OpenRouter)
+//  API key is set in ../../config.js (uses Groq)
 //
 // ================================================================
 

@@ -97,7 +97,7 @@ async function sendMessage() {
   setBusy(true);
 
   try {
-    const replyText = await callAI();
+    const replyText = await callGroq();
     addBubble(replyText, "bot");
     // Add assistant reply to history for next turn
     conversationHistory.push({ role: "assistant", content: replyText });
@@ -116,8 +116,8 @@ async function sendMessage() {
 
 // ── API CALL ─────────────────────────────────────────────────────────────────
 
-async function callAI() {
-  // OpenRouter format
+async function callGroq() {
+  // Groq uses OpenAI-compatible format, so we pass the system prompt as a message
   const messages = [
     { role: "system", content: BOT_SYSTEM },
     ...conversationHistory
@@ -153,7 +153,7 @@ async function callAI() {
 
   const data = await response.json();
   const text = data.choices && data.choices[0]?.message?.content?.trim();
-  if (!text) throw new Error("Empty response from OpenRouter API");
+  if (!text) throw new Error("Empty response from Groq API");
   return text;
 }
 
