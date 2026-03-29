@@ -1469,7 +1469,7 @@ function switchTab(group, targetId, btn) {
 // ─── AI PORTAL TOOL SEARCH ──────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
     const aiSearchInput = document.getElementById('toolSearch');
-    const aiToolCards = document.querySelectorAll('.ai-card');
+    const aiToolCards = document.querySelectorAll('.ai-svc-card');
     const aiNoResults = document.getElementById('noResults');
 
     if (aiSearchInput) {

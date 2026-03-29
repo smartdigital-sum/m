@@ -821,131 +821,136 @@
 
             <div id="ai-services-tab" class="tab-content service-tab active">
 
-    <!-- AI Services Migrated Portal -->
+    <!-- AI Services Redesigned -->
     <div class="ai-services-wrapper">
-        <div class="section-head" style="margin-bottom: 2rem;">
-            <div class="ai-card-tag" style="text-align: center; margin-bottom: 10px;">Smart Digital Hub</div>
-            <p style="text-align: center; color: var(--gray);">Access our suite of professional AI-powered tools designed to streamline your business and personal growth.</p>
+        <div class="section-head" style="margin-bottom: 1.5rem;">
+            <div class="ai-hub-tag">✨ Smart Digital Hub</div>
+            <p style="text-align: center; color: var(--gray); font-size: 14px; margin-top: 6px;">Professional AI-powered tools for business &amp; personal growth</p>
         </div>
+
+        <!-- Search bar -->
         <div class="ai-search-container">
             <span class="ai-search-icon">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
             </span>
-            <input type="text" id="toolSearch" class="ai-search-input" placeholder="Search for AI tools (e.g. 'translator', 'resume', 'business')...">
+            <input type="text" id="toolSearch" class="ai-search-input" placeholder="Search AI tools (e.g. 'translator', 'resume', 'business')...">
         </div>
-        <div class="ai-scroll-wrapper">
-        <div class="ai-grid" id="toolGrid">
-            <!-- LipiAntar -->
-            <a href="apps/translator/index.html" class="ai-card" data-name="lipiantar translator language translation assamese hindi">
-                <div class="ai-ai-card-icon">🌍</div>
-                <div class="ai-ai-card-tag">Language / AI</div>
-                <h3>LipiAntar</h3>
-                <p>Professional document translation for Assamese, Hindi, and English. Built for legal and official documents.</p>
-                <div class="ai-ai-card-footer">
-                    Open Service 
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+
+        <!-- Scroll hint strip -->
+        <div class="ai-scroll-hint">
+            <i class="fas fa-hand-pointer"></i>
+            <span>Scroll to see more tools</span>
+            <span class="ai-scroll-dots"><span></span><span></span><span></span></span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+
+        <!-- Scroll area with nav buttons -->
+        <div class="ai-scroll-frame">
+            <button class="ai-nav-btn ai-nav-prev" id="aiNavPrev" onclick="aiScrollCards(-1)" aria-label="Scroll left">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+
+            <div class="ai-scroll-wrapper" id="aiScrollWrapper">
+            <div class="ai-grid" id="toolGrid">
+
+                <!-- LipiAntar -->
+                <a href="apps/translator/index.html" class="ai-svc-card" data-name="lipiantar translator language translation assamese hindi">
+                    <div class="ai-svc-badge ai-badge-live">AI LIVE</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #3b82f6, #06b6d4);">🌍</div>
+                    <div class="ai-svc-tag">Language / AI</div>
+                    <h3>LipiAntar</h3>
+                    <p>Professional document translation for Assamese, Hindi &amp; English. Built for legal and official documents.</p>
+                    <span class="ai-svc-cta">Open Service <i class="fas fa-arrow-right"></i></span>
+                </a>
+
+                <!-- BizWrite -->
+                <a href="apps/bizwrite/index.html" class="ai-svc-card" data-name="bizwrite business ai profile generator social media bio">
+                    <div class="ai-svc-badge ai-badge-live">AI LIVE</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #f97316, #eab308);">🏪</div>
+                    <div class="ai-svc-tag">Business / AI</div>
+                    <h3>BizWrite</h3>
+                    <p>Generate professional business profiles, social media bios, and product descriptions in seconds.</p>
+                    <span class="ai-svc-cta">Open Service <i class="fas fa-arrow-right"></i></span>
+                </a>
+
+                <!-- PatraLekhak -->
+                <a href="apps/patralekhak/index.html" class="ai-svc-card" data-name="patralekhak legal legal ai letter writer formal complaints">
+                    <div class="ai-svc-badge ai-badge-beta">BETA</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #8b5cf6, #ec4899);">✉️</div>
+                    <div class="ai-svc-tag">Legal / AI</div>
+                    <h3>PatraLekhak</h3>
+                    <p>Convert simple complaints into powerful formal and legal letters. Supports multiple languages.</p>
+                    <span class="ai-svc-cta">Open Service <i class="fas fa-arrow-right"></i></span>
+                </a>
+
+                <!-- ScriptWala -->
+                <a href="apps/scriptwala/index.html" class="ai-svc-card" data-name="scriptwala marketing ai whatsapp script generator promotions">
+                    <div class="ai-svc-badge ai-badge-live">AI LIVE</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #25d366, #059669);">💬</div>
+                    <div class="ai-svc-tag">Marketing / AI</div>
+                    <h3>ScriptWala</h3>
+                    <p>Create high-converting WhatsApp scripts for promotions, festive tags, and customer relations.</p>
+                    <span class="ai-svc-cta">Open Service <i class="fas fa-arrow-right"></i></span>
+                </a>
+
+                <!-- StudyBuddy -->
+                <a href="apps/studybuddy/index.html" class="ai-svc-card" data-name="studybuddy education ai homework helper assignment students class 9 10">
+                    <div class="ai-svc-badge ai-badge-live">AI LIVE</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #f59e0b, #ef4444);">📚</div>
+                    <div class="ai-svc-tag">Education / AI</div>
+                    <h3>StudyBuddy</h3>
+                    <p>The ultimate homework and assignment helper for Class 9 &amp; 10 students. Study smarter, not harder.</p>
+                    <span class="ai-svc-cta">Open Service <i class="fas fa-arrow-right"></i></span>
+                </a>
+
+                <!-- ExamCraft -->
+                <a href="apps/examcraft/index.html" class="ai-svc-card" data-name="examcraft pro question paper generator tool ai prep">
+                    <div class="ai-svc-badge ai-badge-new">NEW</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);">📝</div>
+                    <div class="ai-svc-tag">Tools / AI</div>
+                    <h3>ExamCraft Pro</h3>
+                    <p>Generate professional question papers for any subject and level in minutes. Save hours of prep.</p>
+                    <span class="ai-svc-cta">Open Service <i class="fas fa-arrow-right"></i></span>
+                </a>
+
+                <!-- ShopWrite -->
+                <a href="apps/shopwrite/index.html" class="ai-svc-card" data-name="shopwrite ai e-commerce product copy seo keywords hashtags">
+                    <div class="ai-svc-badge ai-badge-live">AI LIVE</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #ec4899, #f97316);">🛒</div>
+                    <div class="ai-svc-tag">E-commerce / AI</div>
+                    <h3>ShopWrite AI</h3>
+                    <p>E-commerce product copy generator with built-in SEO keywords and hashtags for maximum reach.</p>
+                    <span class="ai-svc-cta">Open Service <i class="fas fa-arrow-right"></i></span>
+                </a>
+
+                <!-- Resume Builder -->
+                <a href="apps/resume-builder/index.html" class="ai-svc-card" data-name="resume builder career ai ats-friendly professional template">
+                    <div class="ai-svc-badge ai-badge-new">NEW</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #10b981, #3b82f6);">📄</div>
+                    <div class="ai-svc-tag">Career / AI</div>
+                    <h3>Resume Builder</h3>
+                    <p>Create professional, ATS-friendly resumes in 60 seconds. Modern templates and AI content.</p>
+                    <span class="ai-svc-cta">Open Service <i class="fas fa-arrow-right"></i></span>
+                </a>
+
+                <!-- No Results Found -->
+                <div id="noResults" class="ai-no-results">
+                    <h3>No matching tools found</h3>
+                    <p>Try searching for different keywords or categories.</p>
                 </div>
-            </a>
-
-            <!-- BizWrite -->
-            <a href="apps/bizwrite/index.html" class="ai-card" data-name="bizwrite business ai profile generator social media bio">
-                <div class="ai-ai-card-icon">🏪</div>
-                <div class="ai-ai-card-tag">Business / AI</div>
-                <h3>BizWrite</h3>
-                <p>Generate professional business profiles, social media bios, and product descriptions in seconds.</p>
-                <div class="ai-ai-card-footer">
-                    Open Service 
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                </div>
-            </a>
-
-            <!-- PatraLekhak -->
-            <a href="apps/patralekhak/index.html" class="ai-card" data-name="patralekhak legal legal ai letter writer formal complaints">
-                <div class="ai-badge ai-ai-badge-beta">BETA</div>
-                <div class="ai-ai-card-icon">✉️</div>
-                <div class="ai-ai-card-tag">Legal / AI</div>
-                <h3>PatraLekhak</h3>
-                <p>Convert your simple complaints into powerful formal and legal letters. Support for multiples languages.</p>
-                <div class="ai-ai-card-footer">
-                    Open Service 
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                </div>
-            </a>
-
-            <!-- ScriptWala -->
-            <a href="apps/scriptwala/index.html" class="ai-card" data-name="scriptwala marketing ai whatsapp script generator promotions">
-                <div class="ai-ai-card-icon">💬</div>
-                <div class="ai-ai-card-tag">Marketing / AI</div>
-                <h3>ScriptWala</h3>
-                <p>Create high-converting WhatsApp scripts for promotions, festive tags, and customer relations.</p>
-                <div class="ai-ai-card-footer">
-                    Open Service 
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                </div>
-            </a>
-
-            <!-- StudyBuddy -->
-            <a href="apps/studybuddy/index.html" class="ai-card" data-name="studybuddy education ai homework helper assignment students class 9 10">
-                <div class="ai-ai-card-icon">📚</div>
-                <div class="ai-ai-card-tag">Education / AI</div>
-                <h3>StudyBuddy</h3>
-                <p>The ultimate homework and assignment helper for Class 9 & 10 students. Study smarter, not harder.</p>
-                <div class="ai-ai-card-footer">
-                    Open Service 
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                </div>
-            </a>
-
-
-
-            <!-- ExamCraft -->
-            <a href="apps/examcraft/index.html" class="ai-card" data-name="examcraft pro question paper generator tool ai prep">
-                <div class="ai-badge ai-ai-badge-new">New</div>
-                <div class="ai-ai-card-icon">📝</div>
-                <div class="ai-ai-card-tag">Tools / AI</div>
-                <h3>ExamCraft Pro</h3>
-                <p>Generate professional question papers for any subject and level in minutes. Save hours of prep.</p>
-                <div class="ai-ai-card-footer">
-                    Open Service 
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                </div>
-            </a>
-
-            <!-- ShopWrite -->
-            <a href="apps/shopwrite/index.html" class="ai-card" data-name="shopwrite ai e-commerce product copy seo keywords hashtags">
-                <div class="ai-ai-card-icon">🛒</div>
-                <div class="ai-ai-card-tag">E-commerce / AI</div>
-                <h3>ShopWrite AI</h3>
-                <p>E-commerce product copy generator with built-in SEO keywords and hashtags for maximum reach.</p>
-                <div class="ai-ai-card-footer">
-                    Open Service 
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                </div>
-            </a>
-
-            <!-- Resume Builder -->
-            <a href="apps/resume-builder/index.html" class="ai-card" data-name="resume builder career ai ats-friendly professional template">
-                <div class="ai-badge ai-ai-badge-new">New</div>
-                <div class="ai-ai-card-icon">📄</div>
-                <div class="ai-ai-card-tag">Career / AI</div>
-                <h3>Resume Builder</h3>
-                <p>Create professional, ATS-friendly resumes in 60 seconds. Modern templates and AI content.</p>
-                <div class="ai-ai-card-footer">
-                    Open Service 
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                </div>
-            </a>
-
-            <!-- No Results Found -->
-            <div id="noResults" class="ai-no-results">
-                <h3>No matching tools found</h3>
-                <p>Try searching for different keywords or categories.</p>
             </div>
-        </div>
+            </div>
+
+            <button class="ai-nav-btn ai-nav-next" id="aiNavNext" onclick="aiScrollCards(1)" aria-label="Scroll right">
+                <i class="fas fa-chevron-right"></i>
+            </button>
         </div>
     </div>
 
             </div>
+
+
+
 
             <div id="offline-services-tab" class="tab-content service-tab">
                 <div class="services-grid">
@@ -1504,6 +1509,14 @@
 
             overlay.style.opacity = '1';
             overlay.querySelector('img').style.transform = 'scale(1)';
+        }
+
+        // AI Services — nav button scroll
+        function aiScrollCards(direction) {
+            const wrapper = document.getElementById('aiScrollWrapper');
+            if (wrapper) {
+                wrapper.scrollBy({ left: direction * 780, behavior: 'smooth' });
+            }
         }
     </script>
     <!-- ===== MAGIC REMOVER MODAL ===== -->

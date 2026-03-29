@@ -4199,12 +4199,305 @@ body {
 
         
 
+/* ================================================================== */
+/* REDESIGNED AI SERVICE CARDS — Premium offline-card style with AI twist */
+/* ================================================================== */
+
+/* Hub label */
+.ai-hub-tag {
+    display: inline-block;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 800;
+    padding: 5px 18px;
+    border-radius: 50px;
+    letter-spacing: 0.5px;
+    text-align: center;
+    margin: 0 auto 4px;
+    display: table;
+}
+
+/* Scroll hint bar */
+.ai-scroll-hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #6366f1;
+    margin-bottom: 14px;
+    animation: hintPulse 2.5s ease-in-out infinite;
+}
+
+.ai-scroll-hint i { font-size: 14px; }
+
+.ai-scroll-dots {
+    display: flex;
+    gap: 4px;
+}
+
+.ai-scroll-dots span {
+    width: 6px;
+    height: 6px;
+    background: #6366f1;
+    border-radius: 50%;
+    animation: dotMove 1.4s ease infinite;
+}
+.ai-scroll-dots span:nth-child(2) { animation-delay: 0.2s; }
+.ai-scroll-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes dotMove {
+    0%, 100% { opacity: 0.3; transform: translateX(0); }
+    50% { opacity: 1; transform: translateX(4px); }
+}
+
+@keyframes hintPulse {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+}
+
+/* Scroll frame — wraps wrapper + nav btns */
+.ai-scroll-frame {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Nav arrow buttons */
+.ai-nav-btn {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid rgba(99, 102, 241, 0.3);
+    background: var(--white);
+    color: #6366f1;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 16px rgba(99,102,241,0.12);
+    z-index: 2;
+}
+
+.ai-nav-btn:hover {
+    background: #6366f1;
+    color: #fff;
+    border-color: #6366f1;
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+    transform: scale(1.08);
+}
+
+/* Scroll wrapper with right fade indicator */
+.ai-scroll-wrapper {
+    flex: 1;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 12px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    cursor: grab;
+    /* Right fade — signals more content */
+    -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
+    mask-image: linear-gradient(to right, black 85%, transparent 100%);
+}
+
+.ai-scroll-wrapper:active { cursor: grabbing; }
+
+/* Big, very visible scrollbar for PC */
+.ai-scroll-wrapper::-webkit-scrollbar { height: 10px; }
+.ai-scroll-wrapper::-webkit-scrollbar-track {
+    background: #e0e7ff;
+    border-radius: 10px;
+    margin: 0 4px;
+}
+.ai-scroll-wrapper::-webkit-scrollbar-thumb {
+    background: linear-gradient(90deg, #6366f1, #8b5cf6);
+    border-radius: 10px;
+    border: 2px solid #e0e7ff;
+}
+.ai-scroll-wrapper::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(90deg, #4f46e5, #7c3aed);
+}
+
+/* ── AI Service Card ── */
+.ai-svc-card {
+    background: var(--white);
+    border: 1.5px solid rgba(99, 102, 241, 0.2);
+    border-radius: 20px;
+    padding: 28px 20px 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    width: 240px;
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    box-shadow: 0 6px 24px rgba(99, 102, 241, 0.06);
+    /* Subtle top gradient tint */
+    background: linear-gradient(180deg, rgba(99,102,241,0.04) 0%, #ffffff 40%);
+}
+
+.ai-svc-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 45px rgba(99, 102, 241, 0.2);
+    border-color: var(--primary);
+}
+
+/* Big coloured icon block */
+.ai-svc-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    transition: transform 0.3s;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+.ai-svc-card:hover .ai-svc-icon {
+    transform: scale(1.1) rotate(-5deg);
+}
+
+/* Category tag */
+.ai-svc-tag {
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #6366f1;
+}
+
+.ai-svc-card h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--dark);
+    margin: 0;
+}
+
+.ai-svc-card p {
+    font-size: 12.5px;
+    color: var(--gray);
+    line-height: 1.5;
+    flex: 1;
+    margin: 0;
+}
+
+/* CTA pill — mimics price-tag style */
+.ai-svc-cta {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 7px 18px;
+    border-radius: 50px;
+    margin-top: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.ai-svc-card:hover .ai-svc-cta {
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+    transform: translateY(-1px);
+}
+
+.ai-svc-cta i { font-size: 10px; transition: transform 0.3s; }
+.ai-svc-card:hover .ai-svc-cta i { transform: translateX(3px); }
+
+/* Badges */
+.ai-svc-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 9px;
+    font-weight: 900;
+    padding: 3px 9px;
+    border-radius: 20px;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+}
+
+.ai-badge-live {
+    background: rgba(16, 185, 129, 0.12);
+    color: #059669;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    animation: pulseBadge 2s infinite;
+}
+
+.ai-badge-new {
+    background: rgba(99, 102, 241, 0.12);
+    color: #4f46e5;
+    border: 1px solid rgba(99, 102, 241, 0.3);
+}
+
+.ai-badge-beta {
+    background: rgba(245, 158, 11, 0.12);
+    color: #b45309;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+/* Dark theme adjustments */
+[data-theme="dark"] .ai-svc-card {
+    background: linear-gradient(180deg, rgba(99,102,241,0.08) 0%, rgba(15,23,42,0.9) 40%);
+    border-color: rgba(99, 102, 241, 0.25);
+}
+[data-theme="dark"] .ai-svc-card h3 { color: #f1f5f9; }
+[data-theme="dark"] .ai-nav-btn {
+    background: rgba(15, 23, 42, 0.8);
+    border-color: rgba(99, 102, 241, 0.4);
+}
+[data-theme="dark"] .ai-scroll-wrapper::-webkit-scrollbar-track {
+    background: rgba(99, 102, 241, 0.1);
+}
+
+/* Hide nav buttons on mobile (touch scroll is fine) */
+@media (max-width: 768px) {
+    .ai-nav-btn { display: none; }
+    .ai-scroll-hint { font-size: 12px; }
+    .ai-svc-card { width: 210px; }
+}
+
+/* ============================================================ */
+/* GLOBAL BIGGER SCROLLBARS (all horizontal scroll zones)       */
+/* ============================================================ */
+.scroll-wrapper::-webkit-scrollbar { height: 10px; }
+.scroll-wrapper::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 10px;
+}
+.scroll-wrapper::-webkit-scrollbar-thumb {
+    background: linear-gradient(90deg, #6366f1, #8b5cf6);
+    border-radius: 10px;
+    border: 2px solid #f1f5f9;
+}
+.scroll-wrapper::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(90deg, #4f46e5, #7c3aed);
+}
+
+
         .ai-search-container {
             max-width: 600px;
             margin: -2rem auto 3rem;
             position: relative;
             z-index: 10;
         }
+
 
         .ai-search-input {
             width: 100%;
