@@ -17,13 +17,13 @@ export const handler = async (event) => {
   try {
     const body = JSON.parse(event.body);
     const { messages, model, temperature, max_tokens } = body;
-    const API_KEY = process.env.GROQ_API_KEY;
+    const API_KEY = process.env.OPENROUTER_API_KEY;
 
     if (!API_KEY) {
       return {
         statusCode: 500,
         headers,
-        body: JSON.stringify({ error: "GROQ_API_KEY is not set in Netlify Environment Variables." }),
+        body: JSON.stringify({ error: "OPENROUTER_API_KEY is not set in Netlify Environment Variables." }),
       };
     }
 
@@ -35,14 +35,16 @@ export const handler = async (event) => {
       };
     }
 
-    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${API_KEY}`,
+        "Authorization": `Bearer ${API_KEY}`,
+        "HTTP-Referer": "https://smartdigitalkampur.netlify.app/", // Required by OpenRouter for free models
+        "X-Title": "Smart Digital"
       },
       body: JSON.stringify({
-        model: model || "llama-3.3-70b-versatile",
+        model: model || "stepfun/step-3-5-flash",
         temperature: temperature !== undefined ? temperature : 0.4,
         max_tokens: max_tokens || 1000,
         messages: messages,
@@ -54,7 +56,7 @@ export const handler = async (event) => {
       return {
         statusCode: response.status,
         headers,
-        body: JSON.stringify({ error: errData.error?.message || `Groq API Error: ${response.status}` }),
+        body: JSON.stringify({ error: errData.error?.message || `OpenRouter API Error: ${response.status}` }),
       };
     }
 
@@ -69,7 +71,7 @@ export const handler = async (event) => {
     return {
       statusCode: 500,
       headers,
-      body: JSON.stringify({ error: "Internal Server Error: Failed to connect to Groq AI." }),
+      body: JSON.stringify({ error: "Internal Server Error: Failed to connect to OpenRouter AI." }),
     };
   }
 };

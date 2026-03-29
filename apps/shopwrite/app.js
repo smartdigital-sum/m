@@ -29,7 +29,7 @@ const T = {
     loading: 'Crafting your product copy…',
     genBtn: '✦ Generate Descriptions',
     fillRequired: 'Please fill in the Product Name and select a Category.',
-    apiMissing: 'Please set your Groq API key in ⚙ Settings first.',
+    apiMissing: 'Please set your OpenRouter API key in ⚙ Settings first.',
     errorMsg: 'Something went wrong. Please check your API key and try again.',
     variantLabel: ['Variant 1 — Detailed', 'Variant 2 — Concise', 'Variant 3 — Creative'],
     chars: 'chars',
@@ -43,7 +43,7 @@ const T = {
     loading: 'आपका उत्पाद विवरण तैयार हो रहा है…',
     genBtn: '✦ विवरण बनाएं',
     fillRequired: 'कृपया उत्पाद नाम भरें और श्रेणी चुनें।',
-    apiMissing: 'कृपया पहले Settings में API Key सेट करें।',
+    apiMissing: 'कृपया पहले Settings में OpenRouter API Key सेट करें।',
     errorMsg: 'कुछ गलत हुआ। अपनी API Key जांचें और पुनः प्रयास करें।',
     variantLabel: ['संस्करण 1 — विस्तृत', 'संस्करण 2 — संक्षिप्त', 'संस्करण 3 — रचनात्मक'],
     chars: 'अक्षर',
@@ -236,7 +236,9 @@ Respond ONLY with valid JSON (no markdown, no explanation):
 
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
-      throw new Error(err.error?.message || 'API Error ' + res.status);
+      let errMsg = 'API Error ' + res.status;
+      if (err.error) errMsg = typeof err.error === 'string' ? err.error : (err.error.message || errMsg);
+      throw new Error(errMsg);
     }
 
     const data = await res.json();
