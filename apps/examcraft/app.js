@@ -93,32 +93,6 @@ function setLang(lang) {
   });
 }
 
-// ---- API KEY ----
-function openSettings() {
-  document.getElementById('settingsModal').classList.remove('hidden');
-  const stored = localStorage.getItem('ec_api_key') || '';
-  document.getElementById('apiKeyInput').value = stored;
-}
-function closeSettings() {
-  document.getElementById('settingsModal').classList.add('hidden');
-}
-function saveApiKey() {
-  const key = document.getElementById('apiKeyInput').value.trim();
-  if (key) {
-    localStorage.setItem('ec_api_key', key);
-    document.getElementById('apiKeyWarning').classList.add('hidden');
-  }
-  closeSettings();
-}
-function toggleKey() {
-  const inp = document.getElementById('apiKeyInput');
-  inp.type = inp.type === 'password' ? 'text' : 'password';
-}
-// Close modal on overlay click
-document.getElementById('settingsModal').addEventListener('click', function(e) {
-  if (e.target === this) closeSettings();
-});
-
 // ---- HELPERS ----
 function getCheckedValues(name) {
   return [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(e => e.value);
@@ -232,8 +206,6 @@ function toggleAllChapters(checkbox) {
 
 // ---- MAIN GENERATE ----
 async function generatePaper() {
-  const apiKey = GLOBAL_CONFIG.API_KEY;
-
   const board = document.getElementById('boardSelect').value;
   const schoolName = document.getElementById('schoolName').value.trim() || 'Your School';
   const cls = document.getElementById('classSelect').value;
@@ -335,17 +307,9 @@ Total marks across ALL questions should sum to approximately ${totalMarks}.
 `;
 
   try {
-    const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
-    let url = GLOBAL_CONFIG.ENDPOINT;
-    let headers = { 
-      "Content-Type": "application/json", 
-      "Authorization": `Bearer ${GLOBAL_CONFIG.API_KEY}`
-    };
-
-    if (!isLocal) {
-      url = "/.netlify/functions/chat";
-      delete headers["Authorization"];
-    }
+    // We always use the Netlify function for AI generation to protect the API key.
+    const url = "/.netlify/functions/chat";
+    const headers = { "Content-Type": "application/json" };
 
     const response = await fetch(url, {
       method: "POST",
@@ -389,7 +353,9 @@ Total marks across ALL questions should sum to approximately ${totalMarks}.
   } catch (err) {
     document.getElementById('outputLoading').classList.add('hidden');
     document.getElementById('outputPlaceholder').classList.remove('hidden');
-    alert('❌ ' + (err.message || T[currentLang].errorNetwork));
+    
+    let errorMsg = err.message || T[currentLang].errorNetwork;
+    alert(errorMsg);
     console.error(err);
   }
 }
