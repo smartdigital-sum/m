@@ -223,12 +223,49 @@ select.field-input:focus {
   font-size: 0.82rem;
   transition: all 0.2s;
 }
+/* Default: no active highlight until user picks */
 .diff-option:has(input:checked) {
-  background: var(--navy);
-  border-color: var(--navy);
-  color: var(--white);
+  font-weight: 600;
+  box-shadow: 0 0 0 2px currentColor;
 }
+
+/* Easy — green */
+.diff-option[data-diff="easy"]:has(input:checked) {
+  background: rgba(52, 211, 153, 0.15);
+  border-color: #34d399;
+  color: #34d399;
+  box-shadow: 0 0 10px rgba(52, 211, 153, 0.35);
+}
+
+/* Medium — amber/yellow */
+.diff-option[data-diff="medium"]:has(input:checked) {
+  background: rgba(251, 191, 36, 0.15);
+  border-color: #fbbf24;
+  color: #fbbf24;
+  box-shadow: 0 0 10px rgba(251, 191, 36, 0.35);
+}
+
+/* Hard — red */
+.diff-option[data-diff="hard"]:has(input:checked) {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: #ef4444;
+  color: #ef4444;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.35);
+}
+
+/* Mixed — rainbow gradient border trick */
+.diff-option[data-diff="mixed"]:has(input:checked) {
+  border-color: transparent;
+  background: linear-gradient(var(--navy-light), var(--navy-light)) padding-box,
+              linear-gradient(90deg, #f87171, #fbbf24, #34d399, #60a5fa, #a78bfa) border-box;
+  border: 2px solid transparent;
+  color: #e879f9;
+  box-shadow: 0 0 12px rgba(167, 139, 250, 0.4);
+  background-clip: padding-box, border-box;
+}
+
 .diff-option input { display: none; }
+
 
 /* QUESTION TYPES */
 .qtype-group { display: flex; flex-direction: column; gap: 0.45rem; }
