@@ -324,7 +324,11 @@ Total marks across ALL questions should sum to approximately ${totalMarks}.
 
     if (!response.ok) {
       const errData = await response.json().catch(() => ({}));
-      throw new Error(errData.error?.message || 'API Error ' + response.status);
+      let errMsg = 'API Error ' + response.status;
+      if (errData.error) {
+        errMsg = typeof errData.error === 'string' ? errData.error : (errData.error.message || errMsg);
+      }
+      throw new Error(errMsg);
     }
 
     const data = await response.json();
