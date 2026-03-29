@@ -4323,10 +4323,44 @@ body {
             line-height: 1.6;
         }
 
+        /* Horizontal scroll container for AI grid */
+        .ai-scroll-wrapper {
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding-bottom: 16px;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            cursor: grab;
+        }
+
+        .ai-scroll-wrapper:active {
+            cursor: grabbing;
+        }
+
+        .ai-scroll-wrapper::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .ai-scroll-wrapper::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+        }
+
+        .ai-scroll-wrapper::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.5);
+            border-radius: 4px;
+        }
+
+        .ai-scroll-wrapper::-webkit-scrollbar-thumb:hover {
+            background: rgba(99, 102, 241, 0.8);
+        }
+
         .ai-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            display: flex;
+            flex-wrap: nowrap;
             gap: 1.5rem;
+            width: max-content;
+            padding: 4px 4px 8px;
         }
 
         .ai-card {
@@ -4343,6 +4377,9 @@ body {
             flex-direction: column;
             position: relative;
             overflow: hidden;
+            width: 300px;
+            flex-shrink: 0;
+            scroll-snap-align: start;
         }
 
         .ai-card::before {

@@ -815,99 +815,11 @@
             </div>
 
             <div class="tab-container">
-                <button class="filter-btn active" onclick="switchTab('service', 'offline-services-tab', this)">Offline Services</button>
-                <button class="filter-btn" onclick="switchTab('service', 'ai-services-tab', this)">AI Powered Services</button>
+                <button class="filter-btn active" onclick="switchTab('service', 'ai-services-tab', this)">AI Powered Services</button>
+                <button class="filter-btn" onclick="switchTab('service', 'offline-services-tab', this)">Offline Services</button>
             </div>
 
-            <div id="offline-services-tab" class="tab-content service-tab active">
-                <div class="services-grid">
-                    
-                <!-- NEW DIGITAL SERVICES -->
-                <div class="service-card highlight-card reveal active" onclick="openServiceModal('Website Creation','website')">
-                    <div class="svc-icon icon-bg-primary"><i class="fas fa-globe"></i></div>
-                    <div class="svc-badge pulse-badge">HOT &amp; LIVE</div>
-                    <h3 data-en="Website Creation" data-as="ৱেবছাইট নিৰ্মাণ">Website Creation</h3>
-                    <p class="dark-desc" data-en="Professional websites for local businesses &amp; personal portfolios." data-as="স্থানীয় ব্যৱসায় আৰু ব্যক্তিগত পৰ্টফলিঅ'ৰ বাবে পেছাদাৰী ৱেবছাইট।">Professional
-                        websites for local businesses &amp; personal portfolios.</p>
-                    <span class="price-tag">₹3,000–16,000</span>
-                </div>
-
-                <div class="service-card highlight-card reveal active" onclick="openServiceModal('WhatsApp Automation','bot')">
-                    <div class="svc-icon icon-bg-whatsapp"><i class="fab fa-whatsapp"></i></div>
-                    <div class="svc-badge pulse-badge">NEW &amp; LIVE</div>
-                    <h3 data-en="n8n WhatsApp Bot" data-as="n8n হোৱাটছএপ বট">n8n WhatsApp Bot</h3>
-                    <p class="dark-desc" data-en="Automated status, replies &amp; customer engagement bots using n8n." data-as="n8n ব্যৱহাৰ কৰি স্বয়ংক্ৰিয় ষ্টেটাছ, উত্তৰ আৰু গ্ৰাহক সংযোগ বট।">
-                        Automated status, replies &amp; customer engagement bots using n8n.</p>
-                    <span class="price-tag">₹1,500–5,000</span>
-                </div>
-
-                <!-- OFFLINE / UNDER CONSTRUCTION SERVICES -->
-                <div class="service-card disabled-card reveal" style="display: none;">
-                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-id-card"></i></div>
-                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
-                    <h3 data-en="PAN Card" data-as="পেন কাৰ্ড">PAN Card</h3>
-                    <p data-en="New application, correction &amp; tracking" data-as="নতুন আৱেদন, সংশোধন আৰু ট্ৰেকিং">New
-                        application, correction &amp; tracking</p>
-                    <span class="price-tag text-red">Coming Soon</span>
-                </div>
-
-                <div class="service-card disabled-card reveal" style="display: none;">
-                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-fingerprint"></i></div>
-                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
-                    <h3 data-en="Aadhaar Services" data-as="আধাৰ সেৱা">Aadhaar Services</h3>
-                    <p data-en="Update, correction &amp; enrollment help" data-as="আপডেট, সংশোধন আৰু নথিভুক্তিৰ সহায়">
-                        Update, correction &amp; enrollment help</p>
-                    <span class="price-tag text-red">Coming Soon</span>
-                </div>
-
-                <div class="service-card disabled-card reveal" style="display: none;">
-                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-print"></i></div>
-                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
-                    <h3 data-en="Printing &amp; Scanning" data-as="প্ৰিন্টিং আৰু স্কেনিং">Printing &amp; Scanning</h3>
-                    <p data-en="B&amp;W, color printing, scanning &amp; PDF" data-as="বি&amp;ডব্লু, কালাৰ প্ৰিন্টিং, স্কেনিং আৰু PDF">B&amp;W, color printing, scanning &amp; PDF</p>
-                    <span class="price-tag text-red">Coming Soon</span>
-                </div>
-
-                <div class="service-card disabled-card reveal" style="display: none;">
-                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-camera"></i></div>
-                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
-                    <h3 data-en="Passport Photo" data-as="পাছপোৰ্ট ফটো">Passport Photo</h3>
-                    <p data-en="Professional passport-size &amp; ID photos" data-as="পেছাদাৰী পাছপোৰ্ট আৰু পৰিচয়পত্ৰৰ ফটো">
-                        Professional passport-size &amp; ID photos</p>
-                    <span class="price-tag text-red">Coming Soon</span>
-                </div>
-
-                <div class="service-card disabled-card reveal" style="display: none;">
-                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-file-alt"></i></div>
-                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
-                    <h3 data-en="Govt. Form Filling" data-as="চৰকাৰী ফৰ্ম পূৰণ">Govt. Form Filling</h3>
-                    <p data-en="All government online forms &amp; applications" data-as="সকলো চৰকাৰী অনলাইন ফৰ্ম আৰু আৱেদন">
-                        All government online forms &amp; applications</p>
-                    <span class="price-tag text-red">Coming Soon</span>
-                </div>
-
-                <div class="service-card disabled-card reveal" style="display: none;">
-                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-ticket-alt"></i></div>
-                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
-                    <h3 data-en="Ticket Booking" data-as="টিকট বুকিং">Ticket Booking</h3>
-                    <p data-en="Railway, bus &amp; flight ticket booking" data-as="ৰেল, বাছ আৰু বিমান টিকট বুকিং">Railway,
-                        bus &amp; flight ticket booking</p>
-                    <span class="price-tag text-red">Coming Soon</span>
-                </div>
-
-                <div class="service-card disabled-card reveal" style="display: none;">
-                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-vote-yea"></i></div>
-                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
-                    <h3 data-en="Voter ID Services" data-as="ভোটাৰ পৰিচয়পত্ৰ সেৱা">Voter ID Services</h3>
-                    <p data-en="New registration &amp; correction" data-as="নতুন নথিভুক্তি আৰু সংশোধন">New registration &amp;
-                        correction</p>
-                    <span class="price-tag text-red">Coming Soon</span>
-                </div>
-            
-                </div>
-            </div>
-            
-            <div id="ai-services-tab" class="tab-content service-tab">
+            <div id="ai-services-tab" class="tab-content service-tab active">
 
     <!-- AI Services Migrated Portal -->
     <div class="ai-services-wrapper">
@@ -921,6 +833,7 @@
             </span>
             <input type="text" id="toolSearch" class="ai-search-input" placeholder="Search for AI tools (e.g. 'translator', 'resume', 'business')...">
         </div>
+        <div class="ai-scroll-wrapper">
         <div class="ai-grid" id="toolGrid">
             <!-- LipiAntar -->
             <a href="apps/translator/index.html" class="ai-card" data-name="lipiantar translator language translation assamese hindi">
@@ -1029,8 +942,97 @@
                 <p>Try searching for different keywords or categories.</p>
             </div>
         </div>
+        </div>
     </div>
 
+            </div>
+
+            <div id="offline-services-tab" class="tab-content service-tab">
+                <div class="services-grid">
+                    
+                <!-- NEW DIGITAL SERVICES -->
+                <div class="service-card highlight-card reveal active" onclick="openServiceModal('Website Creation','website')">
+                    <div class="svc-icon icon-bg-primary"><i class="fas fa-globe"></i></div>
+                    <div class="svc-badge pulse-badge">HOT &amp; LIVE</div>
+                    <h3 data-en="Website Creation" data-as="ৱেবছাইট নিৰ্মাণ">Website Creation</h3>
+                    <p class="dark-desc" data-en="Professional websites for local businesses &amp; personal portfolios." data-as="স্থানীয় ব্যৱসায় আৰু ব্যক্তিগত পৰ্টফলিঅ'ৰ বাবে পেছাদাৰী ৱেবছাইট।">Professional
+                        websites for local businesses &amp; personal portfolios.</p>
+                    <span class="price-tag">₹3,000–16,000</span>
+                </div>
+
+                <div class="service-card highlight-card reveal active" onclick="openServiceModal('WhatsApp Automation','bot')">
+                    <div class="svc-icon icon-bg-whatsapp"><i class="fab fa-whatsapp"></i></div>
+                    <div class="svc-badge pulse-badge">NEW &amp; LIVE</div>
+                    <h3 data-en="n8n WhatsApp Bot" data-as="n8n হোৱাটছএপ বট">n8n WhatsApp Bot</h3>
+                    <p class="dark-desc" data-en="Automated status, replies &amp; customer engagement bots using n8n." data-as="n8n ব্যৱহাৰ কৰি স্বয়ংক্ৰিয় ষ্টেটাছ, উত্তৰ আৰু গ্ৰাহক সংযোগ বট।">
+                        Automated status, replies &amp; customer engagement bots using n8n.</p>
+                    <span class="price-tag">₹1,500–5,000</span>
+                </div>
+
+                <!-- OFFLINE / UNDER CONSTRUCTION SERVICES -->
+                <div class="service-card disabled-card reveal" style="display: none;">
+                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-id-card"></i></div>
+                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
+                    <h3 data-en="PAN Card" data-as="পেন কাৰ্ড">PAN Card</h3>
+                    <p data-en="New application, correction &amp; tracking" data-as="নতুন আৱেদন, সংশোধন আৰু ট্ৰেকিং">New
+                        application, correction &amp; tracking</p>
+                    <span class="price-tag text-red">Coming Soon</span>
+                </div>
+
+                <div class="service-card disabled-card reveal" style="display: none;">
+                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-fingerprint"></i></div>
+                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
+                    <h3 data-en="Aadhaar Services" data-as="আধাৰ সেৱা">Aadhaar Services</h3>
+                    <p data-en="Update, correction &amp; enrollment help" data-as="আপডেট, সংশোধন আৰু নথিভুক্তিৰ সহায়">
+                        Update, correction &amp; enrollment help</p>
+                    <span class="price-tag text-red">Coming Soon</span>
+                </div>
+
+                <div class="service-card disabled-card reveal" style="display: none;">
+                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-print"></i></div>
+                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
+                    <h3 data-en="Printing &amp; Scanning" data-as="প্ৰিন্টিং আৰু স্কেনিং">Printing &amp; Scanning</h3>
+                    <p data-en="B&amp;W, color printing, scanning &amp; PDF" data-as="বি&amp;ডব্লু, কালাৰ প্ৰিন্টিং, স্কেনিং আৰু PDF">B&amp;W, color printing, scanning &amp; PDF</p>
+                    <span class="price-tag text-red">Coming Soon</span>
+                </div>
+
+                <div class="service-card disabled-card reveal" style="display: none;">
+                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-camera"></i></div>
+                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
+                    <h3 data-en="Passport Photo" data-as="পাছপোৰ্ট ফটো">Passport Photo</h3>
+                    <p data-en="Professional passport-size &amp; ID photos" data-as="পেছাদাৰী পাছপোৰ্ট আৰু পৰিচয়পত্ৰৰ ফটো">
+                        Professional passport-size &amp; ID photos</p>
+                    <span class="price-tag text-red">Coming Soon</span>
+                </div>
+
+                <div class="service-card disabled-card reveal" style="display: none;">
+                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-file-alt"></i></div>
+                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
+                    <h3 data-en="Govt. Form Filling" data-as="চৰকাৰী ফৰ্ম পূৰণ">Govt. Form Filling</h3>
+                    <p data-en="All government online forms &amp; applications" data-as="সকলো চৰকাৰী অনলাইন ফৰ্ম আৰু আৱেদন">
+                        All government online forms &amp; applications</p>
+                    <span class="price-tag text-red">Coming Soon</span>
+                </div>
+
+                <div class="service-card disabled-card reveal" style="display: none;">
+                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-ticket-alt"></i></div>
+                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
+                    <h3 data-en="Ticket Booking" data-as="টিকট বুকিং">Ticket Booking</h3>
+                    <p data-en="Railway, bus &amp; flight ticket booking" data-as="ৰেল, বাছ আৰু বিমান টিকট বুকিং">Railway,
+                        bus &amp; flight ticket booking</p>
+                    <span class="price-tag text-red">Coming Soon</span>
+                </div>
+
+                <div class="service-card disabled-card reveal" style="display: none;">
+                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-vote-yea"></i></div>
+                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
+                    <h3 data-en="Voter ID Services" data-as="ভোটাৰ পৰিচয়পত্ৰ সেৱা">Voter ID Services</h3>
+                    <p data-en="New registration &amp; correction" data-as="নতুন নথিভুক্তি আৰু সংশোধন">New registration &amp;
+                        correction</p>
+                    <span class="price-tag text-red">Coming Soon</span>
+                </div>
+            
+                </div>
             </div>
         </div>
     </section>
