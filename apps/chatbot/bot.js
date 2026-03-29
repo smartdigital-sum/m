@@ -103,8 +103,8 @@ async function sendMessage() {
     conversationHistory.push({ role: "assistant", content: replyText });
   } catch (err) {
     addBubble(
-      "Sorry, something went wrong. Please try again or contact us on WhatsApp: +91 86387 59478",
-      "bot",
+      "Error: " + err.message,
+      "bot"
     );
     console.error("Bot error:", err);
     // Remove the failed user message from history so it doesn't corrupt future turns
@@ -147,8 +147,12 @@ async function callGroq() {
   });
 
   if (!response.ok) {
-    const err = await response.json().catch(() => ({}));
-    throw new Error(err.error?.message || `HTTP ${response.status}`);
+    const errData = await response.json().catch(() => ({}));
+    let errMsg = `HTTP ${response.status}`;
+    if (errData.error) {
+      errMsg = typeof errData.error === 'string' ? errData.error : (errData.error.message || errMsg);
+    }
+    throw new Error(errMsg);
   }
 
   const data = await response.json();

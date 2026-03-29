@@ -176,7 +176,7 @@ async function sendMessage() {
       );
     } else {
       addBubble(
-        "Sorry, something went wrong. This might be due to an invalid API key or connection issue. Please contact support.",
+        "Error: " + err.message,
         "bot"
       );
     }
@@ -223,8 +223,12 @@ async function callGroq() {
   });
 
   if (!response.ok) {
-    const err = await response.json().catch(() => ({}));
-    throw new Error(err.error?.message || `HTTP ${response.status}`);
+    const errData = await response.json().catch(() => ({}));
+    let errMsg = `HTTP ${response.status}`;
+    if (errData.error) {
+      errMsg = typeof errData.error === 'string' ? errData.error : (errData.error.message || errMsg);
+    }
+    throw new Error(errMsg);
   }
 
   const data = await response.json();
