@@ -245,6 +245,58 @@ select.field-input:focus {
   cursor: pointer;
 }
 
+/* CHAPTER SELECTION */
+.chapter-container {
+  background: var(--cream);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.8rem;
+  max-height: 250px;
+  overflow-y: auto;
+  min-height: 60px;
+}
+.chapter-placeholder {
+  color: var(--text-light);
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 1rem 0;
+  font-style: italic;
+}
+.chapter-select-all {
+  margin-bottom: 0.8rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px dashed var(--border);
+}
+.chapter-select-all label {
+  display: flex; align-items: center; gap: 8px; font-size: 0.85rem; cursor: pointer; color: var(--gold);
+}
+.chapter-section-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-mid);
+  margin: 0.8rem 0 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.chapter-list {
+  display: flex; flex-direction: column; gap: 0.4rem;
+}
+.chapter-item {
+  display: flex; align-items: flex-start; gap: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 0.3rem 0;
+  transition: opacity 0.2s;
+}
+.chapter-item:hover { opacity: 0.8; }
+.chapter-item input[type="checkbox"] {
+  width: 15px; height: 15px;
+  accent-color: var(--navy);
+  margin-top: 2px; flex-shrink: 0;
+}
+.chapter-item i { color: var(--text-light); font-size: 0.75rem; }
+.chapter-note { color: var(--gold-light); font-size: 0.75rem; background: rgba(251, 191, 36, 0.1); padding: 1px 4px; border-radius: 4px; }
+
 /* GENERATE BUTTON */
 .generate-btn {
   width: 100%;

@@ -74,32 +74,36 @@
       <input type="text" id="schoolName" class="field-input" placeholder="e.g. St. Mary's High School" />
     </div>
 
+    <div class="form-section">
+      <label class="field-label" data-en="Board" data-hi="बोर्ड" data-as="ব'ৰ্ড">Board</label>
+      <select id="boardSelect" class="field-input" onchange="onBoardChange()">
+        <option value="">— Select Board —</option>
+        <option value="SEBA">SEBA (Assam Board)</option>
+        <option value="CBSE">CBSE (NCERT)</option>
+        <option value="ICSE">ICSE</option>
+      </select>
+    </div>
+
     <div class="form-row">
       <div class="form-section">
         <label class="field-label" data-en="Class" data-hi="कक्षा" data-as="শ্ৰেণী">Class</label>
-        <select id="classSelect" class="field-input">
-          <option value="">— Select —</option>
-          <option>Class 1</option><option>Class 2</option><option>Class 3</option>
-          <option>Class 4</option><option>Class 5</option><option>Class 6</option>
-          <option>Class 7</option><option>Class 8</option><option>Class 9</option>
-          <option>Class 10</option>
+        <select id="classSelect" class="field-input" onchange="onClassChange()" disabled>
+          <option value="">— Select Board First —</option>
         </select>
       </div>
       <div class="form-section">
         <label class="field-label" data-en="Subject" data-hi="विषय" data-as="বিষয়">Subject</label>
-        <select id="subjectSelect" class="field-input">
-          <option value="">— Select —</option>
-          <option>Mathematics</option><option>Science</option><option>English</option>
-          <option>Hindi</option><option>Assamese</option><option>Social Studies</option>
-          <option>History</option><option>Geography</option><option>Physics</option>
-          <option>Chemistry</option><option>Biology</option><option>Computer Science</option>
+        <select id="subjectSelect" class="field-input" onchange="onSubjectChange()" disabled>
+          <option value="">— Select Class First —</option>
         </select>
       </div>
     </div>
 
     <div class="form-section">
-      <label class="field-label" data-en="Topic / Chapter" data-hi="विषय / अध्याय" data-as="বিষয় / অধ্যায়">Topic / Chapter</label>
-      <input type="text" id="topicInput" class="field-input" placeholder="e.g. Photosynthesis, Fractions, The French Revolution" />
+      <label class="field-label" data-en="Chapters" data-hi="अध्याय" data-as="অধ্যায়">Chapters</label>
+      <div id="chapterContainer" class="chapter-container">
+        <div class="chapter-placeholder" data-en="Select a subject to view chapters" data-hi="अध्याय देखने के लिए विषय चुनें" data-as="অধ্যায় চাবলৈ এটা বিষয় বাছক">Select a subject to view chapters</div>
+      </div>
     </div>
 
     <div class="form-section">
@@ -217,6 +221,8 @@
   <span>ExamCraft Pro &copy; 2025 &nbsp;|&nbsp; <span data-en="Built for educators across India" data-hi="भारत के शिक्षकों के लिए निर्मित" data-as="ভাৰতৰ শিক্ষকসকলৰ বাবে নিৰ্মিত">Built for educators across India</span></span>
 </footer>
 
+<script src="syllabus-data.js"></script>
+<script src="prompt-templates.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

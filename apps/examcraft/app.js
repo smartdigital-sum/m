@@ -12,7 +12,7 @@ const T = {
   en: {
     generating: "Generating your question paper…",
     genBtn: "✦ Generate Question Paper",
-    fillRequired: "Please fill: Class, Subject and Topic.",
+    fillRequired: "Please select: Board, Class, Subject and Chapters.",
     apiKeyMissing: "Please set your Groq API key in ⚙ Settings first.",
     errorParsing: "Could not parse AI response. Please try again.",
     errorNetwork: "Network error. Please check your API key and try again.",
@@ -34,7 +34,7 @@ const T = {
   hi: {
     generating: "आपका प्रश्नपत्र बन रहा है…",
     genBtn: "✦ प्रश्नपत्र बनाएं",
-    fillRequired: "कृपया भरें: कक्षा, विषय और टॉपिक।",
+    fillRequired: "कृपया चुनें: बोर्ड, कक्षा, विषय और कम से कम एक अध्याय।",
     apiKeyMissing: "कृपया पहले ⚙ Settings में Groq API Key सेट करें।",
     errorParsing: "AI उत्तर पार्स नहीं हो सका। कृपया पुनः प्रयास करें।",
     errorNetwork: "नेटवर्क त्रुटि। अपनी API Key जांचें और फिर प्रयास करें।",
@@ -56,7 +56,7 @@ const T = {
   as: {
     generating: "আপোনাৰ প্ৰশ্নপত্ৰ তৈয়াৰ হৈ আছে…",
     genBtn: "✦ প্ৰশ্নপত্ৰ তৈয়াৰ কৰক",
-    fillRequired: "অনুগ্ৰহ কৰি পূৰণ কৰক: শ্ৰেণী, বিষয় আৰু টপিক।",
+    fillRequired: "অনুগ্ৰহ কৰি বাছক: ব'ৰ্ড, শ্ৰেণী, বিষয় আৰু অতি কমেও এটা অধ্যায়।",
     apiKeyMissing: "অনুগ্ৰহ কৰি প্ৰথমে ⚙ Settings-ত API Key ছেট কৰক।",
     errorParsing: "AI উত্তৰ পাৰ্ছ কৰিব পৰা নগ'ল। অনুগ্ৰহ কৰি পুনৰায় চেষ্টা কৰক।",
     errorNetwork: "নেটৱাৰ্ক ত্ৰুটি। আপোনাৰ API Key পৰীক্ষা কৰক।",
@@ -128,14 +128,120 @@ function getDifficulty() {
   return el ? el.value : 'Medium';
 }
 
+// ---- CASCADING DROPDOWNS ----
+function onBoardChange() {
+  const board = document.getElementById('boardSelect').value;
+  const classSelect = document.getElementById('classSelect');
+  const subjectSelect = document.getElementById('subjectSelect');
+  const chapterContainer = document.getElementById('chapterContainer');
+
+  classSelect.innerHTML = '<option value="">— Select Class —</option>';
+  subjectSelect.innerHTML = '<option value="">— Select Subject —</option>';
+  subjectSelect.disabled = true;
+  chapterContainer.innerHTML = '<div class="chapter-placeholder">Select a subject to view chapters</div>';
+
+  if (!board) {
+    classSelect.disabled = true;
+    return;
+  }
+  
+  classSelect.disabled = false;
+  const classes = window.SYLLABUS_DATA[board].classes;
+  for (const c in classes) {
+    const opt = document.createElement('option');
+    opt.value = c;
+    opt.textContent = c;
+    classSelect.appendChild(opt);
+  }
+}
+
+function onClassChange() {
+  const board = document.getElementById('boardSelect').value;
+  const cls = document.getElementById('classSelect').value;
+  const subjectSelect = document.getElementById('subjectSelect');
+  const chapterContainer = document.getElementById('chapterContainer');
+
+  subjectSelect.innerHTML = '<option value="">— Select Subject —</option>';
+  chapterContainer.innerHTML = '<div class="chapter-placeholder">Select a subject to view chapters</div>';
+
+  if (!cls) {
+    subjectSelect.disabled = true;
+    return;
+  }
+
+  subjectSelect.disabled = false;
+  const subjects = window.SYLLABUS_DATA[board].classes[cls].subjects;
+  for (const s in subjects) {
+    const opt = document.createElement('option');
+    opt.value = s;
+    opt.textContent = s;
+    subjectSelect.appendChild(opt);
+  }
+}
+
+function onSubjectChange() {
+  const board = document.getElementById('boardSelect').value;
+  const cls = document.getElementById('classSelect').value;
+  const subject = document.getElementById('subjectSelect').value;
+  const chapterContainer = document.getElementById('chapterContainer');
+
+  if (!subject) {
+    chapterContainer.innerHTML = '<div class="chapter-placeholder">Select a subject to view chapters</div>';
+    return;
+  }
+
+  const chapters = window.SYLLABUS_DATA[board].classes[cls].subjects[subject].chapters;
+  
+  // Group chapters by section if available
+  const groups = {};
+  chapters.forEach(ch => {
+    const sec = ch.section || 'General';
+    if (!groups[sec]) groups[sec] = [];
+    groups[sec].push(ch);
+  });
+
+  let html = '';
+  // Add "Select All" toggle
+  html += `<div class="chapter-select-all">
+    <label><input type="checkbox" onchange="toggleAllChapters(this)" /> <strong>Select All Chapters</strong></label>
+  </div>`;
+
+  for (const sec in groups) {
+    if (sec !== 'General') {
+      html += `<div class="chapter-section-title">${sec}</div>`;
+    }
+    html += `<div class="chapter-list">`;
+    groups[sec].forEach(ch => {
+      let weightageStr = ch.weightage ? ` <i>(${ch.weightage} marks)</i>` : '';
+      let noteStr = ch.note ? ` <span class="chapter-note">[${ch.note}]</span>` : '';
+      html += `<label class="chapter-item">
+        <input type="checkbox" name="selectedChapters" value="${ch.name}" />
+        <span>${ch.name}${weightageStr}${noteStr}</span>
+      </label>`;
+    });
+    html += `</div>`;
+  }
+  
+  chapterContainer.innerHTML = html;
+}
+
+function toggleAllChapters(checkbox) {
+  const checkboxes = document.querySelectorAll('input[name="selectedChapters"]');
+  checkboxes.forEach(cb => cb.checked = checkbox.checked);
+}
+
 // ---- MAIN GENERATE ----
 async function generatePaper() {
   const apiKey = GLOBAL_CONFIG.API_KEY;
 
+  const board = document.getElementById('boardSelect').value;
   const schoolName = document.getElementById('schoolName').value.trim() || 'Your School';
   const cls = document.getElementById('classSelect').value;
   const subject = document.getElementById('subjectSelect').value;
-  const topic = document.getElementById('topicInput').value.trim();
+  const selectedChaptersCheckboxes = document.querySelectorAll('input[name="selectedChapters"]:checked');
+  const selectedChapters = Array.from(selectedChaptersCheckboxes).map(cb => cb.value);
+  const topic = selectedChapters.join(', ');
+
   const totalQ = parseInt(document.getElementById('totalQ').value) || 20;
   const totalMarks = parseInt(document.getElementById('totalMarks').value) || 50;
   const timeLimit = parseInt(document.getElementById('timeLimit').value) || 90;
@@ -143,7 +249,7 @@ async function generatePaper() {
   const qtypes = getCheckedValues('qtype');
   const extraInstructions = document.getElementById('instructions').value.trim();
 
-  if (!cls || !subject || !topic) {
+  if (!board || !cls || !subject || selectedChapters.length === 0) {
     alert(T[currentLang].fillRequired);
     return;
   }
@@ -167,13 +273,16 @@ async function generatePaper() {
   };
   const selectedTypeDescriptions = qtypes.map(t => qtypeLabels[t]).join(', ');
 
-  const prompt = `You are an expert Indian school teacher and exam paper setter.
+  const boardSpecificRules = window.PROMPT_TEMPLATES && window.PROMPT_TEMPLATES[board] ? window.PROMPT_TEMPLATES[board] : '';
+
+  const prompt = `You are an expert Indian school teacher and exam paper setter for ${board} Board.
 
 Create a complete question paper for:
+- Board: ${board}
 - School: ${schoolName}
 - Class: ${cls}
 - Subject: ${subject}
-- Topic/Chapter: ${topic}
+- Selected Chapters: ${topic}
 - Difficulty: ${difficulty}
 - Total Questions: ${totalQ}
 - Total Marks: ${totalMarks}
@@ -181,6 +290,9 @@ Create a complete question paper for:
 - Question Types to include: ${selectedTypeDescriptions}
 ${extraInstructions ? `- Special Instructions from teacher: ${extraInstructions}` : ''}
 
+${boardSpecificRules}
+
+STRICT INSTRUCTION: Only generate questions strictly from the 'Selected Chapters' listed above. Do not include topics from other chapters.
 Distribute questions proportionally across the selected types. Assign marks per question appropriately (MCQ=1, True/False=1, Fill blank=1, Short=2-3, Long=5-8).
 
 Respond ONLY with valid JSON in this exact structure (no markdown, no explanation):
