@@ -6,7 +6,8 @@
   <title>Smart Digital ExamCraft — AI Question Paper Generator</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/7.8.2/docx.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
@@ -57,6 +58,7 @@
         <option value="SEBA">SEBA (Assam Board)</option>
         <option value="CBSE">CBSE (NCERT)</option>
         <option value="ICSE">ICSE</option>
+        <option value="AJBEC">AJBEC (Jatiya Bidyalaya)</option>
       </select>
     </div>
 
@@ -106,7 +108,7 @@
 
     <div class="form-section">
       <label class="field-label" data-en="Question Types" data-hi="प्रश्न प्रकार" data-as="প্ৰশ্নৰ ধৰণ">Question Types</label>
-      <div class="qtype-group">
+      <div class="qtype-group" id="qTypeContainer">
         <label class="qtype-option"><input type="checkbox" name="qtype" value="MCQ" checked /><span>MCQ</span></label>
         <label class="qtype-option"><input type="checkbox" name="qtype" value="ShortAnswer" checked /><span data-en="Short Answer" data-hi="लघु उत्तर" data-as="চুটি উত্তৰ">Short Answer</span></label>
         <label class="qtype-option"><input type="checkbox" name="qtype" value="LongAnswer" checked /><span data-en="Long Answer" data-hi="दीर्घ उत्तर" data-as="দীঘল উত্তৰ">Long Answer</span></label>

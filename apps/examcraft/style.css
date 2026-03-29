@@ -1,7 +1,7 @@
 /* ============================================================
    ExamCraft Pro — Professional / Corporate Stylesheet
-   Palette: Deep Navy + Warm Cream + Gold Accent
-   Font: DM Serif Display (headings) + DM Sans (body)
+   Palette: Deep Navy + Dark Glass + Gold Accent
+   Font: Outfit (headings/branding) + Inter (body/ui)
    ============================================================ */
 
 :root {
@@ -29,7 +29,7 @@
 html { font-size: 15px; scroll-behavior: smooth; }
 
 body {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   background: var(--cream);
   color: var(--text-dark);
   min-height: 100vh;
@@ -72,17 +72,18 @@ body {
   background: linear-gradient(135deg, var(--gold), var(--gold-light));
   border-radius: 8px;
   display: flex; align-items: center; justify-content: center;
-  font-family: 'DM Serif Display', serif;
-  font-size: 1rem;
-  font-weight: 700;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 800;
   color: var(--navy);
-  letter-spacing: 0;
+  letter-spacing: -0.02em;
 }
 
 .brand-name {
-  font-family: 'DM Serif Display', serif;
-  font-size: 1.25rem;
-  letter-spacing: 0.01em;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 .brand-name span { color: var(--gold-light); }
 .brand-tagline { font-size: 0.72rem; color: #a0b0cc; font-weight: 300; margin-top: 1px; }
@@ -148,8 +149,9 @@ body {
 }
 
 .panel-title {
-  font-family: 'DM Serif Display', serif;
-  font-size: 1.1rem;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
   color: var(--text-dark);
   margin-bottom: 1.5rem;
   padding-bottom: 0.75rem;
@@ -607,9 +609,9 @@ select.field-input:focus {
 }
 .modal-icon { font-size: 1.2rem; }
 .modal-header h2 {
-  font-family: 'DM Serif Display', serif;
-  font-size: 1rem;
-  font-weight: 400;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
   flex: 1;
 }
 .modal-close {

@@ -151,6 +151,42 @@ function onClassChange() {
     opt.textContent = s;
     subjectSelect.appendChild(opt);
   }
+
+  updateQuestionTypes(cls);
+}
+
+/**
+ * DYNAMIC QUESTION TYPES
+ * Adjusts available question types based on class level
+ */
+function updateQuestionTypes(cls) {
+  const container = document.getElementById('qTypeContainer');
+  if (!container) return;
+
+  const isLowerClass = cls === "Class 1" || cls === "Class 2" || cls === "Class 3";
+  
+  let html = '';
+  if (isLowerClass) {
+    html = `
+      <label class="qtype-option"><input type="checkbox" name="qtype" value="MCQ" checked /><span>MCQ</span></label>
+      <label class="qtype-option"><input type="checkbox" name="qtype" value="Matching" checked /><span data-en="Matching" data-hi="मिलान करें" data-as="মিল মিলোৱা">Matching</span></label>
+      <label class="qtype-option"><input type="checkbox" name="qtype" value="TrueFalse" checked /><span data-en="True / False" data-hi="सत्य / असत्य" data-as="সত্য / মিছা">True / False</span></label>
+      <label class="qtype-option"><input type="checkbox" name="qtype" value="PictureBased" /><span data-en="Picture Based" data-hi="चित्र आधारित" data-as="ছবি ভিত্তিক">Picture Based</span></label>
+      <label class="qtype-option"><input type="checkbox" name="qtype" value="FillBlank" checked /><span data-en="Fill in the Blank" data-hi="रिक्त स्थान" data-as="খালী ঠাই পূৰণ">Fill in the Blank</span></label>
+    `;
+  } else {
+    html = `
+      <label class="qtype-option"><input type="checkbox" name="qtype" value="MCQ" checked /><span>MCQ</span></label>
+      <label class="qtype-option"><input type="checkbox" name="qtype" value="ShortAnswer" checked /><span data-en="Short Answer" data-hi="लघु उत्तर" data-as="চুটি উত্তৰ">Short Answer</span></label>
+      <label class="qtype-option"><input type="checkbox" name="qtype" value="LongAnswer" checked /><span data-en="Long Answer" data-hi="दीर्घ उत्तर" data-as="দীঘল উত্তৰ">Long Answer</span></label>
+      <label class="qtype-option"><input type="checkbox" name="qtype" value="TrueFalse" /><span data-en="True / False" data-hi="सत्य / असत्य" data-as="সত্য / মিছা">True / False</span></label>
+      <label class="qtype-option"><input type="checkbox" name="qtype" value="FillBlank" /><span data-en="Fill in the Blank" data-hi="रिक्त स्थान" data-as="খালী ঠাই পূৰণ">Fill in the Blank</span></label>
+    `;
+  }
+  container.innerHTML = html;
+  
+  // Re-run language switcher for the new elements
+  setLang(currentLang);
 }
 
 function onSubjectChange() {
@@ -246,6 +282,7 @@ async function generatePaper() {
   const selectedTypeDescriptions = qtypes.map(t => qtypeLabels[t]).join(', ');
 
   const boardSpecificRules = window.PROMPT_TEMPLATES && window.PROMPT_TEMPLATES[board] ? window.PROMPT_TEMPLATES[board] : '';
+  const difficultyRules = window.DIFFICULTY_RULES && window.DIFFICULTY_RULES[difficulty] ? window.DIFFICULTY_RULES[difficulty] : '';
 
   const prompt = `You are an expert Indian school teacher and exam paper setter for ${board} Board.
 
@@ -255,7 +292,7 @@ Create a complete question paper for:
 - Class: ${cls}
 - Subject: ${subject}
 - Selected Chapters: ${topic}
-- Difficulty: ${difficulty}
+- Difficulty: ${difficulty} (${difficultyRules})
 - Total Questions: ${totalQ}
 - Total Marks: ${totalMarks}
 - Time: ${timeLimit} minutes
@@ -265,7 +302,7 @@ ${extraInstructions ? `- Special Instructions from teacher: ${extraInstructions}
 ${boardSpecificRules}
 
 STRICT INSTRUCTION: Only generate questions strictly from the 'Selected Chapters' listed above. Do not include topics from other chapters.
-Distribute questions proportionally across the selected types. Assign marks per question appropriately (MCQ=1, True/False=1, Fill blank=1, Short=2-3, Long=5-8).
+Distribute questions proportionally across the selected types. Assign marks per question appropriately (MCQ=1, True/False=1, Fill blank=1, Matching=1-2, Short=2-3, Long=5-8).
 
 Respond ONLY with valid JSON in this exact structure (no markdown, no explanation):
 {
