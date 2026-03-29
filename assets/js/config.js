@@ -8,7 +8,7 @@ window.SMART_DIGITAL_CONFIG = {
   OPENROUTER: {
     API_KEY: "SECURE_PROXIED_VIA_NETLIFY",
     PROVIDER: "OPENROUTER",
-    MODEL: "stepfun/step-3-5-flash",
+    MODEL: "stepfun/step-3.5-flash:free",
     MAX_TOKENS: 1500,
     TEMPERATURE: 0.5,
     ENDPOINT: "https://openrouter.ai/api/v1/chat/completions"

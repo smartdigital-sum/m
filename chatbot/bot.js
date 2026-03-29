@@ -218,7 +218,7 @@ async function callAI() {
     headers: headers,
     body: JSON.stringify({
       messages: messages,
-      model: "stepfun/step-3-5-flash",
+      model: "stepfun/step-3.5-flash:free",
       temperature: 0.4,
       max_tokens: 300,
     }),

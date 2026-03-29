@@ -44,7 +44,7 @@ export const handler = async (event) => {
         "X-Title": "Smart Digital"
       },
       body: JSON.stringify({
-        model: model || "stepfun/step-3-5-flash",
+        model: model || "stepfun/step-3.5-flash:free",
         temperature: temperature !== undefined ? temperature : 0.4,
         max_tokens: max_tokens || 1000,
         messages: messages,
