@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QR Code Generator — Smart Digital</title>
+  <link rel="icon" type="image/png" href="../../assets/img/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="app-header">
+  <a href="../../index.html" class="header-logo">
+    <img src="../../assets/img/logo.png" alt="Smart Digital" class="logo-img">
+    <div class="brand-text">
+      <span class="brand-main">Smart Digital</span>
+      <span class="brand-sub">QR Generator</span>
+    </div>
+  </a>
+  <div class="header-right">
+    <a class="home-btn" href="../../index.html">← Home</a>
+    <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Toggle theme">
+      <i class="fas fa-moon" id="themeIcon"></i>
+    </button>
+    <a href="https://wa.me/918638759478" target="_blank" class="wa-btn">
+      <i class="fab fa-whatsapp"></i> Help
+    </a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge"><i class="fas fa-qrcode"></i> 100% Free · No Signup</div>
+    <h1>QR Code Generator</h1>
+    <p>Create QR codes for WhatsApp, UPI, websites, and more — instantly.</p>
+  </div>
+</section>
+
+<!-- MAIN APP -->
+<main class="app-wrap">
+
+  <!-- TYPE SELECTOR -->
+  <div class="type-selector">
+    <button class="type-btn active" data-type="url" onclick="setType('url', this)">
+      <i class="fas fa-link"></i> Website / URL
+    </button>
+    <button class="type-btn" data-type="whatsapp" onclick="setType('whatsapp', this)">
+      <i class="fab fa-whatsapp"></i> WhatsApp
+    </button>
+    <button class="type-btn" data-type="upi" onclick="setType('upi', this)">
+      <i class="fas fa-rupee-sign"></i> UPI Pay
+    </button>
+    <button class="type-btn" data-type="text" onclick="setType('text', this)">
+      <i class="fas fa-font"></i> Plain Text
+    </button>
+    <button class="type-btn" data-type="phone" onclick="setType('phone', this)">
+      <i class="fas fa-phone"></i> Phone Number
+    </button>
+  </div>
+
+  <div class="app-grid">
+
+    <!-- LEFT: INPUT PANEL -->
+    <div class="input-panel">
+
+      <!-- URL -->
+      <div id="form-url" class="qr-form active">
+        <div class="form-group">
+          <label>Website URL</label>
+          <input type="url" id="input-url" placeholder="https://yourwebsite.com" oninput="liveGenerate()">
+        </div>
+      </div>
+
+      <!-- WhatsApp -->
+      <div id="form-whatsapp" class="qr-form">
+        <div class="form-group">
+          <label>WhatsApp Number <span class="hint">(with country code)</span></label>
+          <input type="tel" id="input-wa-number" placeholder="+91 98765 43210" oninput="liveGenerate()">
+        </div>
+        <div class="form-group">
+          <label>Pre-filled Message <span class="hint">(optional)</span></label>
+          <textarea id="input-wa-msg" rows="3" placeholder="Hello! I want to enquire about..." oninput="liveGenerate()"></textarea>
+        </div>
+      </div>
+
+      <!-- UPI -->
+      <div id="form-upi" class="qr-form">
+        <div class="form-group">
+          <label>UPI ID</label>
+          <input type="text" id="input-upi-id" placeholder="name@upi or 9876543210@paytm" oninput="liveGenerate()">
+        </div>
+        <div class="form-group">
+          <label>Payee Name</label>
+          <input type="text" id="input-upi-name" placeholder="Your Shop Name" oninput="liveGenerate()">
+        </div>
+        <div class="form-group">
+          <label>Amount <span class="hint">(optional — leave blank to let payer choose)</span></label>
+          <input type="number" id="input-upi-amount" placeholder="100" min="0" oninput="liveGenerate()">
+        </div>
+        <div class="form-group">
+          <label>Note / Description <span class="hint">(optional)</span></label>
+          <input type="text" id="input-upi-note" placeholder="Payment for services" oninput="liveGenerate()">
+        </div>
+      </div>
+
+      <!-- Text -->
+      <div id="form-text" class="qr-form">
+        <div class="form-group">
+          <label>Your Text</label>
+          <textarea id="input-text" rows="5" placeholder="Enter any text — address, Wi-Fi password, menu, anything..." oninput="liveGenerate()"></textarea>
+        </div>
+      </div>
+
+      <!-- Phone -->
+      <div id="form-phone" class="qr-form">
+        <div class="form-group">
+          <label>Phone Number <span class="hint">(with country code)</span></label>
+          <input type="tel" id="input-phone" placeholder="+91 98765 43210" oninput="liveGenerate()">
+        </div>
+      </div>
+
+      <!-- QR SETTINGS -->
+      <div class="settings-card">
+        <h3><i class="fas fa-sliders-h"></i> Customise QR Code</h3>
+        <div class="settings-grid">
+          <div class="form-group">
+            <label>QR Size</label>
+            <select id="qrSize" onchange="liveGenerate()">
+              <option value="200">Small (200×200)</option>
+              <option value="300" selected>Medium (300×300)</option>
+              <option value="400">Large (400×400)</option>
+              <option value="600">Extra Large (600×600)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Error Correction</label>
+            <select id="qrError" onchange="liveGenerate()">
+              <option value="L">Low (7%)</option>
+              <option value="M" selected>Medium (15%)</option>
+              <option value="Q">High (25%)</option>
+              <option value="H">Highest (30%)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>QR Color</label>
+            <div class="color-row">
+              <input type="color" id="qrFg" value="#000000" onchange="liveGenerate()" title="QR Color">
+              <span class="color-label">Dark</span>
+              <input type="color" id="qrBg" value="#ffffff" onchange="liveGenerate()" title="Background Color">
+              <span class="color-label">Background</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="generate-btn" onclick="generateQR()">
+        <i class="fas fa-qrcode"></i> Generate QR Code
+      </button>
+    </div>
+
+    <!-- RIGHT: PREVIEW PANEL -->
+    <div class="preview-panel">
+      <div class="preview-card">
+        <div class="preview-label">Live Preview</div>
+        <div id="qrOutput" class="qr-output">
+          <div class="qr-placeholder">
+            <i class="fas fa-qrcode"></i>
+            <p>Fill in the details on the left<br>to generate your QR code</p>
+          </div>
+        </div>
+        <div id="qrActions" class="qr-actions" style="display:none;">
+          <button class="action-btn btn-download" onclick="downloadQR()">
+            <i class="fas fa-download"></i> Download PNG
+          </button>
+          <button class="action-btn btn-copy" onclick="copyQR()">
+            <i class="fas fa-copy"></i> Copy Image
+          </button>
+          <button class="action-btn btn-share" onclick="shareQR()">
+            <i class="fas fa-share-alt"></i> Share
+          </button>
+        </div>
+        <div id="qrMeta" class="qr-meta" style="display:none;"></div>
+      </div>
+
+      <!-- USE CASES -->
+      <div class="use-cases">
+        <h3>What can you use it for?</h3>
+        <div class="use-grid">
+          <div class="use-item"><i class="fas fa-store"></i><span>Shop / Business</span></div>
+          <div class="use-item"><i class="fas fa-rupee-sign"></i><span>UPI Payment</span></div>
+          <div class="use-item"><i class="fab fa-whatsapp"></i><span>WhatsApp Chat</span></div>
+          <div class="use-item"><i class="fas fa-wifi"></i><span>Wi-Fi Details</span></div>
+          <div class="use-item"><i class="fas fa-id-card"></i><span>Contact Card</span></div>
+          <div class="use-item"><i class="fas fa-map-marker-alt"></i><span>Location</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="app-footer">
+  <p>Made with <i class="fas fa-heart" style="color:#ef4444;"></i> by <a href="../../index.html">Smart Digital</a> · Kampur, Assam</p>
+  <p style="margin-top:6px; color: var(--muted); font-size: 13px;">Need a website or digital service? <a href="https://wa.me/918638759478" target="_blank">Contact us on WhatsApp</a></p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

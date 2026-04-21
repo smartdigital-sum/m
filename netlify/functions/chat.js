@@ -16,7 +16,7 @@ export const handler = async (event) => {
 
   try {
     const body = JSON.parse(event.body);
-    const { messages, model, temperature, max_tokens } = body;
+    const { messages, model, temperature, max_tokens, response_format } = body;
     const API_KEY = process.env.GROQ_API_KEY;
 
     if (!API_KEY) {
@@ -46,6 +46,7 @@ export const handler = async (event) => {
         temperature: temperature !== undefined ? temperature : 0.4,
         max_tokens: max_tokens || 1000,
         messages: messages,
+        ...(response_format ? { response_format } : {}),
       }),
     });
 

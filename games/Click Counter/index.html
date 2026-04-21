@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Click Counter Game</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Game Controls and Info Panel -->
+      <div class="game-info">
+        <div class="difficulty-selector">
+          <label for="difficulty">Difficulty:</label>
+          <select id="difficulty">
+            <option value="easy">Easy</option>
+            <option value="medium" selected>Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+
+        <div class="theme-toggle">
+          <label>Theme:</label>
+          <label class="theme-switch">
+            <input type="checkbox" id="theme-switch">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="score-panel">
+          <div class="score-item">
+            <span class="score-label">Wins:</span>
+            <span class="wins">0</span>
+          </div>
+          <div class="score-item">
+            <span class="score-label">Losses:</span>
+            <span class="losses">0</span>
+          </div>
+          <div class="score-item">
+            <span class="score-label">Streak:</span>
+            <span class="streak">0</span>
+          </div>
+          <div class="score-item">
+            <span class="score-label">Best:</span>
+            <span class="best-streak">0</span>
+          </div>
+        </div>
+
+        <div class="game-controls">
+          <button class="btn btn-instructions">How to Play</button>
+          <button class="btn btn-undo">Undo</button>
+          <button class="btn btn-hint">Hint</button>
+          <button class="btn btn-share">Share</button>
+          <button class="btn btn-settings">Settings</button>
+        </div>
+      </div>
+
+      <div class="header">
+        <h1>🎯 Click Counter Game</h1>
+        <p class="subtitle">Reach the target number without going over!</p>
+      </div>
+
+      <div class="game">
+        <div class="stats">
+          <div class="stat-box target-box">
+            <p class="stat-label">🎪 Target</p>
+            <span class="target">?</span>
+          </div>
+          <div class="stat-box current-box">
+            <p class="stat-label">✨ Current</p>
+            <span class="current">0</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="message">Start clicking!</p>
+
+      <div class="button-container">
+        <div class="click-display">+0</div>
+        <div class="buttons">
+          <button class="btn btn-add">➕ Click Me!</button>
+          <button class="btn btn-reset">🔄 Reset Game</button>
+        </div>
+      </div>
+
+      <!-- Instructions Overlay -->
+      <div class="overlay" id="instructionsOverlay">
+        <div class="overlay-content">
+          <h2>How to Play</h2>
+          <p>Click the "➕ Click Me!" button to add a random number to your current total.</p>
+          <p>Try to reach exactly the target number shown at the top.</p>
+          <p>If you go over the target, you lose!</p>
+          <p>Use the Hint button to see if your next move will win or lose.</p>
+          <p>Use Undo to take back your last move (once per game).</p>
+          <p>Select difficulty to change the range of numbers and target.</p>
+          <button class="btn btn-close-overlay">Got It!</button>
+        </div>
+      </div>
+
+      <!-- Settings Overlay -->
+      <div class="overlay" id="settingsOverlay">
+        <div class="overlay-content">
+          <h2>Settings</h2>
+          <div class="setting">
+            <label for="soundToggle">Sound Effects:</label>
+            <input type="checkbox" id="soundToggle" checked>
+          </div>
+          <div class="setting">
+            <label for="animationToggle">Animations:</label>
+            <input type="checkbox" id="animationToggle" checked>
+          </div>
+          <div class="setting">
+            <label for="themeSelect">Theme:</label>
+            <select id="themeSelect">
+              <option value="default">Default (Purple)</option>
+              <option value="dark">Dark Mode</option>
+              <option value="ocean">Ocean Blue</option>
+              <option value="forest">Forest Green</option>
+            </select>
+          </div>
+          <button class="btn btn-close-overlay">Close Settings</button>
+        </div>
+      </div>
+
+      <!-- Share Overlay -->
+      <div class="overlay" id="shareOverlay">
+        <div class="overlay-content">
+          <h2>Share Your Result!</h2>
+          <p id="shareText">I just won the Click Counter Game!</p>
+          <div class="share-buttons">
+            <button class="btn-share-twitter">Twitter</button>
+            <button class="btn-share-facebook">Facebook</button>
+            <button class="btn-copy-link">Copy Link</button>
+          </div>
+          <button class="btn btn-close-overlay">Close</button>
+        </div>
+      </div>
+
+      <!-- Confetti Container -->
+      <div class="confetti-container" id="confettiContainer"></div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

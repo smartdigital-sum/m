@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Smart Digital LipiAntar – Assamese · Hindi · English Translator</title>
+  <title>Smart Digital LipiAntar – Assamese · Hindi · Bodo · English Translator</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,6 +26,7 @@
         <span class="logo-devanagari">Smart Digital</span> <span class="logo-devanagari">लिपि</span><span class="logo-latin">Antar</span>
       </div>
       <nav class="header-nav">
+        <a class="home-btn" href="../../index.html">← Home</a>
         <a href="#pricing">Pricing</a>
         <a href="#translate" class="nav-cta">Translate Now</a>
       </nav>
@@ -40,13 +41,15 @@
       <em>Government. Legal. Official.</em>
     </h1>
     <p class="hero-sub">
-      Assamese ↔ Hindi ↔ English — instantly.<br/>
-      Built for government offices, schools & NGOs across Assam.
+      Assamese ↔ Hindi ↔ Bodo ↔ English — instantly.<br/>
+      Built for government offices, schools &amp; NGOs across Assam &amp; Northeast India.
     </p>
     <div class="hero-langs">
       <span class="lang-pill">অসমীয়া</span>
       <span class="lang-arrow">⇄</span>
       <span class="lang-pill">हिन्दी</span>
+      <span class="lang-arrow">⇄</span>
+      <span class="lang-pill">बड़ो</span>
       <span class="lang-arrow">⇄</span>
       <span class="lang-pill">English</span>
     </div>
@@ -55,44 +58,50 @@
   <!-- PRICING SECTION -->
   <section class="pricing-section" id="pricing">
     <h2 class="section-title">Simple, Transparent Pricing</h2>
-    <p class="section-sub">Pay per document. No subscriptions. No hidden fees.</p>
+    <p class="section-sub">Paste text — always free. Upload a file — pay only for what you need.</p>
     <div class="pricing-grid">
 
+      <!-- FREE TIER -->
+      <div class="price-card">
+        <div class="price-icon">✏️</div>
+        <div class="price-tag free-tag">Free</div>
+        <div class="price-label">Quick Translate</div>
+        <ul class="price-features">
+          <li>Paste text manually</li>
+          <li>Up to 300 words</li>
+          <li>Copy translated result</li>
+          <li>No file upload needed</li>
+        </ul>
+        <a href="#translate" class="price-cta-btn free-btn">Try Free →</a>
+      </div>
+
+      <!-- ₹20 SINGLE DOC -->
       <div class="price-card">
         <div class="price-icon">📄</div>
-        <div class="price-tag">₹50</div>
-        <div class="price-label">Short Notice</div>
+        <div class="price-tag">₹20</div>
+        <div class="price-label">Single Document</div>
         <ul class="price-features">
-          <li>Up to 300 words</li>
-          <li>School circulars</li>
-          <li>Short official notices</li>
-          <li>Instant delivery</li>
+          <li>1 file (PDF / DOCX / TXT)</li>
+          <li>Properly translated document</li>
+          <li>Download as .txt or .docx</li>
+          <li>Official, formal quality</li>
         </ul>
+        <a href="#translate" class="price-cta-btn">Upload &amp; Translate →</a>
       </div>
 
+      <!-- ₹60 PACK — MOST POPULAR -->
       <div class="price-card featured">
-        <div class="featured-badge">Most Popular</div>
-        <div class="price-icon">📋</div>
-        <div class="price-tag">₹100</div>
-        <div class="price-label">Standard Document</div>
-        <ul class="price-features">
-          <li>300–800 words</li>
-          <li>Government letters</li>
-          <li>NGO reports</li>
-          <li>Legal summaries</li>
-        </ul>
-      </div>
-
-      <div class="price-card">
+        <div class="featured-badge">Best Value</div>
         <div class="price-icon">📁</div>
-        <div class="price-tag">₹150</div>
-        <div class="price-label">Long Document</div>
+        <div class="price-tag">₹60</div>
+        <div class="price-label">5 Documents Pack</div>
         <ul class="price-features">
-          <li>800+ words</li>
-          <li>Full legal documents</li>
-          <li>Multi-page reports</li>
-          <li>Priority processing</li>
+          <li>5 file translations</li>
+          <li>Just ₹12 per document</li>
+          <li>PDF / DOCX / TXT</li>
+          <li>Best for offices &amp; schools</li>
         </ul>
+        <a href="#translate" class="price-cta-btn pack-btn" onclick="openPayModal('pack'); return false;">Buy Pack →</a>
       </div>
 
     </div>
@@ -101,9 +110,15 @@
   <!-- TRANSLATOR SECTION -->
   <section class="translator-section" id="translate">
     <h2 class="section-title">Translate Your Document</h2>
-    <p class="section-sub">Paste text, or upload a file (.txt, .docx, .pdf)</p>
+    <p class="section-sub">Paste up to 300 words free · Upload a file for ₹20 (full document, no limit)</p>
 
     <div class="translator-card">
+
+      <!-- CREDITS DISPLAY -->
+      <div class="credits-bar">
+        <span id="creditsDisplay" style="display:none;"></span>
+        <button class="buy-more-btn" onclick="openPayModal('pack')">+ Buy 5-Doc Pack ₹60</button>
+      </div>
 
       <!-- CONTROLS ROW -->
       <div class="controls-row">
@@ -112,6 +127,7 @@
           <select id="sourceLang">
             <option value="Assamese">অসমীয়া (Assamese)</option>
             <option value="Hindi">हिन्दी (Hindi)</option>
+            <option value="Bodo">बड़ो (Bodo)</option>
             <option value="English" selected>English</option>
           </select>
         </div>
@@ -123,8 +139,39 @@
           <select id="targetLang">
             <option value="Assamese" selected>অসমীয়া (Assamese)</option>
             <option value="Hindi">हिन्दी (Hindi)</option>
+            <option value="Bodo">बड़ो (Bodo)</option>
             <option value="English">English</option>
           </select>
+        </div>
+      </div>
+
+      <!-- TONE SELECTOR -->
+      <div class="tone-row">
+        <span class="tone-label">Tone</span>
+        <div class="tone-pills">
+          <button class="tone-pill active" id="tone-official"  onclick="selectTone('official')">🏛️ Official</button>
+          <button class="tone-pill"        id="tone-simple"    onclick="selectTone('simple')">💬 Simple</button>
+          <button class="tone-pill"        id="tone-academic"  onclick="selectTone('academic')">📚 Academic</button>
+        </div>
+      </div>
+
+      <!-- FEATURE 6: GLOSSARY / CUSTOM DICTIONARY -->
+      <div class="glossary-section" id="glossarySection">
+        <div class="glossary-toggle" onclick="toggleGlossary()">
+          <span class="glossary-toggle-icon">📖</span>
+          <span class="glossary-toggle-label">Custom Glossary</span>
+          <span class="glossary-count" id="glossaryCount"></span>
+          <span class="glossary-chevron" id="glossaryChevron">▾</span>
+        </div>
+        <div class="glossary-body" id="glossaryBody" style="display:none;">
+          <p class="glossary-hint">Define term mappings to ensure consistent translation of specific words — e.g. "District Collector" always becomes "জিলা উপায়ুক্ত".</p>
+          <div class="glossary-add-row">
+            <input type="text" id="glossarySource" class="glossary-input" placeholder="Source term…" />
+            <span class="glossary-arrow-icon">→</span>
+            <input type="text" id="glossaryTarget" class="glossary-input" placeholder="Target translation…" />
+            <button class="glossary-add-btn" onclick="addGlossaryTerm()">+ Add</button>
+          </div>
+          <div class="glossary-list" id="glossaryList"></div>
         </div>
       </div>
 
@@ -135,13 +182,21 @@
             <span>📎 Upload File</span>
             <input type="file" id="fileInput" accept=".txt,.pdf,.docx" hidden/>
           </label>
-          <span class="upload-hint">Supports .txt · .docx · .pdf</span>
+          <span class="upload-hint">Upload .txt · .docx · .pdf → ₹20/file</span>
           <span class="file-name" id="fileName"></span>
+        </div>
+
+        <!-- FILE MODE BANNER -->
+        <div class="file-mode-bar" id="fileModeBar" style="display:none;">
+          <span class="fmb-icon">📎</span>
+          <span class="fmb-text">File uploaded: <span class="fmb-name">file.pdf</span></span>
+          <span class="fmb-badge">Paid mode · ₹20</span>
+          <button class="fmb-clear" id="clearFileBtn" title="Remove file">✕</button>
         </div>
 
         <textarea
           id="sourceText"
-          placeholder="Paste your document text here... or upload a file above.&#10;&#10;Example: Government notice, school circular, legal letter..."
+          placeholder="Paste your document text here — translation is free!&#10;&#10;Or upload a PDF / DOCX / TXT above to get a downloadable translated document (₹20)."
           rows="10"
         ></textarea>
 
@@ -153,7 +208,7 @@
 
       <!-- TRANSLATE BUTTON -->
       <button class="translate-btn" id="translateBtn">
-        <span class="btn-text">Translate Document</span>
+        <span class="btn-text">Translate Free →</span>
         <span class="btn-loader" id="btnLoader" hidden>
           <span class="dot"></span><span class="dot"></span><span class="dot"></span>
         </span>
@@ -164,12 +219,56 @@
         <div class="output-header">
           <span class="output-label">Translation</span>
           <div class="output-actions">
+            <!-- Feature 5: side-by-side toggle -->
+            <button class="action-btn view-toggle-btn" id="viewToggleBtn" onclick="toggleSideBySide()" title="Side-by-side view">⇔ Side view</button>
             <button class="action-btn" id="copyBtn">📋 Copy</button>
-            <button class="action-btn primary" id="downloadBtn">⬇ Download .txt</button>
+            <!-- Feature 7: .txt and .docx download -->
+            <button class="action-btn" id="downloadBtn" style="display:none;">⬇ .txt</button>
+            <button class="action-btn docx-btn" id="downloadDocxBtn" style="display:none;">⬇ .docx</button>
+            <!-- Feature 8: report button -->
+            <button class="action-btn report-btn" id="reportBtn" onclick="toggleReportForm()">⚑ Report</button>
           </div>
         </div>
-        <div class="output-text" id="outputText"></div>
+
+        <!-- Feature 5: output panels (stacked by default, side-by-side when toggled) -->
+        <div class="output-panels" id="outputPanels">
+          <div class="output-panel source-panel" id="sourcePanel">
+            <div class="panel-label">Source</div>
+            <div class="panel-text" id="sourcePanelText"></div>
+          </div>
+          <div class="output-panel translation-panel">
+            <div class="panel-label">Translation</div>
+            <div class="output-text" id="outputText"></div>
+          </div>
+        </div>
+
         <div class="output-meta" id="outputMeta"></div>
+
+        <!-- SCRIPT WARNING (Assamese only) -->
+        <div class="script-warning" id="scriptWarning" style="display:none;">
+          <span class="sw-icon">⚠️</span>
+          <span class="sw-msg" id="scriptWarningMsg"></span>
+          <button class="sw-fix-btn" id="autofixBtn" onclick="autoFixScript()">Auto-fix ৰ</button>
+        </div>
+
+        <!-- Feature 8: REPORT FORM -->
+        <div class="report-form" id="reportForm" style="display:none;">
+          <div class="rf-title">⚑ Report Translation Issue</div>
+          <select class="rf-select" id="reportType">
+            <option value="">Select issue type…</option>
+            <option value="wrong_word">Wrong word / term used</option>
+            <option value="bengali_script">Bengali script in Assamese output</option>
+            <option value="wrong_tone">Wrong tone / register</option>
+            <option value="missing_text">Text missing or skipped</option>
+            <option value="glossary_ignored">Glossary term not respected</option>
+            <option value="other">Other</option>
+          </select>
+          <textarea class="rf-note" id="reportNote" placeholder="Optional: describe the issue or paste the correct translation…" rows="3"></textarea>
+          <div class="rf-actions">
+            <button class="rf-submit-btn" onclick="submitReport()">Send Report</button>
+            <button class="rf-cancel-btn" onclick="toggleReportForm()">Cancel</button>
+          </div>
+        </div>
       </div>
 
       <!-- ERROR AREA -->
@@ -178,6 +277,17 @@
         <span id="errorMsg"></span>
       </div>
 
+    </div>
+  </section>
+
+  <!-- TRANSLATION HISTORY -->
+  <section class="history-section" id="historySection" style="display:none;">
+    <div class="history-inner">
+      <div class="history-header">
+        <h3 class="history-title">🕘 Recent Translations</h3>
+        <button class="history-clear-btn" onclick="clearHistory()">Clear All</button>
+      </div>
+      <div class="history-list" id="historyList"></div>
     </div>
   </section>
 
@@ -197,7 +307,7 @@
       </div>
       <div class="feature-item">
         <div class="feature-icon">🔒</div>
-        <h3>Private & Secure</h3>
+        <h3>Private &amp; Secure</h3>
         <p>Your documents are never stored. Translation happens in real-time and is immediately discarded.</p>
       </div>
       <div class="feature-item">
@@ -218,6 +328,64 @@
       <p class="footer-copy">© 2025 LipiAntar · Built for Northeast India · Powered by AI</p>
     </div>
   </footer>
+
+  <!-- PAYMENT MODAL -->
+  <div class="pay-modal-overlay" id="payModal" style="display:none;">
+    <div class="pay-modal-box">
+      <button class="pay-modal-close" onclick="closePayModal()">✕</button>
+
+      <!-- STEP 1: CONFIRM -->
+      <div class="pay-step active" id="pay-step-confirm">
+        <div class="pay-step-label">Checkout</div>
+        <div class="pay-step-title" id="pay-title">Single Document</div>
+        <div class="pay-step-sub">LipiAntar · Document Translation</div>
+
+        <div class="pay-breakdown">
+          <div class="pay-breakdown-row"><span>Translation</span><span id="pay-bk-base">₹20</span></div>
+          <div class="pay-breakdown-row"><span>GST (18%)</span><span id="pay-bk-gst">₹4</span></div>
+          <div class="pay-breakdown-row total"><span>Total</span><span id="pay-bk-total">₹24</span></div>
+        </div>
+
+        <div class="pay-method-label">Payment Method</div>
+        <div class="pay-methods">
+          <div class="pay-method-option selected" id="pm-upi" onclick="selectPayMethod('upi')">
+            <span class="method-icon">📱</span> UPI / GPay / PhonePe
+            <span class="method-check" id="chk-upi">✓</span>
+          </div>
+          <div class="pay-method-option" id="pm-card" onclick="selectPayMethod('card')">
+            <span class="method-icon">💳</span> Debit / Credit Card
+            <span class="method-check" id="chk-card"></span>
+          </div>
+          <div class="pay-method-option" id="pm-net" onclick="selectPayMethod('net')">
+            <span class="method-icon">🏦</span> Net Banking
+            <span class="method-check" id="chk-net"></span>
+          </div>
+        </div>
+
+        <button class="pay-confirm-btn" id="pay-confirm-btn" onclick="confirmPayment()">Pay ₹24 →</button>
+      </div>
+
+      <!-- STEP 2: PROCESSING -->
+      <div class="pay-step" id="pay-step-proc">
+        <div class="pay-processing">
+          <div class="pay-spinner-lg"></div>
+          <h3>Processing Payment…</h3>
+          <p>Please do not close this window.</p>
+        </div>
+      </div>
+
+      <!-- STEP 3: SUCCESS -->
+      <div class="pay-step" id="pay-step-success">
+        <div class="pay-done">
+          <span class="pay-done-icon">🎉</span>
+          <h3>Payment Successful!</h3>
+          <p id="pay-success-msg">Your document credit has been added.</p>
+          <button class="pay-done-btn" onclick="onPaymentSuccess()">Translate Now →</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
   <script src="app.js"></script>
 </body>

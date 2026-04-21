@@ -1,0 +1,453 @@
+1. Foundational Stage (Classes 1 & 2)
+For the early years, SCERT Assam provides bilingual/regional textbooks (like Akanir Karmaputhi and Jhankar in Assamese)
+, while the CBSE board follows the newly updated NCERT "Joyful" series
+.
+Class 2 English (NCERT - Mridang):
+Unit 1 (Fun with Friends): My Bicycle, Picture Reading
+.
+Unit 2 (Welcome to My World): It is Fun, Seeing without Eyes
+.
+Unit 3 (Going Places): Come Back Soon, Between Home and School, This is My Town
+.
+Unit 4 (Life Around Us): A Show of Clouds, My Name, The Crow, The Smart Monkey
+.
+Unit 5 (Harmony): Little Drops of Water, We are all Indians
+.
+Class 2 Mathematics (NCERT - Joyful Maths):
+A Day at the Beach, Shapes Around Us, Fun with Numbers
+.
+Class 3 to 5 Syllabus and Chapter Details
+Here is the comprehensive breakdown of the subjects, regional textbooks, and specific chapter indexes for Classes 3, 4, and 5 to feed into your AI question paper generator database.
+Class 3
+SCERT Assam Textbook Architecture (By Medium):
+Language 1: Spandan Bhag-I (Assamese), Jaorikhang Sethi Bahagw (Bodo), Blossom-I (English)
+.
+Mathematics: Amar Ganit-1 (Assamese), Jwngni Sankhanthi-I (Bodo), Our Mathematics-I (English)
+. The NCERT equivalent is Math-Magic, which focuses on three-digit numbers, multiplication, and division
+.
+Environmental Studies (EVS): Amar Chaupashar Paribesh (Assamese), Jwngi Swrgiding Abhawa (Bodo), Environment Around Us (English)
+.
+English Syllabus Chapter Index (My Book of English-III):
+Prose: Arun’s Family, The Monkey and the Elephant, Lalu and Peelu, The Mouse and the Pencil, My Wish, Bugs, Our National Symbols, Means of Transport, Clean Clean, Jamun Tree (play)
+.
+Poetry: Hello Rain!, Walking with Grandpa, Traffic Rules, What's in the Mailbox, Clean Your Body
+.
+Grammar Focus: Nouns (types & collective), prepositions of place, simple past/present tense, subject and predicate, adjectives, gender, singular/plural, antonyms/synonyms, verbs, and adverbs
+.
+
+--------------------------------------------------------------------------------
+Class 4
+SCERT Assam Textbook Architecture:
+Language 1 & 2: Ankuran - Chaturtha Bhag (Assamese), Bithorai - Brwithi Bahagw (Bodo), Beginners' English-IV
+.
+Mathematics: Natun Ganit (Assamese/Bodo), New Mathematics Part-IV (English)
+.
+EVS: Ami Aru Amar Paribesh (Assamese), Jwng Aru Jwngini Abowah (Bodo), We and Our Environment (English)
+.
+NCERT English Chapter Index (Santoor Textbook - Newly Introduced):
+Unit 1 (My Land): Together We Can, The Tinkling Bells, Be Smart Be Safe
+.
+Unit 2 (My Beautiful World): One Thing at a Time, The Old Stag, Braille
+.
+Unit 3 (Fun with Games): Fit Body Fit Mind Fit Nation, The Lagori Champions, Hekko
+.
+Unit 4 (Up High): The Swing, A Journey to the Magical Mountains, Maheshwar
+. (Note: Another syllabus source also highlights chapters like "The Saviour" and grammar topics like prefix/suffix, tenses, linkers, and conjunctions for Class 4
+).
+
+--------------------------------------------------------------------------------
+Class 5
+SCERT Assam Textbook Architecture:
+Language 1 & 2: Ankuran - Pancham Bhag (Assamese), Beginners' English-V (English)
+.
+Mathematics: Natun Ganit (Assamese/Bodo), New Mathematics Part-V (English)
+.
+EVS: Ami Aru Amar Paribesh (Assamese), EVS Bodo Medium (Bodo), We and Our Environment (English)
+.
+NCERT English Chapter Index (Santoor Textbook):
+Unit 1 (Let's Have Fun): Papa's Spectacles, Gone with the Scooter
+.
+Unit 2 (My Colourful World): The Rainbow, The Wise Parrot
+.
+Unit 3 (Water): The Frog, What a Tank!
+.
+Unit 4 (Ups and Downs): Gilli Danda, The Decision of the Panchayat
+.
+Unit 5 (Work is Worship): Vocation, Glass Bangles
+.
+Alternative/Older NCERT English Chapter Index (Marigold): If teachers in your app prefer the traditional NCERT Marigold syllabus, the chapters include: Ice-cream Man, Teamwork, My Shadow, Crying, The Lazy Frog, Class Discussion, Topsy-turvy Land, Nobody's Friend, Sing a Song of People
+.
+General English Syllabus Chapter Index (My Book of English-V):
+Prose: The Lion King, Flying Together, Our Friend Computer, Alert Rabbit, The Little Fir Tree, Haryali Teej, Kurukshetra: A Glimpse, The Three Cries, The Unlucky Face, A Lesson for My Teacher, Hot-Air Balloons
+.
+Poetry: Opening Day!, Do Your Best, My Teacher Sees Right through Me
+.
+Additional English Reader Stories (for extra practice): Picture that come Alive, The Unsinkable Ship, Magic Lamp, A Pet for Supriya, Briar Rose, The Fruits of Labour, Freddie, Aladdin and the Magic Lamp, Magic on the Screen, The Magic Pot, Under the Sea, My Tree, Sachin Tendulkar, The Jungle Book, Snow White, The Buddha, Desert Animals, An Indian Scientist, Four Clever Men, Avin's Accident, The Happy Prince, The Camel
+.
+
+Class 6
+For Class 6, CBSE has introduced entirely new textbooks (Ganita Prakash for Math, Curiosity for Science, Exploring Society for Social Science, Poorvi for English, and Malhar for Hindi)
+. Assam adopts these core frameworks but localizes the names and adds unique subjects
+.
+1. Mathematics (NCERT Ganita Prakash / Assam Natun Ganit):
+Chapter 1: Patterns in Mathematics
+Chapter 2: Lines and Angles
+Chapter 3: Number Play
+Chapter 4: Data Handling and Presentation
+Chapter 5: Prime Time
+Chapter 6: Perimeter and Area
+Chapter 7: Fractions
+Chapter 8: Playing with Constructions
+Chapter 9: Symmetry
+Chapter 10: The Other Side of Zero (Integers)
+2. Social Science (NCERT Exploring Society: India and Beyond / Assam Samaj Bichitra):
+Chapter 1: Locating Places on the Earth
+Chapter 2: Oceans and Continents
+Chapter 3: Landforms and Life
+Chapter 4: Timeline and Sources of History
+Chapter 5: India, That Is Bharat
+Chapter 6: The Beginnings of Indian Civilisation
+Chapter 7: India's Cultural Roots
+Chapter 8: Unity in Diversity, or 'Many in the One'
+Chapter 9: Family and Community
+Chapter 10: Grassroots Democracy — Part 1: Governance
+Chapter 11: Grassroots Democracy — Part 2: Local Government in Rural Areas
+Chapter 12: Grassroots Democracy — Part 3: Local Government in Urban Areas
+Chapter 13: The Value of Work
+Chapter 14: Economic Activities Around Us
+3. Assam SCERT Specific Additions for Class 6:
+English: Rainbow-I
+.
+Value Education: Assam includes a unique moral/vocational subject called Charitra Path
+.
+Science: Amar Bijnan (taught bilingually to bridge local languages with English keywords)
+.
+
+--------------------------------------------------------------------------------
+Class 7
+The syllabus for Class 7 is based on rationalized NCERT textbooks, meaning redundant chapters have been removed to reduce student stress
+.
+1. Mathematics:
+Integers
+Fractions and Decimals
+Data Handling
+Simple Equations
+Lines and Angles
+The Triangle and its Properties
+Congruence of Triangles
+Comparing Quantities
+Rational Numbers
+Practical Geometry
+Perimeter and Area
+Algebraic Expressions
+Exponents and Powers
+Symmetry
+Visualising Solid Shapes
+2. Science (NCERT / Assam Bigyan):
+Nutrition in Plants
+Nutrition in Animals
+Fibre to Fabric
+Heat
+Acids, Bases and Salts
+Physical and Chemical Changes
+Weather, Climate and Adaptations
+Winds, Storms, and Cyclones
+Soil
+Respiration in Organisms
+Transportation in Animals and Plants
+Reproduction in Plants
+Motion and Time
+Electric Current and its Effects
+Light
+Water – A Precious Resource
+Forests: Our Lifeline
+Wastewater Story
+3. Assam SCERT Specific Additions for Class 7:
+English: Sunbeam English Reader-II
+.
+Language L1: Ankuran (Saptam Bhag) for Assamese medium
+.
+
+--------------------------------------------------------------------------------
+Class 8
+Class 8 acts as the foundational bridge to secondary school (Classes 9-10). While Math and Science heavily rely on the NCERT syllabus, Assam uses highly localized English and Social Science textbooks
+.
+1. Mathematics (NCERT Updated Edition):
+Chapter 1: A Square and A Cube / Rational Numbers
+Chapter 2: Power Play / Linear Equations in One Variable
+Chapter 3: A Story of Numbers / Understanding Quadrilaterals
+Chapter 4: Quadrilaterals / Data Handling
+Chapter 5: Number Play / Squares and Square Roots
+Chapter 6: We Distribute, Yet Things Multiply / Cubes and Cube Roots
+Chapter 7: Proportional Reasoning-1 / Comparing Quantities
+Chapter 8: Algebraic Expressions and Identities
+Chapter 9: Mensuration
+Chapter 10: Exponents and Powers
+Chapter 11: Direct and Inverse Proportions
+Chapter 12: Factorisation
+Chapter 13: Introduction to Graphs
+2. English (Assam Board Specific - Beginners' English-VIII): For Assam board teachers, your app must include these exact chapters, as they feature localized stories rather than the CBSE curriculum
+:
+Chapter 1: The Prince of Panidihing (Courage during Assam floods)
+Chapter 2: My Native Land (Patriotism and regional identity)
+Chapter 3: Explore India: Quiz Time
+Chapter 4: Dokchory Learns about Panchayat
+Chapter 5: Louis Pasteur
+Chapter 6: A New Day, A New Way
+Chapter 7: Sympathy
+Chapter 8: Chandraprabha Saikiani (Biography of the Assamese social reformer)
+(Note: For CBSE teachers using your app, the Class 8 English chapters from the new 'Poorvi' textbook include themes like: The Wit that Won Hearts, A Concrete Example, A Tale of Valour, The Cherry Tree, and Magnifying Glass
+).
+3. Social Science (Assam SCERT Specific): Assam categorizes Class 8 Social Science into three distinct disciplines with heavy regional history
+:
+History: The Making of the National Movement (1870s-1947), India After Independence, Weavers, Iron Smelters, and Factory Owners
+.
+Geography: Mineral and Power Resources, Agriculture, Industries, Human Resources
+.
+Civics: The Indian Constitution, Understanding Laws, Judiciary, Understanding Marginalisation
+.
+Summary for your Datab
+
+
+
+SEBA (Classes 9 & 10)
+The core subjects are First Language (Assamese, Bengali, Hindi, Bodo, etc.), Second Language (English), General Science, General Mathematics, and Social Science
+.
+General Mathematics (NCERT-based)
+:
+Number System
+Polynomials
+Coordinate Geometry
+Linear Equations
+Lines and Angles
+Triangles
+Quadrilaterals
+Circles
+Areas Related to Circles
+Heron’s Formula
+Surface Areas and Volumes
+Probability
+General Science (NCERT-based)
+:
+Matter in Our Surroundings
+Is Matter Around Us Pure
+Atoms and Molecules
+Structure of the Atom
+The Fundamental Unit of Life
+Tissues
+Diversity in Living Organisms
+Motion
+Force and Laws of Motion
+Gravitation
+Work and Energy
+Sound
+Why Do We Fall Ill
+Natural Resources
+Improvement in Food Resources
+Social Science
+:
+History: Advent of Europeans into India, Growth of Indian Nationalism, The Moamoriya Rebellion, Burmese Invasions of Assam, Beginning of British Administration in Assam.
+Geography: Changes of Earth’s Surface, Atmosphere (Structure, Pressure Belts and Wind System), Geography of India, Geography of Assam.
+Political Science & Economics: Political Parties in India, Types of Government, Basic Concepts of Economics, Basic Economic Problems.
+AHSEC (Class 11 - HS 1st Year)
+Here are the exact chapters and units prescribed by AHSEC for Class 11
+:
+Physics
+:
+Physical World and Measurement (Physical World, Units and Measurements)
+Kinematics (Motion in a Straight Line, Motion in a Plane)
+Laws of Motion
+Work, Energy and Power
+Motion of a System of Particles and a Rigid Body
+Gravitation
+Properties of Bulk Matter (Solids, Fluids, Thermal Properties)
+Thermodynamics
+Kinetic Theory of Gases
+Oscillations and Waves
+Chemistry
+:
+Some Basic Concepts of Chemistry
+Structure of Atom
+Classification of Elements and Periodicity in Properties
+Chemical Bonding and Molecular Structure
+Chemical Thermodynamics
+Equilibrium
+Redox Reactions
+Organic Chemistry: Some Basic Principles and Techniques
+Hydrocarbons
+Biology
+:
+Botany: Diversity in the living world, Structural organisation in plants, Cell: Structure and function, Plant Physiology.
+Zoology: Diversity in the living world, Structural organisation in animals, Human Physiology.
+Mathematics
+:
+Sets and Functions
+Algebra
+Coordinate Geometry
+Calculus
+Statistics and Probability
+Accountancy
+:
+Introduction to Accounting
+Theory Base of Accounting
+Recording of Business Transactions
+Trial Balance and Rectification of Errors
+Depreciation, Provisions and Reserves
+Financial Statements
+Business Studies
+:
+Business, Trade and Commerce
+Forms of Business Organisation
+Public, Private, and Global Enterprises
+Business Services
+Emerging Modes of Business
+Social Responsibilities of Business and Business Ethics
+Formation of a Company
+Sources of Business Finance
+MSME and Business Entrepreneurship
+Internal Trade
+International Business
+
+For your AI question paper generator app, incorporating the CBSE Class 9 and 10 syllabus is highly strategic. Since the Assam Board (SEBA) has officially adopted the NCERT curriculum for core subjects, your database for CBSE and Assam Board will heavily overlap
+.
+However, there are critical updates for the 2025-26 academic session—including newly introduced books, specific mark distributions, and permanently deleted chapters—that you must feed into your Groq AI to ensure the generated question papers are perfectly accurate
+.
+Here are the detailed specifications to feed your database:
+1. Core Subjects & Textbook Database Mapping
+Program your AI to pull from these specific NCERT textbooks when a teacher selects CBSE Class 9 or 10:
+English (Class 10): First Flight (Prose & Poetry) and Footprints Without Feet (Supplementary Reader)
+. Update: CBSE has also prescribed a new workbook called Words and Expressions
+.
+English (Class 9): Beehive and Moments
+.
+Science (Class 10): Standard NCERT Science textbook. Update: CBSE has added a new mandatory book called Assessment of Practical Skills
+.
+Social Science (Class 10): Broken into four books: Contemporary India (Geography), India and the Contemporary World-II (History), Understanding Economic Development (Economics), and Democratic Politics-II (Civics)
+.
+Hindi (Class 10): Kritika, Kshitij, Sanchayan Bhag 2, and Sparsh
+.
+2. English Chapter Index (Class 10)
+If a teacher wants to select specific chapters for an English test, feed these exact lists into your database:
+First Flight (Prose): A Letter to God, Nelson Mandela: Long Walk to Freedom, Glimpses of India (Coorg & Tea from Assam), Madam Rides the Bus
+.
+First Flight (Poetry): A Tiger in the Zoo, Amanda!, Animals, The Ball Poem, The Tale of Custard the Dragon
+.
+Footprints without Feet: The Midnight Visitor, A Question of Trust, Footprints without Feet, The Hack Driver
+.
+3. Mathematics Mark Weightage (Class 10)
+For your app's blueprint, if a teacher wants to auto-generate a full 80-mark CBSE Math paper, program your AI with this official 2025-26 mark distribution
+:
+Number System: 6 Marks
+Algebra: 20 Marks
+Coordinate Geometry: 6 Marks
+Geometry: 15 Marks
+Trigonometry: 12 Marks
+Mensuration: 10 Marks
+Statistics & Probability: 11 Marks
+Total: 80 Marks
+.
+4. CRITICAL: The "Rationalised" (Deleted) Syllabus Filter
+To prevent your AI from generating invalid questions, you must apply a negative filter for the deleted NCERT topics. For the 2025-26 session, CBSE has permanently dropped the following
+:
+Dropped from Class 10 Science:
+Chapter 5: Periodic Classification of Elements (Entire chapter deleted)
+. (Note for your app: While CBSE dropped this, Assam's SEBA board syllabus still lists Chapter 5 as active
+. Your AI will need to distinguish between the two boards here!)
+Chapter 14: Sources of Energy (Entire chapter deleted)
+.
+Chapter 16: Sustainable Management of Natural Resources (Entire chapter deleted)
+.
+Dropped from Class 10 Mathematics:
+Real Numbers: Euclid's division lemma; Revisiting rational numbers and their decimal expansions
+.
+Polynomials: Division algorithm for polynomials
+.
+Pair of Linear Equations: Cross-multiplication method; Equations reducible to a pair of linear equations
+.
+Quadratic Equations: Solution by completing the squares
+.
+Triangles: Areas of similar triangles; Pythagoras theorem
+.
+Coordinate Geometry: Area of a triangle
+.
+Introduction to Trigonometry: Trigonometric ratios of complementary angles
+.
+Construction: Division of a line segment; Construction of tangents to a circle
+.
+Areas Related to Circles: Perimeter and area of a circle (review); Areas of combinations of plane figures
+.
+Surface Areas and Volumes: Conversion of solid from one shape to another; Frustum of a cone
+.
+Statistics: Graphical representation of cumulative frequency distribution
+.
+
+
+Class 11 (AHSEC Board Syllabus 2025-26)
+The Assam Higher Secondary Education Council (AHSEC) has released the detailed chapter-wise syllabus for Class 11
+. Here are the exact units you need for your database:
+Science Stream:
+Physics: Physical World and Measurement, Kinematics, Laws of Motion, Work Energy and Power, Motion of a System of Particles and a Rigid Body, Gravitation, Properties of Bulk Matter, Thermodynamics, Kinetic Theory of Gases, Oscillations and Waves
+.
+Chemistry: Some Basic Concepts of Chemistry, Structure of Atom, Classification of Elements and Periodicity in Properties, Chemical Bonding and Molecular Structure, Chemical Thermodynamics, Equilibrium, Redox Reactions, Organic Chemistry (Some Basic Principles and Techniques), Hydrocarbons
+.
+Biology:
+Botany: Diversity in the living world, Structural organisation in plants, Cell: Structure and function, Plant Physiology
+.
+Zoology: Diversity in the living world, Structural organisation in animals, Human Physiology
+.
+Mathematics: Sets and Functions, Algebra, Coordinate Geometry, Calculus, Statistics and Probability
+.
+Computer Science & Application: Computer Fundamentals, Introduction To C++, Programming Methodology, Programming In C++
+.
+Commerce Stream:
+Accountancy: Introduction to Accounting, Theory Base of Accounting, Recording of Business Transactions, Trial Balance and Rectification of Errors, Depreciation/Provisions and Reserves, Financial Statements
+.
+Business Studies: Business Trade and Commerce, Forms of Business Organisation, Public/Private/Global Enterprises, Business Services, Emerging Modes of Business, Social Responsibilities and Business Ethics, Formation of a Company, Sources of Business Finance, MSME and Business Entrepreneurship, Internal Trade, International Business
+.
+Economics:
+Microeconomics: Introduction, Consumer's Equilibrium and Demand, Producer's Behaviour and Supply, Market Equilibrium
+.
+Statistics for Economics: Introduction, Collection/Organisation and Presentation of Data, Statistical Tools and Interpretation
+.
+Business Mathematics & Statistics: Metric System, Mensuration, Law of Indices, Co-ordinate Geometry, Statistical Investigation, Classification and Tabulation of Data, Diagrams and Graphs
+.
+Arts/Humanities Stream:
+Political Science:
+Political Theory: Introduction, Freedom, Equality, Social Justice, Rights, Citizenship, Nationalism, Secularism
+.
+Indian Constitution at Work: Constitution: why and how, Rights, Election and Representation, Executive, Legislature, Judiciary, Federalism, Local Government, The Constitution as a Living Document
+.
+Geography: Fundamentals of Physical Geography (Discipline, The Earth, Landforms, Climate, Water/Oceans, Life on Earth, Map and Diagram), India–Physical Environment (Introduction, Physiography, Climate and natural vegetation, Natural Hazards and Disasters)
+.
+Psychology: Introduction to Psychology, Methods of Enquiry, Human Development, Sensory/Attentional/Perceptual Processes, Learning, Human Memory, Thinking, Motivation and Emotion
+.
+
+--------------------------------------------------------------------------------
+Class 12 (NCERT/AHSEC Curriculum 2025-26)
+For Class 12, Assam officially follows the NCERT textbook framework
+. You will need to program your app with the standard NCERT book titles.
+Crucial App Developer Insight (Syllabus Rationalization): For the 2025-26 academic session, NCERT has permanently deleted several chapters from the Class 12 syllabus to reduce student load
+. To ensure your AI does not generate questions from outdated material, you must program it to exclude the following deleted chapters from the standard NCERT books:
+1. Class 12 Science:
+Biology: Delete "Reproduction in Organisms", "Strategies for Enhancement in Food Production", and "Environmental Issues"
+.
+Chemistry: Delete "The Solid State", "Surface Chemistry", "General Principles and Processes of Isolation of Elements", "The p-Block Elements", "Polymers", and "Chemistry in Everyday Life"
+.
+Physics: Exclude derivations for "Energy Stored in a Capacitor" and specific exercises related to Logic Gates and Wavelength of laser
+.
+2. Class 12 Commerce:
+Accountancy: Delete "Accounting for Not-for-Profit Organisation" and "Database Management System for Accounting"
+.
+Business Studies: Delete "Financial Market" and specific topics like techniques of controlling and qualities of a good leader
+.
+Economics: Delete "NonCompetitive Markets" (from Microeconomics) and "Open Economy Macroeconomics" (from Macroeconomics)
+.
+3. Class 12 Humanities:
+History (Themes in Indian History I, II, & III): Delete "Kings and Chronicles; the Mughal Courts", "Colonial Cities; Urbanisation, Planning, and Architecture", and "Understanding Partition"
+.
+Political Science (Contemporary World Politics & Politics in India): Delete "The Cold War Era", "US Hegemony in World Politics", and "Rise of Popular Movements"
+.
+Geography (Human Geography & India: People and Economy): Delete "Population Composition", "Human Settlements", "Manufacturing Industries", and "Migration: Types, Causes and Consequences"
+.
+Sociology: Delete specific paragraphs and visual exercises regarding the Demographic Structure and Cultural Change
+.

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Smart Digital PatraLekhak — Complaint & Legal Letter Writer</title>
   <link rel="stylesheet" href="style.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&family=Noto+Serif+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&family=Noto+Serif+Bengali:wght@400;500;700&family=Noto+Serif+Devanagari:wght@400;500;700&display=swap" rel="stylesheet">
   <!-- AI CONFIG -->
   <script src="../../assets/js/config.js"></script>
   <!-- jsPDF for PDF export -->
@@ -24,14 +24,16 @@
       </div>
     </div>
     <nav class="nav">
-      <button class="nav-btn active" data-page="writer" onclick="showPage('writer')">Write Letter</button>
-      <button class="nav-btn" data-page="saved" onclick="showPage('saved')">Saved Letters</button>
-      <button class="nav-btn" data-page="guide" onclick="showPage('guide')">How It Works</button>
+      <button class="nav-btn active" data-page="writer" data-i18n="nav_writer" onclick="showPage('writer')">Write Letter</button>
+      <button class="nav-btn" data-page="saved" data-i18n="nav_saved" onclick="showPage('saved')">Saved Letters</button>
+      <button class="nav-btn" data-page="pricing" data-i18n="nav_pricing" onclick="showPage('pricing')">Pricing</button>
+      <button class="nav-btn" data-page="guide" data-i18n="nav_guide" onclick="showPage('guide')">How It Works</button>
     </nav>
+    <a class="home-btn" href="../../index.html">← Home</a>
     <div class="lang-switcher">
-      <button class="lang-btn active" onclick="setUILang('en')">EN</button>
-      <button class="lang-btn" onclick="setUILang('hi')">हि</button>
-      <button class="lang-btn" onclick="setUILang('as')">অ</button>
+      <button class="lang-btn active" data-lang="en" onclick="setUILang('en')">EN</button>
+      <button class="lang-btn" data-lang="hi" onclick="setUILang('hi')">हि</button>
+      <button class="lang-btn" data-lang="as" onclick="setUILang('as')">অ</button>
     </div>
   </div>
 </header>
@@ -93,27 +95,27 @@
           <div class="form-grid">
             <div class="field">
               <label data-i18n="label_sender_name">Your Full Name</label>
-              <input type="text" id="senderName" placeholder="e.g. Ramesh Kumar Sharma"/>
+              <input type="text" id="senderName" data-placeholder-i18n="ph_sender_name" placeholder="e.g. Ramesh Kumar Sharma"/>
             </div>
             <div class="field">
               <label data-i18n="label_sender_addr">Your Address</label>
-              <input type="text" id="senderAddr" placeholder="Village/Town, District, State"/>
+              <input type="text" id="senderAddr" data-placeholder-i18n="ph_sender_addr" placeholder="Village/Town, District, State"/>
             </div>
             <div class="field">
               <label data-i18n="label_sender_phone">Phone / Email</label>
-              <input type="text" id="senderContact" placeholder="Phone number or email"/>
+              <input type="text" id="senderContact" data-placeholder-i18n="ph_sender_phone" placeholder="Phone number or email"/>
             </div>
             <div class="field">
               <label data-i18n="label_recipient">Addressed To</label>
-              <input type="text" id="recipientName" placeholder="e.g. The Branch Manager, SBI"/>
+              <input type="text" id="recipientName" data-placeholder-i18n="ph_recipient" placeholder="e.g. The Branch Manager, SBI"/>
             </div>
             <div class="field">
               <label data-i18n="label_recipient_addr">Recipient Office / Address</label>
-              <input type="text" id="recipientAddr" placeholder="Office name and address"/>
+              <input type="text" id="recipientAddr" data-placeholder-i18n="ph_recipient_addr" placeholder="Office name and address"/>
             </div>
             <div class="field">
               <label data-i18n="label_ref">Reference No. (if any)</label>
-              <input type="text" id="refNumber" placeholder="Complaint ID / Account No. / Application No."/>
+              <input type="text" id="refNumber" data-placeholder-i18n="ph_ref" placeholder="Complaint ID / Account No. / Application No."/>
             </div>
           </div>
         </div>
@@ -122,6 +124,7 @@
         <div class="step-block">
           <div class="step-label"><span class="step-num">3</span> <span data-i18n="step3">Describe Your Problem</span></div>
           <textarea id="problemDesc" rows="5"
+            data-placeholder-i18n="ph_problem"
             placeholder="Write in your own words — Hindi, Assamese or English is fine. E.g: 'My electricity connection was cut without notice even though I paid the bill on 5th March. I have the receipt. This is the third time it happened. I want them to reconnect and give compensation.'"></textarea>
           <div class="char-hint" data-i18n="char_hint">More detail = better letter. Include dates, amounts, names where possible.</div>
         </div>
@@ -133,18 +136,18 @@
             <div class="field half">
               <label data-i18n="label_out_lang">Letter Language</label>
               <select id="outputLang">
-                <option value="English">English</option>
-                <option value="Hindi">हिन्दी (Hindi)</option>
-                <option value="Assamese">অসমীয়া (Assamese)</option>
+                <option value="English" data-i18n="opt_lang_english">English</option>
+                <option value="Hindi" data-i18n="opt_lang_hindi">हिन्दी (Hindi)</option>
+                <option value="Assamese" data-i18n="opt_lang_assamese">অসমীয়া (Assamese)</option>
               </select>
             </div>
             <div class="field half">
               <label data-i18n="label_tone">Tone</label>
               <select id="letterTone">
-                <option value="firm and formal">Firm & Formal</option>
-                <option value="polite but assertive">Polite but Assertive</option>
-                <option value="urgent and demanding">Urgent & Demanding</option>
-                <option value="legal and strict">Legal & Strict</option>
+                <option value="firm and formal" data-i18n="tone_firm">Firm & Formal</option>
+                <option value="polite but assertive" data-i18n="tone_polite">Polite but Assertive</option>
+                <option value="urgent and demanding" data-i18n="tone_urgent">Urgent & Demanding</option>
+                <option value="legal and strict" data-i18n="tone_legal">Legal & Strict</option>
               </select>
             </div>
           </div>
@@ -164,10 +167,16 @@
           </div>
         </div>
 
+        <div class="credits-bar">
+          <span id="creditsDisplay" class="credits-pill"></span>
+          <button class="buy-more-btn" data-i18n="buy_more_cta" onclick="showPage('pricing')">View Low-Cost Plans</button>
+        </div>
+
         <button class="btn-primary" id="generateBtn" onclick="generateLetter()">
           <span class="btn-label" data-i18n="btn_generate">✍️ Generate Formal Letter</span>
           <span class="btn-loading hidden"><span class="dot-pulse"></span> Writing your letter…</span>
         </button>
+        <div class="generate-note" data-i18n="generate_note">One free sample included. After that, each letter uses 1 credit.</div>
       </div>
 
       <!-- RIGHT: PREVIEW -->
@@ -175,10 +184,10 @@
         <div class="preview-header">
           <span class="preview-title" data-i18n="preview_title">Letter Preview</span>
           <div class="preview-actions" id="previewActions" style="display:none">
-            <button class="action-btn" onclick="copyLetter()" title="Copy">📋 Copy</button>
-            <button class="action-btn" onclick="downloadTXT()" title="Download TXT">⬇ TXT</button>
-            <button class="action-btn highlight" onclick="downloadPDF()" title="Download PDF">📄 PDF</button>
-            <button class="action-btn" onclick="saveLetter()" title="Save">💾 Save</button>
+            <button class="action-btn" data-i18n="action_copy" data-i18n-title="action_copy_title" onclick="copyLetter()" title="Copy">📋 Copy</button>
+            <button class="action-btn" data-i18n="action_download_txt" data-i18n-title="action_download_txt_title" onclick="downloadTXT()" title="Download TXT">⬇ TXT</button>
+            <button class="action-btn highlight" data-i18n="action_download_pdf" data-i18n-title="action_download_pdf_title" onclick="downloadPDF()" title="Download PDF">📄 PDF</button>
+            <button class="action-btn" data-i18n="action_save" data-i18n-title="action_save_title" onclick="saveLetter()" title="Save">💾 Save</button>
           </div>
         </div>
 
@@ -192,8 +201,8 @@
 
         <!-- Regenerate / Edit -->
         <div id="postActions" class="post-actions hidden">
-          <button class="btn-secondary small" onclick="generateLetter()">↺ Regenerate</button>
-          <button class="btn-secondary small" onclick="makeEditable()">✏️ Edit Letter</button>
+          <button class="btn-secondary small" data-i18n="action_regenerate" onclick="generateLetter()">↺ Regenerate</button>
+          <button class="btn-secondary small" data-i18n="action_edit" onclick="makeEditable()">✏️ Edit Letter</button>
         </div>
       </div>
 
@@ -204,82 +213,157 @@
 <!-- PAGE: SAVED -->
 <main id="page-saved" class="page">
   <section class="hero small-hero">
-    <h1 class="hero-title">Saved Letters</h1>
-    <p class="hero-sub">All your previously generated letters.</p>
+    <h1 class="hero-title" data-i18n="saved_title">Saved Letters</h1>
+    <p class="hero-sub" data-i18n="saved_sub">All your previously generated letters.</p>
   </section>
   <div class="container">
     <div id="savedEmpty" class="empty-state">
       <div class="empty-icon">🗂️</div>
-      <p>No saved letters yet.<br/>Generate one and click Save!</p>
-      <button class="btn-primary" onclick="showPage('writer')">Write a Letter →</button>
+      <p data-i18n="saved_empty">No saved letters yet.<br/>Generate one and click Save!</p>
+      <button class="btn-primary" data-i18n="saved_cta" onclick="showPage('writer')">Write a Letter →</button>
     </div>
     <div id="savedList"></div>
+  </div>
+</main>
+
+<!-- PAGE: PRICING -->
+<main id="page-pricing" class="page">
+  <section class="hero small-hero">
+    <h1 class="hero-title" data-i18n="pricing_page_title">Low-Cost Pricing</h1>
+    <p class="hero-sub" data-i18n="pricing_page_sub">Start with one free sample, then buy only the letter credits you need.</p>
+  </section>
+  <div class="container">
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-icon">🆓</div>
+        <div class="price-tag free-tag" data-i18n="pricing_free_tag">Free</div>
+        <div class="price-label" data-i18n="pricing_free_label">Sample Letter</div>
+        <ul class="price-features">
+          <li data-i18n="pricing_free_f1">1 free sample letter</li>
+          <li data-i18n="pricing_free_f2">Test the writing style first</li>
+          <li data-i18n="pricing_free_f3">Copy, edit, save, or download</li>
+          <li data-i18n="pricing_free_f4">Perfect for first-time users</li>
+        </ul>
+        <button class="price-cta-btn free-btn" data-i18n="pricing_free_cta" onclick="showPage('writer')">Try Free →</button>
+      </div>
+
+      <div class="price-card">
+        <div class="price-icon">✉️</div>
+        <div class="price-tag">₹9</div>
+        <div class="price-label" data-i18n="pricing_single_label">Single Letter</div>
+        <ul class="price-features">
+          <li data-i18n="pricing_single_f1">1 credit for 1 formal letter</li>
+          <li data-i18n="pricing_single_f2">Best for one urgent complaint</li>
+          <li data-i18n="pricing_single_f3">PDF + TXT + save included</li>
+          <li data-i18n="pricing_single_f4">Low-cost and easy to try</li>
+        </ul>
+        <button class="price-cta-btn" data-i18n="pricing_single_cta" onclick="openPayModal('single')">Buy 1 Letter →</button>
+      </div>
+
+      <div class="price-card featured">
+        <div class="featured-badge" data-i18n="pricing_best_badge">Best Value</div>
+        <div class="price-icon">📦</div>
+        <div class="price-tag">₹35</div>
+        <div class="price-label" data-i18n="pricing_pack_label">5-Letter Pack</div>
+        <ul class="price-features">
+          <li data-i18n="pricing_pack_f1">5 letter credits</li>
+          <li data-i18n="pricing_pack_f2">Just ₹7 per letter</li>
+          <li data-i18n="pricing_pack_f3">Good for CSCs and local services</li>
+          <li data-i18n="pricing_pack_f4">Most practical starter pack</li>
+        </ul>
+        <button class="price-cta-btn pack-btn" data-i18n="pricing_pack_cta" onclick="openPayModal('pack')">Buy Pack →</button>
+      </div>
+
+      <div class="price-card">
+        <div class="price-icon">🏪</div>
+        <div class="price-tag">₹79</div>
+        <div class="price-label" data-i18n="pricing_pro_label">15-Letter Pack</div>
+        <ul class="price-features">
+          <li data-i18n="pricing_pro_f1">15 letter credits</li>
+          <li data-i18n="pricing_pro_f2">About ₹5.3 per letter</li>
+          <li data-i18n="pricing_pro_f3">Best for shop operators and freelancers</li>
+          <li data-i18n="pricing_pro_f4">Higher margin for client work</li>
+        </ul>
+        <button class="price-cta-btn" data-i18n="pricing_pro_cta" onclick="openPayModal('pro')">Buy 15 Letters →</button>
+      </div>
+    </div>
+
+    <div class="pricing-banner pricing-banner-soft">
+      <div class="pricing-banner-left">
+        <span class="pricing-tag" data-i18n="pricing_tip_tag">💡 Suggested Selling Price</span>
+        <h3 data-i18n="pricing_tip_title">Easy Margin for Service Operators</h3>
+        <p data-i18n="pricing_tip_body">If you pay <strong>₹7–₹9</strong> per generated letter, you can comfortably charge clients <strong>₹100–₹150</strong> for a standard complaint and more for RTI or legal notices.</p>
+      </div>
+      <div class="pricing-banner-right">
+        <div class="pricing-tip" data-i18n="pricing_tip_side">Keep your app price low, and let your service charge stay where the value is.</div>
+      </div>
+    </div>
   </div>
 </main>
 
 <!-- PAGE: GUIDE -->
 <main id="page-guide" class="page">
   <section class="hero small-hero">
-    <h1 class="hero-title">How It Works</h1>
-    <p class="hero-sub">Simple steps to get your letter in minutes.</p>
+    <h1 class="hero-title" data-i18n="guide_title">How It Works</h1>
+    <p class="hero-sub" data-i18n="guide_sub">Simple steps to get your letter in minutes.</p>
   </section>
   <div class="container">
     <div class="guide-steps">
       <div class="guide-step">
         <div class="guide-num">1</div>
         <div class="guide-body">
-          <h3>Choose Letter Type</h3>
-          <p>Select from 7 categories — Bank, Electricity, Telecom, School, RTI, Legal Notice, or Government Office.</p>
+          <h3 data-i18n="guide_step1_title">Choose Letter Type</h3>
+          <p data-i18n="guide_step1_text">Select from 7 categories — Bank, Electricity, Telecom, School, RTI, Legal Notice, or Government Office.</p>
         </div>
       </div>
       <div class="guide-connector"></div>
       <div class="guide-step">
         <div class="guide-num">2</div>
         <div class="guide-body">
-          <h3>Fill Your Details</h3>
-          <p>Enter your name, address, and who the letter is going to. Add a reference number if you have one.</p>
+          <h3 data-i18n="guide_step2_title">Fill Your Details</h3>
+          <p data-i18n="guide_step2_text">Enter your name, address, and who the letter is going to. Add a reference number if you have one.</p>
         </div>
       </div>
       <div class="guide-connector"></div>
       <div class="guide-step">
         <div class="guide-num">3</div>
         <div class="guide-body">
-          <h3>Describe Your Problem</h3>
-          <p>Write in simple Hindi, Assamese, or English. Just tell us what happened — dates, amounts, what you want. We handle the formal language.</p>
+          <h3 data-i18n="guide_step3_title">Describe Your Problem</h3>
+          <p data-i18n="guide_step3_text">Write in simple Hindi, Assamese, or English. Just tell us what happened — dates, amounts, what you want. We handle the formal language.</p>
         </div>
       </div>
       <div class="guide-connector"></div>
       <div class="guide-step">
         <div class="guide-num">4</div>
         <div class="guide-body">
-          <h3>Generate & Download</h3>
-          <p>Click Generate. Your professional letter appears instantly. Download as PDF or TXT, or print directly.</p>
+          <h3 data-i18n="guide_step4_title">Generate & Download</h3>
+          <p data-i18n="guide_step4_text">Click Generate. Your professional letter appears instantly. Download as PDF or TXT, or print directly.</p>
         </div>
       </div>
     </div>
 
     <div class="faq-section">
-      <h2 class="section-title">Frequently Asked Questions</h2>
+      <h2 class="section-title" data-i18n="faq_title">Frequently Asked Questions</h2>
       <div class="faq-list">
         <div class="faq-item">
-          <div class="faq-q" onclick="toggleFAQ(this)">Can I write my problem in Hindi or Assamese? <span class="faq-arrow">▼</span></div>
-          <div class="faq-a">Yes! You can describe your problem in any language — Hindi, Assamese, or English. The AI understands all three and will write the output letter in whichever language you choose.</div>
+          <div class="faq-q" data-i18n="faq_q1" onclick="toggleFAQ(this)">Can I write my problem in Hindi or Assamese? <span class="faq-arrow">▼</span></div>
+          <div class="faq-a" data-i18n="faq_a1">Yes! You can describe your problem in any language — Hindi, Assamese, or English. The AI understands all three and will write the output letter in whichever language you choose.</div>
         </div>
         <div class="faq-item">
-          <div class="faq-q" onclick="toggleFAQ(this)">Is the letter legally valid? <span class="faq-arrow">▼</span></div>
-          <div class="faq-a">The letters follow standard formal complaint formats used in India. For serious legal matters, we recommend having a local advocate review the letter before sending. The RTI and Legal Notice formats follow standard Indian templates.</div>
+          <div class="faq-q" data-i18n="faq_q2" onclick="toggleFAQ(this)">Is the letter legally valid? <span class="faq-arrow">▼</span></div>
+          <div class="faq-a" data-i18n="faq_a2">The letters follow standard formal complaint formats used in India. For serious legal matters, we recommend having a local advocate review the letter before sending. The RTI and Legal Notice formats follow standard Indian templates.</div>
         </div>
         <div class="faq-item">
-          <div class="faq-q" onclick="toggleFAQ(this)">Where do I send the letter after downloading? <span class="faq-arrow">▼</span></div>
-          <div class="faq-a">Print the letter, sign it, and send via Registered Post (Speed Post) to keep a delivery record. For bank and telecom complaints, you can also email the PDF directly to their grievance email.</div>
+          <div class="faq-q" data-i18n="faq_q3" onclick="toggleFAQ(this)">Where do I send the letter after downloading? <span class="faq-arrow">▼</span></div>
+          <div class="faq-a" data-i18n="faq_a3">Print the letter, sign it, and send via Registered Post (Speed Post) to keep a delivery record. For bank and telecom complaints, you can also email the PDF directly to their grievance email.</div>
         </div>
         <div class="faq-item">
-          <div class="faq-q" onclick="toggleFAQ(this)">What is an RTI Application? <span class="faq-arrow">▼</span></div>
-          <div class="faq-a">RTI stands for Right to Information. Under the RTI Act 2005, any Indian citizen can request information from any government office. This is a powerful tool to get answers when offices don't respond to regular complaints.</div>
+          <div class="faq-q" data-i18n="faq_q4" onclick="toggleFAQ(this)">What is an RTI Application? <span class="faq-arrow">▼</span></div>
+          <div class="faq-a" data-i18n="faq_a4">RTI stands for Right to Information. Under the RTI Act 2005, any Indian citizen can request information from any government office. This is a powerful tool to get answers when offices don't respond to regular complaints.</div>
         </div>
         <div class="faq-item">
-          <div class="faq-q" onclick="toggleFAQ(this)">Can I edit the letter after it's generated? <span class="faq-arrow">▼</span></div>
-          <div class="faq-a">Yes! Click the "Edit Letter" button below the preview to make manual changes directly in the letter. You can then download the edited version.</div>
+          <div class="faq-q" data-i18n="faq_q5" onclick="toggleFAQ(this)">Can I edit the letter after it's generated? <span class="faq-arrow">▼</span></div>
+          <div class="faq-a" data-i18n="faq_a5">Yes! Click the "Edit Letter" button below the preview to make manual changes directly in the letter. You can then download the edited version.</div>
         </div>
       </div>
     </div>
@@ -287,18 +371,71 @@
     <!-- Pricing for the service operator -->
     <div class="pricing-banner">
       <div class="pricing-banner-left">
-        <span class="pricing-tag">💼 For Service Providers</span>
-        <h3>Charge Your Clients</h3>
-        <p>Simple complaint letter: <strong>₹100 – ₹150</strong><br/>RTI / Legal Notice: <strong>₹150 – ₹200</strong><br/>Urgent same-day: <strong>₹200 + ₹50 extra</strong></p>
+        <span class="pricing-tag" data-i18n="pricing_tag">💼 For Service Providers</span>
+        <h3 data-i18n="pricing_title">Charge Your Clients</h3>
+        <p data-i18n="pricing_body">Simple complaint letter: <strong>₹100 – ₹150</strong><br/>RTI / Legal Notice: <strong>₹150 – ₹200</strong><br/>Urgent same-day: <strong>₹200 + ₹50 extra</strong></p>
       </div>
       <div class="pricing-banner-right">
-        <div class="pricing-tip">💡 Deliver in under 5 minutes. Very high perceived value for Tier 2/3 clients.</div>
+        <div class="pricing-tip" data-i18n="pricing_tip">💡 Deliver in under 5 minutes. Very high perceived value for Tier 2/3 clients.</div>
       </div>
     </div>
   </div>
 </main>
 
 <div id="toast" class="toast hidden"></div>
+
+<div class="pay-modal-overlay" id="payModal" style="display:none;">
+  <div class="pay-modal-box">
+    <button class="pay-modal-close" onclick="closePayModal()">✕</button>
+
+    <div class="pay-step active" id="pay-step-confirm">
+      <div class="pay-step-label" data-i18n="pay_step_label">Checkout</div>
+      <div class="pay-step-title" id="pay-title">Single Letter</div>
+      <div class="pay-step-sub" data-i18n="pay_step_sub">PatraLekhak · Letter Credits</div>
+
+      <div class="pay-breakdown">
+        <div class="pay-breakdown-row"><span data-i18n="pay_base">Letter Credits</span><span id="pay-bk-base">₹9</span></div>
+        <div class="pay-breakdown-row"><span data-i18n="pay_gst">GST (18%)</span><span id="pay-bk-gst">₹2</span></div>
+        <div class="pay-breakdown-row total"><span data-i18n="pay_total">Total</span><span id="pay-bk-total">₹11</span></div>
+      </div>
+
+      <div class="pay-method-label" data-i18n="pay_method_label">Payment Method</div>
+      <div class="pay-methods">
+        <div class="pay-method-option selected" id="pm-upi" onclick="selectPayMethod('upi')">
+          <span class="method-icon">📱</span> <span data-i18n="pay_method_upi">UPI / GPay / PhonePe</span>
+          <span class="method-check" id="chk-upi">✓</span>
+        </div>
+        <div class="pay-method-option" id="pm-card" onclick="selectPayMethod('card')">
+          <span class="method-icon">💳</span> <span data-i18n="pay_method_card">Debit / Credit Card</span>
+          <span class="method-check" id="chk-card"></span>
+        </div>
+        <div class="pay-method-option" id="pm-net" onclick="selectPayMethod('net')">
+          <span class="method-icon">🏦</span> <span data-i18n="pay_method_net">Net Banking</span>
+          <span class="method-check" id="chk-net"></span>
+        </div>
+      </div>
+
+      <button class="pay-confirm-btn" id="pay-confirm-btn" onclick="confirmPayment()">Pay ₹11 →</button>
+    </div>
+
+    <div class="pay-step" id="pay-step-proc">
+      <div class="pay-processing">
+        <div class="pay-spinner-lg"></div>
+        <h3 data-i18n="pay_processing_title">Processing Payment…</h3>
+        <p data-i18n="pay_processing_sub">Please do not close this window.</p>
+      </div>
+    </div>
+
+    <div class="pay-step" id="pay-step-success">
+      <div class="pay-done">
+        <span class="pay-done-icon">🎉</span>
+        <h3 data-i18n="pay_success_title">Payment Successful!</h3>
+        <p id="pay-success-msg">Your letter credits have been added.</p>
+        <button class="pay-done-btn" data-i18n="pay_success_cta" onclick="onPaymentSuccess()">Write Letter Now →</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script src="app.js"></script>
 </body>

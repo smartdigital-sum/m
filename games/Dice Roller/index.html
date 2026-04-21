@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dice Roller Game</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="game-container">
+      <h1>Dice Roller</h1>
+      <p class="subtitle">Roll the dice and test your luck!</p>
+
+      <div class="dice-container">
+        <div class="die" id="die1">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+        <div class="die" id="die2">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+      </div>
+
+      <div id="result"></div>
+
+      <button id="rollBtn" class="roll-button">
+        <i class="fas fa-dice"></i> Roll Dice
+      </button>
+
+      <div class="stats-container">
+        <div class="stat-box">
+          <h3>Total Rolls</h3>
+          <div class="stat-value" id="totalRolls">0</div>
+        </div>
+        <div class="stat-box">
+          <h3>Last Roll</h3>
+          <div class="stat-value" id="lastSum">-</div>
+        </div>
+        <div class="stat-box">
+          <h3>Current Sum</h3>
+          <div class="stat-value" id="currentSum">-</div>
+        </div>
+      </div>
+
+      <div class="history-container">
+        <h3><i class="fas fa-history"></i> Roll History</h3>
+        <ul id="historyList">
+          <!-- History items will be added here -->
+        </ul>
+      </div>
+
+      <p class="key-hint">
+        <i class="fas fa-keyboard"></i> Press <kbd>Enter</kbd> or
+        <kbd>Space</kbd> to roll
+      </p>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

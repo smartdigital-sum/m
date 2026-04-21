@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simon Says</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0f0f1a;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', sans-serif;
+    color: #fff;
+    padding: 1rem;
+  }
+  h1 {
+    font-size: 1.8rem;
+    margin-bottom: 0.3rem;
+    background: linear-gradient(135deg, #a855f7, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .subtitle { color: #666; font-size: 0.85rem; margin-bottom: 1.2rem; }
+
+  .stats { display: flex; gap: 2rem; margin-bottom: 1.2rem; }
+  .stat { text-align: center; }
+  .stat span { display: block; font-size: 0.65rem; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+  .stat strong { font-size: 1.5rem; color: #a855f7; }
+
+  #statusText {
+    font-size: 1.1rem;
+    color: #aaa;
+    min-height: 1.8rem;
+    margin-bottom: 1.2rem;
+    text-align: center;
+    font-weight: 500;
+  }
+
+  .simon-board {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+    width: 280px;
+    height: 280px;
+  }
+
+  .simon-btn {
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    opacity: 0.35;
+    transition: opacity 0.15s, transform 0.1s;
+    position: relative;
+    overflow: hidden;
+  }
+  .simon-btn::after {
+    content: attr(data-icon);
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .simon-btn.active { opacity: 1 !important; transform: scale(0.95); }
+  .simon-btn.active::after { opacity: 1; }
+  .simon-btn:not(:disabled):hover { opacity: 0.65; }
+  .simon-btn:disabled { cursor: not-allowed; }
+
+  .btn-green  { background: #22c55e; }
+  .btn-red    { background: #ef4444; }
+  .btn-blue   { background: #3b82f6; }
+  .btn-yellow { background: #f59e0b; }
+
+  .center-circle {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: 70px; height: 70px;
+    background: #0f0f1a;
+    border-radius: 50%;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    border: 2px solid rgba(255,255,255,0.08);
+  }
+
+  .board-wrapper { position: relative; }
+
+  .start-btn {
+    background: linear-gradient(135deg, #a855f7, #ec4899);
+    color: #fff;
+    border: none;
+    padding: 0.75rem 2.5rem;
+    border-radius: 50px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .start-btn:hover { transform: scale(1.05); box-shadow: 0 4px 20px rgba(168,85,247,0.4); }
+
+  .sequence-dots {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 1rem;
+    min-height: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 300px;
+  }
+  .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+  }
+  .dot.filled { background: #a855f7; }
+</style>
+</head>
+<body>
+<h1>🎮 Simon Says</h1>
+<p class="subtitle">Watch the pattern, then repeat it!</p>
+
+<div class="stats">
+  <div class="stat"><span>Round</span><strong id="round">0</strong></div>
+  <div class="stat"><span>Best</span><strong id="best">0</strong></div>
+</div>
+
+<div id="statusText">Press Start to play</div>
+
+<div class="sequence-dots" id="dots"></div>
+
+<div class="board-wrapper">
+  <div class="simon-board" id="board">
+    <button class="simon-btn btn-green"  id="btn0" data-icon="✅" onclick="playerPress(0)"></button>
+    <button class="simon-btn btn-red"    id="btn1" data-icon="❤️" onclick="playerPress(1)"></button>
+    <button class="simon-btn btn-blue"   id="btn2" data-icon="💙" onclick="playerPress(2)"></button>
+    <button class="simon-btn btn-yellow" id="btn3" data-icon="⭐" onclick="playerPress(3)"></button>
+  </div>
+  <div class="center-circle">🔮</div>
+</div>
+
+<button class="start-btn" id="startBtn" onclick="startGame()">Start Game</button>
+
+<script>
+const colors = ['btn-green','btn-red','btn-blue','btn-yellow'];
+const sounds = [
+  () => beep(329, 300),
+  () => beep(277, 300),
+  () => beep(220, 300),
+  () => beep(185, 300),
+];
+
+let sequence = [], playerSeq = [], round = 0, best = 0, accepting = false;
+let audioCtx;
+
+function getAudio() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
+
+function beep(freq, dur) {
+  try {
+    const ac = getAudio();
+    const osc = ac.createOscillator();
+    const gain = ac.createGain();
+    osc.connect(gain);
+    gain.connect(ac.destination);
+    osc.frequency.value = freq;
+    osc.type = 'sine';
+    gain.gain.setValueAtTime(0.3, ac.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + dur/1000);
+    osc.start(ac.currentTime);
+    osc.stop(ac.currentTime + dur/1000);
+  } catch(e) {}
+}
+
+function startGame() {
+  sequence = []; playerSeq = []; round = 0; accepting = false;
+  document.getElementById('startBtn').textContent = 'Restart';
+  nextRound();
+}
+
+function nextRound() {
+  round++;
+  document.getElementById('round').textContent = round;
+  playerSeq = [];
+  sequence.push(Math.floor(Math.random() * 4));
+  updateDots();
+  setStatus('Watch carefully...', '#a855f7');
+  disableBtns(true);
+  playSequence();
+}
+
+function updateDots() {
+  const dots = document.getElementById('dots');
+  dots.innerHTML = '';
+  for (let i = 0; i < sequence.length; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i < playerSeq.length ? ' filled' : '');
+    dots.appendChild(d);
+  }
+}
+
+function playSequence() {
+  let i = 0;
+  const interval = setInterval(() => {
+    flashBtn(sequence[i]);
+    sounds[sequence[i]]();
+    i++;
+    if (i >= sequence.length) {
+      clearInterval(interval);
+      setTimeout(() => {
+        disableBtns(false);
+        setStatus('Your turn! Repeat the pattern.', '#aaa');
+        accepting = true;
+      }, 600);
+    }
+  }, 700);
+}
+
+function flashBtn(idx) {
+  const btn = document.getElementById('btn' + idx);
+  btn.classList.add('active');
+  setTimeout(() => btn.classList.remove('active'), 400);
+}
+
+function playerPress(idx) {
+  if (!accepting) return;
+  flashBtn(idx);
+  sounds[idx]();
+  playerSeq.push(idx);
+  updateDots();
+
+  const pos = playerSeq.length - 1;
+  if (playerSeq[pos] !== sequence[pos]) {
+    accepting = false;
+    failGame(); return;
+  }
+  if (playerSeq.length === sequence.length) {
+    accepting = false;
+    if (round > best) { best = round; document.getElementById('best').textContent = best; }
+    setStatus('✅ Correct! Get ready...', '#22c55e');
+    disableBtns(true);
+    setTimeout(nextRound, 1200);
+  }
+}
+
+function failGame() {
+  disableBtns(true);
+  // Flash all red
+  for (let i = 0; i < 4; i++) flashBtn(i);
+  beep(110, 600);
+  setStatus(`❌ Wrong! You reached round ${round}. Best: ${best}`, '#ef4444');
+  document.getElementById('startBtn').textContent = 'Play Again';
+  document.getElementById('round').textContent = 0;
+}
+
+function disableBtns(dis) {
+  for (let i = 0; i < 4; i++) document.getElementById('btn' + i).disabled = dis;
+}
+
+function setStatus(msg, color) {
+  const el = document.getElementById('statusText');
+  el.textContent = msg;
+  el.style.color = color;
+}
+</script>
+</body>
+</html>

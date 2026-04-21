@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-Tac-Toe | Premium Edition</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <div class="game-container">
+        <header>
+            <h1>Tic Tac <span class="highlight">Toe</span></h1>
+            <div class="score-board">
+                <div class="score-card player-x">
+                    <span class="label">Player X</span>
+                    <span id="score-x" class="score">0</span>
+                </div>
+                <div class="score-card draw">
+                    <span class="label">Draws</span>
+                    <span id="score-draw" class="score">0</span>
+                </div>
+                <div class="score-card player-o">
+                    <span class="label">Player O</span>
+                    <span id="score-o" class="score">0</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="game-mode-selector">
+            <button id="pvp-btn" class="mode-btn active">PvP</button>
+            <button id="pve-btn" class="mode-btn">vs AI</button>
+        </div>
+
+        <div id="game-status" class="status-message">Player X's Turn</div>
+
+        <main class="board-container">
+            <div id="board" class="board">
+                <div class="cell" data-index="0"></div>
+                <div class="cell" data-index="1"></div>
+                <div class="cell" data-index="2"></div>
+                <div class="cell" data-index="3"></div>
+                <div class="cell" data-index="4"></div>
+                <div class="cell" data-index="5"></div>
+                <div class="cell" data-index="6"></div>
+                <div class="cell" data-index="7"></div>
+                <div class="cell" data-index="8"></div>
+                <div id="win-line" class="win-line"></div>
+            </div>
+        </main>
+
+        <footer>
+            <button id="reset-btn" class="control-btn">Reset Game</button>
+        </footer>
+    </div>
+
+    <!-- Modal for Game Over -->
+    <div id="result-modal" class="modal">
+        <div class="modal-content">
+            <h2 id="result-text">Player X Wins!</h2>
+            <button id="play-again-btn" class="control-btn">Play Again</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ID Card & Certificate Maker — Smart Digital</title>
+  <link rel="icon" type="image/png" href="../../assets/img/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- html2canvas for PNG export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="app-header">
+  <a href="../../index.html" class="header-logo">
+    <img src="../../assets/img/logo.png" alt="Smart Digital" class="logo-img">
+    <div class="brand-text">
+      <span class="brand-main">Smart Digital</span>
+      <span class="brand-sub">ID & Certificate Maker</span>
+    </div>
+  </a>
+  <div class="header-right">
+    <a class="home-btn" href="../../index.html">← Home</a>
+    <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Toggle theme">
+      <i class="fas fa-moon" id="themeIcon"></i>
+    </button>
+    <a href="https://wa.me/918638759478" target="_blank" class="wa-btn">
+      <i class="fab fa-whatsapp"></i> Help
+    </a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge"><i class="fas fa-id-card"></i> Free · No Signup · Instant Download</div>
+    <h1>ID Card & Certificate Maker</h1>
+    <p>Professional ID cards and certificates for schools, clubs, events and businesses — ready in seconds.</p>
+  </div>
+</section>
+
+<!-- MAIN APP -->
+<main class="app-wrap">
+
+  <!-- MODE TABS -->
+  <div class="mode-tabs">
+    <button class="mode-tab active" data-mode="id" onclick="setMode('id', this)">
+      <i class="fas fa-id-card"></i> ID Card
+    </button>
+    <button class="mode-tab" data-mode="cert" onclick="setMode('cert', this)">
+      <i class="fas fa-certificate"></i> Certificate
+    </button>
+  </div>
+
+  <div class="builder-grid">
+
+    <!-- ======= LEFT: FORM ======= -->
+    <div class="form-panel">
+
+      <!-- ===== ID CARD FORM ===== -->
+      <div id="id-form" class="builder-form active">
+
+        <!-- Template Selector -->
+        <div class="template-row">
+          <label class="section-label"><i class="fas fa-palette"></i> Choose Template</label>
+          <div class="template-list" id="id-template-list">
+            <button class="tmpl-btn active" data-tmpl="school" onclick="setIdTemplate('school', this)">
+              <span class="tmpl-icon">🎓</span><span>School</span>
+            </button>
+            <button class="tmpl-btn" data-tmpl="office" onclick="setIdTemplate('office', this)">
+              <span class="tmpl-icon">🏢</span><span>Office</span>
+            </button>
+            <button class="tmpl-btn" data-tmpl="club" onclick="setIdTemplate('club', this)">
+              <span class="tmpl-icon">🏅</span><span>Club / Event</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Photo Upload -->
+        <div class="form-group">
+          <label><i class="fas fa-camera"></i> Photo <span class="hint">(optional)</span></label>
+          <div class="photo-upload-area" id="photoDropArea" onclick="document.getElementById('photoInput').click()">
+            <img id="photoPreviewImg" src="" alt="" style="display:none; width:80px; height:80px; border-radius:50%; object-fit:cover;">
+            <div id="photoPlaceholder">
+              <i class="fas fa-user-circle"></i>
+              <span>Click to upload photo</span>
+            </div>
+          </div>
+          <input type="file" id="photoInput" accept="image/*" hidden onchange="loadPhoto(event)">
+          <button class="remove-photo-btn" id="removePhotoBtn" style="display:none;" onclick="removePhoto()">
+            <i class="fas fa-times"></i> Remove Photo
+          </button>
+        </div>
+
+        <!-- Fields -->
+        <div class="form-group">
+          <label>Organisation / School Name</label>
+          <input type="text" id="id-org" placeholder="Kampur High School" oninput="renderCard()">
+        </div>
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="id-name" placeholder="Rahul Kumar Das" oninput="renderCard()">
+        </div>
+        <div class="form-group half-grid">
+          <div>
+            <label id="id-field1-label">Role / Class</label>
+            <input type="text" id="id-field1" placeholder="Class X - A" oninput="renderCard()">
+          </div>
+          <div>
+            <label>ID Number</label>
+            <input type="text" id="id-number" placeholder="SD-2025-001" oninput="renderCard()">
+          </div>
+        </div>
+        <div class="form-group half-grid">
+          <div>
+            <label id="id-field2-label">Phone / Contact</label>
+            <input type="tel" id="id-field2" placeholder="+91 98765 43210" oninput="renderCard()">
+          </div>
+          <div>
+            <label>Valid Until</label>
+            <input type="text" id="id-valid" placeholder="March 2026" oninput="renderCard()">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Address / Notes <span class="hint">(optional)</span></label>
+          <input type="text" id="id-address" placeholder="Kachua Tiniali, Kampur" oninput="renderCard()">
+        </div>
+
+        <!-- Color picker -->
+        <div class="form-group">
+          <label><i class="fas fa-tint"></i> Card Accent Color</label>
+          <div class="color-swatches">
+            <button class="swatch active" style="background:#6366f1;" data-color="#6366f1" onclick="setAccentColor('#6366f1', this)"></button>
+            <button class="swatch" style="background:#0ea5e9;" data-color="#0ea5e9" onclick="setAccentColor('#0ea5e9', this)"></button>
+            <button class="swatch" style="background:#10b981;" data-color="#10b981" onclick="setAccentColor('#10b981', this)"></button>
+            <button class="swatch" style="background:#f97316;" data-color="#f97316" onclick="setAccentColor('#f97316', this)"></button>
+            <button class="swatch" style="background:#ef4444;" data-color="#ef4444" onclick="setAccentColor('#ef4444', this)"></button>
+            <button class="swatch" style="background:#8b5cf6;" data-color="#8b5cf6" onclick="setAccentColor('#8b5cf6', this)"></button>
+            <button class="swatch" style="background:#1e293b;" data-color="#1e293b" onclick="setAccentColor('#1e293b', this)"></button>
+            <input type="color" id="customColor" value="#6366f1" onchange="setAccentColor(this.value, null)" title="Custom Color" style="width:32px; height:32px; border-radius:50%; border:2px solid #fff; cursor:pointer; padding:2px;">
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== CERTIFICATE FORM ===== -->
+      <div id="cert-form" class="builder-form">
+
+        <!-- Template -->
+        <div class="template-row">
+          <label class="section-label"><i class="fas fa-palette"></i> Choose Template</label>
+          <div class="template-list" id="cert-template-list">
+            <button class="tmpl-btn active" data-tmpl="achievement" onclick="setCertTemplate('achievement', this)">
+              <span class="tmpl-icon">🏆</span><span>Achievement</span>
+            </button>
+            <button class="tmpl-btn" data-tmpl="participation" onclick="setCertTemplate('participation', this)">
+              <span class="tmpl-icon">🌟</span><span>Participation</span>
+            </button>
+            <button class="tmpl-btn" data-tmpl="appreciation" onclick="setCertTemplate('appreciation', this)">
+              <span class="tmpl-icon">🙏</span><span>Appreciation</span>
+            </button>
+            <button class="tmpl-btn" data-tmpl="completion" onclick="setCertTemplate('completion', this)">
+              <span class="tmpl-icon">📜</span><span>Completion</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Organisation / Issuer</label>
+          <input type="text" id="cert-org" placeholder="Smart Digital Academy" oninput="renderCert()">
+        </div>
+        <div class="form-group">
+          <label>Recipient Name</label>
+          <input type="text" id="cert-name" placeholder="Riya Borah" oninput="renderCert()">
+        </div>
+        <div class="form-group">
+          <label>Certificate Title / Achievement</label>
+          <input type="text" id="cert-title" placeholder="Best Student of the Year" oninput="renderCert()">
+        </div>
+        <div class="form-group">
+          <label>Description <span class="hint">(1–2 lines)</span></label>
+          <textarea id="cert-desc" rows="2" placeholder="For outstanding performance and dedication in studies during the academic year 2024–25." oninput="renderCert()"></textarea>
+        </div>
+        <div class="form-group half-grid">
+          <div>
+            <label>Date</label>
+            <input type="text" id="cert-date" placeholder="5 April 2025" oninput="renderCert()">
+          </div>
+          <div>
+            <label>Certificate No.</label>
+            <input type="text" id="cert-no" placeholder="SD/CERT/2025/001" oninput="renderCert()">
+          </div>
+        </div>
+        <div class="form-group half-grid">
+          <div>
+            <label>Signatory Name</label>
+            <input type="text" id="cert-sign-name" placeholder="Headmaster / Director" oninput="renderCert()">
+          </div>
+          <div>
+            <label>Signatory Title</label>
+            <input type="text" id="cert-sign-title" placeholder="Kampur High School" oninput="renderCert()">
+          </div>
+        </div>
+
+        <!-- Color -->
+        <div class="form-group">
+          <label><i class="fas fa-tint"></i> Certificate Color Theme</label>
+          <div class="color-swatches">
+            <button class="swatch active" style="background:#6366f1;" data-color="#6366f1" onclick="setCertAccent('#6366f1', this)"></button>
+            <button class="swatch" style="background:#b45309;" data-color="#b45309" onclick="setCertAccent('#b45309', this)"></button>
+            <button class="swatch" style="background:#0ea5e9;" data-color="#0ea5e9" onclick="setCertAccent('#0ea5e9', this)"></button>
+            <button class="swatch" style="background:#10b981;" data-color="#10b981" onclick="setCertAccent('#10b981', this)"></button>
+            <button class="swatch" style="background:#ef4444;" data-color="#ef4444" onclick="setCertAccent('#ef4444', this)"></button>
+            <button class="swatch" style="background:#7c3aed;" data-color="#7c3aed" onclick="setCertAccent('#7c3aed', this)"></button>
+            <input type="color" id="certCustomColor" value="#6366f1" onchange="setCertAccent(this.value, null)" title="Custom Color" style="width:32px; height:32px; border-radius:50%; border:2px solid #fff; cursor:pointer; padding:2px;">
+          </div>
+        </div>
+      </div>
+
+      <!-- DOWNLOAD BUTTON -->
+      <button class="download-btn" onclick="downloadCurrent()">
+        <i class="fas fa-download"></i> Download as PNG
+      </button>
+      <p class="download-note">High-quality PNG · Print-ready · Completely free</p>
+    </div>
+
+    <!-- ======= RIGHT: PREVIEW ======= -->
+    <div class="preview-panel">
+      <div class="preview-label-row">
+        <span class="preview-label">Live Preview</span>
+        <span class="preview-hint">Updates as you type</span>
+      </div>
+
+      <!-- ID CARD PREVIEW -->
+      <div id="id-preview-wrap" class="preview-wrap">
+        <div id="id-card" class="id-card school-tmpl">
+          <div class="id-header" id="id-header-el">
+            <div class="id-org-logo">SD</div>
+            <div class="id-header-text">
+              <div class="id-org-name" id="prev-org">Kampur High School</div>
+              <div class="id-card-label">IDENTITY CARD</div>
+            </div>
+          </div>
+          <div class="id-body">
+            <div class="id-photo-wrap">
+              <img id="prev-photo" src="" alt="" style="display:none;">
+              <div class="id-photo-placeholder" id="prev-photo-placeholder"><i class="fas fa-user"></i></div>
+            </div>
+            <div class="id-info">
+              <div class="id-name" id="prev-name">Full Name</div>
+              <div class="id-field" id="prev-field1"><i class="fas fa-graduation-cap"></i> <span>Class / Role</span></div>
+              <div class="id-field" id="prev-field2"><i class="fas fa-phone"></i> <span>Phone</span></div>
+              <div class="id-field" id="prev-id-number"><i class="fas fa-barcode"></i> <span>ID Number</span></div>
+            </div>
+          </div>
+          <div class="id-footer">
+            <div class="id-address" id="prev-address"></div>
+            <div class="id-valid" id="prev-valid">Valid: March 2026</div>
+          </div>
+          <div class="id-watermark">SMART DIGITAL</div>
+        </div>
+      </div>
+
+      <!-- CERTIFICATE PREVIEW -->
+      <div id="cert-preview-wrap" class="preview-wrap" style="display:none;">
+        <div id="cert-card" class="cert-card">
+          <div class="cert-border-outer">
+          <div class="cert-border-inner">
+            <div class="cert-top-badge" id="cert-badge-icon">🏆</div>
+            <div class="cert-issuer" id="prev-cert-org">Smart Digital Academy</div>
+            <div class="cert-presents">This Certificate is Proudly Presented to</div>
+            <div class="cert-recipient" id="prev-cert-name">Recipient Name</div>
+            <div class="cert-for-text" id="prev-cert-title">Best Student of the Year</div>
+            <div class="cert-desc" id="prev-cert-desc">For outstanding performance and dedication in studies during the academic year 2024–25.</div>
+            <div class="cert-divider" id="cert-divider-el"></div>
+            <div class="cert-sign-row">
+              <div class="cert-sign-block">
+                <div class="cert-sign-line" id="cert-sign-line"></div>
+                <div class="cert-sign-name" id="prev-cert-sign-name">Headmaster</div>
+                <div class="cert-sign-title" id="prev-cert-sign-title">Kampur High School</div>
+              </div>
+              <div class="cert-meta-block">
+                <div class="cert-date" id="prev-cert-date">5 April 2025</div>
+                <div class="cert-no" id="prev-cert-no">SD/CERT/2025/001</div>
+              </div>
+            </div>
+            <div class="cert-footer-brand">Smart Digital · Kampur, Assam</div>
+          </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="app-footer">
+  <p>Made with <i class="fas fa-heart" style="color:#ef4444;"></i> by <a href="../../index.html">Smart Digital</a> · Kampur, Assam</p>
+  <p style="margin-top:6px; color: var(--muted); font-size: 13px;">Need bulk ID cards or certificates printed? <a href="https://wa.me/918638759478?text=Hi!%20I%20need%20help%20with%20ID%20cards%20or%20certificates" target="_blank">WhatsApp us</a></p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

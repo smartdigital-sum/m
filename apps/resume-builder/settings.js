@@ -7,19 +7,19 @@
 //  1. Replace 'YOUR_UPI_ID' with your UPI ID (e.g. name@paytm)
 //  2. Save → Open index.html in a browser → Done!
 //
-//  API key is set in ../../config.js (uses Groq)
+//  API key is set in ../../assets/js/config.js (uses Groq)
 //
 // ================================================================
 
 const CONFIG = {
 
-  // 💳 UPI Payment Details (shown on payment screen)
+  // 💳 UPI Payment Details (shown in plans modal)
   UPI_ID:   'YOUR_UPI_ID',          // e.g.  smartdigital@paytm
   UPI_NAME: 'Smart Digital Service',
 
-  // 💰 Pricing in ₹ (change anytime — updates everywhere automatically)
-  RESUME_PRICE:       199,
-  COVER_LETTER_PRICE: 99,
+  // 💰 Pricing in ₹
+  SINGLE_PRICE: 10,   // 1 resume generation
+  BUNDLE_PRICE: 40,   // 5 resume generations
 
   // 🏢 Branding
   BRAND_NAME: 'Smart Digital Service',

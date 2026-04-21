@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rock Paper Scissors</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0f0f1a;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', sans-serif;
+    color: #fff;
+    padding: 1rem;
+  }
+  h1 {
+    font-size: 1.8rem;
+    margin-bottom: 0.3rem;
+    background: linear-gradient(135deg, #f59e0b, #ef4444);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .subtitle { color: #666; font-size: 0.85rem; margin-bottom: 1.5rem; }
+  .scoreboard {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .score-box {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 0.6rem 1.4rem;
+    text-align: center;
+  }
+  .score-box span { display: block; font-size: 0.65rem; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+  .score-box strong { font-size: 1.6rem; }
+  .score-box.you strong { color: #22c55e; }
+  .score-box.cpu strong { color: #ef4444; }
+  .score-box.tie strong { color: #f59e0b; }
+
+  .arena {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+    min-height: 130px;
+  }
+  .fighter {
+    text-align: center;
+    width: 110px;
+  }
+  .fighter .label { font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.4rem; }
+  .choice-display {
+    font-size: 4rem;
+    background: rgba(255,255,255,0.06);
+    border-radius: 16px;
+    width: 90px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    border: 2px solid rgba(255,255,255,0.08);
+    transition: transform 0.3s, border-color 0.3s;
+  }
+  .choice-display.win  { border-color: #22c55e; box-shadow: 0 0 20px rgba(34,197,94,0.3); }
+  .choice-display.lose { border-color: #ef4444; box-shadow: 0 0 20px rgba(239,68,68,0.3); }
+  .choice-display.tie  { border-color: #f59e0b; box-shadow: 0 0 20px rgba(245,158,11,0.3); }
+
+  .vs {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #555;
+  }
+  #resultText {
+    font-size: 1.4rem;
+    font-weight: 700;
+    min-height: 2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    transition: all 0.3s;
+  }
+  .choices {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .choice-btn {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
+    padding: 1rem 1.2rem;
+    cursor: pointer;
+    font-size: 2.5rem;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    color: #fff;
+  }
+  .choice-btn span { font-size: 0.7rem; color: #888; }
+  .choice-btn:hover {
+    background: rgba(245,158,11,0.15);
+    border-color: #f59e0b;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(245,158,11,0.2);
+  }
+  .choice-btn:active { transform: translateY(0); }
+  .choice-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+  .reset-btn {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: #aaa;
+    padding: 0.5rem 1.5rem;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    transition: all 0.2s;
+  }
+  .reset-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+  @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+  .shake { animation: shake 0.4s ease; }
+  @keyframes pop { 0%{transform:scale(0.7)} 60%{transform:scale(1.15)} 100%{transform:scale(1)} }
+  .pop { animation: pop 0.35s ease; }
+</style>
+</head>
+<body>
+<h1>✊ Rock Paper Scissors</h1>
+<p class="subtitle">Best of unlimited — beat the computer!</p>
+
+<div class="scoreboard">
+  <div class="score-box you"><span>You</span><strong id="pScore">0</strong></div>
+  <div class="score-box tie"><span>Tie</span><strong id="tScore">0</strong></div>
+  <div class="score-box cpu"><span>CPU</span><strong id="cScore">0</strong></div>
+</div>
+
+<div class="arena">
+  <div class="fighter">
+    <div class="label">You</div>
+    <div class="choice-display" id="pDisplay">❓</div>
+  </div>
+  <div class="vs">VS</div>
+  <div class="fighter">
+    <div class="label">CPU</div>
+    <div class="choice-display" id="cDisplay">❓</div>
+  </div>
+</div>
+
+<div id="resultText" style="color:#888">Choose your weapon!</div>
+
+<div class="choices">
+  <button class="choice-btn" onclick="play('rock')">✊<span>Rock</span></button>
+  <button class="choice-btn" onclick="play('paper')">✋<span>Paper</span></button>
+  <button class="choice-btn" onclick="play('scissors')">✌️<span>Scissors</span></button>
+</div>
+<button class="reset-btn" onclick="reset()">Reset Scores</button>
+
+<script>
+const emojis = { rock:'✊', paper:'✋', scissors:'✌️' };
+const choices = ['rock','paper','scissors'];
+let ps=0, cs=0, ts=0;
+
+function play(p) {
+  const btns = document.querySelectorAll('.choice-btn');
+  btns.forEach(b => b.disabled = true);
+  setTimeout(() => btns.forEach(b => b.disabled = false), 600);
+
+  const cpu = choices[Math.floor(Math.random()*3)];
+  const pd = document.getElementById('pDisplay');
+  const cd = document.getElementById('cDisplay');
+  const rt = document.getElementById('resultText');
+
+  pd.textContent = emojis[p];
+  cd.textContent = emojis[cpu];
+  pd.className = 'choice-display pop';
+  cd.className = 'choice-display pop';
+
+  let result, color;
+  if (p === cpu) {
+    result = "It's a Tie! 🤝"; color = '#f59e0b'; ts++;
+    pd.classList.add('tie'); cd.classList.add('tie');
+    document.getElementById('tScore').textContent = ts;
+  } else if ((p==='rock'&&cpu==='scissors')||(p==='paper'&&cpu==='rock')||(p==='scissors'&&cpu==='paper')) {
+    result = "You Win! 🎉"; color = '#22c55e'; ps++;
+    pd.classList.add('win'); cd.classList.add('lose');
+    document.getElementById('pScore').textContent = ps;
+  } else {
+    result = "CPU Wins! 🤖"; color = '#ef4444'; cs++;
+    pd.classList.add('lose'); cd.classList.add('win');
+    document.getElementById('cScore').textContent = cs;
+    cd.classList.add('shake');
+  }
+  rt.textContent = result;
+  rt.style.color = color;
+}
+
+function reset() {
+  ps=cs=ts=0;
+  ['pScore','cScore','tScore'].forEach(id => document.getElementById(id).textContent='0');
+  document.getElementById('pDisplay').textContent = '❓';
+  document.getElementById('cDisplay').textContent = '❓';
+  document.getElementById('pDisplay').className = 'choice-display';
+  document.getElementById('cDisplay').className = 'choice-display';
+  document.getElementById('resultText').textContent = 'Choose your weapon!';
+  document.getElementById('resultText').style.color = '#888';
+}
+</script>
+</body>
+</html>

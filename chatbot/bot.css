@@ -1,12 +1,12 @@
 /* =============================================
    Smart Digital AI Bot — Stylesheet
-   bot.css  (integrated — demo styles removed)
+   bot.css
    ============================================= */
 
-/* ---- Floating button ---- */
+/* ── Floating button ──────────────────────────── */
 #sd-bot-btn {
   position: fixed;
-  bottom: 94px;      /* sits above the WhatsApp float (24px + 60px + 10px gap) */
+  bottom: 94px;
   right: 24px;
   width: 60px;
   height: 60px;
@@ -25,24 +25,20 @@
   text-decoration: none;
 }
 
-#sd-bot-btn:hover {
-  transform: scale(1.08);
-  box-shadow: 0 6px 30px rgba(29,78,216,0.55);
-}
-
+#sd-bot-btn:hover  { transform: scale(1.08); box-shadow: 0 6px 30px rgba(29,78,216,0.55); }
 #sd-bot-btn:active { transform: scale(0.96); }
 
-/* ---- Chat window ---- */
+/* ── Chat window ──────────────────────────────── */
 #sd-bot-window {
   position: fixed;
-  bottom: 170px;     /* above the bot button */
+  bottom: 170px;
   right: 24px;
   width: 350px;
   height: 500px;
   background: #ffffff;
   border-radius: 18px;
   box-shadow: 0 8px 32px rgba(0,0,0,0.15);
-  display: none;              /* toggled by JS */
+  display: none;
   flex-direction: column;
   z-index: 9998;
   overflow: hidden;
@@ -55,12 +51,15 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ---- Header ---- */
+/* ── Header ───────────────────────────────────── */
 #sd-bot-header {
   background: #1D4ED8;
   color: white;
   padding: 14px 16px;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .sd-header-info {
@@ -83,19 +82,27 @@
   flex-shrink: 0;
 }
 
-.sd-header-name {
-  font-weight: 700;
-  font-size: 14px;
+.sd-header-name   { font-weight: 700; font-size: 14px; }
+.sd-header-status { font-size: 11px; opacity: 0.85; margin-top: 2px; color: #86efac; }
+
+/* Clear chat button (top-right of header) */
+#sd-clear-btn {
+  background: rgba(255,255,255,0.15);
+  border: none;
+  border-radius: 8px;
+  color: rgba(255,255,255,0.8);
+  cursor: pointer;
+  font-size: 13px;
+  padding: 5px 9px;
+  line-height: 1;
+  transition: background 0.15s, color 0.15s;
+  flex-shrink: 0;
+  title: "Clear chat";
 }
 
-.sd-header-status {
-  font-size: 11px;
-  opacity: 0.85;
-  margin-top: 2px;
-  color: #86efac;
-}
+#sd-clear-btn:hover { background: rgba(255,255,255,0.28); color: white; }
 
-/* ---- Messages area ---- */
+/* ── Messages area ────────────────────────────── */
 #sd-bot-messages {
   flex: 1;
   overflow-y: auto;
@@ -107,16 +114,16 @@
   scroll-behavior: smooth;
 }
 
-#sd-bot-messages::-webkit-scrollbar { width: 4px; }
-#sd-bot-messages::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 4px; }
+#sd-bot-messages::-webkit-scrollbar       { width: 4px; }
+#sd-bot-messages::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
 
-/* ---- Bubbles ---- */
+/* ── Bubbles ──────────────────────────────────── */
 .sd-bubble {
   max-width: 82%;
   padding: 9px 13px;
   border-radius: 14px;
   font-size: 14px;
-  line-height: 1.55;
+  line-height: 1.6;
   word-break: break-word;
   animation: sdFadeIn 0.18s ease;
   font-family: 'DM Sans', 'Inter', sans-serif;
@@ -142,7 +149,68 @@
   border: 1px solid #E2E8F0;
 }
 
-/* ---- Typing indicator ---- */
+/* Inline code in bot messages */
+.sd-bubble-bot code {
+  background: #F1F5F9;
+  color: #1D4ED8;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 12.5px;
+  font-family: 'Fira Code', 'Cascadia Code', monospace;
+}
+
+/* ── Quick-reply suggestions ──────────────────── */
+.sd-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  padding: 2px 0 4px 0;
+  animation: sdFadeIn 0.2s ease;
+}
+
+.sd-suggestion-btn {
+  background: #EFF6FF;
+  border: 1px solid #BFDBFE;
+  border-radius: 20px;
+  color: #1D4ED8;
+  cursor: pointer;
+  font-size: 12.5px;
+  font-family: 'DM Sans', 'Inter', sans-serif;
+  padding: 6px 12px;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+  white-space: nowrap;
+}
+
+.sd-suggestion-btn:hover {
+  background: #DBEAFE;
+  border-color: #93C5FD;
+  transform: translateY(-1px);
+}
+
+.sd-suggestion-btn:active { transform: translateY(0); }
+
+/* ── WhatsApp handoff button ──────────────────── */
+.sd-wa-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  align-self: flex-start;
+  background: #25D366;
+  color: white;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'DM Sans', 'Inter', sans-serif;
+  padding: 8px 14px;
+  border-radius: 20px;
+  animation: sdFadeIn 0.2s ease;
+  transition: background 0.15s, transform 0.1s;
+}
+
+.sd-wa-btn:hover  { background: #1ebe5d; transform: translateY(-1px); }
+.sd-wa-btn:active { transform: translateY(0); }
+
+/* ── Typing indicator ─────────────────────────── */
 #sd-bot-typing {
   padding: 8px 16px;
   display: flex;
@@ -168,7 +236,7 @@
   40%            { transform: scale(1.1); opacity: 1; }
 }
 
-/* ---- Input bar ---- */
+/* ── Input bar ────────────────────────────────── */
 #sd-bot-input {
   display: flex;
   align-items: center;
@@ -192,10 +260,7 @@
   transition: border-color 0.15s;
 }
 
-#sd-user-input:focus {
-  border-color: #1D4ED8;
-  background: white;
-}
+#sd-user-input:focus { border-color: #1D4ED8; background: white; }
 
 #sd-send-btn {
   width: 38px;
@@ -213,11 +278,81 @@
   flex-shrink: 0;
 }
 
-#sd-send-btn:hover  { background: #1338A8; }
-#sd-send-btn:active { transform: scale(0.93); }
+#sd-send-btn:hover    { background: #1338A8; }
+#sd-send-btn:active   { transform: scale(0.93); }
 #sd-send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-/* ---- Mobile ---- */
+/* ═══════════════════════════════════════════════
+   DARK MODE
+   Triggered by <html data-theme="dark">
+   ═══════════════════════════════════════════════ */
+
+[data-theme="dark"] #sd-bot-window {
+  background: #1E293B;
+  border-color: #334155;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+[data-theme="dark"] #sd-bot-messages {
+  background: #0F172A;
+}
+
+[data-theme="dark"] #sd-bot-messages::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+
+[data-theme="dark"] .sd-bubble-bot {
+  background: #1E293B;
+  color: #E2E8F0;
+  border-color: #334155;
+}
+
+[data-theme="dark"] .sd-bubble-bot code {
+  background: #0F172A;
+  color: #60A5FA;
+}
+
+[data-theme="dark"] #sd-bot-typing {
+  background: #0F172A;
+}
+
+[data-theme="dark"] #sd-bot-typing span {
+  background: #64748B;
+}
+
+[data-theme="dark"] #sd-bot-input {
+  background: #1E293B;
+  border-top-color: #334155;
+}
+
+[data-theme="dark"] #sd-user-input {
+  background: #0F172A;
+  border-color: #334155;
+  color: #E2E8F0;
+}
+
+[data-theme="dark"] #sd-user-input:focus {
+  border-color: #3B82F6;
+  background: #1E293B;
+}
+
+[data-theme="dark"] #sd-user-input::placeholder {
+  color: #64748B;
+}
+
+[data-theme="dark"] .sd-suggestion-btn {
+  background: #1E3A5F;
+  border-color: #1D4ED8;
+  color: #93C5FD;
+}
+
+[data-theme="dark"] .sd-suggestion-btn:hover {
+  background: #1D4ED8;
+  color: white;
+  border-color: #1D4ED8;
+}
+
+/* ── Mobile ───────────────────────────────────── */
 @media (max-width: 420px) {
   #sd-bot-window {
     width: calc(100vw - 16px);

@@ -9,7 +9,7 @@ window.SMART_DIGITAL_CONFIG = {
     API_KEY: "SECURE_PROXIED_VIA_NETLIFY",
     PROVIDER: "GROQ",
     MODEL: "llama-3.3-70b-versatile",
-    MAX_TOKENS: 1500,
+    MAX_TOKENS: 4000,
     TEMPERATURE: 0.5,
     ENDPOINT: "https://api.groq.com/openai/v1/chat/completions"
   },

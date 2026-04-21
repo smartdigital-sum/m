@@ -56,50 +56,30 @@ function toggleLanguage() {
 
 function applyTranslations() {
   const lang = currentLang;
-  // Translate all elements with data-en / data-as
   document.querySelectorAll("[data-en]").forEach((el) => {
     const text = el.getAttribute(`data-${lang}`);
-    if (text) {
-      // Only update textContent if no children we care about
-      if (
-        !el.querySelector("i") &&
-        !el.querySelector("span") &&
-        !el.querySelector("img")
-      ) {
-        el.textContent = text;
-      } else {
-        // Try smart inner text replacement preserving icons
-        const icons = el.querySelectorAll("i");
-        const spans = el.querySelectorAll("span[data-en]");
-        // If only this element has the translation attribute, update its own text node
-        el.childNodes.forEach((node) => {
-          if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
-            node.textContent = " ";
-          }
-        });
-        // Set via innerHTML carefully
-        if (!el.querySelector("i, img, button, select, input")) {
-          el.textContent = text;
-        }
-      }
+    if (!text) return;
+
+    if (el.children.length === 0) {
+      el.textContent = text;
+      return;
+    }
+
+    const firstText = Array.from(el.childNodes).find(
+      (n) => n.nodeType === Node.TEXT_NODE && n.textContent.trim()
+    );
+    if (firstText) {
+      const leading = firstText.textContent.match(/^\s*/)[0];
+      const trailing = firstText.textContent.match(/\s*$/)[0];
+      firstText.textContent = leading + text + trailing;
     }
   });
 
-  // Handle simple text-only elements properly
-  document
-    .querySelectorAll("[data-en]:not(:has(i)):not(:has(img)):not(:has(button))")
-    .forEach((el) => {
-      const text = el.getAttribute(`data-${lang}`);
-      if (text) el.textContent = text;
-    });
-
-  // Translate select options
   document.querySelectorAll("option[data-en]").forEach((opt) => {
     const text = opt.getAttribute(`data-${lang}`);
     if (text) opt.textContent = text;
   });
 
-  // Translate placeholders
   document.querySelectorAll(`[data-${lang}-placeholder]`).forEach((el) => {
     el.placeholder = el.getAttribute(`data-${lang}-placeholder`);
   });
@@ -479,6 +459,21 @@ function tickShopCountdown() {
     s = Math.floor((diff * 60) % 60);
   const el = document.getElementById("shopCountdown");
   if (el) el.textContent = `${label}: ${h}h ${m}m ${s}s`;
+
+  const bar = document.getElementById("shopProgressBar");
+  const pLabel = document.getElementById("shopProgressLabel");
+  if (bar && pLabel) {
+    const totalOpen = ct - ot;
+    if (cur >= ot && cur < ct) {
+      const elapsed = cur - ot;
+      const pct = Math.min(100, Math.round((elapsed / totalOpen) * 100));
+      bar.style.width = pct + "%";
+      pLabel.textContent = pct + "% through open hours";
+    } else {
+      bar.style.width = "0%";
+      pLabel.textContent = "Shop is currently closed";
+    }
+  }
 }
 
 function tickClock() {
@@ -787,6 +782,142 @@ function openServiceModal(title, key) {
 }
 function closeServiceModal() {
   document.getElementById("serviceModal").classList.remove("show");
+  document.body.style.overflow = "";
+}
+
+// ─── AI AGENT MODAL ────────────────────────────────────────
+const AGENT_DATA = {
+  "whatsapp-bot": {
+    title: "n8n WhatsApp Bot",
+    icon: "🤖",
+    color: "linear-gradient(135deg,#25d366,#059669)",
+    tagline: "Your shop never sleeps — replies flow even at 2 AM.",
+    problem: "You lose customers every night. Messages pile up on WhatsApp at midnight, weekends, during pujas — and by the time you reply, they've bought from someone else.",
+    solution: "An intelligent WhatsApp bot built on n8n + AI that replies instantly, 24/7. Handles menu queries, pricing, booking requests, and even forwards hot leads to your phone with full context.",
+    features: [
+      "24/7 instant replies in English + Assamese",
+      "Auto-sends your product catalog & pricing",
+      "Collects customer info → saves to Google Sheet",
+      "Sends daily status updates automatically",
+      "Flags 'hot' leads to you via notification",
+      "Works with your existing WhatsApp Business number",
+    ],
+    perfectFor: ["Local shops & restaurants", "Home-based businesses", "Tuition centers", "Beauty parlours, salons", "Small e-commerce sellers"],
+    useCase: "A grocery shop in Kampur was losing 10+ orders/week to late-night WhatsApp messages. After setup, the bot handled 80% of queries automatically — orders jumped 40% in the first month.",
+  },
+  "customer-reply": {
+    title: "Customer Reply Agent",
+    icon: "💬",
+    color: "linear-gradient(135deg,#7c3aed,#a855f7)",
+    tagline: "Stop typing the same reply 50 times a day.",
+    problem: "You answer 'What are your timings?', 'Do you deliver?', 'What's the price?' hundreds of times each week. That's 2-3 hours a day gone — time you could spend actually running your business.",
+    solution: "A smart reply agent that understands customer questions (even typos, Hinglish, Assamese mix) and drafts the perfect response. You review and send with one tap — or let it auto-reply to routine queries.",
+    features: [
+      "Understands English, Assamese, Hinglish",
+      "Learns your tone — sounds like YOU, not a robot",
+      "Drafts replies for WhatsApp, Instagram DMs, website chat",
+      "Handles FAQs, pricing, availability queries",
+      "Escalates complex queries to you with summary",
+      "Gets smarter with every conversation",
+    ],
+    perfectFor: ["Clinics & diagnostic centers", "Shops with heavy DM traffic", "Coaching institutes", "Hotels & guest houses", "Service professionals (tutors, photographers, etc.)"],
+    useCase: "A dental clinic was getting 60+ DMs daily asking the same 5 questions. The agent now handles 90% automatically — the doctor saves 3 hours/day and books 30% more appointments.",
+  },
+  "doc-drafting": {
+    title: "Document Drafting Agent",
+    icon: "📄",
+    color: "linear-gradient(135deg,#0ea5e9,#3b82f6)",
+    tagline: "2-hour paperwork in 2 minutes. Professional, every time.",
+    problem: "Drafting a simple letter, notice, or application eats hours. You stare at Microsoft Word, reword the same line 5 times, and still end up with something that sounds 'off'. And if it's in Assamese? Even worse.",
+    solution: "Tell the agent what you need in plain words. It writes a polished, formal document in seconds — letters, contracts, notices, reports, applications, legal drafts. In English OR Assamese. Edit-ready.",
+    features: [
+      "Generates in English + Assamese (proper formal tone)",
+      "Templates for letters, contracts, notices, RTIs, applications",
+      "Stores your letterhead, signature, office details",
+      "Export as Word, PDF, or direct print",
+      "Legal-format drafts (agreements, affidavits, notices)",
+      "One-click 'make it more formal' / 'shorten' / 'translate'",
+    ],
+    perfectFor: ["Law firms & legal consultants", "NGOs & social organizations", "Schools & college offices", "Panchayat & govt. office staff", "Small business owners"],
+    useCase: "A local NGO spent 4-5 hours drafting each funding proposal. Now they generate a polished draft in 3 minutes, edit for 20 mins, and submit. They've doubled their grant applications this year.",
+  },
+  "exam-gen": {
+    title: "Exam & Quiz Generator",
+    icon: "📝",
+    color: "linear-gradient(135deg,#f59e0b,#f97316)",
+    tagline: "Topic in. Full question paper out. 30 seconds.",
+    problem: "Teachers spend entire Sundays making question papers. Typing questions, formatting, balancing difficulty, making different sets for different sections — it eats your weekends and still feels rushed.",
+    solution: "Just type the chapter name. Choose class level, subject, number of questions, difficulty mix. The agent generates a ready-to-print question paper — MCQs, short answers, long answers, with marks, in your preferred format.",
+    features: [
+      "Any subject, any class (1 to 12, college level)",
+      "Mix of MCQ, short, long, fill-in-the-blanks",
+      "Auto-balanced difficulty (easy/medium/hard ratio)",
+      "Answer key generated alongside",
+      "Assamese & English medium supported",
+      "Print-ready PDF with school/institute letterhead",
+    ],
+    perfectFor: ["Schools (all boards — SEBA, CBSE, ICSE)", "Coaching centers & tuition classes", "College professors", "Home tutors", "Competitive exam trainers"],
+    useCase: "A coaching center owner was losing 6 hours/week making weekly tests for 5 batches. Now each test takes 2 minutes. He used the free time to add 2 more batches — 40% more revenue.",
+  },
+  "social-writer": {
+    title: "Social Media Writer",
+    icon: "📱",
+    color: "linear-gradient(135deg,#ec4899,#f43f5e)",
+    tagline: "Post daily like a big brand. Without hiring one.",
+    problem: "You know social media grows business. But every time you open Facebook to post, you stare at the blank box. What do I write? Does this sound silly? Eventually you just... don't post. Your competitors do.",
+    solution: "Upload your product or type what you sold today. The agent writes 3-5 catchy captions instantly — for Facebook, Instagram, WhatsApp status — with the right hashtags, emojis, and local flavor.",
+    features: [
+      "Generates FB, Instagram, WhatsApp-status ready captions",
+      "Festival & trending topic posts (Bihu, Durga Puja, etc.)",
+      "Caption + relevant hashtags + emoji suggestions",
+      "Product-launch posts, sale posts, story posts",
+      "Works in English + Assamese mix (your customers' language)",
+      "30 days of content ideas in one click",
+    ],
+    perfectFor: ["Clothing & boutique shops", "Food businesses & home bakers", "Beauty salons & spas", "Handicraft & gift sellers", "Any brand with zero time for content"],
+    useCase: "A home baker in Nagaon was posting once a month. With the agent, she now posts daily — orders grew 3x in 2 months without spending on ads.",
+  },
+  "data-summarizer": {
+    title: "Data Summarizer Agent",
+    icon: "📊",
+    color: "linear-gradient(135deg,#10b981,#059669)",
+    tagline: "50-page PDF? Get the key points in one click.",
+    problem: "Your desk has a stack of reports, circulars, meeting minutes, policy PDFs, Excel sheets. Nobody has time to read all of it. Important points get missed. Decisions get delayed.",
+    solution: "Drop in any PDF, Excel, CSV, or Word file. The agent gives you: a 1-paragraph summary, 5 key bullet points, action items, and answers to any question you ask about the document.",
+    features: [
+      "Upload PDF, Excel, CSV, Word — any document",
+      "1-paragraph executive summary",
+      "Top 5 key points / decisions / numbers",
+      "Ask questions: 'What's our Q3 revenue?' → instant answer",
+      "Extracts tables, dates, names, figures",
+      "Works on Assamese + English documents",
+    ],
+    perfectFor: ["Govt. offices & panchayats", "Schools & college admin", "NGOs handling reports", "Business owners reviewing contracts", "Anyone drowning in paperwork"],
+    useCase: "A school principal received a 120-page education policy update. Instead of reading for hours, the agent gave her the 8 key changes affecting her school in 30 seconds.",
+  },
+};
+
+function openAgentModal(key) {
+  const a = AGENT_DATA[key];
+  if (!a) return;
+  const modal = document.getElementById("agentModal");
+  document.getElementById("agentIcon").style.background = a.color;
+  document.getElementById("agentIcon").textContent = a.icon;
+  document.getElementById("agentTitle").textContent = a.title;
+  document.getElementById("agentTagline").textContent = a.tagline;
+  document.getElementById("agentProblem").textContent = a.problem;
+  document.getElementById("agentSolution").textContent = a.solution;
+  document.getElementById("agentFeatures").innerHTML = a.features.map(f => `<li>${f}</li>`).join("");
+  document.getElementById("agentPerfectFor").innerHTML = a.perfectFor.map(p => `<span class="agent-chip">${p}</span>`).join("");
+  document.getElementById("agentUseCase").textContent = a.useCase;
+  const msg = encodeURIComponent(`Hi Smart Digital! I want to know more about the ${a.title} ${a.icon}`);
+  document.getElementById("agentWhatsApp").href = `https://wa.me/918638759478?text=${msg}`;
+  modal.classList.add("show");
+  document.body.style.overflow = "hidden";
+}
+
+function closeAgentModal() {
+  document.getElementById("agentModal").classList.remove("show");
   document.body.style.overflow = "";
 }
 
@@ -1338,14 +1469,9 @@ window.addEventListener("load", () => {
 
 // ─── MAGIC BG REMOVER ──────────────────────────────────────
 function initMagicRemover() {
-  const btn = document.getElementById("hero-bg-remover");
   const input = document.getElementById("hero-bg-input");
 
-  if (!btn || !input) return;
-
-  btn.addEventListener("click", () => {
-    input.click();
-  });
+  if (!input) return;
 
   input.addEventListener("change", (e) => {
     if (e.target.files && e.target.files[0]) {
@@ -1493,3 +1619,51 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// ─── SHOP OPENING COUNTDOWN ──────────────────────────────────
+(function () {
+    // ⚙️  SET YOUR SHOP OPENING DATE HERE (YYYY, Month-1, Day, Hour, Minute)
+    // Example: new Date(2025, 5, 15, 9, 0) = June 15 2025 at 9:00 AM
+    const OPENING_DATE = new Date(2025, 5, 1, 9, 0, 0); // June 1 2025
+
+    const bar = document.getElementById('openingCountdownBar');
+    if (!bar) return;
+
+    const elDays = document.getElementById('ocb-days');
+    const elHours = document.getElementById('ocb-hours');
+    const elMins = document.getElementById('ocb-mins');
+    const elSecs = document.getElementById('ocb-secs');
+
+    function pad(n) { return String(n).padStart(2, '0'); }
+
+    function tick() {
+        const now = Date.now();
+        const diff = OPENING_DATE.getTime() - now;
+
+        if (diff <= 0) {
+            // Shop is open — hide the bar (or show "We're Open!")
+            bar.innerHTML = `<div class="ocb-inner" style="justify-content:center; gap:12px;">
+                <span style="font-size:22px;">🎉</span>
+                <span style="color:#fff; font-weight:800; font-size:16px;">Smart Digital is NOW OPEN at Kachua Tiniali, Kampur!</span>
+                <a href="https://wa.me/918638759478" target="_blank" class="ocb-notify-btn"><i class="fab fa-whatsapp"></i> Chat Now</a>
+            </div>`;
+            return; // stop ticking
+        }
+
+        const totalSecs = Math.floor(diff / 1000);
+        const days  = Math.floor(totalSecs / 86400);
+        const hours = Math.floor((totalSecs % 86400) / 3600);
+        const mins  = Math.floor((totalSecs % 3600) / 60);
+        const secs  = totalSecs % 60;
+
+        if (elDays)  elDays.textContent  = pad(days);
+        if (elHours) elHours.textContent = pad(hours);
+        if (elMins)  elMins.textContent  = pad(mins);
+        if (elSecs)  elSecs.textContent  = pad(secs);
+
+        setTimeout(tick, 1000);
+    }
+
+    tick();
+})();
+

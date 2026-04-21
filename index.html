@@ -57,10 +57,8 @@
                 <ul class="nav-menu" id="navMenu">
                     <li><a href="#home" class="nav-link" data-en="Home" data-as="ঘৰ">Home</a></li>
                     <li><a href="#updates" class="nav-link" data-en="Updates" data-as="আপডেট">Updates</a></li>
-                    <li><a href="#websites" class="nav-link" data-en="Websites" data-as="ৱেবছাইট">Websites</a></li>
                     <li><a href="#services" class="nav-link" data-en="Services" data-as="সেৱা">Services</a></li>
-                    <!--                     <li><a href="#calculator" class="nav-link" data-en="Pricing" data-as="মূল্য">Pricing</a></li> -->
-                    
+                    <li><a href="#websites" class="nav-link" data-en="Websites" data-as="ৱেবছাইট">Websites</a></li>
                     <li><a href="#gallery" class="nav-link" data-en="Gallery" data-as="গেলেৰী">Gallery</a></li>
                     <li><a href="#certificates" class="nav-link" data-en="Certs" data-as="প্ৰমাণপত্ৰ">Certs</a></li>
                 </ul>
@@ -146,22 +144,18 @@
 
             <div class="hero-buttons">
                 <div class="hero-buttons-row">
-                    <a href="#demos" class="btn btn-liquid-glass btn-hero-cta">
-                        <i class="fas fa-globe"></i> <span data-en="View Demo Websites" data-as="ডেমো ৱেবছাইট চাওক">View
-                            Demo Websites</span>
+                    <a href="#websites" class="btn btn-liquid-glass btn-hero-cta">
+                        <i class="fas fa-globe"></i> <span data-en="View Demo Websites" data-as="ডেমো ৱেবছাইট চাওক">View Demo Websites</span>
                     </a>
-                    <button id="hero-bg-remover" class="btn btn-magic btn-hero-cta">
-                        <i class="fas fa-wand-magic-sparkles"></i> <span data-en="Remove Background" data-as="বেষ্টনীবোৰ আঁতৰাওক">Remove Background</span>
-                    </button>
-                    <input type="file" id="hero-bg-input" accept="image/*" hidden>
-                </div>
-                <div class="hero-buttons-row">
-                    <a href="generator/generator.html" target="_blank" class="btn btn-liquid-glass btn-hero-cta-alt">
-                        <i class="fas fa-lightbulb"></i> <span data-en="Imagine your business? Click here" data-as="আপোনাৰ ব্যৱসায় কল্পনা কৰক? ইয়াত ক্লিক কৰক">Imagine your business? Click
-                            here!</span>
+                    <a href="#services" class="btn btn-liquid-glass btn-hero-cta">
+                        <i class="fas fa-robot"></i> <span data-en="Our Services" data-as="আমাৰ সেৱাসমূহ">Our Services</span>
+                    </a>
+                    <a href="#websites" onclick="setTimeout(function(){document.querySelector('[onclick*=games-projects-tab]').click()},400)" class="btn btn-liquid-glass btn-hero-cta-alt">
+                        <i class="fas fa-gamepad"></i> <span data-en="Play Games" data-as="গেম খেলক">Play Games</span>
                     </a>
                 </div>
             </div>
+            <input type="file" id="hero-bg-input" accept="image/*" hidden>
 
             <!-- PUNCH WIDGET - Hero Section (Moved & Resized) -->
             <div class="punch-widget" data-id="hero-hype" style="width: fit-content; padding: 8px 12px; margin-top: 25px;">
@@ -217,13 +211,18 @@
 
             <!-- Shop Status Card -->
             <div class="shop-status-card is-open" id="shopStatusCard">
+                <div class="shop-spinning-border" id="shopSpinningBorder"></div>
+                <div class="shop-shimmer"></div>
                 <div class="shop-glow glow-open" id="shopGlow"></div>
                 <div class="shop-header">
                     <div class="shop-icon-wrap icon-open" id="shopIconWrap">
                         <i class="fas fa-store" id="shopIcon"></i>
                     </div>
                     <div class="shop-text">
-                        <span class="shop-badge open" id="shopBadge">OPEN</span>
+                        <div class="shop-badge-wrap">
+                            <span class="shop-live-dot" id="shopLiveDot"></span>
+                            <span class="shop-badge open" id="shopBadge">OPEN</span>
+                        </div>
                         <span class="shop-title" id="shopTitle" data-en="Shop is Open" data-as="দোকান খোলা আছে">Shop is Open</span>
                     </div>
                 </div>
@@ -244,18 +243,43 @@
                         </div>
                     </div>
                 </div>
+                <div class="shop-progress-wrap">
+                    <div class="shop-progress-bar" id="shopProgressBar"></div>
+                    <span class="shop-progress-label" id="shopProgressLabel">0% through open hours</span>
+                </div>
                 <div class="shop-countdown-row">
                     <i class="fas fa-clock"></i>
                     <span id="shopCountdown">Closes in: 12h 18m 16s</span>
                 </div>
                 <div class="shop-clock" id="shopLiveClock">8:38:44 AM</div>
-                <!-- <div class="shop-location">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span data-en="Kachua Tiniali, Kampur" data-as="কাছুয়া তিনিয়ালি, কামপুৰ">Kachua Tiniali,
-                        Kampur</span>
-                </div> -->
             </div>
     </div></section>
+
+    <!-- ===== SHOP OPENING COUNTDOWN ===== -->
+    <div class="opening-countdown-bar" id="openingCountdownBar">
+        <div class="ocb-inner">
+            <div class="ocb-left">
+                <span class="ocb-fire">🏗️</span>
+                <div>
+                    <span class="ocb-title" data-en="Shop Opening Soon!" data-as="দোকান সোনকালে মুকলি হ'ব!">Shop Opening Soon!</span>
+                    <span class="ocb-sub" data-en="Kachua Tiniali, Kampur — get notified on WhatsApp" data-as="কাছুয়া তিনিয়ালি, কামপুৰ — WhatsApp ত জানক">Kachua Tiniali, Kampur — get notified on WhatsApp</span>
+                </div>
+            </div>
+            <div class="ocb-timer">
+                <div class="ocb-unit"><span id="ocb-days">00</span><small>days</small></div>
+                <div class="ocb-colon">:</div>
+                <div class="ocb-unit"><span id="ocb-hours">00</span><small>hrs</small></div>
+                <div class="ocb-colon">:</div>
+                <div class="ocb-unit"><span id="ocb-mins">00</span><small>min</small></div>
+                <div class="ocb-colon">:</div>
+                <div class="ocb-unit"><span id="ocb-secs">00</span><small>sec</small></div>
+            </div>
+            <a href="https://wa.me/918638759478?text=Hi!%20Please%20notify%20me%20when%20Smart%20Digital%20shop%20opens%20in%20Kampur%20%F0%9F%93%A2" target="_blank" class="ocb-notify-btn">
+                <i class="fab fa-whatsapp"></i>
+                <span data-en="Notify Me" data-as="জানাওক">Notify Me</span>
+            </a>
+        </div>
+    </div>
 
     <!-- ===== ADMIN TOGGLE ===== -->
     <div class="admin-bar">
@@ -316,42 +340,712 @@
         </div>
     </section>
 
-    <!-- ===== STUDY ZONE ===== -->
-    <section class="study-zone-section" id="study-zone">
+    <!-- ===== SERVICES ===== -->
+    <section class="services-section" id="services">
         <div class="container">
             <div class="section-head">
-                <h2 class="section-title" data-en="Study Zone" data-as="ষ্টাডি জ'ন">Study Zone</h2>
-                <p class="section-sub" data-en="Educational websites for kids" data-as="শিশুসকলৰ বাবে শিক্ষামূলক ৱেবছাইট">Educational websites for kids</p>
+                <h2 class="section-title" data-en="Our Services" data-as="আমাৰ সেৱাসমূহ">Our Services</h2>
+                <p class="section-sub" data-en="Comprehensive digital solutions for everyone" data-as="সকলোৰ বাবে সম্পূৰ্ণ ডিজিটেল সমাধান">Comprehensive digital solutions for everyone</p>
             </div>
-            <div class="scroll-wrapper">
-                
-                <div class="study-zone-grid">
-                    <!-- Khelona Hub Card (Featured) -->
-                    <div class="study-zone-card" style="border: 2px solid var(--primary); background: rgba(99, 102, 241, 0.05);">
-                        <div class="demo-icon" style="font-size: 2.5rem; display: flex; align-items: center; justify-content: center; width: 70px; height: 70px; margin: 0 auto 15px; border-radius: 16px; background: linear-gradient(135deg, #ff6b6b, #ffd93d, #6bcb77, #4d96ff); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">🎮</div>
-                        <h3 style="font-family: 'Fredoka One', cursive; margin-bottom: 5px; color: var(--primary);">Khelona Hub</h3>
-                        <p style="color: var(--gray); font-size: 14px; margin-top: 10px;">Explore all 10+ educational games for kids.</p>
-                        <a href="kids-zone/khelona/index.html" class="btn btn-primary btn-sm" style="margin-top: 20px; width: 100%; border-radius: 50px;"><i class="fas fa-play-circle"></i> Play More</a>
+
+            <div class="tab-container">
+                <button class="filter-btn active" onclick="switchTab('service', 'ai-services-tab', this)" data-en="AI Services" data-as="এআই সেৱা">AI Services</button>
+                <button class="filter-btn" onclick="switchTab('service', 'offline-services-tab', this)" data-en="AI AGENTS" data-as="এআই এজেন্ট">AI AGENTS</button>
+                <button class="filter-btn" onclick="switchTab('service', 'shop-offline-tab', this)" data-en="Offline Services" data-as="অফলাইন সেৱা">Offline Services</button>
+            </div>
+
+            <div id="ai-services-tab" class="tab-content service-tab active">
+
+    <!-- AI Services Redesigned -->
+    <div class="ai-services-wrapper">
+        <div class="section-head" style="margin-bottom: 1.5rem;">
+            <div class="ai-hub-tag" data-en="✨ Smart Digital Hub" data-as="✨ স্মাৰ্ট ডিজিটেল হাব">✨ Smart Digital Hub</div>
+            <p style="text-align: center; color: var(--gray); font-size: 14px; margin-top: 6px;" data-en="Professional AI-powered tools for business &amp; personal growth" data-as="ব্যৱসায় আৰু ব্যক্তিগত বৃদ্ধিৰ বাবে পেছাদাৰী এআই-চালিত সঁজুলি">Professional AI-powered tools for business &amp; personal growth</p>
+        </div>
+
+        <!-- Search bar -->
+        <div class="ai-search-container">
+            <span class="ai-search-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </span>
+            <input type="text" id="toolSearch" class="ai-search-input" placeholder="Search AI tools (e.g. 'translator', 'resume', 'business')..." data-en-placeholder="Search AI tools (e.g. 'translator', 'resume', 'business')..." data-as-placeholder="এআই সঁজুলি বিচাৰক (যেনে 'অনুবাদক', 'ৰেজুমে', 'ব্যৱসায়')...">
+        </div>
+
+        <!-- Scroll hint strip -->
+        <div class="ai-scroll-hint">
+            <i class="fas fa-hand-pointer"></i>
+            <span data-en="Scroll to see more tools" data-as="অধিক সঁজুলি চাবলৈ স্ক্ৰল কৰক">Scroll to see more tools</span>
+            <span class="ai-scroll-dots"><span></span><span></span><span></span></span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+
+        <!-- Scroll area with nav buttons -->
+        <div class="ai-scroll-frame">
+            <button class="ai-nav-btn ai-nav-prev" id="aiNavPrev" onclick="aiScrollCards(-1)" aria-label="Scroll left">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+
+            <div class="ai-scroll-wrapper" id="aiScrollWrapper">
+            <div class="ai-grid" id="toolGrid">
+
+                <!-- ID Card & Certificate Maker -->
+                <a href="apps/id-maker/index.html" target="_blank" class="ai-svc-card" data-name="id card certificate maker school office club event free download">
+                    <div class="ai-svc-badge ai-badge-live" data-en="FREE" data-as="বিনামূলীয়া">FREE</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #f59e0b, #f97316);">🪪</div>
+                    <div class="ai-svc-tag" data-en="Utility / Free" data-as="সঁজুলি / বিনামূলীয়া">Utility / Free</div>
+                    <h3 data-en="ID Card & Certificate Maker" data-as="আইডি কাৰ্ড আৰু প্ৰমাণপত্ৰ নিৰ্মাতা">ID Card & Certificate Maker</h3>
+                    <p data-en="Design school ID cards, office IDs, and certificates for any occasion. Download as high-quality PNG." data-as="স্কুলৰ আইডি কাৰ্ড, অফিচ আইডি আৰু যিকোনো অনুষ্ঠানৰ বাবে প্ৰমাণপত্ৰ ডিজাইন কৰক। উচ্চ মানৰ PNG হিচাপে ডাউনলোড কৰক।">Design school ID cards, office IDs, and certificates for any occasion. Download as high-quality PNG.</p>
+                    <span class="ai-svc-cta" data-en="Try Free" data-as="বিনামূলীয়াকৈ চেষ্টা কৰক">Try Free <i class="fas fa-arrow-right"></i></span>
+                </a>
+
+                <!-- QR Code Generator -->
+                <a href="apps/qr-generator/index.html" target="_blank" class="ai-svc-card" data-name="qr code generator free url whatsapp upi payment business shop">
+                    <div class="ai-svc-badge ai-badge-live" data-en="FREE" data-as="বিনামূলীয়া">FREE</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #0ea5e9, #6366f1);">📱</div>
+                    <div class="ai-svc-tag" data-en="Utility / Free" data-as="সঁজুলি / বিনামূলীয়া">Utility / Free</div>
+                    <h3 data-en="QR Code Generator" data-as="QR ক'ড জেনেৰেটৰ">QR Code Generator</h3>
+                    <p data-en="Create QR codes for your shop, UPI payments, WhatsApp, or any link. Download instantly — free." data-as="আপোনাৰ দোকান, UPI পেমেণ্ট, WhatsApp বা যিকোনো লিংকৰ বাবে QR ক'ড বনাওক। তৎক্ষণাত ডাউনলোড কৰক — বিনামূলীয়া।">Create QR codes for your shop, UPI payments, WhatsApp, or any link. Download instantly — free.</p>
+                    <span class="ai-svc-cta" data-en="Try Free" data-as="বিনামূলীয়াকৈ চেষ্টা কৰক">Try Free <i class="fas fa-arrow-right"></i></span>
+                </a>
+
+                <!-- Background Remover -->
+                <div class="ai-svc-card" onclick="document.getElementById('hero-bg-input').click()" data-name="background remover photo image editor free ai tool">
+                    <div class="ai-svc-badge ai-badge-live" data-en="FREE" data-as="বিনামূলীয়া">FREE</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #a855f7, #ec4899);">✨</div>
+                    <div class="ai-svc-tag" data-en="Image / AI" data-as="ছবি / এআই">Image / AI</div>
+                    <h3 data-en="Background Remover" data-as="বেকগ্ৰাউণ্ড ৰিমুভাৰ">Background Remover</h3>
+                    <p data-en="Remove image backgrounds instantly with AI. Free to use — no signup needed." data-as="এআইৰ সহায়ত ছবিৰ বেকগ্ৰাউণ্ড তৎক্ষণাত আঁতৰাওক। বিনামূলীয়াকৈ ব্যৱহাৰ কৰক — কোনো ছাইনআপ নালাগে।">Remove image backgrounds instantly with AI. Free to use — no signup needed.</p>
+                    <span class="ai-svc-cta" data-en="Try Free" data-as="বিনামূলীয়াকৈ চেষ্টা কৰক">Try Free <i class="fas fa-arrow-right"></i></span>
+                </div>
+
+                <!-- Imagine Your Business -->
+                <a href="generator/generator.html" target="_blank" class="ai-svc-card" data-name="imagine your business generator idea visualizer free ai tool">
+                    <div class="ai-svc-badge ai-badge-live" data-en="FREE" data-as="বিনামূলীয়া">FREE</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #f59e0b, #f97316);">💡</div>
+                    <div class="ai-svc-tag" data-en="Business / AI" data-as="ব্যৱসায় / এআই">Business / AI</div>
+                    <h3 data-en="Imagine Your Business" data-as="আপোনাৰ ব্যৱসায় কল্পনা কৰক">Imagine Your Business</h3>
+                    <p data-en="Visualize your dream business with AI. Explore ideas, layouts, and concepts for free." data-as="এআইৰ সৈতে আপোনাৰ সপোনৰ ব্যৱসায় দৃশ্যমান কৰক। ধাৰণা, লেআউট আৰু কনচেপ্টসমূহ বিনামূলীয়াকৈ অন্বেষণ কৰক।">Visualize your dream business with AI. Explore ideas, layouts, and concepts for free.</p>
+                    <span class="ai-svc-cta" data-en="Try Free" data-as="বিনামূলীয়াকৈ চেষ্টা কৰক">Try Free <i class="fas fa-arrow-right"></i></span>
+                </a>
+
+                <!-- ExamCraft -->
+                <a href="apps/examcraft/index.html" class="ai-svc-card" data-name="examcraft pro question paper generator tool ai prep">
+                    <div class="ai-svc-badge ai-badge-new" data-en="NEW" data-as="নতুন">NEW</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);">📝</div>
+                    <div class="ai-svc-tag" data-en="Tools / AI" data-as="সঁজুলি / এআই">Tools / AI</div>
+                    <h3 data-en="ExamCraft Pro" data-as="এক্সামক্ৰাফ্ট প্ৰ'">ExamCraft Pro</h3>
+                    <p data-en="Generate professional question papers for any subject and level in minutes. Save hours of prep." data-as="যিকোনো বিষয় আৰু স্তৰৰ বাবে পেছাদাৰী প্ৰশ্নপত্ৰ মিনিটৰ ভিতৰত বনাওক। প্ৰস্তুতিৰ ঘণ্টা ৰাহি কৰক।">Generate professional question papers for any subject and level in minutes. Save hours of prep.</p>
+                    <span class="ai-svc-cta" data-en="Open Service" data-as="সেৱা খোলক">Open Service <i class="fas fa-arrow-right"></i></span>
+                </a>
+
+                <!-- LipiAntar -->
+                <a href="apps/translator/index.html" class="ai-svc-card" data-name="lipiantar translator language translation assamese hindi">
+                    <div class="ai-svc-badge ai-badge-live" data-en="AI LIVE" data-as="এআই লাইভ">AI LIVE</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #3b82f6, #06b6d4);">🌍</div>
+                    <div class="ai-svc-tag" data-en="Language / AI" data-as="ভাষা / এআই">Language / AI</div>
+                    <h3 data-en="LipiAntar" data-as="লিপিঅন্তৰ">LipiAntar</h3>
+                    <p data-en="Professional document translation for Assamese, Hindi &amp; English. Built for legal and official documents." data-as="অসমীয়া, হিন্দী আৰু ইংৰাজীৰ বাবে পেছাদাৰী দস্তাবেজ অনুবাদ। আইনী আৰু চৰকাৰী দস্তাবেজৰ বাবে নিৰ্মিত।">Professional document translation for Assamese, Hindi &amp; English. Built for legal and official documents.</p>
+                    <span class="ai-svc-cta" data-en="Open Service" data-as="সেৱা খোলক">Open Service <i class="fas fa-arrow-right"></i></span>
+                </a>
+
+                <!-- BizWrite -->
+                <a href="apps/bizwrite/index.html" class="ai-svc-card" data-name="bizwrite business ai profile generator social media bio">
+                    <div class="ai-svc-badge ai-badge-live" data-en="AI LIVE" data-as="এআই লাইভ">AI LIVE</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #f97316, #eab308);">🏪</div>
+                    <div class="ai-svc-tag" data-en="Business / AI" data-as="ব্যৱসায় / এআই">Business / AI</div>
+                    <h3 data-en="BizWrite" data-as="বিজ্‌ৰাইট">BizWrite</h3>
+                    <p data-en="Generate professional business profiles, social media bios, and product descriptions in seconds." data-as="পেছাদাৰী ব্যৱসায়ৰ প্ৰফাইল, ছ'চিয়েল মিডিয়া বায়' আৰু সামগ্ৰীৰ বিৱৰণ চেকেণ্ডত বনাওক।">Generate professional business profiles, social media bios, and product descriptions in seconds.</p>
+                    <span class="ai-svc-cta" data-en="Open Service" data-as="সেৱা খোলক">Open Service <i class="fas fa-arrow-right"></i></span>
+                </a>
+
+                <!-- PatraLekhak -->
+                <a href="apps/patralekhak/index.html" class="ai-svc-card" data-name="patralekhak legal legal ai letter writer formal complaints">
+                    <div class="ai-svc-badge ai-badge-beta" data-en="BETA" data-as="বিটা">BETA</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #8b5cf6, #ec4899);">✉️</div>
+                    <div class="ai-svc-tag" data-en="Legal / AI" data-as="আইনী / এআই">Legal / AI</div>
+                    <h3 data-en="PatraLekhak" data-as="পত্ৰলেখক">PatraLekhak</h3>
+                    <p data-en="Convert simple complaints into powerful formal and legal letters. Supports multiple languages." data-as="সৰল অভিযোগক শক্তিশালী আনুষ্ঠানিক আৰু আইনী চিঠিলৈ ৰূপান্তৰ কৰক। একাধিক ভাষা সমৰ্থন কৰে।">Convert simple complaints into powerful formal and legal letters. Supports multiple languages.</p>
+                    <span class="ai-svc-cta" data-en="Open Service" data-as="সেৱা খোলক">Open Service <i class="fas fa-arrow-right"></i></span>
+                </a>
+
+                <!-- ScriptWala -->
+                <a href="apps/scriptwala/index.html" class="ai-svc-card" data-name="scriptwala marketing ai whatsapp script generator promotions">
+                    <div class="ai-svc-badge ai-badge-live" data-en="AI LIVE" data-as="এআই লাইভ">AI LIVE</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #25d366, #059669);">💬</div>
+                    <div class="ai-svc-tag" data-en="Marketing / AI" data-as="মাৰ্কেটিং / এআই">Marketing / AI</div>
+                    <h3 data-en="ScriptWala" data-as="স্ক্ৰিপ্টৱালা">ScriptWala</h3>
+                    <p data-en="Create high-converting WhatsApp scripts for promotions, festive tags, and customer relations." data-as="প্ৰমোচন, উৎসৱ টেগ আৰু গ্ৰাহক সম্পৰ্কৰ বাবে উচ্চ-ৰূপান্তৰণ WhatsApp স্ক্ৰিপ্ট বনাওক।">Create high-converting WhatsApp scripts for promotions, festive tags, and customer relations.</p>
+                    <span class="ai-svc-cta" data-en="Open Service" data-as="সেৱা খোলক">Open Service <i class="fas fa-arrow-right"></i></span>
+                </a>
+
+                <!-- ShopWrite -->
+                <a href="apps/shopwrite/index.html" class="ai-svc-card" data-name="shopwrite ai e-commerce product copy seo keywords hashtags">
+                    <div class="ai-svc-badge ai-badge-live" data-en="AI LIVE" data-as="এআই লাইভ">AI LIVE</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #ec4899, #f97316);">🛒</div>
+                    <div class="ai-svc-tag" data-en="E-commerce / AI" data-as="ই-কমাৰ্চ / এআই">E-commerce / AI</div>
+                    <h3 data-en="ShopWrite AI" data-as="শ্বপৰাইট এআই">ShopWrite AI</h3>
+                    <p data-en="E-commerce product copy generator with built-in SEO keywords and hashtags for maximum reach." data-as="সৰ্বাধিক ৰিচৰ বাবে অন্তৰ্নিৰ্মিত SEO কীৱৰ্ড আৰু হেশ্বট্যাগৰ সৈতে ই-কমাৰ্চ প্ৰডাক্ট কপি জেনেৰেটৰ।">E-commerce product copy generator with built-in SEO keywords and hashtags for maximum reach.</p>
+                    <span class="ai-svc-cta" data-en="Open Service" data-as="সেৱা খোলক">Open Service <i class="fas fa-arrow-right"></i></span>
+                </a>
+
+                <!-- Resume Builder -->
+                <a href="apps/resume-builder/index.html" class="ai-svc-card" data-name="resume builder career ai ats-friendly professional template">
+                    <div class="ai-svc-badge ai-badge-new" data-en="NEW" data-as="নতুন">NEW</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #10b981, #3b82f6);">📄</div>
+                    <div class="ai-svc-tag" data-en="Career / AI" data-as="কেৰিয়াৰ / এআই">Career / AI</div>
+                    <h3 data-en="Resume Builder" data-as="ৰেজুমে বিল্ডাৰ">Resume Builder</h3>
+                    <p data-en="Create professional, ATS-friendly resumes in 60 seconds. Modern templates and AI content." data-as="৬০ চেকেণ্ডত পেছাদাৰী, ATS-অনুকূল ৰেজুমে বনাওক। আধুনিক টেমপ্লেট আৰু এআই সমল।">Create professional, ATS-friendly resumes in 60 seconds. Modern templates and AI content.</p>
+                    <span class="ai-svc-cta" data-en="Open Service" data-as="সেৱা খোলক">Open Service <i class="fas fa-arrow-right"></i></span>
+                </a>
+
+                <!-- No Results Found -->
+                <div id="noResults" class="ai-no-results">
+                    <h3 data-en="No matching tools found" data-as="কোনো মিল থকা সঁজুলি পোৱা নগ'ল">No matching tools found</h3>
+                    <p data-en="Try searching for different keywords or categories." data-as="বেলেগ কীৱৰ্ড বা শ্ৰেণীৰ সৈতে বিচাৰক।">Try searching for different keywords or categories.</p>
+                </div>
+            </div>
+            </div>
+
+            <button class="ai-nav-btn ai-nav-next" id="aiNavNext" onclick="aiScrollCards(1)" aria-label="Scroll right">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+            </div>
+
+
+
+
+            <div id="offline-services-tab" class="tab-content service-tab">
+                <div class="ai-services-wrapper">
+                <div class="offline-cards-grid">
+
+                <!-- AI Agent: n8n WhatsApp Bot -->
+                <div class="ai-svc-card" onclick="openAgentModal('whatsapp-bot')">
+                    <div class="ai-svc-badge" style="background: linear-gradient(135deg, #7c3aed, #a855f7); color: #fff;" data-en="AI AGENT" data-as="এআই এজেন্ট">AI AGENT</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #25d366, #059669);">🤖</div>
+                    <div class="ai-svc-tag" data-en="24/7 Automation" data-as="২৪/৭ স্বয়ংক্ৰিয়কৰণ">24/7 Automation</div>
+                    <h3 data-en="n8n WhatsApp Bot" data-as="n8n WhatsApp বট">n8n WhatsApp Bot</h3>
+                    <p data-en="Your shop never sleeps. Reply to customers even at 2 AM — never miss a lead again." data-as="আপোনাৰ দোকান কেতিয়াও নুগুম। ৰাতি ২ বজাতো গ্ৰাহকক উত্তৰ দিয়ক — আকৌ এটা লিড হেৰুৱা নাযাব।">Your shop never sleeps. Reply to customers even at 2 AM — never miss a lead again.</p>
+                    <span class="ai-svc-cta" data-en="See Details" data-as="বিৱৰণ চাওক">See Details <i class="fas fa-arrow-right"></i></span>
+                </div>
+
+                <!-- AI Agent: Customer Reply -->
+                <div class="ai-svc-card" onclick="openAgentModal('customer-reply')">
+                    <div class="ai-svc-badge" style="background: linear-gradient(135deg, #7c3aed, #a855f7); color: #fff;" data-en="AI AGENT" data-as="এআই এজেন্ট">AI AGENT</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #7c3aed, #a855f7);">💬</div>
+                    <div class="ai-svc-tag" data-en="Shops / Clinics" data-as="দোকান / ক্লিনিক">Shops / Clinics</div>
+                    <h3 data-en="Customer Reply Agent" data-as="গ্ৰাহক উত্তৰ এজেন্ট">Customer Reply Agent</h3>
+                    <p data-en="Tired of typing the same reply 50 times a day? Let AI handle it." data-as="দিনে ৫০ বাৰ একেই উত্তৰ টাইপ কৰি ভাগৰিছে? এআইক সম্ভালিবলৈ দিয়ক।">Tired of typing the same reply 50 times a day? Let AI handle it.</p>
+                    <span class="ai-svc-cta" data-en="See Details" data-as="বিৱৰণ চাওক">See Details <i class="fas fa-arrow-right"></i></span>
+                </div>
+
+                <!-- AI Agent: Document Drafting -->
+                <div class="ai-svc-card" onclick="openAgentModal('doc-drafting')">
+                    <div class="ai-svc-badge" style="background: linear-gradient(135deg, #7c3aed, #a855f7); color: #fff;" data-en="AI AGENT" data-as="এআই এজেন্ট">AI AGENT</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #0ea5e9, #3b82f6);">📄</div>
+                    <div class="ai-svc-tag" data-en="Offices / Legal" data-as="অফিচ / আইনী">Offices / Legal</div>
+                    <h3 data-en="Document Drafting Agent" data-as="দস্তাবেজ খচৰা এজেন্ট">Document Drafting Agent</h3>
+                    <p data-en="Turn 2-hour letter writing into 2-minute document magic. Assamese + English." data-as="২ ঘণ্টাৰ চিঠি লিখাক ২ মিনিটৰ দস্তাবেজ যাদুলৈ পৰিণত কৰক। অসমীয়া + ইংৰাজী।">Turn 2-hour letter writing into 2-minute document magic. Assamese + English.</p>
+                    <span class="ai-svc-cta" data-en="See Details" data-as="বিৱৰণ চাওক">See Details <i class="fas fa-arrow-right"></i></span>
+                </div>
+
+                <!-- AI Agent: Exam/Quiz Generator -->
+                <div class="ai-svc-card" onclick="openAgentModal('exam-gen')">
+                    <div class="ai-svc-badge" style="background: linear-gradient(135deg, #7c3aed, #a855f7); color: #fff;" data-en="AI AGENT" data-as="এআই এজেন্ট">AI AGENT</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #f59e0b, #f97316);">📝</div>
+                    <div class="ai-svc-tag" data-en="Schools / Coaching" data-as="বিদ্যালয় / কোচিং">Schools / Coaching</div>
+                    <h3 data-en="Exam & Quiz Generator" data-as="পৰীক্ষা আৰু কুইজ জেনেৰেটৰ">Exam & Quiz Generator</h3>
+                    <p data-en="Topic in. Full question paper out. In 30 seconds. Teachers, reclaim your Sundays." data-as="বিষয় দিয়ক। সম্পূৰ্ণ প্ৰশ্নপত্ৰ পাওক। ৩০ চেকেণ্ডত। শিক্ষকসকল, আপোনাৰ দেওবাৰ ঘূৰাই পাওক।">Topic in. Full question paper out. In 30 seconds. Teachers, reclaim your Sundays.</p>
+                    <span class="ai-svc-cta" data-en="See Details" data-as="বিৱৰণ চাওক">See Details <i class="fas fa-arrow-right"></i></span>
+                </div>
+
+                <!-- AI Agent: Social Media Writer -->
+                <div class="ai-svc-card" onclick="openAgentModal('social-writer')">
+                    <div class="ai-svc-badge" style="background: linear-gradient(135deg, #7c3aed, #a855f7); color: #fff;" data-en="AI AGENT" data-as="এআই এজেন্ট">AI AGENT</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #ec4899, #f43f5e);">📱</div>
+                    <div class="ai-svc-tag" data-en="Small Brands" data-as="সৰু ব্ৰেণ্ড">Small Brands</div>
+                    <h3 data-en="Social Media Writer" data-as="ছ'চিয়েল মিডিয়া লেখক">Social Media Writer</h3>
+                    <p data-en="Stop staring at blank captions. Post daily like a big brand — without hiring one." data-as="খালী কেপচনলৈ চাই থকা বন্ধ কৰক। ডাঙৰ ব্ৰেণ্ডৰ দৰে দৈনিক পোষ্ট কৰক — কাকো নিযুক্তি নিদিয়াকৈ।">Stop staring at blank captions. Post daily like a big brand — without hiring one.</p>
+                    <span class="ai-svc-cta" data-en="See Details" data-as="বিৱৰণ চাওক">See Details <i class="fas fa-arrow-right"></i></span>
+                </div>
+
+                <!-- AI Agent: Data Summarizer -->
+                <div class="ai-svc-card" onclick="openAgentModal('data-summarizer')">
+                    <div class="ai-svc-badge" style="background: linear-gradient(135deg, #7c3aed, #a855f7); color: #fff;" data-en="AI AGENT" data-as="এআই এজেন্ট">AI AGENT</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #10b981, #059669);">📊</div>
+                    <div class="ai-svc-tag" data-en="Offices / Institutions" data-as="অফিচ / প্ৰতিষ্ঠান">Offices / Institutions</div>
+                    <h3 data-en="Data Summarizer Agent" data-as="ডেটা সাৰাংশ এজেন্ট">Data Summarizer Agent</h3>
+                    <p data-en="50-page PDF? Key points in one click. Drowning in paperwork? Breathe again." data-as="৫০-পৃষ্ঠাৰ PDF? এটা ক্লিকতে মূল বিন্দু। কাগজপত্ৰত ডুবিছে? পুনৰ উশাহ লওক।">50-page PDF? Key points in one click. Drowning in paperwork? Breathe again.</p>
+                    <span class="ai-svc-cta" data-en="See Details" data-as="বিৱৰণ চাওক">See Details <i class="fas fa-arrow-right"></i></span>
+                </div>
+
+                <!-- PAN Card -->
+                <div class="ai-svc-card" style="display: none;">
+                    <div class="ai-svc-badge ai-badge-beta">COMING SOON</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #f97316, #eab308);">🪪</div>
+                    <div class="ai-svc-tag">Govt. / ID</div>
+                    <h3 data-en="PAN Card" data-as="পেন কাৰ্ড">PAN Card</h3>
+                    <p data-en="New application, correction &amp; tracking" data-as="নতুন আৱেদন, সংশোধন আৰু ট্ৰেকিং">New application, correction &amp; tracking</p>
+                    <span class="ai-svc-cta-soon">Coming Soon</span>
+                </div>
+
+                <!-- Aadhaar Services -->
+                <div class="ai-svc-card" style="display: none;">
+                    <div class="ai-svc-badge ai-badge-beta">COMING SOON</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #6366f1, #3b82f6);">👆</div>
+                    <div class="ai-svc-tag">Govt. / ID</div>
+                    <h3 data-en="Aadhaar Services" data-as="আধাৰ সেৱা">Aadhaar Services</h3>
+                    <p data-en="Update, correction &amp; enrollment help" data-as="আপডেট, সংশোধন আৰু নথিভুক্তিৰ সহায়">Update, correction &amp; enrollment help</p>
+                    <span class="ai-svc-cta-soon">Coming Soon</span>
+                </div>
+
+                <!-- Printing & Scanning -->
+                <div class="ai-svc-card" style="display: none;">
+                    <div class="ai-svc-badge ai-badge-beta">COMING SOON</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #64748b, #94a3b8);">🖨️</div>
+                    <div class="ai-svc-tag">Print / Office</div>
+                    <h3 data-en="Printing &amp; Scanning" data-as="প্ৰিন্টিং আৰু স্কেনিং">Printing &amp; Scanning</h3>
+                    <p data-en="B&amp;W, color printing, scanning &amp; PDF" data-as="বি&amp;ডব্লু, কালাৰ প্ৰিন্টিং, স্কেনিং আৰু PDF">B&amp;W, color printing, scanning &amp; PDF</p>
+                    <span class="ai-svc-cta-soon">Coming Soon</span>
+                </div>
+
+                <!-- Passport Photo -->
+                <div class="ai-svc-card" style="display: none;">
+                    <div class="ai-svc-badge ai-badge-beta">COMING SOON</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #0ea5e9, #06b6d4);">📷</div>
+                    <div class="ai-svc-tag">Photography</div>
+                    <h3 data-en="Passport Photo" data-as="পাছপোৰ্ট ফটো">Passport Photo</h3>
+                    <p data-en="Professional passport-size &amp; ID photos" data-as="পেছাদাৰী পাছপোৰ্ট আৰু পৰিচয়পত্ৰৰ ফটো">Professional passport-size &amp; ID photos</p>
+                    <span class="ai-svc-cta-soon">Coming Soon</span>
+                </div>
+
+                <!-- Govt. Form Filling -->
+                <div class="ai-svc-card" style="display: none;">
+                    <div class="ai-svc-badge ai-badge-beta">COMING SOON</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #8b5cf6, #6366f1);">📋</div>
+                    <div class="ai-svc-tag">Govt. / Forms</div>
+                    <h3 data-en="Govt. Form Filling" data-as="চৰকাৰী ফৰ্ম পূৰণ">Govt. Form Filling</h3>
+                    <p data-en="All government online forms &amp; applications" data-as="সকলো চৰকাৰী অনলাইন ফৰ্ম আৰু আৱেদন">All government online forms &amp; applications</p>
+                    <span class="ai-svc-cta-soon">Coming Soon</span>
+                </div>
+
+                <!-- Ticket Booking -->
+                <div class="ai-svc-card" style="display: none;">
+                    <div class="ai-svc-badge ai-badge-beta">COMING SOON</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #ef4444, #f97316);">🎫</div>
+                    <div class="ai-svc-tag">Travel</div>
+                    <h3 data-en="Ticket Booking" data-as="টিকট বুকিং">Ticket Booking</h3>
+                    <p data-en="Railway, bus &amp; flight ticket booking" data-as="ৰেল, বাছ আৰু বিমান টিকট বুকিং">Railway, bus &amp; flight ticket booking</p>
+                    <span class="ai-svc-cta-soon">Coming Soon</span>
+                </div>
+
+                <!-- Voter ID Services -->
+                <div class="ai-svc-card" style="display: none;">
+                    <div class="ai-svc-badge ai-badge-beta">COMING SOON</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #10b981, #059669);">🗳️</div>
+                    <div class="ai-svc-tag">Govt. / ID</div>
+                    <h3 data-en="Voter ID Services" data-as="ভোটাৰ পৰিচয়পত্ৰ সেৱা">Voter ID Services</h3>
+                    <p data-en="New registration &amp; correction" data-as="নতুন নথিভুক্তি আৰু সংশোধন">New registration &amp; correction</p>
+                    <span class="ai-svc-cta-soon">Coming Soon</span>
+                </div>
+
+                </div>
+                </div>
+            </div>
+
+            <!-- ===== OFFLINE SHOP SERVICES TAB ===== -->
+            <div id="shop-offline-tab" class="tab-content service-tab">
+                <div class="ai-services-wrapper">
+                    <div class="section-head" style="margin-bottom: 1.5rem;">
+                        <div class="ai-hub-tag" style="background: linear-gradient(135deg, #0ea5e9, #6366f1);" data-en="🏪 In-Shop Services" data-as="🏪 ইন-শ্বপ সেৱা">🏪 In-Shop Services</div>
+                        <p style="text-align: center; color: var(--gray); font-size: 14px; margin-top: 6px;" data-en="Visit our shop or call for any of these offline services" data-as="এই অফলাইন সেৱাসমূহৰ যিকোনো এটাৰ বাবে আমাৰ দোকানলৈ আহক বা ফোন কৰক">Visit our shop or call for any of these offline services</p>
                     </div>
-                    <!-- Kids Fun Learning Hub Card (Featured) -->
-                    <div class="study-zone-card" style="border: 2px solid #a855f7; background: rgba(168, 85, 247, 0.05);">
-                        <div class="demo-icon" style="font-size: 2.5rem; display: flex; align-items: center; justify-content: center; width: 70px; height: 70px; margin: 0 auto 15px; border-radius: 16px; background: linear-gradient(135deg, #a855f7, #6366f1, #3b82f6); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">🌟</div>
-                        <h3 style="font-family: 'Fredoka One', cursive; margin-bottom: 5px; color: #a855f7;">Fun Learning Hub</h3>
-                        <p style="color: var(--gray); font-size: 14px; margin-top: 10px;">Play 25+ brain games for ages 3-6!</p>
-                        <a href="kids-zone/kids-learning/index.html" class="btn btn-primary btn-sm" style="margin-top: 20px; width: 100%; border-radius: 50px; background: #a855f7; border-color: #a855f7;"><i class="fas fa-rocket"></i> Play Now</a>
+
+                    <!-- 1. Govt. ID & Documents -->
+                    <div class="offline-svc-category">
+                        <div class="offline-svc-cat-header">
+                            <span class="offline-svc-cat-icon" style="background: linear-gradient(135deg, #f59e0b, #f97316);">🆔</span>
+                            <div>
+                                <h3 class="offline-svc-cat-title" data-en="Govt. ID & Documents" data-as="চৰকাৰী আইডি আৰু দস্তাবেজ">Govt. ID & Documents</h3>
+                                <p class="offline-svc-cat-sub" data-en="Aadhaar, PAN, Voter ID & more" data-as="আধাৰ, পেন, ভোটাৰ আইডি আৰু অধিক">Aadhaar, PAN, Voter ID & more</p>
+                            </div>
+                        </div>
+                        <div class="offline-svc-grid">
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #f59e0b, #f97316);">🪪</div>
+                                <h4 data-en="Aadhaar Update / Print" data-as="আধাৰ আপডেট / প্ৰিন্ট">Aadhaar Update / Print</h4>
+                                <p data-en="Update details, reprint Aadhaar card" data-as="বিৱৰণ আপডেট, আধাৰ কাৰ্ড পুনৰ প্ৰিন্ট">Update details, reprint Aadhaar card</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);">💳</div>
+                                <h4 data-en="New PAN Card Apply" data-as="নতুন পেন কাৰ্ড আবেদন">New PAN Card Apply</h4>
+                                <p data-en="Fresh PAN application & corrections" data-as="নতুন পেন আবেদন আৰু সংশোধন">Fresh PAN application & corrections</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #0ea5e9, #06b6d4);">📲</div>
+                                <h4 data-en="Mobile & Email Linking" data-as="ম'বাইল আৰু ইমেইল লিংক">Mobile & Email Linking</h4>
+                                <p data-en="Link mobile/email to Aadhaar" data-as="আধাৰৰ সৈতে ম'বাইল/ইমেইল লিংক কৰক">Link mobile/email to Aadhaar</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #10b981, #059669);">👆</div>
+                                <h4 data-en="E-KYC Assistance" data-as="ই-কেৱাইচি সহায়">E-KYC Assistance</h4>
+                                <p data-en="Bank, SIM & scheme E-KYC support" data-as="বেংক, ছিম আৰু আঁচনিৰ ই-কেৱাইচি সহায়">Bank, SIM & scheme E-KYC support</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #10b981, #14b8a6);">🗳️</div>
+                                <h4 data-en="Voter ID Services" data-as="ভোটাৰ আইডি সেৱা">Voter ID Services</h4>
+                                <p data-en="New voter ID, correction & EPIC" data-as="নতুন ভোটাৰ আইডি, সংশোধন আৰু EPIC">New voter ID, correction & EPIC</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">🚗</div>
+                                <h4 data-en="Driving Licence Form" data-as="ড্ৰাইভিং লাইচেন্স ফৰ্ম">Driving Licence Form</h4>
+                                <p data-en="LLR, DL & RC application help" data-as="LLR, DL আৰু RC আবেদনৰ সহায়">LLR, DL & RC application help</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #1e40af, #3730a3);">📘</div>
+                                <h4 data-en="Passport Form Filling" data-as="পাছপোৰ্ট ফৰ্ম পূৰণ">Passport Form Filling</h4>
+                                <p data-en="Fresh & re-issue passport assistance" data-as="নতুন আৰু পুনৰ ইছ্যু পাছপোৰ্টৰ সহায়">Fresh & re-issue passport assistance</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #f97316, #ea580c);">🍚</div>
+                                <h4 data-en="Ration Card Services" data-as="ৰেচন কাৰ্ড সেৱা">Ration Card Services</h4>
+                                <p data-en="New, correction & member updates" data-as="নতুন, সংশোধন আৰু সদস্য আপডেট">New, correction & member updates</p>
+                            </div>
+                        </div>
                     </div>
-                    <!-- Gyan Play Card (Upcoming) -->
-                    <div class="study-zone-card" style="border: 2px solid #f59e0b; background: rgba(245, 158, 11, 0.05);">
-                        <div class="demo-icon" style="font-size: 2.5rem; display: flex; align-items: center; justify-content: center; width: 70px; height: 70px; margin: 0 auto 15px; border-radius: 16px; background: linear-gradient(135deg, #f59e0b, #fbbf24, #fcd34d); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">📖</div>
-                        <h3 style="font-family: 'Fredoka One', cursive; margin-bottom: 5px; color: #f59e0b;">Gyan Play</h3>
-                        <p style="color: var(--gray); font-size: 14px; margin-top: 10px;">Interactive educational platform — coming soon!</p>
-                        <a href="#" class="btn btn-primary btn-sm" style="margin-top: 20px; width: 100%; border-radius: 50px; background: #f59e0b; border-color: #f59e0b;"><i class="fas fa-book-open"></i> Coming Soon</a>
+
+                    <!-- 2. Certificates & Application Forms -->
+                    <div class="offline-svc-category">
+                        <div class="offline-svc-cat-header">
+                            <span class="offline-svc-cat-icon" style="background: linear-gradient(135deg, #ef4444, #f97316);">📜</span>
+                            <div>
+                                <h3 class="offline-svc-cat-title" data-en="Certificates & Application Forms" data-as="প্ৰমাণপত্ৰ আৰু আবেদন ফৰ্ম">Certificates & Application Forms</h3>
+                                <p class="offline-svc-cat-sub" data-en="Govt. certificates, schemes & exam forms" data-as="চৰকাৰী প্ৰমাণপত্ৰ, আঁচনি আৰু পৰীক্ষাৰ ফৰ্ম">Govt. certificates, schemes & exam forms</p>
+                            </div>
+                        </div>
+                        <div class="offline-svc-grid">
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #ef4444, #f97316);">📄</div>
+                                <h4 data-en="Income & Caste Certificate" data-as="আয় আৰু জাতি প্ৰমাণপত্ৰ">Income & Caste Certificate</h4>
+                                <p data-en="Apply for govt. income & caste docs" data-as="চৰকাৰী আয় আৰু জাতি দস্তাবেজৰ বাবে আবেদন">Apply for govt. income & caste docs</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #8b5cf6, #6366f1);">🏠</div>
+                                <h4 data-en="Domicile / PRC Certificate" data-as="আবাস / PRC প্ৰমাণপত্ৰ">Domicile / PRC Certificate</h4>
+                                <p data-en="State domicile & residence proof" data-as="ৰাজ্যিক আবাস আৰু বাসস্থানৰ প্ৰমাণ">State domicile & residence proof</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #f43f5e, #ec4899);">🎂</div>
+                                <h4 data-en="Birth / Death Certificate" data-as="জন্ম / মৃত্যু প্ৰমাণপত্ৰ">Birth / Death Certificate</h4>
+                                <p data-en="Registration, correction & download" data-as="পঞ্জীয়ন, সংশোধন আৰু ডাউনলোড">Registration, correction & download</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #f59e0b, #eab308);">🏛️</div>
+                                <h4 data-en="Govt. Scheme Registration" data-as="চৰকাৰী আঁচনি পঞ্জীয়ন">Govt. Scheme Registration</h4>
+                                <p data-en="PMAY, PM-Kisan, Ayushman & more" data-as="PMAY, PM-কিষান, আয়ুষ্মান আৰু অধিক">PMAY, PM-Kisan, Ayushman & more</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #ec4899, #f43f5e);">📝</div>
+                                <h4 data-en="All Exam Form Fillup" data-as="সকলো পৰীক্ষাৰ ফৰ্ম পূৰণ">All Exam Form Fillup</h4>
+                                <p data-en="SSC, Railway, ADRE, banking exams" data-as="SSC, ৰেলৱে, ADRE, বেংকিং পৰীক্ষা">SSC, Railway, ADRE, banking exams</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #14b8a6, #0d9488);">🎓</div>
+                                <h4 data-en="College & University Forms" data-as="কলেজ আৰু বিশ্ববিদ্যালয় ফৰ্ম">College & University Forms</h4>
+                                <p data-en="Admission, scholarship & semester" data-as="নামভৰ্তি, বৃত্তি আৰু ছেমিষ্টাৰ">Admission, scholarship & semester</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">👴</div>
+                                <h4 data-en="Pension Scheme Apply" data-as="পেঞ্চন আঁচনিৰ আবেদন">Pension Scheme Apply</h4>
+                                <p data-en="Old age, widow & disability pension" data-as="বৃদ্ধ, বিধৱা আৰু অক্ষমতা পেঞ্চন">Old age, widow & disability pension</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #06b6d4, #0891b2);">📋</div>
+                                <h4 data-en="Job Application Forms" data-as="চাকৰিৰ আবেদন ফৰ্ম">Job Application Forms</h4>
+                                <p data-en="Online job portal applications" data-as="অনলাইন চাকৰি পৰ্টেলৰ আবেদন">Online job portal applications</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Bill Payments & Recharge -->
+                    <div class="offline-svc-category">
+                        <div class="offline-svc-cat-header">
+                            <span class="offline-svc-cat-icon" style="background: linear-gradient(135deg, #facc15, #f59e0b);">💡</span>
+                            <div>
+                                <h3 class="offline-svc-cat-title" data-en="Bill Payments & Recharge" data-as="বিল পেমেণ্ট আৰু ৰিচাৰ্জ">Bill Payments & Recharge</h3>
+                                <p class="offline-svc-cat-sub" data-en="Pay all utility bills under one roof" data-as="এটা ছাতৰ তলতে সকলো উপযোগিতা বিল পেমেণ্ট">Pay all utility bills under one roof</p>
+                            </div>
+                        </div>
+                        <div class="offline-svc-grid">
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #facc15, #f59e0b);">💡</div>
+                                <h4 data-en="Electricity Bill (APDCL)" data-as="বিদ্যুৎ বিল (APDCL)">Electricity Bill (APDCL)</h4>
+                                <p data-en="Pay your monthly electricity bill" data-as="আপোনাৰ মাহেকীয়া বিদ্যুৎ বিল পেমেণ্ট কৰক">Pay your monthly electricity bill</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #06b6d4, #0284c7);">💧</div>
+                                <h4 data-en="Water Bill (PHED)" data-as="পানীৰ বিল (PHED)">Water Bill (PHED)</h4>
+                                <p data-en="Pay water supply bills instantly" data-as="পানী যোগানৰ বিল তৎক্ষণাত পেমেণ্ট কৰক">Pay water supply bills instantly</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #25d366, #059669);">📱</div>
+                                <h4 data-en="Mobile / DTH Recharge" data-as="ম'বাইল / DTH ৰিচাৰ্জ">Mobile / DTH Recharge</h4>
+                                <p data-en="All operators prepaid & DTH" data-as="সকলো অপাৰেটৰৰ প্ৰিপেইড আৰু DTH">All operators prepaid & DTH</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #f97316, #ea580c);">🔥</div>
+                                <h4 data-en="LPG Gas Booking" data-as="LPG গেছ বুকিং">LPG Gas Booking</h4>
+                                <p data-en="Indane, HP & Bharat gas refill" data-as="ইণ্ডেন, HP আৰু ভাৰত গেছ ৰিফিল">Indane, HP & Bharat gas refill</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">🚙</div>
+                                <h4 data-en="FASTag Recharge & New" data-as="FASTag ৰিচাৰ্জ আৰু নতুন">FASTag Recharge & New</h4>
+                                <p data-en="Issue & top up your FASTag" data-as="আপোনাৰ FASTag ইছ্যু আৰু টপ আপ">Issue & top up your FASTag</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #10b981, #047857);">🛡️</div>
+                                <h4 data-en="Insurance Premium" data-as="বীমা প্ৰিমিয়াম">Insurance Premium</h4>
+                                <p data-en="LIC, vehicle & health insurance" data-as="LIC, বাহন আৰু স্বাস্থ্য বীমা">LIC, vehicle & health insurance</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Banking & Money Services -->
+                    <div class="offline-svc-category">
+                        <div class="offline-svc-cat-header">
+                            <span class="offline-svc-cat-icon" style="background: linear-gradient(135deg, #16a34a, #15803d);">🏦</span>
+                            <div>
+                                <h3 class="offline-svc-cat-title" data-en="Banking & Money Services" data-as="বেংকিং আৰু পইচা সেৱা">Banking & Money Services</h3>
+                                <p class="offline-svc-cat-sub" data-en="AEPS cash, money transfer & account help" data-as="AEPS নগদ, পইচা স্থানান্তৰ আৰু একাউণ্টৰ সহায়">AEPS cash, money transfer & account help</p>
+                            </div>
+                        </div>
+                        <div class="offline-svc-grid">
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #16a34a, #15803d);">💵</div>
+                                <h4 data-en="AEPS Cash Withdrawal" data-as="AEPS নগদ উলিওৱা">AEPS Cash Withdrawal</h4>
+                                <p data-en="Withdraw cash via Aadhaar fingerprint" data-as="আধাৰ ফিংগাৰপ্ৰিণ্টেৰে নগদ উলিয়াওক">Withdraw cash via Aadhaar fingerprint</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #0ea5e9, #2563eb);">💸</div>
+                                <h4 data-en="Money Transfer (DMT)" data-as="পইচা স্থানান্তৰ (DMT)">Money Transfer (DMT)</h4>
+                                <p data-en="Send money to any bank account" data-as="যিকোনো বেংক একাউণ্টলৈ পইচা পঠাওক">Send money to any bank account</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);">📊</div>
+                                <h4 data-en="Mini Statement & Balance" data-as="মিনি ষ্টেটমেণ্ট আৰু বেলেন্স">Mini Statement & Balance</h4>
+                                <p data-en="Check balance & last transactions" data-as="বেলেন্স আৰু শেহতীয়া লেনদেন চাওক">Check balance & last transactions</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #14b8a6, #0f766e);">🏧</div>
+                                <h4 data-en="Bank Account Opening" data-as="বেংক একাউণ্ট খোলা">Bank Account Opening</h4>
+                                <p data-en="Zero-balance & Jan Dhan accounts" data-as="জিৰ'-বেলেন্স আৰু জন ধন একাউণ্ট">Zero-balance & Jan Dhan accounts</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 5. Travel & Booking -->
+                    <div class="offline-svc-category">
+                        <div class="offline-svc-cat-header">
+                            <span class="offline-svc-cat-icon" style="background: linear-gradient(135deg, #3b82f6, #6366f1);">🚆</span>
+                            <div>
+                                <h3 class="offline-svc-cat-title" data-en="Travel & Booking" data-as="ভ্ৰমণ আৰু বুকিং">Travel & Booking</h3>
+                                <p class="offline-svc-cat-sub" data-en="Train, bus, flight & hotel reservations" data-as="ৰেল, বাছ, বিমান আৰু হোটেল সংৰক্ষণ">Train, bus, flight & hotel reservations</p>
+                            </div>
+                        </div>
+                        <div class="offline-svc-grid">
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #3b82f6, #6366f1);">🚆</div>
+                                <h4 data-en="Railway Tickets (IRCTC)" data-as="ৰেলৱে টিকট (IRCTC)">Railway Tickets (IRCTC)</h4>
+                                <p data-en="Tatkal, general & confirmed tickets" data-as="তৎকাল, সাধাৰণ আৰু নিশ্চিত টিকট">Tatkal, general & confirmed tickets</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626);">🚌</div>
+                                <h4 data-en="Bus Ticket Booking" data-as="বাছৰ টিকট বুকিং">Bus Ticket Booking</h4>
+                                <p data-en="ASTC, Volvo & private bus tickets" data-as="ASTC, ভল্ভো আৰু ব্যক্তিগত বাছৰ টিকট">ASTC, Volvo & private bus tickets</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #38bdf8, #6366f1);">✈️</div>
+                                <h4 data-en="Flight Tickets" data-as="বিমান টিকট">Flight Tickets</h4>
+                                <p data-en="Domestic & international booking" data-as="ঘৰুৱা আৰু আন্তৰ্জাতিক বুকিং">Domestic & international booking</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #f59e0b, #ea580c);">🏨</div>
+                                <h4 data-en="Hotel Booking" data-as="হোটেল বুকিং">Hotel Booking</h4>
+                                <p data-en="Reserve rooms across India" data-as="গোটেই ভাৰতত ৰুম সংৰক্ষণ">Reserve rooms across India</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 6. Land & Property -->
+                    <div class="offline-svc-category">
+                        <div class="offline-svc-cat-header">
+                            <span class="offline-svc-cat-icon" style="background: linear-gradient(135deg, #84cc16, #16a34a);">📑</span>
+                            <div>
+                                <h3 class="offline-svc-cat-title" data-en="Land & Property" data-as="মাটি আৰু সম্পত্তি">Land & Property</h3>
+                                <p class="offline-svc-cat-sub" data-en="Records, mutation & property tax" data-as="ৰেকৰ্ড, নামজাৰি আৰু সম্পত্তি কৰ">Records, mutation & property tax</p>
+                            </div>
+                        </div>
+                        <div class="offline-svc-grid">
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #84cc16, #16a34a);">📑</div>
+                                <h4 data-en="Land Records / Jamabandi" data-as="মাটিৰ ৰেকৰ্ড / জমাবন্দী">Land Records / Jamabandi</h4>
+                                <p data-en="Download Jamabandi & land docs" data-as="জমাবন্দী আৰু মাটিৰ দস্তাবেজ ডাউনলোড">Download Jamabandi & land docs</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #16a34a, #15803d);">🌾</div>
+                                <h4 data-en="Mutation / Khatian Update" data-as="নামজাৰি / খতিয়ান আপডেট">Mutation / Khatian Update</h4>
+                                <p data-en="Name transfer & ownership update" data-as="নাম পৰিৱৰ্তন আৰু মালিকানাৰ আপডেট">Name transfer & ownership update</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #65a30d, #4d7c0f);">🏘️</div>
+                                <h4 data-en="Property Tax Payment" data-as="সম্পত্তি কৰ পেমেণ্ট">Property Tax Payment</h4>
+                                <p data-en="Municipal & panchayat tax pay" data-as="পৌৰ আৰু পঞ্চায়ত কৰ পেমেণ্ট">Municipal & panchayat tax pay</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 7. Printing & Photo Studio -->
+                    <div class="offline-svc-category">
+                        <div class="offline-svc-cat-header">
+                            <span class="offline-svc-cat-icon" style="background: linear-gradient(135deg, #64748b, #475569);">🖨️</span>
+                            <div>
+                                <h3 class="offline-svc-cat-title" data-en="Printing & Photo Studio" data-as="প্ৰিন্টিং আৰু ফটো ষ্টুডিঅ'">Printing & Photo Studio</h3>
+                                <p class="offline-svc-cat-sub" data-en="Print, scan, lamination & photo work" data-as="প্ৰিন্ট, স্কেন, লেমিনেচন আৰু ফটো কাম">Print, scan, lamination & photo work</p>
+                            </div>
+                        </div>
+                        <div class="offline-svc-grid">
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #64748b, #475569);">🖨️</div>
+                                <h4 data-en="Photocopy & Lamination" data-as="ফটোকপি আৰু লেমিনেচন">Photocopy & Lamination</h4>
+                                <p data-en="B&amp;W, color copies & lamination" data-as="ক'লা-বগা, ৰঙীন কপি আৰু লেমিনেচন">B&amp;W, color copies & lamination</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #ec4899, #db2777);">🌈</div>
+                                <h4 data-en="Color Printing" data-as="ৰঙীন প্ৰিন্টিং">Color Printing</h4>
+                                <p data-en="HD color prints, A4 & A3 sizes" data-as="HD ৰঙীন প্ৰিন্ট, A4 আৰু A3 আকাৰ">HD color prints, A4 & A3 sizes</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #06b6d4, #0891b2);">📑</div>
+                                <h4 data-en="Document Scanning (PDF)" data-as="দস্তাবেজ স্কেনিং (PDF)">Document Scanning (PDF)</h4>
+                                <p data-en="Scan & convert to PDF/image" data-as="স্কেন কৰক আৰু PDF/ছবিলৈ ৰূপান্তৰ কৰক">Scan & convert to PDF/image</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #0ea5e9, #3b82f6);">📷</div>
+                                <h4 data-en="Passport / ID Photo" data-as="পাছপোৰ্ট / আইডি ফটো">Passport / ID Photo</h4>
+                                <p data-en="Instant passport & ID photo print" data-as="তৎক্ষণাত পাছপোৰ্ট আৰু আইডি ফটো প্ৰিন্ট">Instant passport & ID photo print</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #d97706, #b45309);">🖼️</div>
+                                <h4 data-en="Photo Frames" data-as="ফটো ফ্ৰেম">Photo Frames</h4>
+                                <p data-en="Custom-sized frames & wall prints" data-as="কাষ্টম আকাৰৰ ফ্ৰেম আৰু দেৱাল প্ৰিন্ট">Custom-sized frames & wall prints</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">📚</div>
+                                <h4 data-en="Spiral & Hard Binding" data-as="স্পাইৰেল আৰু হাৰ্ড বাইণ্ডিং">Spiral & Hard Binding</h4>
+                                <p data-en="Project, thesis & file binding" data-as="প্ৰজেক্ট, থিছিছ আৰু ফাইল বাইণ্ডিং">Project, thesis & file binding</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 8. Design & Creative Services -->
+                    <div class="offline-svc-category">
+                        <div class="offline-svc-cat-header">
+                            <span class="offline-svc-cat-icon" style="background: linear-gradient(135deg, #f97316, #eab308);">🎨</span>
+                            <div>
+                                <h3 class="offline-svc-cat-title" data-en="Design & Creative" data-as="ডিজাইন আৰু সৃষ্টিশীল">Design & Creative</h3>
+                                <p class="offline-svc-cat-sub" data-en="Posters, cards, logos & photo editing" data-as="পোষ্টাৰ, কাৰ্ড, লোগো আৰু ফটো সম্পাদনা">Posters, cards, logos & photo editing</p>
+                            </div>
+                        </div>
+                        <div class="offline-svc-grid">
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #f97316, #eab308);">🎨</div>
+                                <h4 data-en="Posters & Banners" data-as="পোষ্টাৰ আৰু বেনাৰ">Posters & Banners</h4>
+                                <p data-en="Festive, event & shop banners" data-as="উৎসৱ, অনুষ্ঠান আৰু দোকানৰ বেনাৰ">Festive, event & shop banners</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #ec4899, #f43f5e);">💍</div>
+                                <h4 data-en="Wedding Card Design" data-as="বিবাহৰ কাৰ্ড ডিজাইন">Wedding Card Design</h4>
+                                <p data-en="Modern & traditional invitations" data-as="আধুনিক আৰু পৰম্পৰাগত নিমন্ত্ৰণ">Modern & traditional invitations</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);">💼</div>
+                                <h4 data-en="Visiting / Business Cards" data-as="ভিজিটিং / ব্যৱসায়িক কাৰ্ড">Visiting / Business Cards</h4>
+                                <p data-en="Premium card design & printing" data-as="প্ৰিমিয়াম কাৰ্ড ডিজাইন আৰু প্ৰিন্টিং">Premium card design & printing</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);">✨</div>
+                                <h4 data-en="Logo Design" data-as="লোগো ডিজাইন">Logo Design</h4>
+                                <p data-en="Custom brand identity for shops" data-as="দোকানৰ বাবে কাষ্টম ব্ৰেণ্ড আইডেণ্টিটি">Custom brand identity for shops</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #ec4899, #f43f5e);">🖼️</div>
+                                <h4 data-en="Photo Edit & Retouch" data-as="ফটো এডিট আৰু ৰিটাচ">Photo Edit & Retouch</h4>
+                                <p data-en="Background, color & old photo fix" data-as="বেকগ্ৰাউণ্ড, ৰং আৰু পুৰণি ফটো মেৰামতি">Background, color & old photo fix</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #06b6d4, #0ea5e9);">📄</div>
+                                <h4 data-en="Resume & Typing Work" data-as="ৰেজুমে আৰু টাইপিং কাম">Resume & Typing Work</h4>
+                                <p data-en="Professional resume & typed docs" data-as="পেছাদাৰী ৰেজুমে আৰু টাইপ কৰা দস্তাবেজ">Professional resume & typed docs</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 9. Video & Web Services -->
+                    <div class="offline-svc-category">
+                        <div class="offline-svc-cat-header">
+                            <span class="offline-svc-cat-icon" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);">🌐</span>
+                            <div>
+                                <h3 class="offline-svc-cat-title" data-en="Video & Web Services" data-as="ভিডিঅ' আৰু ৱেব সেৱা">Video & Web Services</h3>
+                                <p class="offline-svc-cat-sub" data-en="Our specialty — videos, websites & bots" data-as="আমাৰ বিশেষত্ব — ভিডিঅ', ৱেবছাইট আৰু বট">Our specialty — videos, websites & bots</p>
+                            </div>
+                        </div>
+                        <div class="offline-svc-grid">
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #ef4444, #ec4899);">🎞️</div>
+                                <h4 data-en="Video Editing" data-as="ভিডিঅ' সম্পাদনা">Video Editing</h4>
+                                <p data-en="Reels, ads & event video editing" data-as="ৰিলছ, বিজ্ঞাপন আৰু অনুষ্ঠানৰ ভিডিঅ' সম্পাদনা">Reels, ads & event video editing</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #a855f7, #d946ef);">🎬</div>
+                                <h4 data-en="Product Animation" data-as="প্ৰডাক্ট এনিমেচন">Product Animation</h4>
+                                <p data-en="Animated product reels & ads" data-as="এনিমেটেড প্ৰডাক্ট ৰিলছ আৰু বিজ্ঞাপন">Animated product reels & ads</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);">🌐</div>
+                                <h4 data-en="Custom Website" data-as="কাষ্টম ৱেবছাইট">Custom Website</h4>
+                                <p data-en="Business websites — like this one" data-as="ব্যৱসায়িক ৱেবছাইট — এইটোৰ দৰে">Business websites — like this one</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #25d366, #059669);">🤖</div>
+                                <h4 data-en="WhatsApp Bot Setup" data-as="WhatsApp বট ছেটআপ">WhatsApp Bot Setup</h4>
+                                <p data-en="n8n auto-reply for your business" data-as="আপোনাৰ ব্যৱসায়ৰ বাবে n8n অটো-ৰিপ্লাই">n8n auto-reply for your business</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #ea4335, #fbbc04);">📍</div>
+                                <h4 data-en="Google My Business" data-as="গুগল মাই বিজনেছ">Google My Business</h4>
+                                <p data-en="Get your shop on Google Maps" data-as="আপোনাৰ দোকান গুগল মেপত পাওক">Get your shop on Google Maps</p>
+                            </div>
+                            <div class="offline-svc-card">
+                                <div class="offline-svc-icon" style="background: linear-gradient(135deg, #0ea5e9, #6366f1);">🌍</div>
+                                <h4 data-en="Domain & Hosting Setup" data-as="ডমেইন আৰু হোষ্টিং ছেটআপ">Domain & Hosting Setup</h4>
+                                <p data-en=".com, .in domains + email setup" data-as=".com, .in ডমেইন + ইমেইল ছেটআপ">.com, .in domains + email setup</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="offline-svc-cta-strip">
+                        <i class="fas fa-store"></i>
+                        <span data-en="Visit our shop or call for any of these services" data-as="এই যিকোনো সেৱাৰ বাবে আমাৰ দোকানলৈ আহক বা ফোন কৰক">Visit our shop or call for any of these services</span>
+                        <a href="tel:6001559478" class="offline-svc-call-btn" data-en="Call 6001559478" data-as="ফোন 6001559478">
+                            <i class="fas fa-phone"></i> Call 6001559478
+                        </a>
                     </div>
                 </div>
-</div>
+            </div>
         </div>
     </section>
-
 
     <!-- ===== WEBSITES (Demos & Games) ===== -->
     <section class="demos-section" id="websites">
@@ -372,679 +1066,579 @@
             </div>
             
             <div id="demo-sites-tab" class="tab-content website-tab active">
-                <div class="scroll-wrapper">
-                    <div class="demos-grid">
-                        
+                <div class="ai-services-wrapper">
+                <div class="ai-scroll-frame">
+                    <button class="ai-nav-btn ai-nav-prev" id="demoNavPrev" onclick="demoScrollCards(-1)" aria-label="Scroll left">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <div class="ai-scroll-wrapper" id="demoScrollWrapper">
+                    <div class="ai-grid" id="demoGrid">
+
                 <!-- Demo 1: Medical Shop -->
-                <div class="demo-card">
-                    <div class="demo-icon icon-bg-medical"><i class="fas fa-pills"></i></div>
-                    <div class="demo-content">
-                        <h3 data-en="Medical Shop" data-as="মেডিকেল শ্বপ">Medical Shop</h3>
-                        <p data-en="Pharmacy catalog, prescription upload &amp; home delivery." data-as="ফাৰ্মাচী কেটেলগ, প্ৰেছক্ৰিপচন আপলোড আৰু হোম ডেলিভাৰী।">Pharmacy catalog,
-                            prescription upload &amp; home delivery.</p>
-                        <div class="demo-links">
-                            <div class="demo-link-wrapper">
-                                <a href="https://smartdigital-sum.github.io/m-1-a/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo 1</span></a>
-                                <div class="punch-widget-demo" data-id="demo-m1a-like" title="Like this demo">
-                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
-                                    <span class="punch-count-xs">0</span>
-                                </div>
+                <div class="ai-svc-card">
+                    <div class="ai-svc-badge ai-badge-new">5 DEMOS</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #ef4444, #f97316);">💊</div>
+                    <div class="ai-svc-tag">Local Business</div>
+                    <h3 data-en="Medical Shop" data-as="মেডিকেল শ্বপ">Medical Shop</h3>
+                    <p data-en="Pharmacy catalog, prescription upload &amp; home delivery." data-as="ফাৰ্মাচী কেটেলগ, প্ৰেছক্ৰিপচন আপলোড আৰু হোম ডেলিভাৰী।">Pharmacy catalog, prescription upload &amp; home delivery.</p>
+                    <div class="demo-pills-grid">
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-1-a/" target="_blank" class="demo-pill">Demo 1 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m1a-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
                             </div>
-                            <div class="demo-link-wrapper">
-                                <a href="https://smartdigital-sum.github.io/m-1-b/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 2" data-as="ডেমো ২">Demo 2</span></a>
-                                <div class="punch-widget-demo" data-id="demo-m1b-like" title="Like this demo">
-                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
-                                    <span class="punch-count-xs">0</span>
-                                </div>
+                        </div>
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-1-b/" target="_blank" class="demo-pill">Demo 2 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m1b-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
                             </div>
-                            <div class="demo-link-wrapper">
-                                <a href="https://smartdigital-sum.github.io/m-1-c/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 3" data-as="ডেমো ৩">Demo 3</span></a>
-                                <div class="punch-widget-demo" data-id="demo-m1c-like" title="Like this demo">
-                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
-                                    <span class="punch-count-xs">0</span>
-                                </div>
+                        </div>
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-1-c/" target="_blank" class="demo-pill">Demo 3 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m1c-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
                             </div>
-                            <div class="demo-link-wrapper">
-                                <a href="https://smartdigital-sum.github.io/m-1-d/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 4" data-as="ডেমো ৪">Demo 4</span></a>
-                                <div class="punch-widget-demo" data-id="demo-m1d-like" title="Like this demo">
-                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
-                                    <span class="punch-count-xs">0</span>
-                                </div>
+                        </div>
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-1-d/" target="_blank" class="demo-pill">Demo 4 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m1d-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
                             </div>
-                            <div class="demo-link-wrapper">
-                                <a href="https://smartdigital-sum.github.io/m-1-e/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 5" data-as="ডেমো ৫">Demo 5</span></a>
-                                <div class="punch-widget-demo" data-id="demo-m1e-like" title="Like this demo">
-                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
-                                    <span class="punch-count-xs">0</span>
-                                </div>
+                        </div>
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-1-e/" target="_blank" class="demo-pill">Demo 5 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m1e-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Demo 2: School Portal -->
-                <div class="demo-card">
-                    <div class="demo-icon icon-bg-school"><i class="fas fa-graduation-cap"></i></div>
-                    <div class="demo-content">
-                        <h3 data-en="School Portal" data-as="বিদ্যালয় পৰ্টেল">School Portal</h3>
-                        <p data-en="Courses, admissions, events, and student portal." data-as="পাঠ্যক্ৰম, নামভৰ্তি, অনুষ্ঠান আৰু ছাত্ৰ পৰ্টেল।">Courses, admissions, events, and
-                            student portal.</p>
-                        <div class="demo-links">
-                            <div class="demo-link-wrapper">
-                                <a href="https://smartdigital-sum.github.io/m-2-a/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo 1</span></a>
-                                <div class="punch-widget-demo" data-id="demo-m2a-like" title="Like this demo">
-                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
-                                    <span class="punch-count-xs">0</span>
-                                </div>
+                <div class="ai-svc-card">
+                    <div class="ai-svc-badge ai-badge-new">4 DEMOS</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #3b82f6, #6366f1);">🎓</div>
+                    <div class="ai-svc-tag">Education</div>
+                    <h3 data-en="School Portal" data-as="বিদ্যালয় পৰ্টেল">School Portal</h3>
+                    <p data-en="Courses, admissions, events, and student portal." data-as="পাঠ্যক্ৰম, নামভৰ্তি, অনুষ্ঠান আৰু ছাত্ৰ পৰ্টেল।">Courses, admissions, events, and student portal.</p>
+                    <div class="demo-pills-grid">
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-2-a/" target="_blank" class="demo-pill">Demo 1 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m2a-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
                             </div>
-                            <div class="demo-link-wrapper">
-                                <a href="https://smartdigital-sum.github.io/m-2-b/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 2" data-as="ডেমো ২">Demo 2</span></a>
-                                <div class="punch-widget-demo" data-id="demo-m2b-like" title="Like this demo">
-                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
-                                    <span class="punch-count-xs">0</span>
-                                </div>
+                        </div>
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-2-b/" target="_blank" class="demo-pill">Demo 2 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m2b-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
                             </div>
-                            <div class="demo-link-wrapper">
-                                <a href="https://smartdigital-sum.github.io/m-2-c/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 3" data-as="ডেমো ৩">Demo 3</span></a>
-                                <div class="punch-widget-demo" data-id="demo-m2c-like" title="Like this demo">
-                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
-                                    <span class="punch-count-xs">0</span>
-                                </div>
+                        </div>
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-2-c/" target="_blank" class="demo-pill">Demo 3 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m2c-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
                             </div>
-                            <div class="demo-link-wrapper">
-                                <a href="https://smartdigital-sum.github.io/m-2-d/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 4" data-as="ডেমো ৪">Demo 4</span></a>
-                                <div class="punch-widget-demo" data-id="demo-m2d-like" title="Like this demo">
-                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
-                                    <span class="punch-count-xs">0</span>
-                                </div>
+                        </div>
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-2-d/" target="_blank" class="demo-pill">Demo 4 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m2d-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Demo 3: Salon & Spa -->
-                <div class="demo-card">
-                    <div class="demo-icon icon-bg-salon"><i class="fas fa-cut"></i></div>
-                    <div class="demo-content">
-                        <h3 data-en="Salon &amp; Spa" data-as="চেলুন আৰু স্পা">Salon &amp; Spa</h3>
-                        <p data-en="Service catalog, appointment booking &amp; reviews." data-as="সেৱা কেটেলগ, এপইণ্টমেণ্ট বুকিং আৰু ৰিভিউ।">Service catalog, appointment booking &amp;
-                            reviews.</p>
-                        <div class="demo-links">
-                            <div class="demo-link-wrapper">
-                                <a href="https://smartdigital-sum.github.io/m-3-a/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo 1</span></a>
-                                <div class="punch-widget-demo" data-id="demo-m3a-like" title="Like this demo">
-                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
-                                    <span class="punch-count-xs">0</span>
-                                </div>
+                <div class="ai-svc-card">
+                    <div class="ai-svc-badge ai-badge-new">4 DEMOS</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #ec4899, #8b5cf6);">✂️</div>
+                    <div class="ai-svc-tag">Beauty &amp; Wellness</div>
+                    <h3 data-en="Salon &amp; Spa" data-as="চেলুন আৰু স্পা">Salon &amp; Spa</h3>
+                    <p data-en="Service catalog, appointment booking &amp; reviews." data-as="সেৱা কেটেলগ, এপইণ্টমেণ্ট বুকিং আৰু ৰিভিউ।">Service catalog, appointment booking &amp; reviews.</p>
+                    <div class="demo-pills-grid">
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-3-a/" target="_blank" class="demo-pill">Demo 1 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m3a-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
                             </div>
-                            <div class="demo-link-wrapper">
-                                <a href="https://smartdigital-sum.github.io/m-3-b/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 2" data-as="ডেমো ২">Demo 2</span></a>
-                                <div class="punch-widget-demo" data-id="demo-m3b-like" title="Like this demo">
-                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
-                                    <span class="punch-count-xs">0</span>
-                                </div>
+                        </div>
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-3-b/" target="_blank" class="demo-pill">Demo 2 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m3b-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
                             </div>
-                            <div class="demo-link-wrapper">
-                                <a href="https://smartdigital-sum.github.io/m-3-c/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 3" data-as="ডেমো ৩">Demo 3</span></a>
-                                <div class="punch-widget-demo" data-id="demo-m3c-like" title="Like this demo">
-                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
-                                    <span class="punch-count-xs">0</span>
-                                </div>
+                        </div>
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-3-c/" target="_blank" class="demo-pill">Demo 3 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m3c-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
                             </div>
-                            <div class="demo-link-wrapper">
-                                <a href="https://smartdigital-sum.github.io/m-3-d/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 4" data-as="ডেমো ৪">Demo 4</span></a>
-                                <div class="punch-widget-demo" data-id="demo-m3d-like" title="Like this demo">
-                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
-                                    <span class="punch-count-xs">0</span>
-                                </div>
+                        </div>
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-3-d/" target="_blank" class="demo-pill">Demo 4 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m3d-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Demo 4: Grocery Store -->
-                <div class="demo-card">
-                    <div class="demo-icon icon-bg-grocery"><i class="fas fa-shopping-cart"></i></div>
-                    <div class="demo-content">
-                        <h3 data-en="Grocery Store" data-as="গ্ৰোচাৰী ষ্টোৰ">Grocery Store</h3>
-                        <p data-en="E-commerce store with cart and payments." data-as="কাৰ্ট আৰু পেমেণ্টৰ সৈতে ই-কমাৰ্চ ষ্টোৰ।">E-commerce store with cart and payments.
-                        </p>
-                        <div class="demo-links-row">
-                            <div class="demo-link-wrapper">
-                                <a href="https://smartdigital-sum.github.io/m-4-a/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo 1</span></a>
-                                <div class="punch-widget-demo" data-id="demo-m4a-like" title="Like this demo">
-                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
-                                    <span class="punch-count-xs">0</span>
-                                </div>
+                <div class="ai-svc-card">
+                    <div class="ai-svc-badge ai-badge-new">4 DEMOS</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #10b981, #059669);">🛒</div>
+                    <div class="ai-svc-tag">E-commerce</div>
+                    <h3 data-en="Grocery Store" data-as="গ্ৰোচাৰী ষ্টোৰ">Grocery Store</h3>
+                    <p data-en="E-commerce store with cart and payments." data-as="কাৰ্ট আৰু পেমেণ্টৰ সৈতে ই-কমাৰ্চ ষ্টোৰ।">E-commerce store with cart and payments.</p>
+                    <div class="demo-pills-grid">
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-4-a/" target="_blank" class="demo-pill">Demo 1 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m4a-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
                             </div>
-                            <div class="demo-link-wrapper">
-                                <a href="https://smartdigital-sum.github.io/m-4-b/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 2" data-as="ডেমো ২">Demo 2</span></a>
-                                <div class="punch-widget-demo" data-id="demo-m4b-like" title="Like this demo">
-                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
-                                    <span class="punch-count-xs">0</span>
-                                </div>
+                        </div>
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-4-b/" target="_blank" class="demo-pill">Demo 2 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m4b-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
                             </div>
-                            <div class="demo-link-wrapper">
-                                <a href="https://smartdigital-sum.github.io/m-4-c/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 3" data-as="ডেমো ৩">Demo 3</span></a>
-                                <div class="punch-widget-demo" data-id="demo-m4c-like" title="Like this demo">
-                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
-                                    <span class="punch-count-xs">0</span>
-                                </div>
+                        </div>
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-4-c/" target="_blank" class="demo-pill">Demo 3 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m4c-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
                             </div>
-                            <div class="demo-link-wrapper">
-                                <a href="https://smartdigital-sum.github.io/m-4-d/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 4" data-as="ডেমো ৪">Demo 4</span></a>
-                                <div class="punch-widget-demo" data-id="demo-m4d-like" title="Like this demo">
-                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
-                                    <span class="punch-count-xs">0</span>
-                                </div>
+                        </div>
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-4-d/" target="_blank" class="demo-pill">Demo 4 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m4d-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Demo 5: Restaurant -->
-                <div class="demo-card">
-                    <div class="demo-icon icon-bg-restaurant"><i class="fas fa-utensils"></i></div>
-                    <div class="demo-content">
-                        <h3 data-en="Restaurant" data-as="ৰেষ্টুৰেণ্ট">Restaurant</h3>
-                        <p data-en="Menu showcase, online ordering, and reservations." data-as="মেনু দৰ্শন, অনলাইন অৰ্ডাৰ আৰু সংৰক্ষণ।">Menu showcase, online ordering, and
-                            reservations.</p>
-                        <div class="demo-links-row">
-                            <div class="demo-link-wrapper">
-                                <a href="https://smartdigital-sum.github.io/m-5-a/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo 1</span></a>
-                                <div class="punch-widget-demo" data-id="demo-m5a-like" title="Like this demo">
-                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
-                                    <span class="punch-count-xs">0</span>
-                                </div>
+                <div class="ai-svc-card">
+                    <div class="ai-svc-badge ai-badge-new">4 DEMOS</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #f97316, #ef4444);">🍽️</div>
+                    <div class="ai-svc-tag">Food &amp; Dining</div>
+                    <h3 data-en="Restaurant" data-as="ৰেষ্টুৰেণ্ট">Restaurant</h3>
+                    <p data-en="Menu showcase, online ordering, and reservations." data-as="মেনু দৰ্শন, অনলাইন অৰ্ডাৰ আৰু সংৰক্ষণ।">Menu showcase, online ordering, and reservations.</p>
+                    <div class="demo-pills-grid">
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-5-a/" target="_blank" class="demo-pill">Demo 1 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m5a-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
                             </div>
-                            <div class="demo-link-wrapper">
-                                <a href="https://smartdigital-sum.github.io/m-5-b/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 2" data-as="ডেমো ২">Demo 2</span></a>
-                                <div class="punch-widget-demo" data-id="demo-m5b-like" title="Like this demo">
-                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
-                                    <span class="punch-count-xs">0</span>
-                                </div>
+                        </div>
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-5-b/" target="_blank" class="demo-pill">Demo 2 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m5b-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
                             </div>
-                            <div class="demo-link-wrapper">
-                                <a href="https://smartdigital-sum.github.io/m-5-c/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 3" data-as="ডেমো ৩">Demo 3</span></a>
-                                <div class="punch-widget-demo" data-id="demo-m5c-like" title="Like this demo">
-                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
-                                    <span class="punch-count-xs">0</span>
-                                </div>
+                        </div>
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-5-c/" target="_blank" class="demo-pill">Demo 3 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m5c-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
                             </div>
-                            <div class="demo-link-wrapper">
-                                <a href="https://stellar-sable-c0dc5c.netlify.app/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 4" data-as="ডেমো ৪">Demo 4</span></a>
-                                <div class="punch-widget-demo" data-id="demo-m5d-like" title="Like this demo">
-                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
-                                    <span class="punch-count-xs">0</span>
-                                </div>
+                        </div>
+                        <div class="demo-pill-wrap">
+                            <a href="https://stellar-sable-c0dc5c.netlify.app/" target="_blank" class="demo-pill">Demo 4 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m5d-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Demo 6: Fitness & Gym -->
-                <div class="demo-card">
-                    <div class="demo-icon icon-bg-gym"><i class="fas fa-dumbbell"></i></div>
-                    <div class="demo-content">
-                        <h3 data-en="Fitness &amp; Gym" data-as="ফিটনেছ আৰু জিম">Fitness &amp; Gym</h3>
-                        <p data-en="Membership plans, class schedules, and trainer profiles." data-as="সদস্যতা পৰিকল্পনা, শ্ৰেণীৰ সময়সূচী, আৰু প্ৰশিক্ষকৰ প্ৰফাইল।">Membership plans,
-                            class schedules, and trainer profiles.</p>
-                        <div class="demo-links-row">
-                            <div class="demo-link-wrapper">
-                                <a href="https://smartdigital-sum.github.io/m-6-a/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo 1</span></a>
-                                <div class="punch-widget-demo" data-id="demo-m6a-like" title="Like this demo">
-                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
-                                    <span class="punch-count-xs">0</span>
-                                </div>
+                <div class="ai-svc-card">
+                    <div class="ai-svc-badge ai-badge-new">4 DEMOS</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #f59e0b, #ef4444);">💪</div>
+                    <div class="ai-svc-tag">Health &amp; Fitness</div>
+                    <h3 data-en="Fitness &amp; Gym" data-as="ফিটনেছ আৰু জিম">Fitness &amp; Gym</h3>
+                    <p data-en="Membership plans, class schedules, and trainer profiles." data-as="সদস্যতা পৰিকল্পনা, শ্ৰেণীৰ সময়সূচী, আৰু প্ৰশিক্ষকৰ প্ৰফাইল।">Membership plans, class schedules, and trainer profiles.</p>
+                    <div class="demo-pills-grid">
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-6-a/" target="_blank" class="demo-pill">Demo 1 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m6a-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
                             </div>
-                            <div class="demo-link-wrapper">
-                                <a href="https://smartdigital-sum.github.io/m-6-b/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 2" data-as="ডেমো ২">Demo 2</span></a>
-                                <div class="punch-widget-demo" data-id="demo-m6b-like" title="Like this demo">
-                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
-                                    <span class="punch-count-xs">0</span>
-                                </div>
+                        </div>
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-6-b/" target="_blank" class="demo-pill">Demo 2 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m6b-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
                             </div>
-                            <div class="demo-link-wrapper">
-                                <a href="https://smartdigital-sum.github.io/m-6-c/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 3" data-as="ডেমো ৩">Demo 3</span></a>
-                                <div class="punch-widget-demo" data-id="demo-m6c-like" title="Like this demo">
-                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
-                                    <span class="punch-count-xs">0</span>
-                                </div>
+                        </div>
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-6-c/" target="_blank" class="demo-pill">Demo 3 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m6c-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
                             </div>
-                            <div class="demo-link-wrapper">
-                                <a href="https://smartdigital-sum.github.io/m-6-d/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 4" data-as="ডেমো ৪">Demo 4</span></a>
-                                <div class="punch-widget-demo" data-id="demo-m6d-like" title="Like this demo">
-                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
-                                    <span class="punch-count-xs">0</span>
-                                </div>
+                        </div>
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-6-d/" target="_blank" class="demo-pill">Demo 4 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m6d-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Demo 7: DG Demo Web -->
-                <div class="demo-card">
-                    <div class="demo-icon icon-bg-tech"><i class="fas fa-laptop-code"></i></div>
-                    <div class="demo-content">
-                        <h3 data-en="DG Demo Web" data-as="ডিজি ডেমো ৱেব">DG Demo Web</h3>
-                        <p data-en="Modern landing pages, agency portfolios, and creative showcases." data-as="আধুনিক লেণ্ডিং পেজ, এজেন্সী পৰ্টফলিঅ' আৰু সৃষ্টিশীল দৰ্শন।">Modern landing pages, agency portfolios, and creative showcases.</p>
-                        <div class="demo-links-row">
-                            <div class="demo-link-wrapper">
-                                <a href="https://smartdigital-sum.github.io/m-7-a/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo 1</span></a>
-                                <div class="punch-widget-demo" data-id="demo-m7a-like" title="Like this demo">
-                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
-                                    <span class="punch-count-xs">0</span>
-                                </div>
+                <div class="ai-svc-card">
+                    <div class="ai-svc-badge ai-badge-new">4 DEMOS</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);">💻</div>
+                    <div class="ai-svc-tag">Agency / Portfolio</div>
+                    <h3 data-en="DG Demo Web" data-as="ডিজি ডেমো ৱেব">DG Demo Web</h3>
+                    <p data-en="Modern landing pages, agency portfolios, and creative showcases." data-as="আধুনিক লেণ্ডিং পেজ, এজেন্সী পৰ্টফলিঅ' আৰু সৃষ্টিশীল দৰ্শন।">Modern landing pages, agency portfolios, and creative showcases.</p>
+                    <div class="demo-pills-grid">
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-7-a/" target="_blank" class="demo-pill">Demo 1 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m7a-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
                             </div>
-                            <div class="demo-link-wrapper">
-                                <a href="https://smartdigital-sum.github.io/m-7-b/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 2" data-as="ডেমো ২">Demo 2</span></a>
-                                <div class="punch-widget-demo" data-id="demo-m7b-like" title="Like this demo">
-                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
-                                    <span class="punch-count-xs">0</span>
-                                </div>
+                        </div>
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-7-b/" target="_blank" class="demo-pill">Demo 2 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m7b-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
                             </div>
-                            <div class="demo-link-wrapper">
-                                <a href="https://smartdigital-sum.github.io/m-7-c/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 3" data-as="ডেমো ৩">Demo 3</span></a>
-                                <div class="punch-widget-demo" data-id="demo-m7c-like" title="Like this demo">
-                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
-                                    <span class="punch-count-xs">0</span>
-                                </div>
+                        </div>
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-7-c/" target="_blank" class="demo-pill">Demo 3 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m7c-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
                             </div>
-                            <div class="demo-link-wrapper">
-                                <a href="https://smartdigital-sum.github.io/m-7-d/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 4" data-as="ডেমো ৪">Demo 4</span></a>
-                                <div class="punch-widget-demo" data-id="demo-m7d-like" title="Like this demo">
-                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
-                                    <span class="punch-count-xs">0</span>
-                                </div>
+                        </div>
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-7-d/" target="_blank" class="demo-pill">Demo 4 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m7d-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Demo 8: Clothing Shop -->
-                <div class="demo-card">
-                    <div class="demo-icon icon-bg-fashion"><i class="fas fa-tshirt"></i></div>
-                    <div class="demo-content">
-                        <h3 data-en="Clothing Shop" data-as="পোছাকৰ দোকান">Clothing Shop</h3>
-                        <p data-en="Online fashion store, product catalog &amp; shopping cart." data-as="অনলাইন ফেশ্বন ষ্টোৰ, সামগ্ৰী কেটেলগ আৰু শ্বপিং কাৰ্ট।">Online fashion store, product catalog &amp; shopping cart.</p>
-                        <div class="demo-links">
-                            <div class="demo-link-wrapper">
-                                <a href="https://smartdigital-sum.github.io/m-8-a/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 1" data-as="ডেমো ১">Demo 1</span></a>
-                                <div class="punch-widget-demo" data-id="demo-m8a-like" title="Like this demo">
-                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
-                                    <span class="punch-count-xs">0</span>
-                                </div>
+                <div class="ai-svc-card">
+                    <div class="ai-svc-badge ai-badge-new">5 DEMOS</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #ec4899, #f97316);">👗</div>
+                    <div class="ai-svc-tag">Fashion</div>
+                    <h3 data-en="Clothing Shop" data-as="পোছাকৰ দোকান">Clothing Shop</h3>
+                    <p data-en="Online fashion store, product catalog &amp; shopping cart." data-as="অনলাইন ফেশ্বন ষ্টোৰ, সামগ্ৰী কেটেলগ আৰু শ্বপিং কাৰ্ট।">Online fashion store, product catalog &amp; shopping cart.</p>
+                    <div class="demo-pills-grid">
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-8-a/" target="_blank" class="demo-pill">Demo 1 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m8a-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
                             </div>
-                            <div class="demo-link-wrapper">
-                                <a href="https://smartdigital-sum.github.io/m-8-b/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 2" data-as="ডেমো ২">Demo 2</span></a>
-                                <div class="punch-widget-demo" data-id="demo-m8b-like" title="Like this demo">
-                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
-                                    <span class="punch-count-xs">0</span>
-                                </div>
+                        </div>
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-8-b/" target="_blank" class="demo-pill">Demo 2 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m8b-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
                             </div>
-                            <div class="demo-link-wrapper">
-                                <a href="https://smartdigital-sum.github.io/m-8-c/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 3" data-as="ডেমো ৩">Demo 3</span></a>
-                                <div class="punch-widget-demo" data-id="demo-m8c-like" title="Like this demo">
-                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
-                                    <span class="punch-count-xs">0</span>
-                                </div>
+                        </div>
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-8-c/" target="_blank" class="demo-pill">Demo 3 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m8c-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
                             </div>
-                            <div class="demo-link-wrapper">
-                                <a href="https://smartdigital-sum.github.io/m-8-d/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 4" data-as="ডেমো ৪">Demo 4</span></a>
-                                <div class="punch-widget-demo" data-id="demo-m8d-like" title="Like this demo">
-                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
-                                    <span class="punch-count-xs">0</span>
-                                </div>
+                        </div>
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-8-d/" target="_blank" class="demo-pill">Demo 4 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m8d-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
                             </div>
-                            <div class="demo-link-wrapper">
-                                <a href="https://smartdigital-sum.github.io/m-8-e/" target="_blank"><i class="fas fa-external-link-alt"></i> <span data-en="Demo 5" data-as="ডেমো ৫">Demo 5</span></a>
-                                <div class="punch-widget-demo" data-id="demo-m8e-like" title="Like this demo">
-                                    <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
-                                    <span class="punch-count-xs">0</span>
-                                </div>
+                        </div>
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-8-e/" target="_blank" class="demo-pill">Demo 5 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m8e-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
                             </div>
                         </div>
                     </div>
                 </div>
-            
+
+
+                <!-- Demo 9: Doctor Appointment Clinic -->
+                <div class="ai-svc-card">
+                    <div class="ai-svc-badge ai-badge-new">3 DEMOS</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #06b6d4, #0ea5e9);">🏥</div>
+                    <div class="ai-svc-tag">Healthcare</div>
+                    <h3 data-en="Doctor Appointment Clinic" data-as="ডাক্তৰ এপইণ্টমেন্ট ক্লিনিক">Doctor Appointment Clinic</h3>
+                    <p data-en="Medical clinic website with appointment booking and doctor profiles." data-as="এপইণ্টমেন্ট বুকিং আৰু ডাক্তৰ প্ৰফাইলসহ মেডিকেল ক্লিনিক ৱেবছাইট।">Medical clinic website with appointment booking and doctor profiles.</p>
+                    <div class="demo-pills-grid">
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-9-a/" target="_blank" class="demo-pill">Demo 1 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m9a-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
+                            </div>
+                        </div>
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-9-b/" target="_blank" class="demo-pill">Demo 2 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m9b-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
+                            </div>
+                        </div>
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-9-c/" target="_blank" class="demo-pill">Demo 3 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m9c-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
+                            </div>
+                        </div>
                     </div>
+                </div>
+
+                <!-- Demo 10: Travel & Tour -->
+                <div class="ai-svc-card">
+                    <div class="ai-svc-badge ai-badge-new">3 DEMOS</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #10b981, #3b82f6);">✈️</div>
+                    <div class="ai-svc-tag">Travel</div>
+                    <h3 data-en="Travel &amp; Tour" data-as="ভ্ৰমণ আৰু টুৰ">Travel &amp; Tour</h3>
+                    <p data-en="Travel agency, tour packages &amp; destination showcase websites." data-as="ট্ৰেভেল এজেন্সী, টুৰ পেকেজ আৰু গন্তব্যস্থান প্ৰদৰ্শন ৱেবছাইট।">Travel agency, tour packages &amp; destination showcase websites.</p>
+                    <div class="demo-pills-grid">
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-10-a/" target="_blank" class="demo-pill">Demo 1 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m10a-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
+                            </div>
+                        </div>
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-10-b/" target="_blank" class="demo-pill">Demo 2 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m10b-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
+                            </div>
+                        </div>
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-10-c/" target="_blank" class="demo-pill">Demo 3 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m10c-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Demo 11: Kids School -->
+                <div class="ai-svc-card">
+                    <div class="ai-svc-badge ai-badge-new">2 DEMOS</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #f59e0b, #ef4444);">🏫</div>
+                    <div class="ai-svc-tag">Education</div>
+                    <h3 data-en="Kids School" data-as="শিশু বিদ্যালয়">Kids School</h3>
+                    <p data-en="School &amp; kindergarten websites with colorful kid-friendly designs." data-as="ৰঙীন শিশু-বন্ধুত্বপূৰ্ণ ডিজাইনৰ সৈতে স্কুল আৰু কিণ্ডাৰগাৰ্টেন ৱেবছাইট।">School &amp; kindergarten websites with colorful kid-friendly designs.</p>
+                    <div class="demo-pills-grid">
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-11-a/" target="_blank" class="demo-pill">Demo 1 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m11a-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
+                            </div>
+                        </div>
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-11-b/" target="_blank" class="demo-pill">Demo 2 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m11b-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                    </div>
+                    </div>
+                    <button class="ai-nav-btn ai-nav-next" id="demoNavNext" onclick="demoScrollCards(1)" aria-label="Scroll right">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
                 </div>
             </div>
 
             <div id="games-projects-tab" class="tab-content website-tab">
-                <div class="scroll-wrapper">
-                    <div class="games-grid" style="padding-top: 10px;">
-                        
+                <div class="ai-services-wrapper">
+                <div class="ai-scroll-frame">
+                    <button class="ai-nav-btn ai-nav-prev" id="gamesNavPrev" onclick="gamesScrollCards(-1)" aria-label="Scroll left">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <div class="ai-scroll-wrapper" id="gamesScrollWrapper">
+                    <div class="ai-grid" id="gamesGrid">
+
                 <!-- Game 1 -->
-                <div class="game-card">
-                    <div class="game-icon icon-bg-primary"><i class="fas fa-gamepad"></i></div>
-                    <div class="game-info">
-                        <h3 data-en="Snake Game" data-as="সাপ গেম">Snake Game</h3>
-                        <p data-en="Classic snake game. Test your reflexes!" data-as="ক্লাছিক সাপ গেম। খেলক আৰু উপভোগ কৰক!">Classic snake game. Test your reflexes!</p>
-                    </div>
-                    <div class="game-actions">
-                        <a href="https://smartdigital-sum.github.io/snake-game/" target="_blank" class="btn btn-primary btn-sm"><i class="fas fa-play"></i> <span data-en="Play" data-as="খেলক">Play</span></a>
-                        <a href="https://github.com/smartdigital-sum/snake-game.git" target="_blank" class="btn btn-outline-dark btn-sm"><i class="fab fa-github"></i> Code</a>
+                <div class="ai-svc-card">
+                    <div class="ai-svc-badge ai-badge-live">GAME</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #3b82f6, #06b6d4);">🖱️</div>
+                    <div class="ai-svc-tag">Games / Casual</div>
+                    <h3 data-en="Click Counter" data-as="ক্লিক কাউণ্টাৰ">Click Counter</h3>
+                    <p data-en="How fast can you click? Challenge yourself!" data-as="আপুনি কিমান দ্ৰুতভাৱে ক্লিক কৰিব পাৰে? নিজকে চেলেঞ্জ কৰক!">How fast can you click? Challenge yourself!</p>
+                    <div class="game-pills">
+                        <a href="games/Click Counter/index.html" target="_blank" class="ai-svc-cta"><i class="fas fa-play"></i> <span data-en="Play" data-as="খেলক">Play</span></a>
                     </div>
                 </div>
 
                 <!-- Game 2 -->
-                <div class="game-card">
-                    <div class="game-icon icon-bg-quiz"><i class="fas fa-brain"></i></div>
-                    <div class="game-info">
-                        <h3 data-en="Memory Match (Assamese)" data-as="মেম'ৰী মেচ (অসমীয়া)">Memory Match (Assamese)
-                        </h3>
-                        <p data-en="Match cultural icons and test your memory." data-as="সাংস্কৃতিক আইকন মিলাওক আৰু মেম'ৰী পৰীক্ষা কৰক।">Match cultural icons and test your
-                            memory.</p>
-                    </div>
-                    <div class="game-actions">
-                        <a href="https://smartdigital-sum.github.io/memory-game-2/" target="_blank" class="btn btn-primary btn-sm"><i class="fas fa-play"></i> <span data-en="Play" data-as="খেলক">Play</span></a>
-                        <a href="https://github.com/smartdigital-sum/memory-game-2.git" target="_blank" class="btn btn-outline-dark btn-sm"><i class="fab fa-github"></i> Code</a>
+                <div class="ai-svc-card">
+                    <div class="ai-svc-badge ai-badge-live">GAME</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #f59e0b, #ef4444);">🎲</div>
+                    <div class="ai-svc-tag">Games / Casual</div>
+                    <h3 data-en="Dice Roller" data-as="ডাইচ ৰোলাৰ">Dice Roller</h3>
+                    <p data-en="Interactive dice rolling game. Roll your luck!" data-as="ইণ্টাৰেক্টিভ ডাইচ ৰোলিং গেম। ভাগ্য পৰীক্ষা কৰক!">Interactive dice rolling game. Roll your luck!</p>
+                    <div class="game-pills">
+                        <a href="games/Dice Roller/index.html" target="_blank" class="ai-svc-cta"><i class="fas fa-play"></i> <span data-en="Play" data-as="খেলক">Play</span></a>
                     </div>
                 </div>
 
                 <!-- Game 3 -->
-                <div class="game-card">
-                    <div class="game-icon icon-bg-memory"><i class="fas fa-star"></i></div>
-                    <div class="game-info">
-                        <h3 data-en="Flappy Bird" data-as="ফ্লেপী বাৰ্ড">Flappy Bird</h3>
-                        <p data-en="Navigate through obstacles. Addictive and fun!" data-as="বাবা অতিক্ৰম কৰক। অতি আনন্দেৰ খেল!">Navigate through obstacles. Addictive and fun!
-                        </p>
-                    </div>
-                    <div class="game-actions">
-                        <a href="https://smartdigital-sum.github.io/flappybird/" target="_blank" class="btn btn-primary btn-sm"><i class="fas fa-play"></i> <span data-en="Play" data-as="খেলক">Play</span></a>
-                        <a href="https://github.com/smartdigital-sum/flappybird.git" target="_blank" class="btn btn-outline-dark btn-sm"><i class="fab fa-github"></i> Code</a>
+                <div class="ai-svc-card">
+                    <div class="ai-svc-badge ai-badge-live">GAME</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #8b5cf6, #6366f1);">🃏</div>
+                    <div class="ai-svc-tag">Games / Memory</div>
+                    <h3 data-en="Memory Match" data-as="মেম'ৰী মেচ">Memory Match</h3>
+                    <p data-en="Match the cards and test your memory skills!" data-as="কাৰ্ড মিলাওক আৰু স্মৃতি পৰীক্ষা কৰক!">Match the cards and test your memory skills!</p>
+                    <div class="game-pills">
+                        <a href="games/Memory Match/index.html" target="_blank" class="ai-svc-cta"><i class="fas fa-play"></i> <span data-en="Play" data-as="খেলক">Play</span></a>
                     </div>
                 </div>
 
                 <!-- Game 4 -->
-                <div class="game-card">
-                    <div class="game-icon icon-bg-reflex"><i class="fas fa-mouse"></i></div>
-                    <div class="game-info">
-                        <h3 data-en="Click Counter" data-as="ক্লিক কাউণ্টাৰ">Click Counter</h3>
-                        <p data-en="A number guessing game!" data-as="এটা নম্বৰ অনুমান কৰা গেম!">A number guessing game!
-                        </p>
-                    </div>
-                    <div class="game-actions">
-                        <a href="https://suman1590.github.io/numberAddGuessGit/" target="_blank" class="btn btn-primary btn-sm"><i class="fas fa-play"></i> <span data-en="Play" data-as="খেলক">Play</span></a>
-                        <a href="https://github.com/Suman1590/numberAddGuessGit.git" target="_blank" class="btn btn-outline-dark btn-sm"><i class="fab fa-github"></i> Code</a>
+                <div class="ai-svc-card">
+                    <div class="ai-svc-badge ai-badge-live">GAME</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #10b981, #3b82f6);">⭕</div>
+                    <div class="ai-svc-tag">Games / Classic</div>
+                    <h3 data-en="Tic-Tac-Toe" data-as="টিক-টেক-টো">Tic-Tac-Toe</h3>
+                    <p data-en="Classic strategy game. Premium edition!" data-as="ক্লাছিক কৌশল গেম। প্ৰিমিয়াম সংস্কৰণ!">Classic strategy game. Premium edition!</p>
+                    <div class="game-pills">
+                        <a href="games/Tic-Tac-Toe/index.html" target="_blank" class="ai-svc-cta"><i class="fas fa-play"></i> <span data-en="Play" data-as="খেলক">Play</span></a>
                     </div>
                 </div>
 
                 <!-- Game 5 -->
-                <div class="game-card">
-                    <div class="game-icon icon-bg-medical"><i class="fas fa-meteor"></i></div>
-                    <div class="game-info">
-                        <h3 data-en="Space Shooter" data-as="স্পেছ শ্বুটাৰ">Space Shooter</h3>
-                        <p data-en="Defend your ship from incoming asteroids." data-as="আগন্তুক গ্ৰহাণুৰ পৰা আপোনাৰ জাহাজ ৰক্ষা কৰক।">Defend your ship from incoming
-                            asteroids.</p>
-                    </div>
-                    <div class="game-actions">
-                        <a href="https://smartdigital-sum.github.io/sapceshooter/" target="_blank" class="btn btn-primary btn-sm"><i class="fas fa-play"></i> <span data-en="Play" data-as="খেলক">Play</span></a>
-                        <a href="https://github.com/smartdigital-sum/sapceshooter" target="_blank" class="btn btn-outline-dark btn-sm"><i class="fab fa-github"></i> Code</a>
+                <div class="ai-svc-card">
+                    <div class="ai-svc-badge ai-badge-live">GAME</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #ec4899, #f59e0b);">🔢</div>
+                    <div class="ai-svc-tag">Games / Puzzle</div>
+                    <h3 data-en="Number Guess" data-as="নম্বৰ অনুমান">Number Guess</h3>
+                    <p data-en="Guess the secret number. Test your intuition!" data-as="গোপন নম্বৰ অনুমান কৰক। অনুভূতি পৰীক্ষা কৰক!">Guess the secret number. Test your intuition!</p>
+                    <div class="game-pills">
+                        <a href="games/number guess game/index.html" target="_blank" class="ai-svc-cta"><i class="fas fa-play"></i> <span data-en="Play" data-as="খেলক">Play</span></a>
                     </div>
                 </div>
 
                 <!-- Game 6 -->
-                <div class="game-card">
-                    <div class="game-icon icon-bg-gym"><i class="fas fa-dice"></i></div>
-                    <div class="game-info">
-                        <h3 data-en="Dice Roller" data-as="ডাইচ ৰোলাৰ">Dice Roller</h3>
-                        <p data-en="Interactive dice rolling game." data-as="ইণ্টাৰেক্টিভ ডাইচ ৰোলিং গেম।">Interactive
-                            dice rolling game.</p>
-                    </div>
-                    <div class="game-actions">
-                        <a href="https://suman1590.github.io/pigGame-Ch/" target="_blank" class="btn btn-primary btn-sm"><i class="fas fa-play"></i> <span data-en="Play" data-as="খেলক">Play</span></a>
-                        <a href="https://github.com/Suman1590/pigGame-Ch.git" target="_blank" class="btn btn-outline-dark btn-sm"><i class="fab fa-github"></i> Code</a>
+                <div class="ai-svc-card">
+                    <div class="ai-svc-badge ai-badge-live">GAME</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #f59e0b, #10b981);">🎯</div>
+                    <div class="ai-svc-tag">Games / Casual</div>
+                    <h3 data-en="Dice Game" data-as="ডাইচ গেম">Dice Game</h3>
+                    <p data-en="Fun dice game with a twist. Roll and win!" data-as="মজাৰ ডাইচ গেম। ৰোল কৰক আৰু জয় কৰক!">Fun dice game with a twist. Roll and win!</p>
+                    <div class="game-pills">
+                        <a href="games/dice.html" target="_blank" class="ai-svc-cta"><i class="fas fa-play"></i> <span data-en="Play" data-as="খেলক">Play</span></a>
                     </div>
                 </div>
-            
+
+                <!-- Game 7 -->
+                <div class="ai-svc-card">
+                    <div class="ai-svc-badge ai-badge-live">GAME</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #22c55e, #06b6d4);">🐍</div>
+                    <div class="ai-svc-tag">Games / Classic</div>
+                    <h3 data-en="Snake Game" data-as="স্নেক গেম">Snake Game</h3>
+                    <p data-en="Classic snake game with levels & speed boost!" data-as="ক্লাছিক স্নেক গেম। খাওক আৰু বাঢ়ক!">Classic snake game with levels & speed boost!</p>
+                    <div class="game-pills">
+                        <a href="games/Snake Game/index.html" target="_blank" class="ai-svc-cta"><i class="fas fa-play"></i> <span data-en="Play" data-as="খেলক">Play</span></a>
                     </div>
+                </div>
+
+                <!-- Game 8 -->
+                <div class="ai-svc-card">
+                    <div class="ai-svc-badge ai-badge-live">GAME</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #f59e0b, #ef4444);">✊</div>
+                    <div class="ai-svc-tag">Games / Classic</div>
+                    <h3 data-en="Rock Paper Scissors" data-as="ৰক পেপাৰ কেঁচি">Rock Paper Scissors</h3>
+                    <p data-en="Beat the computer in this timeless classic!" data-as="কম্পিউটাৰক হৰাওক এই ক্লাছিক গেমত!">Beat the computer in this timeless classic!</p>
+                    <div class="game-pills">
+                        <a href="games/Rock Paper Scissors/index.html" target="_blank" class="ai-svc-cta"><i class="fas fa-play"></i> <span data-en="Play" data-as="খেলক">Play</span></a>
+                    </div>
+                </div>
+
+                <!-- Game 9 -->
+                <div class="ai-svc-card">
+                    <div class="ai-svc-badge ai-badge-live">GAME</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #a855f7, #ec4899);">🎮</div>
+                    <div class="ai-svc-tag">Games / Memory</div>
+                    <h3 data-en="Simon Says" data-as="ছাইমন কয়">Simon Says</h3>
+                    <p data-en="Watch the pattern and repeat it. How far can you go?" data-as="পেটাৰ্ন মনত ৰাখক আৰু পুনৰাবৃত্তি কৰক!">Watch the pattern and repeat it. How far can you go?</p>
+                    <div class="game-pills">
+                        <a href="games/Simon Says/index.html" target="_blank" class="ai-svc-cta"><i class="fas fa-play"></i> <span data-en="Play" data-as="খেলক">Play</span></a>
+                    </div>
+                </div>
+
+                <!-- Game 10 -->
+                <div class="ai-svc-card">
+                    <div class="ai-svc-badge ai-badge-live">GAME</div>
+                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #06b6d4, #6366f1);">⌨️</div>
+                    <div class="ai-svc-tag">Games / Skill</div>
+                    <h3 data-en="Typing Speed" data-as="টাইপিং স্পিড">Typing Speed</h3>
+                    <p data-en="Test your WPM and accuracy. Beat your best score!" data-as="আপোনাৰ টাইপিং গতি পৰীক্ষা কৰক!">Test your WPM and accuracy. Beat your best score!</p>
+                    <div class="game-pills">
+                        <a href="games/Typing Speed/index.html" target="_blank" class="ai-svc-cta"><i class="fas fa-play"></i> <span data-en="Play" data-as="খেলক">Play</span></a>
+                    </div>
+                </div>
+
+                    </div>
+                    </div>
+                    <button class="ai-nav-btn ai-nav-next" id="gamesNavNext" onclick="gamesScrollCards(1)" aria-label="Scroll right">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
                 </div>
             </div>
         </div>
     </section>
 
-
-    <!-- ===== SERVICES ===== -->
-    <section class="services-section" id="services">
-        <div class="container">
-            <div class="section-head">
-                <h2 class="section-title" data-en="Our Services" data-as="আমাৰ সেৱাসমূহ">Our Services</h2>
-                <p class="section-sub" data-en="Comprehensive digital solutions for everyone" data-as="সকলোৰ বাবে সম্পূৰ্ণ ডিজিটেল সমাধান">Comprehensive digital solutions for everyone</p>
-            </div>
-
-            <div class="tab-container">
-                <button class="filter-btn active" onclick="switchTab('service', 'ai-services-tab', this)">AI Powered Services</button>
-                <button class="filter-btn" onclick="switchTab('service', 'offline-services-tab', this)">Offline Services</button>
-            </div>
-
-            <div id="ai-services-tab" class="tab-content service-tab active">
-
-    <!-- AI Services Redesigned -->
-    <div class="ai-services-wrapper">
-        <div class="section-head" style="margin-bottom: 1.5rem;">
-            <div class="ai-hub-tag">✨ Smart Digital Hub</div>
-            <p style="text-align: center; color: var(--gray); font-size: 14px; margin-top: 6px;">Professional AI-powered tools for business &amp; personal growth</p>
-        </div>
-
-        <!-- Search bar -->
-        <div class="ai-search-container">
-            <span class="ai-search-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            </span>
-            <input type="text" id="toolSearch" class="ai-search-input" placeholder="Search AI tools (e.g. 'translator', 'resume', 'business')...">
-        </div>
-
-        <!-- Scroll hint strip -->
-        <div class="ai-scroll-hint">
-            <i class="fas fa-hand-pointer"></i>
-            <span>Scroll to see more tools</span>
-            <span class="ai-scroll-dots"><span></span><span></span><span></span></span>
-            <i class="fas fa-chevron-right"></i>
-        </div>
-
-        <!-- Scroll area with nav buttons -->
-        <div class="ai-scroll-frame">
-            <button class="ai-nav-btn ai-nav-prev" id="aiNavPrev" onclick="aiScrollCards(-1)" aria-label="Scroll left">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-
-            <div class="ai-scroll-wrapper" id="aiScrollWrapper">
-            <div class="ai-grid" id="toolGrid">
-
-                <!-- LipiAntar -->
-                <a href="apps/translator/index.html" class="ai-svc-card" data-name="lipiantar translator language translation assamese hindi">
-                    <div class="ai-svc-badge ai-badge-live">AI LIVE</div>
-                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #3b82f6, #06b6d4);">🌍</div>
-                    <div class="ai-svc-tag">Language / AI</div>
-                    <h3>LipiAntar</h3>
-                    <p>Professional document translation for Assamese, Hindi &amp; English. Built for legal and official documents.</p>
-                    <span class="ai-svc-cta">Open Service <i class="fas fa-arrow-right"></i></span>
-                </a>
-
-                <!-- BizWrite -->
-                <a href="apps/bizwrite/index.html" class="ai-svc-card" data-name="bizwrite business ai profile generator social media bio">
-                    <div class="ai-svc-badge ai-badge-live">AI LIVE</div>
-                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #f97316, #eab308);">🏪</div>
-                    <div class="ai-svc-tag">Business / AI</div>
-                    <h3>BizWrite</h3>
-                    <p>Generate professional business profiles, social media bios, and product descriptions in seconds.</p>
-                    <span class="ai-svc-cta">Open Service <i class="fas fa-arrow-right"></i></span>
-                </a>
-
-                <!-- PatraLekhak -->
-                <a href="apps/patralekhak/index.html" class="ai-svc-card" data-name="patralekhak legal legal ai letter writer formal complaints">
-                    <div class="ai-svc-badge ai-badge-beta">BETA</div>
-                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #8b5cf6, #ec4899);">✉️</div>
-                    <div class="ai-svc-tag">Legal / AI</div>
-                    <h3>PatraLekhak</h3>
-                    <p>Convert simple complaints into powerful formal and legal letters. Supports multiple languages.</p>
-                    <span class="ai-svc-cta">Open Service <i class="fas fa-arrow-right"></i></span>
-                </a>
-
-                <!-- ScriptWala -->
-                <a href="apps/scriptwala/index.html" class="ai-svc-card" data-name="scriptwala marketing ai whatsapp script generator promotions">
-                    <div class="ai-svc-badge ai-badge-live">AI LIVE</div>
-                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #25d366, #059669);">💬</div>
-                    <div class="ai-svc-tag">Marketing / AI</div>
-                    <h3>ScriptWala</h3>
-                    <p>Create high-converting WhatsApp scripts for promotions, festive tags, and customer relations.</p>
-                    <span class="ai-svc-cta">Open Service <i class="fas fa-arrow-right"></i></span>
-                </a>
-
-                <!-- StudyBuddy -->
-                <a href="apps/studybuddy/index.html" class="ai-svc-card" data-name="studybuddy education ai homework helper assignment students class 9 10">
-                    <div class="ai-svc-badge ai-badge-live">AI LIVE</div>
-                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #f59e0b, #ef4444);">📚</div>
-                    <div class="ai-svc-tag">Education / AI</div>
-                    <h3>StudyBuddy</h3>
-                    <p>The ultimate homework and assignment helper for Class 9 &amp; 10 students. Study smarter, not harder.</p>
-                    <span class="ai-svc-cta">Open Service <i class="fas fa-arrow-right"></i></span>
-                </a>
-
-                <!-- ExamCraft -->
-                <a href="apps/examcraft/index.html" class="ai-svc-card" data-name="examcraft pro question paper generator tool ai prep">
-                    <div class="ai-svc-badge ai-badge-new">NEW</div>
-                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);">📝</div>
-                    <div class="ai-svc-tag">Tools / AI</div>
-                    <h3>ExamCraft Pro</h3>
-                    <p>Generate professional question papers for any subject and level in minutes. Save hours of prep.</p>
-                    <span class="ai-svc-cta">Open Service <i class="fas fa-arrow-right"></i></span>
-                </a>
-
-                <!-- ShopWrite -->
-                <a href="apps/shopwrite/index.html" class="ai-svc-card" data-name="shopwrite ai e-commerce product copy seo keywords hashtags">
-                    <div class="ai-svc-badge ai-badge-live">AI LIVE</div>
-                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #ec4899, #f97316);">🛒</div>
-                    <div class="ai-svc-tag">E-commerce / AI</div>
-                    <h3>ShopWrite AI</h3>
-                    <p>E-commerce product copy generator with built-in SEO keywords and hashtags for maximum reach.</p>
-                    <span class="ai-svc-cta">Open Service <i class="fas fa-arrow-right"></i></span>
-                </a>
-
-                <!-- Resume Builder -->
-                <a href="apps/resume-builder/index.html" class="ai-svc-card" data-name="resume builder career ai ats-friendly professional template">
-                    <div class="ai-svc-badge ai-badge-new">NEW</div>
-                    <div class="ai-svc-icon" style="background: linear-gradient(135deg, #10b981, #3b82f6);">📄</div>
-                    <div class="ai-svc-tag">Career / AI</div>
-                    <h3>Resume Builder</h3>
-                    <p>Create professional, ATS-friendly resumes in 60 seconds. Modern templates and AI content.</p>
-                    <span class="ai-svc-cta">Open Service <i class="fas fa-arrow-right"></i></span>
-                </a>
-
-                <!-- No Results Found -->
-                <div id="noResults" class="ai-no-results">
-                    <h3>No matching tools found</h3>
-                    <p>Try searching for different keywords or categories.</p>
-                </div>
-            </div>
-            </div>
-
-            <button class="ai-nav-btn ai-nav-next" id="aiNavNext" onclick="aiScrollCards(1)" aria-label="Scroll right">
-                <i class="fas fa-chevron-right"></i>
-            </button>
-        </div>
-    </div>
-
-            </div>
-
-
-
-
-            <div id="offline-services-tab" class="tab-content service-tab">
-                <div class="services-grid">
-                    
-                <!-- NEW DIGITAL SERVICES -->
-                <div class="service-card highlight-card reveal active" onclick="openServiceModal('Website Creation','website')">
-                    <div class="svc-icon icon-bg-primary"><i class="fas fa-globe"></i></div>
-                    <div class="svc-badge pulse-badge">HOT &amp; LIVE</div>
-                    <h3 data-en="Website Creation" data-as="ৱেবছাইট নিৰ্মাণ">Website Creation</h3>
-                    <p class="dark-desc" data-en="Professional websites for local businesses &amp; personal portfolios." data-as="স্থানীয় ব্যৱসায় আৰু ব্যক্তিগত পৰ্টফলিঅ'ৰ বাবে পেছাদাৰী ৱেবছাইট।">Professional
-                        websites for local businesses &amp; personal portfolios.</p>
-                    <span class="price-tag">₹3,000–16,000</span>
-                </div>
-
-                <div class="service-card highlight-card reveal active" onclick="openServiceModal('WhatsApp Automation','bot')">
-                    <div class="svc-icon icon-bg-whatsapp"><i class="fab fa-whatsapp"></i></div>
-                    <div class="svc-badge pulse-badge">NEW &amp; LIVE</div>
-                    <h3 data-en="n8n WhatsApp Bot" data-as="n8n হোৱাটছএপ বট">n8n WhatsApp Bot</h3>
-                    <p class="dark-desc" data-en="Automated status, replies &amp; customer engagement bots using n8n." data-as="n8n ব্যৱহাৰ কৰি স্বয়ংক্ৰিয় ষ্টেটাছ, উত্তৰ আৰু গ্ৰাহক সংযোগ বট।">
-                        Automated status, replies &amp; customer engagement bots using n8n.</p>
-                    <span class="price-tag">₹1,500–5,000</span>
-                </div>
-
-                <!-- OFFLINE / UNDER CONSTRUCTION SERVICES -->
-                <div class="service-card disabled-card reveal" style="display: none;">
-                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-id-card"></i></div>
-                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
-                    <h3 data-en="PAN Card" data-as="পেন কাৰ্ড">PAN Card</h3>
-                    <p data-en="New application, correction &amp; tracking" data-as="নতুন আৱেদন, সংশোধন আৰু ট্ৰেকিং">New
-                        application, correction &amp; tracking</p>
-                    <span class="price-tag text-red">Coming Soon</span>
-                </div>
-
-                <div class="service-card disabled-card reveal" style="display: none;">
-                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-fingerprint"></i></div>
-                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
-                    <h3 data-en="Aadhaar Services" data-as="আধাৰ সেৱা">Aadhaar Services</h3>
-                    <p data-en="Update, correction &amp; enrollment help" data-as="আপডেট, সংশোধন আৰু নথিভুক্তিৰ সহায়">
-                        Update, correction &amp; enrollment help</p>
-                    <span class="price-tag text-red">Coming Soon</span>
-                </div>
-
-                <div class="service-card disabled-card reveal" style="display: none;">
-                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-print"></i></div>
-                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
-                    <h3 data-en="Printing &amp; Scanning" data-as="প্ৰিন্টিং আৰু স্কেনিং">Printing &amp; Scanning</h3>
-                    <p data-en="B&amp;W, color printing, scanning &amp; PDF" data-as="বি&amp;ডব্লু, কালাৰ প্ৰিন্টিং, স্কেনিং আৰু PDF">B&amp;W, color printing, scanning &amp; PDF</p>
-                    <span class="price-tag text-red">Coming Soon</span>
-                </div>
-
-                <div class="service-card disabled-card reveal" style="display: none;">
-                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-camera"></i></div>
-                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
-                    <h3 data-en="Passport Photo" data-as="পাছপোৰ্ট ফটো">Passport Photo</h3>
-                    <p data-en="Professional passport-size &amp; ID photos" data-as="পেছাদাৰী পাছপোৰ্ট আৰু পৰিচয়পত্ৰৰ ফটো">
-                        Professional passport-size &amp; ID photos</p>
-                    <span class="price-tag text-red">Coming Soon</span>
-                </div>
-
-                <div class="service-card disabled-card reveal" style="display: none;">
-                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-file-alt"></i></div>
-                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
-                    <h3 data-en="Govt. Form Filling" data-as="চৰকাৰী ফৰ্ম পূৰণ">Govt. Form Filling</h3>
-                    <p data-en="All government online forms &amp; applications" data-as="সকলো চৰকাৰী অনলাইন ফৰ্ম আৰু আৱেদন">
-                        All government online forms &amp; applications</p>
-                    <span class="price-tag text-red">Coming Soon</span>
-                </div>
-
-                <div class="service-card disabled-card reveal" style="display: none;">
-                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-ticket-alt"></i></div>
-                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
-                    <h3 data-en="Ticket Booking" data-as="টিকট বুকিং">Ticket Booking</h3>
-                    <p data-en="Railway, bus &amp; flight ticket booking" data-as="ৰেল, বাছ আৰু বিমান টিকট বুকিং">Railway,
-                        bus &amp; flight ticket booking</p>
-                    <span class="price-tag text-red">Coming Soon</span>
-                </div>
-
-                <div class="service-card disabled-card reveal" style="display: none;">
-                    <div class="svc-icon icon-bg-disabled"><i class="fas fa-vote-yea"></i></div>
-                    <div class="svc-badge offline-badge">CONSTRUCTION</div>
-                    <h3 data-en="Voter ID Services" data-as="ভোটাৰ পৰিচয়পত্ৰ সেৱা">Voter ID Services</h3>
-                    <p data-en="New registration &amp; correction" data-as="নতুন নথিভুক্তি আৰু সংশোধন">New registration &amp;
-                        correction</p>
-                    <span class="price-tag text-red">Coming Soon</span>
-                </div>
-            
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <!-- ===== SERVICES ===== -->
-    
 
     <!-- ===== QUOTE CALCULATOR ===== -->
     <section class="calculator-section" id="calculator" style="display: none;">
@@ -1139,6 +1733,80 @@
         <button class="lb-next" onclick="nextImg(event)"><i class="fas fa-chevron-right"></i></button>
         <a class="lb-download" id="lbDownload" href="#" target="_blank" title="Download Full Resolution"><i class="fas fa-download"></i></a>
     </div>
+
+    <!-- ===== TESTIMONIALS ===== -->
+    <section class="testimonials-section" id="testimonials">
+        <div class="container">
+            <div class="section-head">
+                <div class="live-badge"><span style="background:#f97316;" class="live-dot"></span> REAL PEOPLE</div>
+                <h2 class="section-title" data-en="What People Say" data-as="মানুহে কি কয়">What People Say</h2>
+                <p class="section-sub" data-en="Trusted by local businesses and students across Assam" data-as="অসমৰ স্থানীয় ব্যৱসায় আৰু ছাত্ৰ-ছাত্ৰীসকলৰ বিশ্বাস">Trusted by local businesses and students across Assam</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testi-card reveal active">
+                    <div class="testi-stars">★★★★★</div>
+                    <p class="testi-text">"Smart Digital made my medical shop website in just 3 days. Customers now call me after seeing the site online. Very professional work!"</p>
+                    <div class="testi-author">
+                        <div class="testi-avatar" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);">R</div>
+                        <div>
+                            <strong>Ranjit Das</strong>
+                            <span>Medical Shop Owner, Kampur</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testi-card reveal active">
+                    <div class="testi-stars">★★★★★</div>
+                    <p class="testi-text">"The AI resume builder helped me get my first job interview call. My resume looked so professional — I was shocked it was done in minutes!"</p>
+                    <div class="testi-author">
+                        <div class="testi-avatar" style="background: linear-gradient(135deg, #10b981, #3b82f6);">P</div>
+                        <div>
+                            <strong>Puja Bora</strong>
+                            <span>Recent Graduate, Nagaon</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testi-card reveal active">
+                    <div class="testi-stars">★★★★★</div>
+                    <p class="testi-text">"WhatsApp automation bot is amazing! My grocery shop now gets auto-replies even when I'm sleeping. Orders have increased by 30%."</p>
+                    <div class="testi-author">
+                        <div class="testi-avatar" style="background: linear-gradient(135deg, #f59e0b, #ef4444);">M</div>
+                        <div>
+                            <strong>Manoj Kalita</strong>
+                            <span>Grocery Store Owner, Kaliabor</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testi-card reveal active">
+                    <div class="testi-stars">★★★★★</div>
+                    <p class="testi-text">"ExamCraft saved me hours of work. I generate full question papers with answer keys in minutes now. Every teacher should use this!"</p>
+                    <div class="testi-author">
+                        <div class="testi-avatar" style="background: linear-gradient(135deg, #ec4899, #8b5cf6);">S</div>
+                        <div>
+                            <strong>Smita Nath</strong>
+                            <span>School Teacher, Jagiroad</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testi-card reveal active">
+                    <div class="testi-stars">★★★★★</div>
+                    <p class="testi-text">"Used PatraLekhak to write a formal complaint to the electricity department. The letter was perfect and my issue got resolved within a week!"</p>
+                    <div class="testi-author">
+                        <div class="testi-avatar" style="background: linear-gradient(135deg, #0ea5e9, #10b981);">B</div>
+                        <div>
+                            <strong>Biren Gogoi</strong>
+                            <span>Resident, Tezpur</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align:center; margin-top: 2rem;">
+                <a href="https://wa.me/918638759478?text=Hi!%20I%20want%20to%20share%20my%20feedback%20about%20Smart%20Digital" target="_blank" class="btn btn-liquid-glass">
+                    <i class="fab fa-whatsapp"></i>
+                    <span data-en="Share Your Experience" data-as="আপোনাৰ অভিজ্ঞতা জনাওক">Share Your Experience</span>
+                </a>
+            </div>
+        </div>
+    </section>
 
     <!-- ===== CERTIFICATES ===== -->
     <section class="certificates-section" id="certificates">
@@ -1341,15 +2009,75 @@
                             59478</a></p>
                     <p><i class="fas fa-envelope"></i> <a href="mailto:smartdigital.assam@gmail.com">smartdigital.assam@gmail.com</a>
                     </p>
+                    <p style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08);">
+                        <i class="fas fa-user" style="color: #6366f1;"></i>
+                        <span style="color: #94a3b8; font-size: 13px;">Suman Biswas</span>
+                    </p>
+                    <p>
+                        <i class="fas fa-envelope" style="color: #6366f1;"></i>
+                        <a href="mailto:sumanbiswas.1590@gmail.com" style="font-size: 13px;">sumanbiswas.1590@gmail.com</a>
+                    </p>
                 </div>
             </div>
             <div class="footer-bottom">
                 <p>© <span id="footerYear">2026</span> Smart Digital. <span data-en="All rights reserved." data-as="সকলো অধিকাৰ সংৰক্ষিত।">All rights reserved.</span></p>
                 <p data-en="Made with ❤️ in Assam" data-as="অসমৰ বাবে ❤️ দিয়ে তৈয়াৰ কৰা হৈছে">Made
                     with ❤️ in Assam</p>
+                <p style="font-size: 12px; color: #475569; margin-top: 6px;">
+                    Designed &amp; Developed by <a href="mailto:sumanbiswas.1590@gmail.com" style="color: #6366f1; text-decoration: none; font-weight: 600;">Suman Biswas</a>
+                </p>
             </div>
         </div>
     </footer>
+
+    <!-- ===== AI AGENT MODAL ===== -->
+    <div class="modal" id="agentModal">
+        <div class="modal-content agent-modal-content">
+            <span class="modal-close" onclick="closeAgentModal()">×</span>
+            <div class="agent-modal-header">
+                <div class="modal-icon agent-modal-icon" id="agentIcon" style="font-size: 36px;"></div>
+                <div class="agent-modal-title-block">
+                    <h2 id="agentTitle" style="margin:0;">Agent Name</h2>
+                    <p id="agentTagline" class="agent-modal-tagline">Tagline</p>
+                </div>
+            </div>
+
+            <div class="agent-modal-section">
+                <h4><i class="fas fa-exclamation-circle" style="color:#ef4444;"></i> The Problem</h4>
+                <p id="agentProblem"></p>
+            </div>
+
+            <div class="agent-modal-section">
+                <h4><i class="fas fa-lightbulb" style="color:#f59e0b;"></i> How This Agent Solves It</h4>
+                <p id="agentSolution"></p>
+            </div>
+
+            <div class="agent-modal-section">
+                <h4><i class="fas fa-check-circle" style="color:#10b981;"></i> What You Get</h4>
+                <ul class="modal-includes" id="agentFeatures"></ul>
+            </div>
+
+            <div class="agent-modal-section">
+                <h4><i class="fas fa-bullseye" style="color:#6366f1;"></i> Perfect For</h4>
+                <div class="agent-chips-row" id="agentPerfectFor"></div>
+            </div>
+
+            <div class="agent-modal-section agent-usecase-box">
+                <h4><i class="fas fa-star" style="color:#ec4899;"></i> Real Example</h4>
+                <p id="agentUseCase" style="font-style: italic;"></p>
+            </div>
+
+            <div class="agent-modal-pricing-note">
+                <i class="fas fa-info-circle"></i>
+                <span>Custom pricing based on your needs. Monthly plans available. Message us to get a free demo + quote.</span>
+            </div>
+
+            <a id="agentWhatsApp" href="#" target="_blank" class="btn btn-primary agent-modal-cta">
+                <i class="fab fa-whatsapp"></i>
+                <span>Talk to Us on WhatsApp — Free Demo</span>
+            </a>
+        </div>
+    </div>
 
     <!-- ===== SERVICE MODAL ===== -->
     <div class="modal" id="serviceModal">
@@ -1377,7 +2105,7 @@
             <div class="modal-icon icon-bg-primary"><i class="fas fa-lock"></i></div>
             <h2>Admin Login</h2>
             <p style="color:#64748b;margin-bottom:1.5rem;font-size:14px;">Enter password to access the admin panel</p>
-            <input type="password" id="adminPwd" class="pwd-input" placeholder="Enter admin password" onkeypress="if(event.key==='Enter')verifyAdmin()">
+            <input type="password" id="adminPwd" class="pwd-input" placeholder="Enter admin password" autocomplete="new-password" onkeypress="if(event.key==='Enter')verifyAdmin()">
             <button class="btn btn-primary" style="width:100%;margin-top:1rem;" onclick="verifyAdmin()">
                 <i class="fas fa-sign-in-alt"></i> Login
             </button>
@@ -1514,9 +2242,17 @@
         // AI Services — nav button scroll
         function aiScrollCards(direction) {
             const wrapper = document.getElementById('aiScrollWrapper');
-            if (wrapper) {
-                wrapper.scrollBy({ left: direction * 780, behavior: 'smooth' });
-            }
+            if (wrapper) wrapper.scrollBy({ left: direction * 1024, behavior: 'smooth' });
+        }
+        // Demo Sites — nav button scroll
+        function demoScrollCards(direction) {
+            const wrapper = document.getElementById('demoScrollWrapper');
+            if (wrapper) wrapper.scrollBy({ left: direction * 780, behavior: 'smooth' });
+        }
+        // Games — nav button scroll
+        function gamesScrollCards(direction) {
+            const wrapper = document.getElementById('gamesScrollWrapper');
+            if (wrapper) wrapper.scrollBy({ left: direction * 780, behavior: 'smooth' });
         }
     </script>
     <!-- ===== MAGIC REMOVER MODAL ===== -->
@@ -1572,6 +2308,7 @@
                     <div class="sd-header-status">● Online</div>
                 </div>
             </div>
+            <button id="sd-clear-btn" onclick="clearSession()" title="Clear chat">🗑 Clear</button>
         </div>
 
         <div id="sd-bot-messages"></div>

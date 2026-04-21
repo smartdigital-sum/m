@@ -49,6 +49,7 @@
       </div>
     </div>
     <div class="header-right">
+      <a class="home-btn" href="../../index.html" data-en="← Home" data-hi="← होम" data-as="← হোম">← Home</a>
       <div class="lang-bar">
         <button class="lang-btn active" id="lbtn-en" onclick="setLang('en')">EN</button>
         <button class="lang-btn" id="lbtn-hi" onclick="setLang('hi')">HI</button>
@@ -153,6 +154,12 @@
       <div id="apiWarn" class="warn-box hidden">
         ⚠️ <span data-en="Please set your API key in Settings." data-hi="कृपया Settings में API Key सेट करें।" data-as="অনুগ্ৰহ কৰি Settings-ত API Key ছেট কৰক।">Please set your API key in Settings.</span>
       </div>
+      <div id="validationWarn" class="warn-box hidden">
+        ⚠️ <span id="validationMsg"></span>
+      </div>
+      <div id="errorWarn" class="error-box hidden">
+        ❌ <span id="errorMsg"></span>
+      </div>
     </div>
   </div>
 
@@ -190,6 +197,7 @@
         <div class="extra-card" id="seoCard">
           <div class="extra-card-title">🔍 <span data-en="SEO Keywords" data-hi="SEO कीवर्ड" data-as="SEO কীৱাৰ্ড">SEO Keywords</span></div>
           <div class="seo-tags" id="seoTags"></div>
+          <button class="copy-all-btn" onclick="copyAll('seoTags')" data-en="Copy All Keywords" data-hi="सभी कीवर्ड कॉपी करें" data-as="সকলো কীৱাৰ্ড কপি কৰক">Copy All Keywords</button>
         </div>
         <div class="extra-card" id="hashCard">
           <div class="extra-card-title">#️⃣ <span data-en="Hashtags" data-hi="हैशटैग" data-as="হেচটেগ">Hashtags</span></div>
@@ -202,6 +210,15 @@
   </div>
 
 </main>
+
+<!-- HISTORY -->
+<section class="history-section" id="historySection" style="display:none">
+  <div class="history-header">
+    <h2 class="history-title" data-en="Recent Generations" data-hi="हाल की जनरेशन" data-as="শেহতীয়া জেনেৰেচন">Recent Generations</h2>
+    <button class="clear-history-btn" onclick="clearHistory()" data-en="Clear All" data-hi="सब हटाएं" data-as="সকলো মচক">Clear All</button>
+  </div>
+  <div class="history-grid" id="historyGrid"></div>
+</section>
 
 <footer class="site-footer">
   <span>ShopWrite AI &copy; 2025 &nbsp;·&nbsp; <span data-en="Empowering local shops across India" data-hi="भारत की स्थानीय दुकानों को सशक्त बनाना" data-as="ভাৰতৰ স্থানীয় দোকানসমূহক শক্তিশালী কৰা">Empowering local shops across India</span></span>

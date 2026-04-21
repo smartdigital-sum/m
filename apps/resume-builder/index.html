@@ -21,7 +21,25 @@
       <span id="brandName">Smart Digital Service</span>
     </div>
     <div class="header-right">
-      <span class="price-badge">From ₹<span id="headerPrice">199</span></span>
+      <a class="home-btn" href="../../index.html">← Home</a>
+      <!-- Shown when logged OUT -->
+      <div id="authButtonsGroup" class="auth-btns-group">
+        <button class="btn-auth-outline" onclick="openAuthModal('login')">Sign In</button>
+        <button class="btn-auth-solid"   onclick="openAuthModal('register')">Sign Up</button>
+      </div>
+      <!-- Shown when logged IN -->
+      <div id="userPanel" class="user-panel" style="display:none;">
+        <span class="credits-badge" id="creditsBadge">Loading...</span>
+        <div class="user-info" onclick="toggleUserMenu()">
+          <div class="user-avatar" id="userAvatar">U</div>
+          <span class="user-name" id="userName">User</span>
+          <span class="user-chevron">▾</span>
+        </div>
+        <div class="user-dropdown" id="userDropdown">
+          <button onclick="openPlansModal(); toggleUserMenu()">Buy Credits</button>
+          <button onclick="signOutUser()">Sign Out</button>
+        </div>
+      </div>
     </div>
   </div>
 </header>
@@ -39,15 +57,32 @@
       ATS-optimised resume in 60 seconds.
     </p>
     <div class="hero-features">
-      <span class="feat">✓ PDF &amp; Word download</span>
+      <span class="feat">✓ 1 free demo resume</span>
       <span class="feat">✓ 3 professional templates</span>
       <span class="feat">✓ ATS-friendly format</span>
-      <span class="feat">✓ Cover letter add-on</span>
+      <span class="feat">✓ PDF &amp; Word download</span>
     </div>
+
+    <!-- Pricing pills -->
+    <div class="hero-pricing">
+      <div class="price-pill">
+        <span class="pp-label">Single</span>
+        <span class="pp-price">₹10</span>
+        <span class="pp-sub">1 resume</span>
+      </div>
+      <div class="price-pill best">
+        <span class="pp-best">BEST VALUE</span>
+        <span class="pp-label">Bundle</span>
+        <span class="pp-price">₹40</span>
+        <span class="pp-sub">5 resumes</span>
+      </div>
+    </div>
+
     <button class="btn-primary btn-xl" onclick="startWizard()">
-      Build My Resume — ₹<span id="heroPriceBtn">199</span>
+      Build My Resume — Free Demo
       <span class="btn-arrow">→</span>
     </button>
+    <p class="hero-note">Sign in required · 1 free demo included with every account</p>
   </div>
   <div class="hero-deco hero-deco-1"></div>
   <div class="hero-deco hero-deco-2"></div>
@@ -57,7 +92,7 @@
 <section class="wizard-section hidden" id="wizardSection">
   <div class="container">
 
-    <!-- Progress Indicator -->
+    <!-- Progress Indicator (5 steps) -->
     <div class="wizard-progress">
       <div class="progress-steps">
         <div class="ps-step active" data-step="1"><span>1</span><label>Info</label></div>
@@ -65,7 +100,6 @@
         <div class="ps-step" data-step="3"><span>3</span><label>Skills</label></div>
         <div class="ps-step" data-step="4"><span>4</span><label>Experience</label></div>
         <div class="ps-step" data-step="5"><span>5</span><label>Template</label></div>
-        <div class="ps-step" data-step="6"><span>6</span><label>Payment</label></div>
       </div>
       <div class="progress-bar-wrap">
         <div class="progress-bar-fill" id="progressFill"></div>
@@ -256,7 +290,7 @@
       </div>
     </div>
 
-    <!-- ══ STEP 5: Template & Cover Letter ═══════════════════════ -->
+    <!-- ══ STEP 5: Template & Generate ═══════════════════════════ -->
     <div class="wizard-step" id="step-5">
       <div class="step-header">
         <h2>Choose Your Style</h2>
@@ -327,105 +361,46 @@
         </div>
       </div>
 
-      <!-- Cover Letter Upsell -->
+      <!-- Cover Letter Option -->
       <div class="upsell-card">
         <div class="upsell-inner">
           <div class="upsell-left">
             <div class="upsell-icon">📝</div>
             <div>
               <strong>Add a Matching Cover Letter</strong>
-              <p>Stand out with a personalised, professional cover letter tailored to your target role</p>
+              <p>A personalised cover letter tailored to your target role — included free</p>
             </div>
           </div>
           <div class="upsell-right">
-            <span class="upsell-price">+₹<span id="coverLetterPrice">99</span></span>
+            <span class="upsell-price free-tag">FREE</span>
             <label class="toggle-label">
-              <input type="checkbox" id="wantsCoverLetter" onchange="updateTotal()" />
+              <input type="checkbox" id="wantsCoverLetter" />
               <span class="toggle-track"></span>
             </label>
           </div>
         </div>
       </div>
 
-      <!-- Order Summary -->
-      <div class="order-summary">
-        <div class="os-row">
-          <span>Professional Resume (PDF + Word)</span>
-          <span>₹<span id="osPriceResume">199</span></span>
+      <!-- Generation info box -->
+      <div class="gen-info-box" id="genInfoBox">
+        <div class="gib-icon">🎁</div>
+        <div class="gib-text">
+          <strong id="gibTitle">Sign in to generate</strong>
+          <span id="gibSub">Create a free account to get 1 demo resume</span>
         </div>
-        <div class="os-row hidden" id="osCoverRow">
-          <span>Cover Letter (PDF + Word)</span>
-          <span>₹<span id="osPriceCoverLetter">99</span></span>
-        </div>
-        <div class="os-total">
-          <span>Total</span>
-          <span>₹<span id="osTotal">199</span></span>
-        </div>
+        <button class="gib-btn" id="gibBtn" onclick="proceedToGenerate()">Generate →</button>
       </div>
 
       <div class="step-actions">
         <button class="btn-secondary" onclick="prevStep(5)">← Back</button>
-        <button class="btn-primary" onclick="nextStep(5)">Proceed to Payment →</button>
-      </div>
-    </div>
-
-    <!-- ══ STEP 6: Payment ═══════════════════════════════════════ -->
-    <div class="wizard-step" id="step-6">
-      <div class="step-header">
-        <h2>Complete Your Payment</h2>
-        <p>One-time payment via UPI — no subscriptions, no hidden charges</p>
-      </div>
-
-      <div class="payment-card">
-        <div class="payment-amount">
-          <span class="pa-label">Amount to Pay</span>
-          <span class="pa-value">₹<span id="paymentTotal">199</span></span>
-        </div>
-
-        <div class="payment-upi">
-          <div class="upi-logo">UPI</div>
-          <div class="upi-details">
-            <span class="upi-label">Pay to UPI ID</span>
-            <span class="upi-id" id="upiId">YOUR_UPI_ID</span>
-            <span class="upi-name" id="upiName">Smart Digital Service</span>
-          </div>
-        </div>
-
-        <div class="payment-steps-list">
-          <div class="psl-item">
-            <span class="psl-num">1</span>
-            <span>Open any UPI app — PhonePe, Google Pay, Paytm, or any bank app</span>
-          </div>
-          <div class="psl-item">
-            <span class="psl-num">2</span>
-            <span>Send <strong>₹<span id="paymentTotal2">199</span></strong> to the UPI ID shown above</span>
-          </div>
-          <div class="psl-item">
-            <span class="psl-num">3</span>
-            <span>Add your full name in the payment note / remarks</span>
-          </div>
-          <div class="psl-item">
-            <span class="psl-num">4</span>
-            <span>Click the button below to instantly generate your resume</span>
-          </div>
-        </div>
-
-        <div class="payment-note">
-          <strong>📌 Note:</strong> Your resume is generated immediately when you click below.
-          Payment is on trust — please complete the payment before proceeding. Thank you!
-        </div>
-      </div>
-
-      <div class="step-actions">
-        <button class="btn-secondary" onclick="prevStep(6)">← Back</button>
-        <button class="btn-primary btn-xl" onclick="generateResume()">
-          ✓ I've Paid — Generate My Resume
+        <button class="btn-primary btn-xl" id="generateBtn" onclick="proceedToGenerate()">
+          Generate My Resume →
         </button>
       </div>
     </div>
 
-    <!-- ══ STEP 7: Result ════════════════════════════════════════ -->
-    <div class="wizard-step" id="step-7">
+    <!-- ══ STEP 6: Result ════════════════════════════════════════ -->
+    <div class="wizard-step" id="step-6">
 
       <!-- Loading -->
       <div id="loadingState">
@@ -478,7 +453,7 @@
         </div>
       </div>
 
-    </div><!-- /step-7 -->
+    </div><!-- /step-6 -->
 
   </div><!-- /container -->
 </section>
@@ -490,8 +465,180 @@
   </div>
 </footer>
 
+<!-- ═══════════════════════════════════════════════════════════════
+     AUTH MODAL
+═══════════════════════════════════════════════════════════════ -->
+<div class="rb-modal-overlay" id="authModal" style="display:none;" onclick="authModalOverlayClick(event)">
+  <div class="rb-modal-box auth-modal-box">
+    <button class="rb-modal-close" onclick="closeAuthModal()">✕</button>
+
+    <!-- Tabs -->
+    <div class="auth-tabs">
+      <button class="auth-tab-btn" id="authTab-login"    onclick="showAuthTab('login')">Sign In</button>
+      <button class="auth-tab-btn" id="authTab-register" onclick="showAuthTab('register')">Sign Up</button>
+    </div>
+
+    <!-- Login Panel -->
+    <div class="auth-form-panel" id="authPanel-login">
+      <h3 class="auth-form-title">Welcome Back</h3>
+
+      <!-- Google Sign-In -->
+      <button class="btn-google" onclick="signInWithGoogle()">
+        <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>
+        Continue with Google
+      </button>
+      <div class="auth-divider"><span>or</span></div>
+
+      <form onsubmit="handleLogin(event)">
+        <div class="auth-field">
+          <label for="loginEmail">Email Address</label>
+          <input type="email" id="loginEmail" placeholder="Enter your email" required autocomplete="email" />
+        </div>
+        <div class="auth-field">
+          <label for="loginPassword">Password</label>
+          <div class="auth-password-wrap">
+            <input type="password" id="loginPassword" placeholder="Enter password" required autocomplete="current-password" />
+            <button type="button" class="auth-toggle-pw" onclick="togglePasswordVisibility('loginPassword', this)">Show</button>
+          </div>
+        </div>
+        <div class="auth-error" id="loginError"></div>
+        <button type="submit" class="auth-submit-btn">Sign In →</button>
+      </form>
+      <p class="auth-switch-text">Don't have an account?
+        <a href="#" onclick="showAuthTab('register'); return false;">Sign Up</a>
+      </p>
+    </div>
+
+    <!-- Register Panel -->
+    <div class="auth-form-panel" id="authPanel-register">
+      <h3 class="auth-form-title">Create Account</h3>
+
+      <!-- Google Sign-In -->
+      <button class="btn-google" onclick="signInWithGoogle()">
+        <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>
+        Continue with Google
+      </button>
+      <div class="auth-divider"><span>or</span></div>
+
+      <form onsubmit="handleRegister(event)">
+        <div class="auth-field">
+          <label for="regName">Full Name</label>
+          <input type="text" id="regName" placeholder="Enter your name" required />
+        </div>
+        <div class="auth-field">
+          <label for="regEmail">Email Address</label>
+          <input type="email" id="regEmail" placeholder="Enter your email" required autocomplete="email" />
+        </div>
+        <div class="auth-field">
+          <label for="regPassword">Password</label>
+          <div class="auth-password-wrap">
+            <input type="password" id="regPassword" placeholder="Min 6 characters" required minlength="6" autocomplete="new-password" />
+            <button type="button" class="auth-toggle-pw" onclick="togglePasswordVisibility('regPassword', this)">Show</button>
+          </div>
+        </div>
+        <div class="auth-error"   id="regError"></div>
+        <div class="auth-success" id="regSuccess"></div>
+        <button type="submit" class="auth-submit-btn">Create Account →</button>
+      </form>
+      <p class="auth-switch-text">Already have an account?
+        <a href="#" onclick="showAuthTab('login'); return false;">Sign In</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PLANS MODAL
+═══════════════════════════════════════════════════════════════ -->
+<div class="rb-modal-overlay" id="plansModal" style="display:none;" onclick="plansModalOverlayClick(event)">
+  <div class="rb-modal-box plans-modal-box">
+    <button class="rb-modal-close" onclick="closePlansModal()">✕</button>
+
+    <!-- Step 1: Choose Plan -->
+    <div class="plan-step active" id="planStep-choose">
+      <h3 class="plans-title">Choose a Plan</h3>
+      <p class="plans-sub">One-time payment · No subscription</p>
+
+      <div class="plan-cards">
+        <!-- Single -->
+        <div class="plan-card" id="planCard-single" onclick="selectPlan('single')">
+          <div class="plan-card-icon">📄</div>
+          <div class="plan-card-name">Single Resume</div>
+          <div class="plan-card-price">₹10</div>
+          <div class="plan-card-desc">1 resume generation</div>
+          <div class="plan-card-check">✓</div>
+        </div>
+        <!-- Bundle -->
+        <div class="plan-card" id="planCard-bundle5" onclick="selectPlan('bundle5')">
+          <div class="plan-card-badge">BEST VALUE</div>
+          <div class="plan-card-icon">📦</div>
+          <div class="plan-card-name">5-Resume Bundle</div>
+          <div class="plan-card-price">₹40</div>
+          <div class="plan-card-desc">5 resume generations · Save ₹10</div>
+          <div class="plan-card-check">✓</div>
+        </div>
+      </div>
+
+      <button class="plans-proceed-btn" id="plansProceedBtn" onclick="proceedToPayment()">
+        Proceed to Payment →
+      </button>
+    </div>
+
+    <!-- Step 2: UPI Payment -->
+    <div class="plan-step" id="planStep-pay">
+      <button class="plans-back-btn" onclick="showPlanStep('choose')">← Back</button>
+      <h3 class="plans-title" id="payStepTitle">Pay ₹10</h3>
+      <p class="plans-sub">UPI · One-time · Instant activation</p>
+
+      <div class="upi-payment-box">
+        <div class="upi-logo-badge">UPI</div>
+        <div class="upi-details-block">
+          <span class="upi-pay-to">Pay to UPI ID</span>
+          <span class="upi-pay-id" id="plansUpiId">YOUR_UPI_ID</span>
+          <span class="upi-pay-name" id="plansUpiName">Smart Digital Service</span>
+        </div>
+      </div>
+
+      <div class="upi-steps">
+        <div class="upi-step-item"><span class="upi-step-num">1</span><span>Open PhonePe, Google Pay, Paytm or any UPI app</span></div>
+        <div class="upi-step-item"><span class="upi-step-num">2</span><span>Send <strong id="upiAmountText">₹10</strong> to the UPI ID above</span></div>
+        <div class="upi-step-item"><span class="upi-step-num">3</span><span>Add your name in the payment note / remarks</span></div>
+        <div class="upi-step-item"><span class="upi-step-num">4</span><span>Click the button below to activate your credits</span></div>
+      </div>
+
+      <div class="upi-trust-note">
+        📌 <strong>Note:</strong> Credits are activated immediately when you confirm. Payment is on trust — please complete the UPI transfer before clicking. Thank you!
+      </div>
+
+      <button class="plans-confirm-btn" id="plansConfirmBtn" onclick="confirmPayment()">
+        ✓ I've Paid — Activate Credits
+      </button>
+    </div>
+
+    <!-- Step 3: Success -->
+    <div class="plan-step" id="planStep-success">
+      <div class="plans-success">
+        <div class="plans-success-icon">🎉</div>
+        <h3>Credits Activated!</h3>
+        <p id="plansSuccessMsg">You now have 1 resume generation.</p>
+        <button class="plans-done-btn" onclick="closePlansModal(); proceedToGenerate()">
+          Generate My Resume →
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <!-- ═══ SCRIPTS ═══════════════════════════════════════════════════ -->
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
 <script src="../../assets/js/config.js"></script>
+<script src="firebase-config.js"></script>
+<script src="firebase-auth.js"></script>
 <script src="settings.js"></script>
 <script src="templates.js"></script>
 <script src="export.js"></script>

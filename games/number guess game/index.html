@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Number Guessing Game</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="game-container">
+      <div class="header">
+        <h1>🎮 Number Guessing Game</h1>
+        <div class="theme-toggle">
+          <button id="themeToggle">🌓</button>
+        </div>
+      </div>
+
+      <div class="difficulty-selector">
+        <button class="difficulty-btn active" data-difficulty="easy">
+          Easy (1-10)
+        </button>
+        <button class="difficulty-btn" data-difficulty="medium">
+          Medium (1-50)
+        </button>
+        <button class="difficulty-btn" data-difficulty="hard">
+          Hard (1-100)
+        </button>
+      </div>
+
+      <div class="game-area">
+        <input
+          type="number"
+          id="guessInput"
+          min="1"
+          max="100"
+          placeholder="Enter your guess (1-10)"
+        />
+        <button id="guessBtn">Guess</button>
+      </div>
+
+      <div id="message"></div>
+      <div id="hint"></div>
+
+      <div class="game-modes">
+        <label class="mode-toggle">
+          <input type="checkbox" id="timeAttackMode" />
+          <span>⏱️ Time Attack</span>
+        </label>
+        <div id="timerDisplay" class="timer-display" style="display: none">
+          <span>⏱️ Time: <span id="timerValue">60</span>s</span>
+        </div>
+      </div>
+
+      <div id="progressBar" class="progress-bar">
+        <div class="progress-fill"></div>
+      </div>
+
+      <div id="history" class="guess-history"></div>
+
+      <div id="stats" class="stats">
+        <div>⭐ Best: <span id="bestScore">-</span></div>
+        <div>🎯 Win Rate: <span id="winRate">-</span>%</div>
+      </div>
+
+      <div class="action-buttons">
+        <button id="giveUpBtn" class="give-up-btn" style="display: none">🏳️ Give Up</button>
+        <button id="resetBtn">🔄 Play Again</button>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

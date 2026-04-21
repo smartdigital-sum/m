@@ -807,6 +807,8 @@ body::before {
   -webkit-backdrop-filter: blur(12px) saturate(180%);
 }
 .ps-step span { background: transparent !important; }
+.ps-step.active span    { background: var(--accent) !important; }
+.ps-step.completed span { background: var(--primary) !important; }
 
 /* ─── Preview Tabs ──────────────────────────────────────────────── */
 .preview-tabs {
@@ -864,7 +866,7 @@ body::before {
   bottom: 28px;
   left: 50%;
   transform: translateX(-50%) translateY(20px);
-  background: var(--text);
+  background: #1f2937;
   color: white;
   padding: 13px 24px;
   border-radius: 8px;
@@ -916,3 +918,668 @@ body::before {
   .hero-title { font-size: 26px; }
   .payment-card { padding: 18px; }
 }
+
+/* ================================================================
+   AUTH SYSTEM — Header, Modals, Plans
+   ================================================================ */
+
+/* ─── Header Auth ──────────────────────────────────────────────── */
+.auth-btns-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-auth-outline {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 6px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.btn-auth-outline:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.btn-auth-solid {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 7px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  font-weight: 600;
+  transition: var(--transition);
+}
+.btn-auth-solid:hover { background: var(--primary-light); }
+
+/* ─── User Panel ───────────────────────────────────────────────── */
+.user-panel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.credits-badge {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+  color: #fff;
+  background: #f59e0b;
+  white-space: nowrap;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: var(--transition);
+}
+.user-info:hover { background: rgba(255,255,255,0.06); }
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+img.user-avatar { display: block; }
+
+.user-name    { font-size: 13px; font-weight: 600; }
+.user-chevron { font-size: 10px; color: var(--text-muted); }
+
+.user-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: #111827;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 6px;
+  min-width: 140px;
+  box-shadow: var(--shadow-md);
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  z-index: 200;
+}
+.user-dropdown.open { display: flex; }
+
+.user-dropdown button {
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 13px;
+  padding: 8px 12px;
+  border-radius: 7px;
+  cursor: pointer;
+  text-align: left;
+  transition: var(--transition);
+}
+.user-dropdown button:hover { background: rgba(255,255,255,0.07); }
+
+/* ─── Hero Pricing Pills ────────────────────────────────────────── */
+.hero-pricing {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 28px 0 32px;
+  flex-wrap: wrap;
+}
+
+.price-pill {
+  background: rgba(17, 24, 39, 0.8);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 28px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 120px;
+  position: relative;
+}
+.price-pill.best {
+  border-color: var(--accent);
+  background: rgba(251,191,36,0.06);
+}
+
+.pp-best {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent);
+  color: #000;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 10px;
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+}
+.pp-label { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+.pp-price { font-size: 24px; font-weight: 800; font-family: 'Syne', sans-serif; color: var(--text); }
+.pp-sub   { font-size: 11px; color: var(--text-muted); }
+.price-pill.best .pp-price { color: var(--accent); }
+
+.hero-note {
+  margin-top: 14px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ─── Free tag in upsell ────────────────────────────────────────── */
+.free-tag {
+  background: rgba(52, 211, 153, 0.15) !important;
+  color: var(--success) !important;
+  border: 1px solid var(--success) !important;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+/* ─── Generation Info Box ───────────────────────────────────────── */
+.gen-info-box {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(17, 24, 39, 0.8);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin: 20px 0;
+}
+.gen-info-box.demo  { border-color: #f59e0b; background: rgba(251,191,36,0.06); }
+.gen-info-box.paid  { border-color: var(--primary); background: rgba(59,130,246,0.06); }
+.gen-info-box.empty { border-color: #ef4444; background: rgba(239,68,68,0.06); }
+
+.gib-icon { font-size: 22px; flex-shrink: 0; }
+.gib-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.gib-text strong { font-size: 14px; color: var(--text); }
+.gib-text span   { font-size: 12px; color: var(--text-muted); }
+
+.gib-btn {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: var(--transition);
+}
+.gib-btn:hover { background: var(--primary-light); }
+
+/* ─── Modal Base ────────────────────────────────────────────────── */
+.rb-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.rb-modal-box {
+  background: #0f172a;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 18px;
+  padding: 32px 28px;
+  width: 100%;
+  max-width: 460px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.7);
+}
+
+.rb-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(255,255,255,0.07);
+  border: none;
+  color: var(--text-muted);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+.rb-modal-close:hover { background: rgba(255,255,255,0.14); color: var(--text); }
+
+/* ─── Auth Modal ────────────────────────────────────────────────── */
+.auth-modal-box { max-width: 420px; }
+
+.auth-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 24px;
+}
+
+.auth-tab-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 0;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: var(--transition);
+}
+.auth-tab-btn.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+.auth-form-panel { display: none; }
+.auth-form-panel.active { display: block; }
+
+.auth-form-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.btn-google {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #fff;
+  color: #1a1a1a;
+  border: none;
+  border-radius: 10px;
+  padding: 11px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-bottom: 14px;
+}
+.btn-google:hover { background: #f0f0f0; }
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 4px 0 16px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.auth-field {
+  margin-bottom: 14px;
+}
+.auth-field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+.auth-field input {
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14px;
+  transition: var(--transition);
+}
+.auth-field input:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: rgba(59,130,246,0.06);
+}
+
+.auth-password-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.auth-password-wrap input { padding-right: 60px; }
+.auth-toggle-pw {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 12px;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 4px 6px;
+}
+.auth-toggle-pw:hover { color: var(--text); }
+
+.auth-error   { color: var(--error);   font-size: 13px; min-height: 18px; margin-bottom: 10px; }
+.auth-success { color: var(--success); font-size: 13px; min-height: 18px; margin-bottom: 10px; }
+
+.auth-submit-btn {
+  width: 100%;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-top: 4px;
+}
+.auth-submit-btn:hover { background: var(--primary-light); }
+
+.auth-switch-text {
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 16px;
+}
+.auth-switch-text a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+.auth-switch-text a:hover { text-decoration: underline; }
+
+/* ─── Plans Modal ───────────────────────────────────────────────── */
+.plans-modal-box { max-width: 480px; }
+
+.plan-step { display: none; }
+.plan-step.active { display: block; }
+
+.plans-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+.plans-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+.plan-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.plan-card {
+  background: rgba(255,255,255,0.03);
+  border: 2px solid var(--border);
+  border-radius: 14px;
+  padding: 20px 16px 16px;
+  cursor: pointer;
+  text-align: center;
+  position: relative;
+  transition: var(--transition);
+}
+.plan-card:hover {
+  border-color: rgba(59,130,246,0.5);
+  background: rgba(59,130,246,0.04);
+}
+.plan-card.selected {
+  border-color: var(--primary);
+  background: rgba(59,130,246,0.08);
+}
+.plan-card.selected .plan-card-check { opacity: 1; }
+
+.plan-card-badge {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent);
+  color: #000;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+.plan-card-icon  { font-size: 28px; margin-bottom: 8px; }
+.plan-card-name  { font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+.plan-card-price {
+  font-size: 28px;
+  font-weight: 800;
+  font-family: 'Syne', sans-serif;
+  color: var(--primary);
+  margin-bottom: 4px;
+}
+.plan-card-desc  { font-size: 11px; color: var(--text-muted); }
+.plan-card-check {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 50%;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: var(--transition);
+}
+
+.plans-proceed-btn {
+  width: 100%;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.plans-proceed-btn:hover { background: var(--primary-light); }
+
+.plans-back-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0 0 16px;
+  display: block;
+}
+.plans-back-btn:hover { color: var(--text); }
+
+/* ─── UPI Payment in Plans Modal ────────────────────────────────── */
+.upi-payment-box {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin-bottom: 20px;
+}
+
+.upi-logo-badge {
+  background: #5c7bfa;
+  color: #fff;
+  font-weight: 800;
+  font-size: 13px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  letter-spacing: 1px;
+  flex-shrink: 0;
+}
+
+.upi-details-block { display: flex; flex-direction: column; gap: 2px; }
+.upi-pay-to   { font-size: 11px; color: var(--text-muted); }
+.upi-pay-id   { font-size: 16px; font-weight: 700; color: var(--text); word-break: break-all; }
+.upi-pay-name { font-size: 12px; color: var(--text-muted); }
+
+.upi-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.upi-step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.upi-step-num {
+  width: 22px;
+  height: 22px;
+  background: rgba(59,130,246,0.15);
+  border: 1px solid rgba(59,130,246,0.3);
+  color: var(--primary-light);
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.upi-trust-note {
+  background: rgba(251,191,36,0.07);
+  border: 1px solid rgba(251,191,36,0.3);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 12px;
+  color: #fbbf24;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.plans-confirm-btn {
+  width: 100%;
+  background: #059669;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.plans-confirm-btn:hover:not(:disabled) { background: #047857; }
+.plans-confirm-btn:disabled { opacity: 0.65; cursor: not-allowed; }
+
+/* ─── Plans Success ─────────────────────────────────────────────── */
+.plans-success {
+  text-align: center;
+  padding: 20px 0;
+}
+.plans-success-icon { font-size: 52px; display: block; margin-bottom: 16px; }
+.plans-success h3   { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+.plans-success p    { color: var(--text-muted); font-size: 14px; margin-bottom: 24px; }
+
+.plans-done-btn {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 13px 28px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.plans-done-btn:hover { background: var(--primary-light); }
+
+/* ─── Responsive additions ─────────────────────────────────────── */
+@media (max-width: 640px) {
+  .plan-cards { grid-template-columns: 1fr; }
+  .hero-pricing { gap: 10px; }
+  .price-pill { padding: 14px 20px; min-width: 110px; }
+  .rb-modal-box { padding: 24px 18px; }
+  .gen-info-box { flex-wrap: wrap; }
+}
+
+
+/* ---- HOME BUTTON ---- */
+.home-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 7px;
+  color: rgba(255,255,255,0.65);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: border-color 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+.home-btn:hover { border-color: rgba(255,255,255,0.55); color: #fff; }

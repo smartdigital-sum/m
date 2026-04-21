@@ -4,99 +4,221 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="../assets/logo.png" />
-    <title>Website Generator - Smart Digital</title>
-    <meta
-      name="description"
-      content="Explore custom website demos and digital solutions by Smart Digital. We offer professional and affordable web design services right here in Assam."
-    />
-    <!-- Future Shop Address: Kachua Tiniali Main Market, Kampur, Assam 782426 -->
+    <title>Imagine Your Business - Smart Digital</title>
+    <meta name="description" content="See your business as a premium website. Enter your name, pick an industry, and watch the magic happen." />
     <link rel="stylesheet" href="generator.css" />
   </head>
-
   <body>
-    <!-- THE GENERATOR SECTION -->
     <section id="brand-generator">
       <div class="input-container">
         <h2>See Your Business Upgraded.</h2>
-        <input
-          type="text"
-          id="biz-name"
-          placeholder="Business Name (e.g. Joe's Gym)"
-        />
+
+        <input type="text" id="biz-name" placeholder="Business Name (e.g. Joe's Gym)" />
+        <input type="text" id="biz-tagline" placeholder="Tagline or service (e.g. Haircuts from ₹50)" />
+
+        <div class="optional-fields">
+          <input type="tel" id="biz-phone" placeholder="📞 Phone (optional — for Business Card)" />
+          <input type="text" id="biz-location" placeholder="📍 Location (optional — e.g. Kampur, Assam)" />
+        </div>
 
         <select id="industry">
           <option value="medical">Medical Shop</option>
           <option value="school">School Portal</option>
-          <option value="salon">Salon & Spa</option>
+          <option value="salon">Salon &amp; Spa</option>
           <option value="grocery">Grocery Store</option>
           <option value="restaurant">Restaurant</option>
-          <option value="gym">Fitness & Gym</option>
+          <option value="gym">Fitness &amp; Gym</option>
+          <option value="pharmacy">Pharmacy</option>
+          <option value="coaching">Coaching Center</option>
+          <option value="clothing">Clothing Store</option>
+          <option value="cafe">Café</option>
+          <option value="realestate">Real Estate</option>
+          <option value="photography">Photography Studio</option>
+          <option value="beauty">Beauty Parlor</option>
+          <option value="hardware">Hardware Store</option>
         </select>
 
-        <input type="file" id="image-upload" accept="image/*" />
+        <div class="layout-picker">
+          <span class="layout-picker-label">Mockup Style</span>
+          <div class="layout-options">
+            <button class="layout-opt active" data-layout="classic">Classic</button>
+            <button class="layout-opt" data-layout="bold">Bold</button>
+            <button class="layout-opt" data-layout="elegant">Elegant</button>
+            <button class="layout-opt" data-layout="split">Split</button>
+          </div>
+        </div>
+
+        <div class="color-picker-row">
+          <span class="layout-picker-label">Accent Color</span>
+          <div class="color-swatches">
+            <button class="color-swatch" data-color="#3b82f6" style="background:#3b82f6" title="Blue"></button>
+            <button class="color-swatch" data-color="#8b5cf6" style="background:#8b5cf6" title="Purple"></button>
+            <button class="color-swatch" data-color="#10b981" style="background:#10b981" title="Green"></button>
+            <button class="color-swatch" data-color="#ef4444" style="background:#ef4444" title="Red"></button>
+            <button class="color-swatch" data-color="#f97316" style="background:#f97316" title="Orange"></button>
+            <button class="color-swatch" data-color="#ec4899" style="background:#ec4899" title="Pink"></button>
+            <button class="color-swatch" data-color="#f59e0b" style="background:#f59e0b" title="Gold"></button>
+            <button class="color-swatch" data-color="#14b8a6" style="background:#14b8a6" title="Teal"></button>
+            <button class="color-swatch swatch-reset active" data-color="" title="Use theme default">Auto</button>
+          </div>
+        </div>
+
+        <div class="upload-area">
+          <input type="file" id="image-upload" accept="image/*" />
+          <p class="upload-hint">📸 Upload a photo for best results — or skip to use an icon</p>
+        </div>
+
         <button id="generate-btn">Generate My Premium Site</button>
-        <p id="loading-text" style="display: none">
-          Applying AI Magic... Please wait ⏳
-        </p>
+        <p id="loading-text" style="display: none">Applying AI Magic... Please wait ⏳</p>
       </div>
 
-      <!-- THE OUTPUT MOCKUP (Hidden initially) -->
-      <div
-        class="mockup-container"
-        id="mockup-result"
-        style="display: none; width: 100%; margin-top: 40px"
-      >
-        <!-- FAKE BROWSER WINDOW WRAPPER -->
-        <div class="hero-layout" id="hero-layout">
-          <!-- Browser Top Bar (Red, Yellow, Green dots) -->
-          <div class="browser-bar">
-            <span class="dot" style="background: #ff5f56"></span>
-            <span class="dot" style="background: #ffbd2e"></span>
-            <span class="dot" style="background: #27c93f"></span>
+      <!-- THE OUTPUT MOCKUP -->
+      <div class="mockup-container" id="mockup-result" style="display: none; width: 100%; margin-top: 40px">
+
+        <!-- View Tabs -->
+        <div class="view-tabs">
+          <button class="view-tab active" data-view="website">🖥 Website</button>
+          <button class="view-tab" data-view="card">🪪 Business Card</button>
+        </div>
+
+        <!-- WEBSITE MOCKUP VIEW -->
+        <div id="view-website">
+
+          <!-- Loading skeleton (shown while API processes) -->
+          <div class="mockup-skeleton" id="mockup-skeleton" style="display:none;">
+            <div class="skel-bar">
+              <span class="skel-dot"></span><span class="skel-dot"></span><span class="skel-dot"></span>
+            </div>
+            <div class="skel-body">
+              <div class="skel-header">
+                <div class="skel-block skel-logo"></div>
+                <div class="skel-nav">
+                  <div class="skel-block skel-nav-item"></div>
+                  <div class="skel-block skel-nav-item"></div>
+                  <div class="skel-block skel-nav-item"></div>
+                </div>
+              </div>
+              <div class="skel-main">
+                <div class="skel-left">
+                  <div class="skel-block skel-badge"></div>
+                  <div class="skel-block skel-title"></div>
+                  <div class="skel-block skel-title skel-title-sm"></div>
+                  <div class="skel-block skel-text"></div>
+                  <div class="skel-block skel-text skel-text-sm"></div>
+                  <div class="skel-block skel-btn"></div>
+                </div>
+                <div class="skel-right">
+                  <div class="skel-block skel-image"></div>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <!-- THE ACTUAL MOCKUP WEBSITE -->
-          <div class="mockup-website">
-            <!-- 1. The Header / Nav Bar -->
-            <header class="mockup-header">
-              <div class="mockup-logo" id="mockup-logo">Logo</div>
-              <nav class="mockup-nav">
-                <span>Home</span>
-                <span>Services</span>
-                <span>About</span>
-              </nav>
-            </header>
+          <div class="hero-layout layout-classic" id="hero-layout" style="display:none;">
+            <div class="browser-bar">
+              <span class="dot" style="background: #ff5f56"></span>
+              <span class="dot" style="background: #ffbd2e"></span>
+              <span class="dot" style="background: #27c93f"></span>
+              <span class="browser-url" id="browser-url">yourbusiness.com</span>
+            </div>
 
-            <!-- 2. The Hero Section (2 Columns) -->
-            <main class="mockup-main">
-              <!-- Left Side: Text & Button -->
-              <div class="mockup-left-col">
-                <span class="mockup-badge">Premium Quality</span>
-                <h1 id="mockup-title">Your Business Here</h1>
-                <p>
-                  Experience the best services in the city. Designed for
-                  excellence, tailored for you.
-                </p>
-                <button class="mockup-cta">Book Now</button>
-              </div>
+            <div class="mockup-website">
+              <header class="mockup-header">
+                <div class="mockup-logo" id="mockup-logo">Logo</div>
+                <nav class="mockup-nav">
+                  <span>Home</span>
+                  <span>Services</span>
+                  <span>About</span>
+                  <span>Contact</span>
+                </nav>
+              </header>
 
-              <!-- Right Side: Background Removed Image -->
-              <div class="mockup-right-col">
-                <img id="mockup-image" src="" alt="Transformed Business" />
-              </div>
-            </main>
+              <main class="mockup-main">
+                <div class="mockup-left-col">
+                  <span class="mockup-badge" id="mockup-badge">Premium Quality</span>
+                  <h1 id="mockup-title">Your Business Here</h1>
+                  <p id="mockup-tagline">Experience the best services in the city. Designed for excellence, tailored for you.</p>
+                  <button class="mockup-cta" id="mockup-cta">Book Now</button>
+                </div>
+                <div class="mockup-right-col">
+                  <!-- bg-removed floating image -->
+                  <img id="mockup-image" src="" alt="Transformed Business" style="display:none;" />
+                  <!-- emoji fallback (no file) -->
+                  <div id="mockup-emoji" class="mockup-emoji-icon" style="display:none;"></div>
+                  <!-- creative framed photo (file uploaded, bg keep) -->
+                  <div id="mockup-photo-frame" class="mockup-photo-frame" style="display:none;">
+                    <div class="photo-frame-top-bar">
+                      <span class="photo-frame-dot"></span>
+                      <span class="photo-frame-dot"></span>
+                      <span class="photo-frame-dot"></span>
+                    </div>
+                    <img id="mockup-photo-raw" src="" alt="Your Business" />
+                    <div class="photo-frame-overlay"></div>
+                    <div class="photo-frame-badge" id="photo-frame-badge">✨ Premium</div>
+                  </div>
+                  <!-- decorative blobs -->
+                  <div class="deco-blob deco-blob-1" id="deco-blob-1" style="display:none;"></div>
+                  <div class="deco-blob deco-blob-2" id="deco-blob-2" style="display:none;"></div>
+                </div>
+              </main>
+            </div>
           </div>
+        </div><!-- end view-website -->
+
+        <!-- BUSINESS CARD VIEW -->
+        <div id="view-card" style="display:none;">
+          <div class="biz-card-wrapper" id="biz-card-wrapper">
+            <div class="biz-card" id="biz-card">
+              <div class="biz-card-left">
+                <div class="biz-card-logo-emoji" id="card-emoji">🏪</div>
+                <div class="biz-card-accent-bar" id="card-accent-bar"></div>
+              </div>
+              <div class="biz-card-right">
+                <div class="biz-card-name" id="card-name">Business Name</div>
+                <div class="biz-card-tagline" id="card-tagline">Your tagline here</div>
+                <div class="biz-card-divider"></div>
+                <div class="biz-card-contact">
+                  <span id="card-phone-display">📞 +91 98765 43210</span>
+                  <span id="card-location-display">📍 Assam, India</span>
+                  <span id="card-web">🌐 yourbusiness.com</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="card-hint">This is a preview of how your business card could look.</p>
         </div>
 
         <div class="hire-me-cta">
           <h3>Love this look? I can build the real thing.</h3>
-          <button onclick="window.location.href = '../index.html'">
-            Let's Talk
-          </button>
+          <div class="cta-buttons">
+            <button id="download-btn" onclick="downloadMockup()">⬇ Download Preview</button>
+            <button id="whatsapp-btn" onclick="shareWhatsApp()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:5px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              Share on WhatsApp
+            </button>
+            <button class="cta-talk" onclick="window.location.href = '../index.html'">Let's Talk</button>
+          </div>
         </div>
-      </div>
+        <!-- LEAD CAPTURE FORM -->
+        <div class="lead-form" id="lead-form">
+          <div class="lead-form-inner">
+            <div class="lead-form-icon">🚀</div>
+            <h3>Want this as a real website?</h3>
+            <p>Drop your details and Smart Digital will reach out within 24 hours.</p>
+            <div class="lead-fields">
+              <input type="text"  id="lead-name"    placeholder="Your Name" />
+              <input type="tel"   id="lead-phone"   placeholder="WhatsApp Number" />
+              <input type="text"  id="lead-message" placeholder="Any message? (optional)" />
+            </div>
+            <button id="lead-submit-btn" onclick="submitLead()">Send on WhatsApp</button>
+            <p class="lead-note" id="lead-note"></p>
+          </div>
+        </div>
+
+      </div><!-- end mockup-result -->
     </section>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="generator.js"></script>
   </body>
 </html>

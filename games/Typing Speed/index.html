@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Typing Speed Test</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0f0f1a;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', sans-serif;
+    color: #fff;
+    padding: 1rem;
+  }
+  h1 {
+    font-size: 1.8rem;
+    margin-bottom: 0.3rem;
+    background: linear-gradient(135deg, #06b6d4, #6366f1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .subtitle { color: #666; font-size: 0.85rem; margin-bottom: 1.2rem; }
+
+  .stats {
+    display: flex;
+    gap: 1.2rem;
+    margin-bottom: 1.2rem;
+  }
+  .stat-box {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 0.6rem 1.2rem;
+    text-align: center;
+    min-width: 80px;
+  }
+  .stat-box span { display: block; font-size: 0.6rem; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+  .stat-box strong { font-size: 1.4rem; color: #06b6d4; }
+  .stat-box.highlight strong { color: #22c55e; }
+
+  #textDisplay {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 1.2rem 1.5rem;
+    width: 100%;
+    max-width: 600px;
+    font-size: 1.1rem;
+    line-height: 1.9;
+    letter-spacing: 0.02em;
+    margin-bottom: 1rem;
+    min-height: 100px;
+  }
+  .char { position: relative; }
+  .char.correct { color: #22c55e; }
+  .char.wrong   { color: #ef4444; background: rgba(239,68,68,0.15); border-radius: 2px; }
+  .char.current { background: rgba(6,182,212,0.25); border-bottom: 2px solid #06b6d4; border-radius: 2px; }
+
+  #inputArea {
+    width: 100%;
+    max-width: 600px;
+    background: rgba(255,255,255,0.06);
+    border: 2px solid rgba(255,255,255,0.12);
+    border-radius: 12px;
+    padding: 0.85rem 1.2rem;
+    color: #fff;
+    font-size: 1rem;
+    font-family: inherit;
+    outline: none;
+    resize: none;
+    transition: border-color 0.2s;
+    height: 70px;
+    margin-bottom: 1rem;
+  }
+  #inputArea:focus { border-color: #06b6d4; }
+  #inputArea:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .btn-row { display: flex; gap: 1rem; }
+  .btn {
+    padding: 0.65rem 1.8rem;
+    border-radius: 50px;
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, #06b6d4, #6366f1);
+    color: #fff;
+  }
+  .btn-primary:hover { transform: scale(1.05); box-shadow: 0 4px 20px rgba(6,182,212,0.35); }
+  .btn-secondary {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: #aaa;
+  }
+  .btn-secondary:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+  #timerBar {
+    width: 100%;
+    max-width: 600px;
+    height: 5px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+  }
+  #timerFill {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, #06b6d4, #6366f1);
+    border-radius: 5px;
+    transition: width 1s linear, background 0.5s;
+  }
+  #timerFill.danger { background: linear-gradient(90deg, #f59e0b, #ef4444); }
+
+  #resultCard {
+    display: none;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 18px;
+    padding: 1.5rem 2rem;
+    text-align: center;
+    max-width: 360px;
+    width: 100%;
+  }
+  #resultCard h2 { font-size: 1.4rem; color: #06b6d4; margin-bottom: 1rem; }
+  .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem; }
+  .result-item { background: rgba(255,255,255,0.05); border-radius: 10px; padding: 0.7rem; }
+  .result-item span { font-size: 0.65rem; color: #888; text-transform: uppercase; letter-spacing: 1px; display: block; }
+  .result-item strong { font-size: 1.4rem; color: #22c55e; }
+
+  .diff-btns { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+  .diff-btn {
+    flex: 1;
+    padding: 0.4rem;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px;
+    background: rgba(255,255,255,0.04);
+    color: #888;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.2s;
+  }
+  .diff-btn.active { border-color: #06b6d4; color: #06b6d4; background: rgba(6,182,212,0.1); }
+</style>
+</head>
+<body>
+<h1>⌨️ Typing Speed</h1>
+<p class="subtitle">Test your typing speed and accuracy!</p>
+
+<div class="diff-btns">
+  <button class="diff-btn active" onclick="setDifficulty('easy',this)">Easy (30s)</button>
+  <button class="diff-btn" onclick="setDifficulty('medium',this)">Medium (60s)</button>
+  <button class="diff-btn" onclick="setDifficulty('hard',this)">Hard (90s)</button>
+</div>
+
+<div class="stats">
+  <div class="stat-box"><span>WPM</span><strong id="wpm">0</strong></div>
+  <div class="stat-box"><span>Accuracy</span><strong id="acc">100%</strong></div>
+  <div class="stat-box highlight"><span>Time</span><strong id="time">30</strong></div>
+  <div class="stat-box"><span>Best WPM</span><strong id="bestWpm">0</strong></div>
+</div>
+
+<div id="timerBar"><div id="timerFill"></div></div>
+<div id="textDisplay"></div>
+<textarea id="inputArea" placeholder="Click here and start typing..." oninput="onType()" disabled></textarea>
+
+<div class="btn-row">
+  <button class="btn btn-primary" id="mainBtn" onclick="startTest()">Start Test</button>
+  <button class="btn btn-secondary" onclick="resetTest()">Reset</button>
+</div>
+
+<div id="resultCard">
+  <h2>🎉 Test Complete!</h2>
+  <div class="result-grid">
+    <div class="result-item"><span>WPM</span><strong id="resWpm">0</strong></div>
+    <div class="result-item"><span>Accuracy</span><strong id="resAcc">0%</strong></div>
+    <div class="result-item"><span>Correct</span><strong id="resCorrect">0</strong></div>
+    <div class="result-item"><span>Errors</span><strong id="resErrors" style="color:#ef4444">0</strong></div>
+  </div>
+  <button class="btn btn-primary" onclick="startTest()" style="width:100%">Try Again</button>
+</div>
+
+<script>
+const paragraphs = [
+  "The quick brown fox jumps over the lazy dog and then runs away into the forest.",
+  "Learning to type fast is a skill that improves with practice and dedication every day.",
+  "Technology has changed the way we communicate and connect with people around the world.",
+  "A good programmer writes code that even humans can understand clearly and without confusion.",
+  "The sun rises in the east and sets in the west marking the rhythm of each day.",
+  "Music is the universal language that speaks to the hearts and souls of all people.",
+  "Hard work and persistence are the keys to achieving your goals and realizing your dreams.",
+  "The internet has made information accessible to billions of people all across the globe.",
+  "Reading books every day expands your vocabulary and sharpens your thinking and imagination.",
+  "Success is not final and failure is not fatal but the courage to continue is what counts.",
+  "Every great journey begins with a single step forward into the unknown and exciting future.",
+  "Science and technology are advancing at a rapid pace changing our lives in many profound ways.",
+];
+
+const durations = { easy: 30, medium: 60, hard: 90 };
+let difficulty = 'easy', timeLimit = 30;
+let timeLeft, timer, started = false, finished = false;
+let currentText = '', typed = 0, errors = 0, correctChars = 0;
+let bestWpm = 0;
+
+function setDifficulty(d, btn) {
+  difficulty = d;
+  timeLimit = durations[d];
+  document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  resetTest();
+}
+
+function pickText() {
+  return paragraphs[Math.floor(Math.random() * paragraphs.length)];
+}
+
+function renderText(input) {
+  const display = document.getElementById('textDisplay');
+  display.innerHTML = '';
+  for (let i = 0; i < currentText.length; i++) {
+    const span = document.createElement('span');
+    span.className = 'char';
+    span.textContent = currentText[i];
+    if (i < input.length) {
+      span.classList.add(input[i] === currentText[i] ? 'correct' : 'wrong');
+    } else if (i === input.length) {
+      span.classList.add('current');
+    }
+    display.appendChild(span);
+  }
+}
+
+function startTest() {
+  document.getElementById('resultCard').style.display = 'none';
+  currentText = pickText();
+  timeLeft = timeLimit;
+  typed = 0; errors = 0; correctChars = 0; started = false; finished = false;
+  document.getElementById('time').textContent = timeLeft;
+  document.getElementById('wpm').textContent = 0;
+  document.getElementById('acc').textContent = '100%';
+  document.getElementById('timerFill').style.width = '100%';
+  document.getElementById('timerFill').classList.remove('danger');
+  const inp = document.getElementById('inputArea');
+  inp.value = '';
+  inp.disabled = false;
+  inp.focus();
+  renderText('');
+  document.getElementById('mainBtn').textContent = 'Restart';
+  clearInterval(timer);
+}
+
+function resetTest() {
+  clearInterval(timer);
+  started = false; finished = false;
+  document.getElementById('resultCard').style.display = 'none';
+  document.getElementById('time').textContent = timeLimit;
+  document.getElementById('wpm').textContent = 0;
+  document.getElementById('acc').textContent = '100%';
+  document.getElementById('timerFill').style.width = '100%';
+  document.getElementById('timerFill').classList.remove('danger');
+  document.getElementById('inputArea').value = '';
+  document.getElementById('inputArea').disabled = true;
+  document.getElementById('inputArea').placeholder = 'Click here and start typing...';
+  document.getElementById('mainBtn').textContent = 'Start Test';
+  document.getElementById('textDisplay').innerHTML = '';
+}
+
+function onType() {
+  if (finished) return;
+  const inp = document.getElementById('inputArea');
+  const val = inp.value;
+
+  if (!started) {
+    started = true;
+    startTimer();
+  }
+
+  renderText(val);
+
+  // Count errors and correct
+  let e = 0, c = 0;
+  for (let i = 0; i < val.length; i++) {
+    if (i < currentText.length) {
+      if (val[i] === currentText[i]) c++;
+      else e++;
+    }
+  }
+  correctChars = c;
+  errors = e;
+
+  const elapsed = timeLimit - timeLeft;
+  const wpm = elapsed > 0 ? Math.round((correctChars / 5) / (elapsed / 60)) : 0;
+  const acc = val.length > 0 ? Math.round((c / val.length) * 100) : 100;
+  document.getElementById('wpm').textContent = wpm;
+  document.getElementById('acc').textContent = acc + '%';
+
+  // Check completion
+  if (val.length >= currentText.length) {
+    endTest();
+  }
+}
+
+function startTimer() {
+  timer = setInterval(() => {
+    timeLeft--;
+    document.getElementById('time').textContent = timeLeft;
+    const pct = (timeLeft / timeLimit) * 100;
+    document.getElementById('timerFill').style.width = pct + '%';
+    if (pct <= 25) document.getElementById('timerFill').classList.add('danger');
+    if (timeLeft <= 0) endTest();
+  }, 1000);
+}
+
+function endTest() {
+  clearInterval(timer);
+  finished = true;
+  document.getElementById('inputArea').disabled = true;
+  const elapsed = Math.max(1, timeLimit - timeLeft);
+  const inp = document.getElementById('inputArea').value;
+  let c = 0, e = 0;
+  for (let i = 0; i < inp.length; i++) {
+    if (i < currentText.length) { if (inp[i] === currentText[i]) c++; else e++; }
+  }
+  const wpm = Math.round((c / 5) / (elapsed / 60));
+  const acc = inp.length > 0 ? Math.round((c / inp.length) * 100) : 0;
+  if (wpm > bestWpm) { bestWpm = wpm; document.getElementById('bestWpm').textContent = bestWpm; }
+
+  document.getElementById('resWpm').textContent = wpm;
+  document.getElementById('resAcc').textContent = acc + '%';
+  document.getElementById('resCorrect').textContent = c;
+  document.getElementById('resErrors').textContent = e;
+  document.getElementById('resultCard').style.display = 'block';
+}
+</script>
+</body>
+</html>

@@ -7,198 +7,769 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/7.8.2/docx.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-  <!-- AI CONFIG -->
-  <script src="../../assets/js/config.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Outfit:wght@100..900&display=swap" rel="stylesheet" />
 </head>
 <body>
 
-
-
-<!-- HEADER -->
-<header class="site-header">
-  <div class="header-inner">
-    <div class="brand">
-      <div class="brand-mark">EC</div>
-      <div>
-        <div class="brand-name">Smart Digital ExamCraft</div>
-        <div class="brand-tagline" data-en="AI-Powered Question Papers" data-hi="AI-संचालित प्रश्न पत्र" data-as="AI-চালিত প্ৰশ্নপত্ৰ">AI-Powered Question Papers</div>
+  <!-- Navbar -->
+  <header class="app-header">
+    <div class="logo-container">
+      <img src="../../assets/img/logo.png" alt="Smart Digital Logo" class="app-logo" />
+      <div class="brand-text">
+        <span class="brand-main">Smart Digital</span>
+        <span class="brand-sub">ExamCraft AI</span>
       </div>
     </div>
-    <div class="header-controls">
-      <div class="lang-switcher">
-        <button onclick="setLang('en')" class="lang-btn active" id="btn-en">EN</button>
-        <button onclick="setLang('hi')" class="lang-btn" id="btn-hi">HI</button>
-        <button onclick="setLang('as')" class="lang-btn" id="btn-as">AS</button>
+    <div class="header-right">
+      <a class="home-btn" href="../../index.html">← Home</a>
+      <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle theme">
+        <span class="theme-icon" id="themeIcon">🌙</span>
+      </button>
+      <div class="lang-selector">
+        <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" id="btn-hi" onclick="setLang('hi')">हिं</button>
+        <button class="lang-btn" id="btn-as" onclick="setLang('as')">অস</button>
       </div>
 
+      <!-- Auth Area -->
+      <div class="auth-area">
+        <!-- Not signed in -->
+        <div id="authButtonsGroup">
+          <button class="auth-btn-signin" id="openLoginBtn" onclick="openAuthModal('login')">Sign In</button>
+          <button class="auth-btn-signup" id="openRegisterBtn" onclick="openAuthModal('register')">Sign Up</button>
+        </div>
+
+        <!-- Signed in -->
+        <div class="user-panel" id="userPanel" style="display:none;">
+          <span class="credits-badge" id="creditsBadge">No Plan</span>
+          <div class="user-avatar-btn" title="User">
+            <div class="user-avatar" id="userAvatar"></div>
+          </div>
+          <button class="mini-dashboard-btn" onclick="openDashboard()" title="My Dashboard">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          </button>
+          <span class="user-name" id="userName"></span>
+          <button class="signout-btn" onclick="signOutUser()">Sign out</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Dashboard Overlay -->
+  <div class="dashboard-overlay" id="dashboardOverlay" onclick="closeDashboard()"></div>
+
+  <!-- Mini Dashboard Panel -->
+  <div class="mini-dashboard" id="miniDashboard">
+    <div class="md-top">
+      <h3 class="md-title">My Dashboard</h3>
+      <button class="md-close" onclick="closeDashboard()">✕</button>
+    </div>
+
+    <!-- User Info -->
+    <div class="md-user-row">
+      <img class="md-avatar" id="md-avatar" alt="" />
+      <div>
+        <div class="md-user-name" id="md-user-name"></div>
+        <div class="md-user-email" id="md-user-email"></div>
+        <div class="md-user-email" id="md-user-phone"></div>
+      </div>
+    </div>
+
+    <!-- Plan Card -->
+    <div class="md-plan-card" id="md-plan-card">
+      <div class="md-plan-top">
+        <span class="md-plan-icon" id="md-plan-icon">🎟️</span>
+        <div>
+          <div class="md-plan-name" id="md-plan-name">Free Demo</div>
+          <div class="md-plan-sub" id="md-plan-sub">2 demo papers included</div>
+        </div>
+        <span class="md-plan-badge" id="md-plan-badge">DEMO</span>
+      </div>
+      <!-- Usage Bar -->
+      <div class="md-usage-bar-wrap">
+        <div class="md-usage-bar-track">
+          <div class="md-usage-bar-fill" id="md-usage-bar"></div>
+        </div>
+        <span class="md-usage-bar-label" id="md-usage-label"></span>
+      </div>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="md-stats-row">
+      <div class="md-stat-box">
+        <span class="md-stat-val" id="md-stat-used">0</span>
+        <span class="md-stat-lbl">Used</span>
+      </div>
+      <div class="md-stat-box">
+        <span class="md-stat-val" id="md-stat-remaining">2</span>
+        <span class="md-stat-lbl">Remaining</span>
+      </div>
+      <div class="md-stat-box">
+        <span class="md-stat-val" id="md-stat-total">2</span>
+        <span class="md-stat-lbl">Total</span>
+      </div>
+    </div>
+
+    <!-- Recent Papers -->
+    <div class="md-history-section">
+      <div class="md-section-title">Recent Papers</div>
+      <div id="md-history-list" class="md-history-list">
+        <div class="md-history-empty">No papers generated yet.</div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <button class="md-cta-btn" id="md-cta-btn" onclick="switchTab('pricing'); closeDashboard()">
+      View Plans &amp; Pricing →
+    </button>
+  </div>
+
+  <main class="main-container">
+    <section class="generator-layout">
+      
+      <!-- FORM PANEL (Left) -->
+      <aside class="form-panel">
+        <h2 class="panel-title" data-en="Design Your Paper" data-hi="अपना प्रश्नपत्र डिजाइन करें" data-as="আপোনাৰ প্ৰশ্নপত্ৰ ডিজাইন কৰক">Design Your Paper</h2>
+
+        <!-- Input Mode Toggle -->
+        <div class="input-mode-tabs">
+          <button class="imt-btn active" id="imt-type" onclick="setInputMode('type')">
+            📝 Type Topic
+          </button>
+          <button class="imt-btn" id="imt-image" onclick="setInputMode('image')">
+            📷 Upload Pages
+          </button>
+        </div>
+
+        <!-- Image Upload Section (shown only in image mode) -->
+        <div id="imageInputSection" class="hidden">
+          <div class="image-upload-zone" id="imageDropZone"
+               onclick="document.getElementById('imageFileInput').click()"
+               ondragover="handleImageDragOver(event)"
+               ondragleave="handleImageDragLeave(event)"
+               ondrop="handleImageDrop(event)">
+            <input type="file" id="imageFileInput" accept="image/*" multiple
+                   style="display:none" onchange="handleImageFileSelect(event)" />
+            <div class="upload-zone-icon">📷</div>
+            <div class="upload-zone-title">Click to upload chapter pages</div>
+            <div class="upload-zone-sub">Or drag &amp; drop · Max 10 pages · JPEG, PNG, WebP</div>
+          </div>
+          <div class="image-thumbnails" id="imageThumbnails"></div>
+          <div class="form-row" style="margin-top:14px;">
+            <div class="form-group flex-1">
+              <label class="field-label">Subject (optional)</label>
+              <input type="text" id="imageSubject" placeholder="e.g. Science" />
+            </div>
+            <div class="form-group flex-1">
+              <label class="field-label">Class (optional)</label>
+              <input type="text" id="imageClass" placeholder="e.g. Class 10" />
+            </div>
+          </div>
+        </div>
+
+        <div id="fieldBoard" class="form-group">
+          <label class="field-label" data-en="Board / University" data-hi="बोर्ड / विश्वविद्यालय" data-as="ব'ৰ্ড / বিশ্ববিদ্যালয়">Board / University</label>
+          <select id="boardSelect" onchange="onBoardChange()">
+            <option value="">— Select Board —</option>
+            <option value="SEBA">SEBA (Assam State Board)</option>
+            <option value="AHSEC">AHSEC (Class 11-12)</option>
+            <option value="CBSE">CBSE (National Board)</option>
+            <option value="ICSE">ICSE</option>
+            <option value="JATIYA_VIDYALAYA">Jatiya Vidyalaya (AJBEC)</option>
+            <option value="SHANKARDEV">Shankardev Vidya Niketan</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label class="field-label" data-en="School Name" data-hi="स्कूल का नाम" data-as="বিদ্যালয়ৰ নাম">School Name</label>
+            <input type="text" id="schoolName" placeholder="e.g. KV Maligaon" />
+          </div>
+        </div>
+
+        <div class="form-row" id="fieldClassSubj">
+          <div class="form-group">
+            <label class="field-label" data-en="Class" data-hi="कक्षा" data-as="শ্ৰেণী">Class</label>
+            <select id="classSelect" onchange="onClassChange()" disabled>
+              <option value="">— Select Class —</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="field-label" data-en="Subject" data-hi="विषय" data-as="বিষয়">Subject</label>
+            <select id="subjectSelect" onchange="onSubjectChange()" disabled>
+              <option value="">— Select Subject —</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="field-label" data-en="Medium of Question Paper" data-hi="प्रश्नपत्र का माध्यम" data-as="প্ৰশ্নকাকতৰ মাধ্যম">Medium of Question Paper</label>
+          <div class="difficulty-grid">
+            <label class="diff-option"><input type="radio" name="medium" value="English" checked onchange="onMediumChange()" /><span data-en="English" data-hi="अंग्रेज़ी" data-as="ইংৰাজী">English</span></label>
+            <label class="diff-option"><input type="radio" name="medium" value="Assamese" onchange="onMediumChange()" /><span data-en="Assamese" data-hi="असमिया" data-as="অসমীয়া">Assamese</span></label>
+            <label class="diff-option"><input type="radio" name="medium" value="Hindi" onchange="onMediumChange()" /><span data-en="Hindi" data-hi="हिंदी" data-as="হিন্দী">Hindi</span></label>
+          </div>
+        </div>
+
+        <div class="form-group" id="fieldChapters">
+          <label class="field-label" data-en="Selected Chapters" data-hi="चयनित अध्याय" data-as="নিৰ্বাচিত অধ্যায়সমূহ">Selected Chapters</label>
+          <div class="chapter-container-scroll" id="chapterContainer">
+            <div class="chapter-placeholder">Select a subject to view chapters</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="field-label" data-en="Difficulty Level" data-hi="कठिनाई का स्तर" data-as="কঠিনতাৰ স্তৰ">Difficulty Level</label>
+          <div class="difficulty-grid">
+            <label class="diff-option"><input type="radio" name="difficulty" value="Easy" /><span>Easy</span></label>
+            <label class="diff-option"><input type="radio" name="difficulty" value="Medium" checked /><span>Medium</span></label>
+            <label class="diff-option"><input type="radio" name="difficulty" value="Hard" /><span>Hard</span></label>
+            <label class="diff-option"><input type="radio" name="difficulty" value="Mixed" /><span>Mixed</span></label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="field-label" data-en="Question Types" data-hi="प्रश्न के प्रकार" data-as="প্ৰশ্নৰ প্ৰকাৰ">Question Types</label>
+          <div class="qtype-grid" id="qTypeContainer">
+            <label class="qtype-option"><input type="checkbox" name="qtype" value="MCQ" checked /><span>MCQ</span></label>
+            <label class="qtype-option"><input type="checkbox" name="qtype" value="ShortAnswer" checked /><span>Short Answer</span></label>
+            <label class="qtype-option"><input type="checkbox" name="qtype" value="LongAnswer" checked /><span>Long Answer</span></label>
+          </div>
+        </div>
+
+        <div class="form-row" style="align-items: flex-end;">
+          <div class="form-group">
+            <label class="field-label" data-en="Total Questions" data-hi="कुल प्रश्न" data-as="মুঠ প্ৰশ্ন">Total Questions</label>
+            <input type="number" id="totalQ" value="10" min="5" max="30" />
+          </div>
+          <div class="form-group">
+            <label class="field-label" data-en="Total Marks" data-hi="कुल अंक" data-as="মুঠ নম্বৰ">Total Marks</label>
+            <input type="number" id="totalMarks" value="50" min="10" />
+          </div>
+          <div class="form-group">
+            <label class="field-label" data-en="Time (mins)" data-hi="समय (मिनट)" data-as="সময় (মিনিট)">Time (mins)</label>
+            <input type="number" id="timeLimit" value="90" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="field-label" data-en="Special Instructions (optional)" data-hi="विशेष निर्देश (वैकल्पिक)" data-as="বিশেষ নিৰ্দেশনা (ঐচ্ছিক)">Special Instructions (optional)</label>
+          <textarea id="instructions" rows="2" placeholder="e.g. Focus more on numericals..."></textarea>
+        </div>
+
+        <button class="generate-btn" onclick="generatePaper()">
+          <span id="genBtnText" data-en="✦ Generate Question Paper" data-hi="✦ प्रश्नपत्र बनाएं" data-as="✦ প্ৰশ্নপত্ৰ তৈয়াৰ কৰক">✦ Generate Question Paper</span>
+        </button>
+
+        <div id="apiKeyWarning" class="api-warning">
+          ⚠️ Please set your API key in Settings first.
+        </div>
+      </aside>
+
+      <!-- OUTPUT PANEL (Right) -->
+      <div class="output-panel">
+        
+        <!-- Placeholder View -->
+        <div class="output-placeholder" id="outputPlaceholder">
+          <div class="placeholder-icon">📄</div>
+          <h3 data-en="Your question paper will appear here" data-hi="आपका प्रश्नपत्र यहाँ दिखाई देगा" data-as="আপোনাৰ প্ৰশ্নপত্ৰ ইয়াত দেখা যাব">Your question paper will appear here</h3>
+          <p data-en="Fill in the form and click Generate." data-hi="फॉर्म भरें और Generate पर क्लिक करें।" data-as="ফৰ্মখন পূৰণ কৰক আৰু Generate-ত ক্লিক কৰক।">Fill in the form and click Generate.</p>
+          <button class="view-pricing-btn" onclick="openPricingFromHome()" style="margin-top:20px;">💎 View Plans & Pricing</button>
+        </div>
+
+        <!-- Loading View -->
+        <div class="output-loading hidden" id="outputLoading">
+          <div class="loading-spinner"></div>
+          <p id="loadingText" data-en="Generating your question paper..." data-hi="आपका प्रश्नपत्र बन रहा है..." data-as="আপোনাৰ প্ৰশ্নপত্ৰ তৈয়াৰ হৈ আছে…">Generating your question paper...</p>
+        </div>
+
+        <!-- Result View -->
+        <div class="output-result hidden" id="outputResult">
+          
+          <!-- Tabs -->
+          <div class="output-tabs">
+            <button class="tab-btn active" id="tab-preview" onclick="switchTab('preview')">📄 Preview Paper</button>
+            <button class="tab-btn" id="tab-pricing" onclick="switchTab('pricing')">💎 Plans & Pricing</button>
+          </div>
+
+          <!-- Tab Content: Preview -->
+          <div class="tab-view" id="view-preview">
+            <div class="export-bar" id="exportBar">
+              <span class="export-label" data-en="Export as:" data-hi="निर्यात करें:" data-as="ৰপ্তানি কৰক:">Export as:</span>
+              <button class="export-btn" onclick="exportPDF()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                PDF
+              </button>
+              <button class="export-btn" onclick="exportText()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/><line x1="8" y1="9" x2="10" y2="9"/></svg>
+                Text
+              </button>
+              <button class="export-btn" onclick="printPaper()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                Print
+              </button>
+              <button class="export-btn regen-btn" onclick="generatePaper()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                Regenerate
+              </button>
+            </div>
+
+            <!-- Answer Key Bar -->
+            <div class="answer-key-bar" id="answerKeyBar" style="display:none;">
+              <div class="ak-bar-left">
+                <span class="ak-bar-icon">📋</span>
+                <div class="ak-bar-text">
+                  <strong id="akBarTitle">Want the Answer Key?</strong>
+                  <span id="akBarSub">Unlock the question paper first, then add answers for this exact paper.</span>
+                </div>
+              </div>
+              <button class="ak-bar-btn" id="answerKeyToggleBtn" onclick="handleAnswerKeyRequest()">Unlock Question Paper ₹19 →</button>
+            </div>
+
+            <!-- Demo Container (Paper content) -->
+            <div class="demo-view-container">
+              <div class="demo-container" id="demoContainer">
+                <div class="watermark-overlay" id="watermarkOverlay">
+                  <!-- Dynamically filled watermarks -->
+                </div>
+                <div class="paper-preview-box" id="paperPreview">
+                  <!-- Filled by JS -->
+                </div>
+              </div>
+              
+              <!-- Unlock Callout -->
+              <div class="unlock-overlay-tip" id="unlockCallout">
+                <div class="tip-content">
+                  <span class="tip-icon">✨</span>
+                  <div class="tip-text">
+                    <strong>Want full access?</strong>
+                    <span>Unlock the full question paper first. Answers can be added later for ₹11.</span>
+                  </div>
+                  <button class="btn-unlock-cta" onclick="openQuestionPaperPricing()">Unlock Question Paper ₹19 →</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab Content: Pricing -->
+          <div class="tab-view hidden" id="view-pricing">
+            
+            <div class="pricing-header">
+              <button class="pricing-back-btn" onclick="backToHome()" title="Back to Generator">← Back</button>
+              <div class="plan-type-tabs" id="planTypeTabs">
+                <button class="pt-tab active" id="pt-individual" onclick="selectPlanType(0)">👤 Individual</button>
+                <button class="pt-tab" id="pt-answerkey" onclick="selectPlanType(1)">🔑 Answer Key</button>
+                <button class="pt-tab" id="pt-group" onclick="selectPlanType(2)">👥 Group</button>
+                <button class="pt-tab" id="pt-school" onclick="selectPlanType(3)">🏫 School</button>
+              </div>
+
+              <div class="toggle-switch-group">
+                <button class="toggle-btn active-q" id="toggle-q-only" onclick="setIncludeAnswers(false)">📄 Question Paper Only</button>
+                <button class="toggle-btn" id="toggle-q-ans" onclick="setIncludeAnswers(true)">📄+🔑 Question Paper + Answers</button>
+              </div>
+              <div class="pricing-flow-copy">
+                <strong>Pack choice:</strong> Buy either a question-only pack or a question+answers pack.
+                <span><strong>Later upgrade:</strong> If a user buys question-only credits, they can still unlock answers for any generated paper separately for <b>₹11</b>.</span>
+              </div>
+            </div>
+
+            <!-- Plan Options Box -->
+            <div class="plan-options-box" id="planOptionsBox">
+              <div class="plan-options-header">
+                <span class="plan-icon-lg" id="plan-hd-icon">👤</span>
+                <div>
+                  <h3 id="plan-hd-name">Individual Teacher</h3>
+                  <p id="plan-hd-tagline">Pay per paper, no commitment</p>
+                </div>
+              </div>
+              <div class="options-grid" id="optionsGrid"><!-- JS filled --></div>
+              <div class="plan-breakdown" id="planBreakdown"><!-- JS filled --></div>
+              <div class="plan-actions">
+                <button class="plan-action-preview" onclick="switchTab('preview')">👁 Preview Demo</button>
+                <button class="plan-action-pay" id="planPayBtn" onclick="initiatePayment()" style="background:#E85D26;">Pay &amp; Unlock Questions →</button>
+              </div>
+              <div class="plan-trust-badges">
+                <span>✅ Instant download</span>
+                <span>✅ PDF + Text + Print</span>
+                <span>✅ UPI accepted</span>
+              </div>
+            </div>
+
+            <!-- Comparison -->
+            <div class="comparison-table-box">
+              <div class="comparison-table-head">What's Included?</div>
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th>Feature</th>
+                    <th style="color:#E85D26;">📄 Question Only Pack</th>
+                    <th style="color:#059669;">📄+🔑 Question + Answer Pack</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>Full question paper access</td><td>✅</td><td>✅</td></tr>
+                  <tr><td>No watermark / no blur</td><td>✅</td><td>✅</td></tr>
+                  <tr><td>PDF + Text + Print</td><td>✅</td><td>✅</td></tr>
+                  <tr><td>Answer key / solutions</td><td>❌ Separate ₹11 per generated paper</td><td style="color:#059669;font-weight:700;">✅ Included in pack</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div><!-- end pricing view -->
+        </div><!-- end result view -->
+      </div><!-- end output panel -->
+    </section>
+  </main>
+
+  <!-- Auth Modal -->
+  <div class="pay-modal-overlay" id="authModal" style="display:none;">
+    <div class="auth-modal-box">
+      <button class="pay-modal-close" onclick="closeAuthModal()">✕</button>
+
+      <!-- Tabs -->
+      <div class="auth-tabs">
+        <button class="auth-tab-btn" id="authTab-login" onclick="showAuthTab('login')">Sign In</button>
+        <button class="auth-tab-btn" id="authTab-register" onclick="showAuthTab('register')">Sign Up</button>
+      </div>
+
+      <!-- Login Panel -->
+      <div class="auth-form-panel" id="authPanel-login">
+        <h3 class="auth-form-title">Welcome Back</h3>
+        <form onsubmit="handleLogin(event)">
+          <div class="auth-field">
+            <label for="loginIdentifier">Email or Phone Number</label>
+            <input type="text" id="loginIdentifier" placeholder="Enter email or phone" required autocomplete="username" />
+          </div>
+          <div class="auth-field">
+            <label for="loginPassword">Password</label>
+            <div class="auth-password-wrap">
+              <input type="password" id="loginPassword" placeholder="Enter password" required autocomplete="current-password" />
+              <button type="button" class="auth-toggle-pw" onclick="togglePasswordVisibility('loginPassword', this)">Show</button>
+            </div>
+          </div>
+          <div class="auth-error" id="loginError"></div>
+          <button type="submit" class="auth-submit-btn">Sign In</button>
+        </form>
+        <p class="auth-switch-text">Don't have an account? <a href="#" onclick="showAuthTab('register')">Sign Up</a></p>
+      </div>
+
+      <!-- Register Panel -->
+      <div class="auth-form-panel" id="authPanel-register">
+        <h3 class="auth-form-title">Create Account</h3>
+        <form onsubmit="handleRegister(event)">
+          <div class="auth-field">
+            <label for="regName">Full Name</label>
+            <input type="text" id="regName" placeholder="Enter your name" required />
+          </div>
+          <div class="auth-field">
+            <label for="regEmail">Email Address</label>
+            <input type="email" id="regEmail" placeholder="Enter email" required autocomplete="email" />
+          </div>
+          <div class="auth-field">
+            <label for="regPhone">Phone Number</label>
+            <input type="tel" id="regPhone" placeholder="e.g. 9876543210" required />
+          </div>
+          <div class="auth-field">
+            <label for="regPassword">Password</label>
+            <div class="auth-password-wrap">
+              <input type="password" id="regPassword" placeholder="Min 6 characters" required minlength="6" autocomplete="new-password" />
+              <button type="button" class="auth-toggle-pw" onclick="togglePasswordVisibility('regPassword', this)">Show</button>
+            </div>
+          </div>
+          <div class="auth-error" id="regError"></div>
+          <div class="auth-success" id="regSuccess"></div>
+          <button type="submit" class="auth-submit-btn">Create Account</button>
+        </form>
+        <p class="auth-switch-text">Already have an account? <a href="#" onclick="showAuthTab('login')">Sign In</a></p>
+      </div>
     </div>
   </div>
-</header>
 
-<!-- MAIN LAYOUT -->
-<main class="app-main">
+  <!-- Payment Modal -->
+  <div class="pay-modal-overlay" id="payModal">
+    <div class="pay-modal-box">
+      <button class="pay-modal-close" onclick="closePaymentModal()">✕</button>
 
-  <!-- LEFT: FORM PANEL -->
-  <aside class="form-panel">
-    <div class="panel-title" data-en="Paper Configuration" data-hi="प्रश्नपत्र विन्यास" data-as="প্ৰশ্নপত্ৰ কনফিগাৰেচন">Paper Configuration</div>
+      <!-- Step 1: Checkout -->
+      <div class="pay-step active" id="pay-step-confirm">
+        <div class="pay-step-label">Checkout</div>
+        <div class="pay-step-title" id="pay-title">Single Paper</div>
+        <div class="pay-step-sub" id="pay-sub">Individual Teacher</div>
 
-    <div class="form-section">
-      <label class="field-label" data-en="School / Institution Name" data-hi="विद्यालय / संस्था नाम" data-as="বিদ্যালয় / প্ৰতিষ্ঠানৰ নাম">School / Institution Name</label>
-      <input type="text" id="schoolName" class="field-input" placeholder="e.g. St. Mary's High School" />
-    </div>
+        <div class="pay-badges">
+          <span class="pay-badge pay-badge-q">📄 Question Paper</span>
+          <span class="pay-badge pay-badge-ans hidden" id="pay-badge-ans">✅ Answer Key</span>
+          <span class="pay-badge pay-badge-no" id="pay-badge-no">No Answer Key</span>
+        </div>
 
-    <div class="form-section">
-      <label class="field-label" data-en="Board" data-hi="बोर्ड" data-as="ব'ৰ্ড">Board</label>
-      <select id="boardSelect" class="field-input" onchange="onBoardChange()">
-        <option value="">— Select Board —</option>
-        <option value="SEBA">SEBA (Assam Board)</option>
-        <option value="CBSE">CBSE (NCERT)</option>
-        <option value="ICSE">ICSE</option>
-        <option value="AJBEC">AJBEC (Jatiya Bidyalaya)</option>
-      </select>
-    </div>
+        <div class="pay-breakdown">
+          <div class="pay-breakdown-row"><span>Base Price</span><span id="pay-bk-base">₹19</span></div>
+          <div class="pay-breakdown-row green hidden" id="pay-bk-ans-row"><span>Answer Key</span><span id="pay-bk-ans">+₹11</span></div>
+          <div class="pay-breakdown-row"><span>GST (18%)</span><span id="pay-bk-gst">₹3</span></div>
+          <div class="pay-breakdown-row total"><span>Total</span><span id="pay-bk-total">₹22</span></div>
+        </div>
 
-    <div class="form-row">
-      <div class="form-section">
-        <label class="field-label" data-en="Class" data-hi="कक्षा" data-as="শ্ৰেণী">Class</label>
-        <select id="classSelect" class="field-input" onchange="onClassChange()" disabled>
-          <option value="">— Select Board First —</option>
-        </select>
-      </div>
-      <div class="form-section">
-        <label class="field-label" data-en="Subject" data-hi="विषय" data-as="বিষয়">Subject</label>
-        <select id="subjectSelect" class="field-input" onchange="onSubjectChange()" disabled>
-          <option value="">— Select Class First —</option>
-        </select>
-      </div>
-    </div>
+        <div class="pay-method-label">Payment Method</div>
+        <div class="pay-methods">
+          <div class="pay-method-option selected" id="pm-upi" onclick="selectMethod('upi')">
+            <span class="method-icon">📱</span> UPI / GPay
+            <span class="method-check" id="chk-upi">✓</span>
+          </div>
+          <div class="pay-method-option" id="pm-card" onclick="selectMethod('card')">
+            <span class="method-icon">💳</span> Card
+            <span class="method-check" id="chk-card">✓</span>
+          </div>
+          <div class="pay-method-option" id="pm-net" onclick="selectMethod('net')">
+            <span class="method-icon">🏦</span> Net Banking
+            <span class="method-check" id="chk-net">✓</span>
+          </div>
+        </div>
 
-    <div class="form-section">
-      <label class="field-label" data-en="Chapters" data-hi="अध्याय" data-as="অধ্যায়">Chapters</label>
-      <div id="chapterContainer" class="chapter-container">
-        <div class="chapter-placeholder" data-en="Select a subject to view chapters" data-hi="अध्याय देखने के लिए विषय चुनें" data-as="অধ্যায় চাবলৈ এটা বিষয় বাছক">Select a subject to view chapters</div>
-      </div>
-    </div>
-
-    <div class="form-section">
-      <label class="field-label" data-en="Difficulty Level" data-hi="कठिनाई स्तर" data-as="কঠিনতাৰ স্তৰ">Difficulty Level</label>
-      <div class="difficulty-group">
-        <label class="diff-option" data-diff="easy">
-          <input type="radio" name="difficulty" value="Easy" />
-          <span data-en="Easy" data-hi="आसान" data-as="সহজ">Easy</span>
-        </label>
-        <label class="diff-option" data-diff="medium">
-          <input type="radio" name="difficulty" value="Medium" />
-          <span data-en="Medium" data-hi="मध्यम" data-as="মধ্যম">Medium</span>
-        </label>
-        <label class="diff-option" data-diff="hard">
-          <input type="radio" name="difficulty" value="Hard" />
-          <span data-en="Hard" data-hi="कठिन" data-as="কঠিন">Hard</span>
-        </label>
-        <label class="diff-option" data-diff="mixed">
-          <input type="radio" name="difficulty" value="Mixed" />
-          <span data-en="Mixed" data-hi="मिश्रित" data-as="মিশ্ৰিত">Mixed</span>
-        </label>
-      </div>
-    </div>
-
-    <div class="form-section">
-      <label class="field-label" data-en="Question Types" data-hi="प्रश्न प्रकार" data-as="প্ৰশ্নৰ ধৰণ">Question Types</label>
-      <div class="qtype-group" id="qTypeContainer">
-        <label class="qtype-option"><input type="checkbox" name="qtype" value="MCQ" checked /><span>MCQ</span></label>
-        <label class="qtype-option"><input type="checkbox" name="qtype" value="ShortAnswer" checked /><span data-en="Short Answer" data-hi="लघु उत्तर" data-as="চুটি উত্তৰ">Short Answer</span></label>
-        <label class="qtype-option"><input type="checkbox" name="qtype" value="LongAnswer" checked /><span data-en="Long Answer" data-hi="दीर्घ उत्तर" data-as="দীঘল উত্তৰ">Long Answer</span></label>
-        <label class="qtype-option"><input type="checkbox" name="qtype" value="TrueFalse" /><span data-en="True / False" data-hi="सत्य / असत्य" data-as="সত্য / মিছা">True / False</span></label>
-        <label class="qtype-option"><input type="checkbox" name="qtype" value="FillBlank" /><span data-en="Fill in the Blank" data-hi="रिक्त स्थान" data-as="খালী ঠাই পূৰণ">Fill in the Blank</span></label>
-      </div>
-    </div>
-
-    <div class="form-row">
-      <div class="form-section">
-        <label class="field-label" data-en="Total Questions" data-hi="कुल प्रश्न" data-as="মুঠ প্ৰশ্ন">Total Questions</label>
-        <input type="number" id="totalQ" class="field-input" value="20" min="5" max="60" />
-      </div>
-      <div class="form-section">
-        <label class="field-label" data-en="Total Marks" data-hi="कुल अंक" data-as="মুঠ নম্বৰ">Total Marks</label>
-        <input type="number" id="totalMarks" class="field-input" value="50" min="10" max="200" />
-      </div>
-    </div>
-
-    <div class="form-section">
-      <label class="field-label" data-en="Time Allowed (minutes)" data-hi="समय सीमा (मिनट)" data-as="অনুমতি সময় (মিনিট)">Time Allowed (minutes)</label>
-      <input type="number" id="timeLimit" class="field-input" value="90" min="30" max="240" />
-    </div>
-
-    <div class="form-section">
-      <label class="field-label" data-en="Special Instructions (optional)" data-hi="विशेष निर्देश (वैकल्पिक)" data-as="বিশেষ নিৰ্দেশনা (ঐচ্ছিক)">Special Instructions (optional)</label>
-      <textarea id="instructions" class="field-input" rows="3" placeholder="e.g. Attempt all questions. Use blue pen only."></textarea>
-    </div>
-
-    <button class="generate-btn" onclick="generatePaper()">
-      <span id="genBtnText" data-en="✦ Generate Question Paper" data-hi="✦ प्रश्नपत्र बनाएं" data-as="✦ প্ৰশ্নপত্ৰ তৈয়াৰ কৰক">✦ Generate Question Paper</span>
-    </button>
-
-
-  </aside>
-
-  <!-- RIGHT: OUTPUT PANEL -->
-  <section class="output-panel">
-
-    <!-- Placeholder -->
-    <div class="output-placeholder" id="outputPlaceholder">
-      <div class="placeholder-icon">📄</div>
-      <h3 data-en="Your question paper will appear here" data-hi="आपका प्रश्नपत्र यहाँ दिखेगा" data-as="আপোনাৰ প্ৰশ্নপত্ৰ ইয়াত দেখা যাব">Your question paper will appear here</h3>
-      <p data-en="Fill in the form and click Generate." data-hi="फॉर्म भरें और Generate पर क्लिक करें।" data-as="ফৰ্মটো পূৰণ কৰি Generate ক্লিক কৰক।">Fill in the form and click Generate.</p>
-    </div>
-
-    <!-- Loading -->
-    <div class="output-loading hidden" id="outputLoading">
-      <div class="loading-spinner"></div>
-      <p id="loadingText" data-en="Generating your question paper…" data-hi="आपका प्रश्नपत्र बन रहा है…" data-as="আপোনাৰ প্ৰশ্নপত্ৰ তৈয়াৰ হৈ আছে…">Generating your question paper…</p>
-    </div>
-
-    <!-- Result -->
-    <div class="output-result hidden" id="outputResult">
-      <!-- Export Bar -->
-      <div class="export-bar">
-        <span class="export-label" data-en="Export as:" data-hi="निर्यात करें:" data-as="ৰপ্তানি কৰক:">Export as:</span>
-        <button class="export-btn pdf-btn" onclick="exportPDF()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          PDF
-        </button>
-        <button class="export-btn docx-btn" onclick="exportDOCX()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          DOCX
-        </button>
-        <button class="export-btn print-btn" onclick="printPaper()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-          <span data-en="Print" data-hi="प्रिंट" data-as="প্ৰিণ্ট">Print</span>
-        </button>
-        <button class="export-btn regen-btn" onclick="generatePaper()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
-          <span data-en="Regenerate" data-hi="पुनः बनाएं" data-as="পুনৰায় তৈয়াৰ কৰক">Regenerate</span>
-        </button>
+        <button class="pay-confirm-btn" id="pay-confirm-btn" onclick="confirmPayment()">Pay Now →</button>
       </div>
 
-      <!-- The actual paper preview -->
-      <div class="paper-preview" id="paperPreview">
-        <!-- Filled by JS -->
+      <!-- Step 2: Processing -->
+      <div class="pay-step" id="pay-step-proc">
+        <div class="pay-processing">
+          <div class="pay-spinner-lg"></div>
+          <h3>Processing Payment...</h3>
+          <p>Please do not close this window.</p>
+        </div>
+      </div>
+
+      <!-- Step 3: Success -->
+      <div class="pay-step" id="pay-step-success">
+        <div class="pay-done text-center">
+          <span class="pay-done-icon">🎉</span>
+          <h3>Payment Successful!</h3>
+          <p id="pay-success-msg">Your paper has been unlocked.</p>
+          <button class="pay-done-btn" onclick="closePaymentModal()">View & Download</button>
+        </div>
       </div>
     </div>
+  </div>
 
-  </section>
-</main>
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docx@7.1.2/build/index.js"></script>
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
-<footer class="site-footer">
-  <span>ExamCraft Pro &copy; 2025 &nbsp;|&nbsp; <span data-en="Built for educators across India" data-hi="भारत के शिक्षकों के लिए निर्मित" data-as="ভাৰতৰ শিক্ষকসকলৰ বাবে নিৰ্মিত">Built for educators across India</span></span>
-</footer>
+  <script src="../../assets/js/config.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="firebase-auth.js"></script>
+  <script src="syllabus-data.js"></script>
+  <script src="assam_curriculum_data.js"></script>
+  <script>
+  // ============================================================
+  //  BRIDGE: Merge CURRICULUM_DATA into SYLLABUS_DATA at runtime
+  //  This allows assam_curriculum_data.js to enrich the existing
+  //  syllabus-data.js without changing app.js at all.
+  // ============================================================
+  (function mergeCurriculumData() {
+    var CUR = window.CURRICULUM_DATA;
+    var SYS = window.SYLLABUS_DATA;
+    if (!CUR) { console.warn('CURRICULUM_DATA not found'); return; }
+    if (!SYS) { console.warn('SYLLABUS_DATA not found'); return; }
 
-<script src="syllabus-data.js"></script>
-<script src="prompt-templates.js"></script>
-<script src="app.js"></script>
+    var t = function(en, as, hi) {
+      return { en: en, as: as || en, hi: hi || en };
+    };
+
+    // Helper: convert chapter entry from new file format to SYLLABUS format
+    function normChapter(board, cls, subject, chEntry) {
+      // chEntry can be: string | { names: { en, as, hi } } | { name: string }
+      if (typeof chEntry === 'string') {
+        return { names: t(chEntry) };
+      }
+      if (chEntry.names) {
+        return { names: chEntry.names };
+      }
+      if (chEntry.name) {
+        return { names: t(chEntry.name) };
+      }
+      return { names: t('Chapter') };
+    }
+
+    // Helper: Deep clone a class object from SYLLABUS_DATA
+    function cloneClassObj(classObj) {
+      if (!classObj) return null;
+      var clone = { names: classObj.names ? Object.assign({}, classObj.names) : {}, subjects: {} };
+      for (var subj in classObj.subjects) {
+        var srcSubj = classObj.subjects[subj];
+        clone.subjects[subj] = {
+          names: srcSubj.names ? Object.assign({}, srcSubj.names) : t(subj),
+          chapters: srcSubj.chapters ? JSON.parse(JSON.stringify(srcSubj.chapters)) : []
+        };
+      }
+      return clone;
+    }
+
+    // Helper function to copy a class from one board to another
+    function copyClassToBoard(srcBoard, srcClassKey, destBoard, destClassKey) {
+      var srcClasses = SYS[srcBoard] && SYS[srcBoard].classes && SYS[srcBoard].classes[srcClassKey];
+      if (!srcClasses) {
+        console.warn('Source class ' + srcBoard + '.' + srcClassKey + ' not found for copying');
+        return;
+      }
+      var destBoardObj = SYS[destBoard];
+      if (!destBoardObj.classes) destBoardObj.classes = {};
+      var destClasses = destBoardObj.classes;
+      
+      var srcClass = srcClasses;
+      var nameObj = srcClass.names ? Object.assign({}, srcClass.names) : t(srcClassKey);
+      
+      destClasses[destClassKey] = {
+        names: nameObj,
+        subjects: {},
+        streams: srcClass.streams ? JSON.parse(JSON.stringify(srcClass.streams)) : undefined
+      };
+      
+      // If source class has direct subjects (no streams)
+      if (srcClass.subjects && !srcClass.streams) {
+        for (var subjKey in srcClass.subjects) {
+          var subj = srcClass.subjects[subjKey];
+          destClasses[destClassKey].subjects[subjKey] = {
+            names: subj.names ? Object.assign({}, subj.names) : t(subjKey),
+            chapters: subj.chapters ? JSON.parse(JSON.stringify(subj.chapters)) : []
+          };
+        }
+      }
+      
+      // If source class has stream-based subjects, flatten them
+      if (srcClass.streams) {
+        for (var streamName in srcClass.streams) {
+          var streamObj = srcClass.streams[streamName];
+          var streamSubjects = streamObj.subjects || streamObj;
+          for (var sk in streamSubjects) {
+            var subj = streamSubjects[sk];
+            if (!subj || !subj.chapters) continue;
+            var displayName = (streamName !== 'Science') ? sk + ' [' + streamName + ']' : sk;
+            var flatKey = sk + '_' + streamName.replace(/\s+/g, '');
+            destClasses[destClassKey].subjects[flatKey] = {
+              names: subj.names || t(displayName),
+              chapters: subj.chapters.map(function(ch) { return normChapter(destBoard, destClassKey, sk, ch); })
+            };
+          }
+        }
+      }
+      console.log('Copied ' + srcBoard + '.' + srcClassKey + ' to ' + destBoard + '.' + destClassKey);
+    }
+
+    for (var boardKey in CUR) {
+      var curBoard = CUR[boardKey];
+      if (!curBoard || !curBoard.classes) continue;
+
+      // If board doesn't already exist in SYLLABUS_DATA, create it
+      if (!SYS[boardKey]) {
+        var boardNames = curBoard.fullName || boardKey;
+        SYS[boardKey] = {
+          names: t(boardNames),
+          classes: {}
+        };
+      }
+
+      var sysClasses = SYS[boardKey].classes;
+      var curClasses = curBoard.classes;
+
+      // Handle boards that reference SEBA/AHSEC instead of having their own data
+      // JATIYA_VIDYALAYA and SHANKARDEV use SEBA for Class 9-10 and AHSEC for Class 11-12
+      var isRefBoard = (boardKey === 'JATIYA_VIDYALAYA' || boardKey === 'SHANKARDEV');
+
+      for (var classKey in curClasses) {
+        var curClass = curClasses[classKey];
+
+        if (isRefBoard) {
+          // For reference boards, handle differently based on class range
+          if (curClass && curClass.subjects) {
+            // Classes 1-8: use the CUR data directly if it has subjects
+            if (!sysClasses[classKey]) {
+              var cn = curClass.names;
+              sysClasses[classKey] = {
+                names: cn ? cn : t(classKey),
+                subjects: {}
+              };
+            }
+            var sysSubjects = sysClasses[classKey].subjects;
+            var curSubjects = curClass.subjects;
+
+            for (var subjKey in curSubjects) {
+              var curSubject = curSubjects[subjKey];
+              if (!curSubject || !curSubject.chapters) continue;
+              sysSubjects[subjKey] = {
+                names: curSubject.names || t(subjKey),
+                chapters: curSubject.chapters.map(function(ch) {
+                  return normChapter(boardKey, classKey, subjKey, ch);
+                })
+              };
+            }
+          } else if (classKey === 'Class 9' || classKey === 'Class 10') {
+            // Classes 9-10: copy from SEBA
+            copyClassToBoard('SEBA', classKey, boardKey, classKey);
+          } else if (classKey === 'Class 11' || classKey === 'Class 12') {
+            // Classes 11-12: copy from AHSEC
+            copyClassToBoard('AHSEC', classKey, boardKey, classKey);
+          } else {
+            console.warn('Unhandled class ' + classKey + ' for ' + boardKey);
+          }
+          continue; // Skip regular processing for ref boards
+        }
+
+        // Regular board processing (SEBA, AHSEC, CBSE, ICSE)
+        if (!curClass || (!curClass.subjects && !curClass.streams)) continue;
+
+        if (!sysClasses[classKey]) {
+          var cn = curClass.names;
+          sysClasses[classKey] = {
+            names: cn ? cn : t(classKey),
+            subjects: {}
+          };
+        }
+
+        var sysSubjects = sysClasses[classKey].subjects;
+        var curSubjects = curClass.subjects;
+
+        // Handle stream-based subjects (AHSEC Class 11-12)
+        if (curClass.streams) {
+          // Flatten all stream subjects into single subject list
+          for (var streamName in curClass.streams) {
+            var streamObj = curClass.streams[streamName];
+            var streamSubjects = streamObj.subjects || streamObj;
+            for (var subjKey in streamSubjects) {
+              var curSubject = streamSubjects[subjKey];
+              if (!curSubject || !curSubject.chapters) continue;
+              var displayName = (streamName !== 'Science') ? subjKey + ' [' + streamName + ']' : subjKey;
+              sysSubjects[subjKey + '_' + streamName.replace(/\s+/g, '')] = {
+                names: curSubject.names || t(displayName),
+                chapters: curSubject.chapters.map(function(ch) {
+                  return normChapter(boardKey, classKey, subjKey, ch);
+                })
+              };
+            }
+          }
+        } else {
+          // Regular subject list
+          for (var subjKey in curSubjects) {
+            var curSubject = curSubjects[subjKey];
+            if (!curSubject || !curSubject.chapters) continue;
+            sysSubjects[subjKey] = {
+              names: curSubject.names || t(subjKey),
+              chapters: curSubject.chapters.map(function(ch) {
+                return normChapter(boardKey, classKey, subjKey, ch);
+              })
+            };
+          }
+        }
+      }
+    }
+
+  })();
+  </script>
+  <script src="prompt-templates.js"></script>
+  <script src="app.js"></script>
+  <div id="ec-toast"></div>
 </body>
 </html>

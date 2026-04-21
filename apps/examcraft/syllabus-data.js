@@ -1,604 +1,351 @@
+const t = (en, as = en, hi = en) => ({ en, as, hi });
+const ch = (...titles) => titles.map((title) => ({ names: t(title) }));
+
+const makePrimaryClass = (n, subjects) => ({
+  names: t(`Class ${n}`),
+  subjects
+});
+
 const SYLLABUS_DATA = {
   SEBA: {
-    name: "SEBA (Assam Board)",
-    fullName: "Board of Secondary Education, Assam",
+    names: { en: "SEBA (Assam Board)", as: "SEBA (অসম ব'ৰ্ড)", hi: "SEBA (असम बोर्ड)" },
     classes: {
       "Class 1": {
+        names: { en: "Class 1", as: "প্ৰথম শ্ৰেণী", hi: "कक्षा 1" },
         subjects: {
-          "Mathematics": { chapters: [{ id: "s1m1", name: "Numbers 1-100" }, { id: "s1m2", name: "Addition & Subtraction" }, { id: "s1m3", name: "Shapes & Space" }] },
-          "English": { chapters: [{ id: "s1e1", name: "Letters & Sounds" }, { id: "s1e2", name: "Simple Words" }, { id: "s1e3", name: "Poems & Rhymes" }] }
+          Language: { names: { en: "Language (Akanir Karmaputhi)", as: "অকণিৰ কৰ্মপুথি", hi: "भाषा (अकनिर कर्मपुथी)" }, chapters: ch("Alphabet Introduction", "Vowels and Consonants", "Picture Words", "Simple Rhymes", "Drawing and Expression") },
+          English: { names: { en: "English", as: "ইংৰাজী", hi: "अंग्रेजी" }, chapters: ch("Fun with Letters", "My Body", "My Family", "My School", "Simple Words and Sentences") },
+          Mathematics: { names: { en: "Mathematics (Amar Ganit)", as: "আমাৰ গণিত", hi: "गणित (अमार गणित)" }, chapters: ch("Shapes and Space", "Numbers 1 to 9", "Numbers up to 20", "Comparison (Big and Small)", "Addition Basics", "Subtraction Basics") }
         }
       },
       "Class 2": {
+        names: { en: "Class 2", as: "দ্বিতীয় শ্ৰেণী", hi: "कक्षा 2" },
         subjects: {
-          "Mathematics": { chapters: [{ id: "s2m1", name: "Numbers up to 1000" }, { id: "s2m2", name: "Addition with Carry" }, { id: "s2m3", name: "Multiplication Intro" }] },
-          "English": { chapters: [{ id: "s2e1", name: "Sentence Building" }, { id: "s2e2", name: "Nouns & Verbs" }, { id: "s2e3", name: "Short Stories" }] }
+          Language: { names: { en: "Language (Jhankara)", as: "ঝংকাৰ", hi: "भाषा (झंकार)" }, chapters: ch("Songs and Poems", "Our Village", "Stories from Daily Life", "Reading Practice", "Grammar Basics") },
+          English: { names: { en: "English (NCERT)", as: "ইংৰাজী", hi: "अंग्रेजी" }, chapters: ch("My Bicycle", "Picture Reading", "It is Fun", "Seeing without Eyes", "Come Back Soon", "Between Home and School", "This is My Town", "A Show of Clouds", "My Name", "The Crow", "The Smart Monkey", "Little Drops of Water", "We are all Indians") },
+          Mathematics: { names: { en: "Mathematics (Joyful Maths)", as: "আমাৰ গণিত", hi: "गणित (जॉयफुल गणित)" }, chapters: ch("A Day at the Beach", "Shapes Around Us", "Fun with Numbers", "Numbers 10 to 99", "Numbers up to 1000", "Addition and Subtraction", "Multiplication Tables", "Time", "Money", "Measurement") }
         }
       },
       "Class 3": {
+        names: { en: "Class 3", as: "তৃতীয় শ্ৰেণী", hi: "कक्षा 3" },
         subjects: {
-          "Mathematics": { chapters: [{ id: "s3m1", name: "Large Numbers" }, { id: "s3m2", name: "Division" }, { id: "s3m3", name: "Fractions Intro" }] },
-          "Environmental Studies (EVS)": { chapters: [{ id: "s3v1", name: "Family & Friends" }, { id: "s3v2", name: "Plants & Animals" }, { id: "s3v3", name: "Food & Water" }] },
-          "English": { chapters: [{ id: "s3e1", name: "Pronouns & Adjectives" }, { id: "s3e2", name: "Paragraph Writing" }, { id: "s3e3", name: "Literature - Prose" }] }
+          Assamese: { names: { en: "Assamese (Spandan Bhag-I)", as: "স্পন্দন ভাগ-I", hi: "असमिया (स्पंदन भाग-I)" }, chapters: ch("Prose Selections", "Poetry Selections", "Language Practice", "Grammar and Composition", "Reading Comprehension") },
+          English: { names: { en: "English (My Book of English-III)", as: "ইংৰাজী", hi: "अंग्रेजी" }, chapters: ch("Arun's Family", "The Monkey and the Elephant", "Lalu and Peelu", "The Mouse and the Pencil", "My Wish", "Bugs", "Our National Symbols", "Means of Transport", "Clean Clean", "Jamun Tree", "Hello Rain!", "Walking with Grandpa", "Traffic Rules", "What's in the Mailbox", "Clean Your Body") },
+          Mathematics: { names: { en: "Mathematics (Our Mathematics-I / Math-Magic)", as: "গণিত", hi: "गणित" }, chapters: ch("Number Games", "Three-Digit Numbers", "Addition and Subtraction", "Multiplication", "Division", "Fractions (Intro)", "Measurement", "Time", "Money", "Data Handling", "Patterns", "Shapes") },
+          EVS: { names: { en: "EVS (Environment Around Us)", as: "পৰিবেশ অধ্যয়ন", hi: "पर्यावरण अध्ययन" }, chapters: ch("Family and Friends", "Food and Nutrition", "Plants Around Us", "Animals Around Us", "Shelter", "Water", "Travel and Transport", "Things We Make and Do", "Our Environment", "Health and Hygiene") }
         }
       },
       "Class 4": {
+        names: { en: "Class 4", as: "চতুৰ্থ শ্ৰেণী", hi: "कक्षा 4" },
         subjects: {
-          "Mathematics": { chapters: [{ id: "s4m1", name: "Multiples & Factors" }, { id: "s4m2", name: "Decimals" }, { id: "s4m3", name: "Perimeter & Area" }] },
-          "Environmental Studies (EVS)": { chapters: [{ id: "s4v1", name: "Shelter & Travel" }, { id: "s4v2", name: "Water & Sanitation" }, { id: "s4v3", name: "Things We Make" }] },
-          "English": { chapters: [{ id: "s4e1", name: "Tenses Intro" }, { id: "s4e2", name: "Formal Letter" }, { id: "s4e3", name: "Comprehension" }] }
+          Assamese: { names: { en: "Assamese (Ankuran Chaturtha Bhag)", as: "অঙ্কুৰণ চতুৰ্থ ভাগ", hi: "असमिया" }, chapters: ch("Courage", "Honesty", "Prose and Poetry", "Grammar and Composition", "Reading Comprehension") },
+          English: { names: { en: "English (Santoor Textbook)", as: "ইংৰাজী", hi: "अंग्रेजी" }, chapters: ch("Together We Can", "The Tinkling Bells", "Be Smart Be Safe", "One Thing at a Time", "The Old Stag", "Braille", "Fit Body Fit Mind Fit Nation", "The Lagori Champions", "Hekko", "The Swing", "A Journey to the Magical Mountains", "Maheshwar") },
+          Mathematics: { names: { en: "Mathematics (New Mathematics Part-IV)", as: "নতুন গণিত", hi: "नवीन गणित" }, chapters: ch("Large Numbers", "Roman Numerals", "Factors and Multiples", "Fractions", "Decimals", "Perimeter", "Time and Calendar", "Data Handling", "Geometric Shapes", "Measurement") },
+          EVS: { names: { en: "EVS (We and Our Environment)", as: "পৰিবেশ অধ্যয়ন", hi: "पर्यावरण अध्ययन" }, chapters: ch("Family and Friends", "Food and Nutrition", "Shelter", "Water and Sanitation", "Transport", "Things We Make and Do", "Our Environment", "Natural Resources") }
         }
       },
       "Class 5": {
+        names: { en: "Class 5", as: "পঞ্চম শ্ৰেণী", hi: "कक्षा 5" },
         subjects: {
-          "Mathematics": { chapters: [{ id: "s5m1", name: "Operations on Large Numbers" }, { id: "s5m2", name: "Volume & Capacity" }, { id: "s5m3", name: "Data Handling" }] },
-          "Environmental Studies (EVS)": { chapters: [{ id: "s5v1", name: "Natural Resources" }, { id: "s5v2", name: "Health & Hygiene" }, { id: "s5v3", name: "Community Living" }] },
-          "English": { chapters: [{ id: "s5e1", name: "Active/Passive Voice" }, { id: "s5e2", name: "Creative Writing" }, { id: "s5e3", name: "Advanced Grammar" }] }
+          Assamese: { names: { en: "Assamese (Ankuran Pancham Bhag)", as: "অঙ্কুৰণ পঞ্চম ভাগ", hi: "असमिया" }, chapters: ch("My Country", "Stories and Poems", "Grammar and Writing", "Reading Comprehension", "Essay Writing") },
+          English: { names: { en: "English (Santoor / My Book of English-V)", as: "ইংৰাজী", hi: "अंग्रेजी" }, chapters: ch("Papa's Spectacles", "Gone with the Scooter", "The Rainbow", "The Wise Parrot", "The Frog", "What a Tank!", "Gilli Danda", "The Decision of the Panchayat", "Vocation", "Glass Bangles", "The Lion King", "Flying Together", "Our Friend Computer", "The Little Fir Tree", "Opening Day!", "Do Your Best") },
+          Mathematics: { names: { en: "Mathematics (New Mathematics Part-V)", as: "নতুন গণিত", hi: "नवीन गणित" }, chapters: ch("Large Numbers", "Operations on Large Numbers", "HCF and LCM", "Fractions", "Decimals", "Percentage", "Perimeter and Area", "Volume", "Data Handling", "Profit and Loss") },
+          EVS: { names: { en: "EVS (We and Our Environment)", as: "পৰিবেশ অধ্যয়ন", hi: "पर्यावरण अध्ययन" }, chapters: ch("Family and Friends", "Plants and Animals", "Food and Nutrition", "Shelter", "Water", "Travel", "Things We Make and Do", "Natural Resources", "Conservation", "Health and Hygiene") }
         }
       },
       "Class 6": {
+        names: { en: "Class 6", as: "ষষ্ঠ শ্ৰেণী", hi: "कक्षा 6" },
         subjects: {
-          "Mathematics": { chapters: [{ id: "s6m1", name: "Knowing Our Numbers" }, { id: "s6m2", name: "Whole Numbers" }, { id: "s6m3", name: "Integers" }, { id: "s6m4", name: "Algebra Intro" }] },
-          "Science": { chapters: [{ id: "s6s1", name: "Food & Components" }, { id: "s6s2", name: "Fibre to Fabric" }, { id: "s6s3", name: "Changes Around Us" }, { id: "s6s4", name: "The Living Organisms" }] },
-          "Social Science": { chapters: [{ id: "s6ss1", name: "Earliest People" }, { id: "s6ss2", name: "The Earth in Solar System" }, { id: "s6ss3", name: "Understanding Diversity" }] },
-          "English": { chapters: [{ id: "s6e1", name: "Parts of Speech" }, { id: "s6e2", name: "Reading Skills" }, { id: "s6e3", name: "Poetry Analysis" }] }
+          English: { names: { en: "English (Rainbow-I)", as: "ইংৰাজী", hi: "अंग्रेजी" }, chapters: ch("Prose and Poetry", "Grammar Practice", "Writing Skills", "Comprehension Skills", "Composition") },
+          Mathematics: { names: { en: "Mathematics (Ganita Prakash / Natun Ganit)", as: "নতুন গণিত", hi: "नवीन गणित" }, chapters: ch("Patterns in Mathematics", "Lines and Angles", "Number Play", "Data Handling and Presentation", "Prime Time", "Perimeter and Area", "Fractions", "Playing with Constructions", "Symmetry", "The Other Side of Zero (Integers)") },
+          Science: { names: { en: "Science (Amar Bijnan / Curiosity)", as: "বিজ্ঞান", hi: "विज्ञान" }, chapters: ch("Food: Where Does It Come From?", "Components of Food", "Fibre to Fabric", "Sorting Materials into Groups", "Separation of Substances", "Changes Around Us", "The Living Organisms and Their Surroundings", "Body Movements", "Motion and Measurement of Distances", "Light, Shadows and Reflections", "Electricity and Circuits", "Fun with Magnets", "Water", "Air Around Us", "Garbage In, Garbage Out") },
+          "Social Science": { names: { en: "Social Science (Exploring Society: India and Beyond)", as: "সমাজ বিজ্ঞান", hi: "सामाजिक विज्ञान" }, chapters: ch("Locating Places on the Earth", "Oceans and Continents", "Landforms and Life", "Timeline and Sources of History", "India, That Is Bharat", "The Beginnings of Indian Civilisation", "India's Cultural Roots", "Unity in Diversity or Many in the One", "Family and Community", "Grassroots Democracy - Part 1: Governance", "Grassroots Democracy - Part 2: Local Government in Rural Areas", "Grassroots Democracy - Part 3: Local Government in Urban Areas", "The Value of Work", "Economic Activities Around Us") },
+          "Value Education": { names: { en: "Value Education (Charitra Path)", as: "চৰিত্ৰ পাঠ", hi: "चरित्र पाठ" }, chapters: ch("Moral Values", "Honesty and Integrity", "Respect for Others", "Responsibility", "Kindness and Compassion", "Discipline", "Cooperation", "Patriotism") }
         }
       },
       "Class 7": {
+        names: { en: "Class 7", as: "সপ্তম শ্ৰেণী", hi: "कक्षा 7" },
         subjects: {
-          "Mathematics": { chapters: [{ id: "s7m1", name: "Rational Numbers" }, { id: "s7m2", name: "Simple Equations" }, { id: "s7m3", name: "Triangle Properties" }, { id: "s7m4", name: "Exponents & Powers" }] },
-          "Science": { chapters: [{ id: "s7s1", name: "Nutrition in Plants/Animals" }, { id: "s7s2", name: "Heat" }, { id: "s7s3", name: "Acids, Bases & Salts" }, { id: "s7s4", name: "Electric Current" }] },
-          "Social Science": { chapters: [{ id: "s7ss1", name: "The Delhi Sultans" }, { id: "s7ss2", name: "Inside Our Earth" }, { id: "s7ss3", name: "Role of Govt in Health" }] },
-          "English": { chapters: [{ id: "s7e1", name: "Direct/Indirect Speech" }, { id: "s7e2", name: "Essay Writing" }, { id: "s7e3", name: "Supplementary Reader" }] }
+          Assamese: { names: { en: "Assamese (Ankuran Saptam Bhag)", as: "অঙ্কুৰণ সপ্তম ভাগ", hi: "असमिया" }, chapters: ch("Prose", "Poetry", "Grammar", "Composition", "Comprehension") },
+          English: { names: { en: "English (Sunbeam English Reader-II)", as: "ইংৰাজী", hi: "अंग्रेजी" }, chapters: ch("Prose Selections", "Poetry Selections", "Grammar Practice", "Writing Skills", "Comprehension") },
+          Mathematics: { names: { en: "Mathematics", as: "গণিত", hi: "गणित" }, chapters: ch("Integers", "Fractions and Decimals", "Data Handling", "Simple Equations", "Lines and Angles", "The Triangle and Its Properties", "Congruence of Triangles", "Comparing Quantities", "Rational Numbers", "Practical Geometry", "Perimeter and Area", "Algebraic Expressions", "Exponents and Powers", "Symmetry", "Visualising Solid Shapes") },
+          Science: { names: { en: "Science (Bigyan)", as: "বিজ্ঞান", hi: "विज्ञान" }, chapters: ch("Nutrition in Plants", "Nutrition in Animals", "Fibre to Fabric", "Heat", "Acids, Bases and Salts", "Physical and Chemical Changes", "Weather, Climate and Adaptations", "Winds, Storms and Cyclones", "Soil", "Respiration in Organisms", "Transportation in Animals and Plants", "Reproduction in Plants", "Motion and Time", "Electric Current and Its Effects", "Light", "Water: A Precious Resource", "Forests: Our Lifeline", "Wastewater Story") },
+          "Social Science": { names: { en: "Social Science", as: "সমাজ বিজ্ঞান", hi: "सामाजिक विज्ञान" }, chapters: ch("Tracing Changes Through a Thousand Years", "New Kings and Kingdoms", "The Delhi Sultans", "The Mughal Empire", "Environment", "Inside Our Earth", "Our Changing Earth", "Air", "Water", "On Equality", "Role of the Government in Health", "How the State Government Works", "Markets Around Us", "Struggles for Equality") }
         }
       },
       "Class 8": {
+        names: { en: "Class 8", as: "অষ্টম শ্ৰেণী", hi: "कक्षा 8" },
         subjects: {
-          "Mathematics": { chapters: [{ id: "s8m1", name: "Linear Equations One Var" }, { id: "s8m2", name: "Squares & Square Roots" }, { id: "s8m3", name: "Factorization" }, { id: "s8m4", name: "Direct & Inverse Proportion" }] },
-          "Science": { chapters: [{ id: "s8s1", name: "Crop Production" }, { id: "s8s2", name: "Microorganisms" }, { id: "s8s3", name: "Metals & Non-metals" }, { id: "s8s4", name: "Force & Pressure" }, { id: "s8s5", name: "Stars & Solar System" }] },
-          "Social Science": { chapters: [{ id: "s8ss1", name: "From Trade to Territory" }, { id: "s8ss2", name: "Agriculture" }, { id: "s8ss3", name: "The Indian Constitution" }] },
-          "English": { chapters: [{ id: "s8e1", name: "Advanced Tenses" }, { id: "s8e2", name: "Report Writing" }, { id: "s8e3", name: "Literature Master" }] }
+          English: { names: { en: "English (Beginners' English-VIII)", as: "ইংৰাজী", hi: "अंग्रेजी" }, chapters: ch("The Prince of Panidihing", "My Native Land", "Explore India: Quiz Time", "Dokchory Learns about Panchayat", "Louis Pasteur", "A New Day, A New Way", "Sympathy", "Chandraprabha Saikiani") },
+          Mathematics: { names: { en: "Mathematics", as: "নতুন গণিত", hi: "नवीन गणित" }, chapters: ch("Rational Numbers", "Linear Equations in One Variable", "Understanding Quadrilaterals", "Practical Geometry", "Data Handling", "Squares and Square Roots", "Cubes and Cube Roots", "Comparing Quantities", "Algebraic Expressions and Identities", "Mensuration", "Exponents and Powers", "Direct and Inverse Proportions", "Factorisation", "Introduction to Graphs") },
+          Science: { names: { en: "Science", as: "বিজ্ঞান", hi: "विज्ञान" }, chapters: ch("Crop Production and Management", "Microorganisms: Friend and Foe", "Synthetic Fibres and Plastics", "Materials: Metals and Non-Metals", "Coal and Petroleum", "Combustion and Flame", "Conservation of Plants and Animals", "Cell - Structure and Functions", "Reproduction in Animals", "Reaching the Age of Adolescence", "Force and Pressure", "Friction", "Sound", "Chemical Effects of Electric Current", "Some Natural Phenomena", "Light", "Stars and the Solar System", "Pollution of Air and Water") },
+          "Social Science": { names: { en: "Social Science", as: "সমাজ বিজ্ঞান", hi: "सामाजिक विज्ञान" }, chapters: ch("The Making of the National Movement: 1870s-1947", "India After Independence", "Weavers, Iron Smelters and Factory Owners", "Mineral and Power Resources", "Agriculture", "Industries", "Human Resources", "The Indian Constitution", "Understanding Laws", "Judiciary", "Understanding Marginalisation", "Law and Social Justice") }
         }
       },
       "Class 9": {
+        names: { en: "Class 9", as: "নৱম শ্ৰেণী", hi: "कक्षा 9" },
         subjects: {
-          "Mathematics": {
-            chapters: [
-              { id: "m1", name: "Number System" },
-              { id: "m2", name: "Polynomials" },
-              { id: "m3", name: "Coordinate Geometry" },
-              { id: "m4", name: "Linear Equations in Two Variables" },
-              { id: "m6", name: "Lines and Angles" },
-              { id: "m7", name: "Triangles" },
-              { id: "m8", name: "Quadrilaterals" },
-              { id: "m9", name: "Areas of Parallelograms and Triangles" },
-              { id: "m10", name: "Circles" },
-              { id: "m11", name: "Constructions" },
-              { id: "m12", name: "Heron's Formula" },
-              { id: "m13", name: "Surface Area and Volume" },
-              { id: "m14", name: "Statistics" },
-              { id: "m15", name: "Probability" }
-            ]
-          },
-          "Science": {
-            chapters: [
-              { id: "s1", name: "Motion", section: "Physics" },
-              { id: "s2", name: "Force and Laws of Motion", section: "Physics" },
-              { id: "s3", name: "Gravitation", section: "Physics" },
-              { id: "s4", name: "Work, Energy and Power", section: "Physics" },
-              { id: "s5", name: "Sound", section: "Physics" },
-              { id: "s6", name: "Matter in Our Surroundings", section: "Chemistry" },
-              { id: "s7", name: "Is Matter Around Us Pure", section: "Chemistry" },
-              { id: "s8", name: "Atoms and Molecules", section: "Chemistry" },
-              { id: "s9", name: "Structure of the Atom", section: "Chemistry" },
-              { id: "s10", name: "The Fundamental Unit of Life", section: "Biology" },
-              { id: "s11", name: "Tissues", section: "Biology" }
-            ]
-          },
-          "English": {
-            chapters: [
-              { id: "e1", name: "Reading Comprehension", section: "General" },
-              { id: "e2", name: "Writing Skills", section: "General" },
-              { id: "e3", name: "Grammar", section: "General" },
-              { id: "e4", name: "Literature - Prose", section: "Literature" },
-              { id: "e5", name: "Literature - Poetry", section: "Literature" },
-              { id: "e6", name: "Supplementary Reader", section: "Literature" }
-            ]
-          },
-          "Social Science": {
-            chapters: [
-              { id: "ss1", name: "Partition of Bengal & Swadeshi Movement", section: "History" },
-              { id: "ss2", name: "Rise of Gandhi & Freedom Movement", section: "History" },
-              { id: "ss3", name: "Anti-British Uprising in Assam", section: "History" },
-              { id: "ss4", name: "Geography of the World", section: "Geography" },
-              { id: "ss5", name: "Geography of Assam", section: "Geography" },
-              { id: "ss6", name: "Indian Democracy", section: "Political Science" },
-              { id: "ss7", name: "Economic Development", section: "Economics" }
-            ]
-          }
+          Mathematics: { names: { en: "Mathematics (General)", as: "সাধাৰণ গণিত", hi: "साधारण गणित" }, chapters: ch("Number Systems", "Polynomials", "Coordinate Geometry", "Linear Equations in Two Variables", "Introduction to Euclid's Geometry", "Lines and Angles", "Triangles", "Quadrilaterals", "Areas of Parallelograms and Triangles", "Circles", "Constructions", "Heron's Formula", "Surface Areas and Volumes", "Statistics", "Probability") },
+          Science: { names: { en: "Science (General)", as: "সাধাৰণ বিজ্ঞান", hi: "साधारण विज्ञान" }, chapters: ch("Matter in Our Surroundings", "Is Matter Around Us Pure", "Atoms and Molecules", "Structure of the Atom", "The Fundamental Unit of Life", "Tissues", "Diversity in Living Organisms", "Motion", "Force and Laws of Motion", "Gravitation", "Work and Energy", "Sound", "Why Do We Fall Ill", "Natural Resources", "Improvement in Food Resources") },
+          "Social Science": { names: { en: "Social Science", as: "সমাজ বিজ্ঞান", hi: "सामाजिक विज्ञान" }, chapters: ch("Advent of Europeans into India", "Growth of Indian Nationalism", "The Moamoriya Rebellion", "Burmese Invasions of Assam", "Beginning of British Administration in Assam", "Changes of Earth's Surface", "Atmosphere: Structure, Pressure Belts and Wind System", "Geography of India", "Geography of Assam", "Political Parties in India", "Types of Government", "Basic Concepts of Economics", "Basic Economic Problems") },
+          English: { names: { en: "English (Second Language)", as: "ইংৰাজী", hi: "अंग्रेजी" }, chapters: ch("Beehive", "Moments", "Writing and Grammar") }
         }
       },
       "Class 10": {
+        names: { en: "Class 10", as: "দশম শ্ৰেণী", hi: "कक्षा 10" },
         subjects: {
-          "Mathematics": {
-            chapters: [
-              { id: "cm1", name: "Real Numbers" },
-              { id: "cm2", name: "Polynomials" },
-              { id: "cm3", name: "Pair of Linear Equations in Two Variables" },
-              { id: "cm4", name: "Quadratic Equations" },
-              { id: "cm5", name: "Arithmetic Progressions" },
-              { id: "cm6", name: "Triangles" },
-              { id: "cm7", name: "Coordinate Geometry" },
-              { id: "cm8", name: "Introduction to Trigonometry" },
-              { id: "cm9", name: "Heights and Distances", note: "Learning Only" },
-              { id: "cm10", name: "Circles" },
-              { id: "cm11", name: "Constructions" },
-              { id: "cm12", name: "Areas Related to Circles" },
-              { id: "cm13", name: "Surface Areas and Volumes" },
-              { id: "cm14", name: "Statistics" },
-              { id: "cm15", name: "Probability" }
-            ]
-          },
-          "Science": {
-            chapters: [
-              { id: "cs1", name: "Chemical Reactions and Equations", section: "Chemistry" },
-              { id: "cs2", name: "Acids, Bases and Salts", section: "Chemistry" },
-              { id: "cs3", name: "Metals and Non-metals", section: "Chemistry" },
-              { id: "cs4", name: "Carbon and its Compounds", section: "Chemistry" },
-              { id: "cs5", name: "Periodic Classification of Elements", section: "Chemistry" },
-              { id: "cs6", name: "Life Processes", section: "Biology" },
-              { id: "cs7", name: "Control and Coordination", section: "Biology" },
-              { id: "cs8", name: "How do Organisms Reproduce?", section: "Biology" },
-              { id: "cs9", name: "Heredity and Evolution", section: "Biology" },
-              { id: "cs10", name: "Light - Reflection and Refraction", section: "Physics" },
-              { id: "cs11", name: "Human Eye and Colourful World", section: "Physics" },
-              { id: "cs12", name: "Electricity", section: "Physics" },
-              { id: "cs13", name: "Magnetic Effects of Electric Current", section: "Physics" },
-              { id: "cs14", name: "Sources of Energy", section: "Physics" },
-              { id: "cs15", name: "Our Environment", section: "Biology" },
-              { id: "cs16", name: "Management of Natural Resources", section: "Biology" }
-            ]
-          },
-          "English": {
-            chapters: [
-              { id: "ce1", name: "Prose: A Letter to God", section: "First Flight" },
-              { id: "ce2", name: "Prose: Nelson Mandela", section: "First Flight" },
-              { id: "ce3", name: "Prose: Glimpses of India", section: "First Flight" },
-              { id: "ce4", name: "Prose: Madam Rides the Bus", section: "First Flight" },
-              { id: "ce5", name: "Poetry: A Tiger in the Zoo", section: "Poetry" },
-              { id: "ce6", name: "Poetry: Amanda!", section: "Poetry" },
-              { id: "ce7", name: "Poetry: Animals", section: "Poetry" },
-              { id: "ce8", name: "Poetry: The Ball Poem", section: "Poetry" },
-              { id: "ce9", name: "Supp: The Midnight Visitor", section: "Footprints without Feet" },
-              { id: "ce10", name: "Supp: A Question of Trust", section: "Footprints without Feet" },
-              { id: "ce11", name: "Supp: The Hack Driver", section: "Footprints without Feet" },
-              { id: "cg1", name: "Reading Comprehension & Writing", section: "Grammar & Composition" },
-              { id: "cg2", name: "Grammar (Tense, Voice, Prelim, Direct/Indirect)", section: "Grammar & Composition" }
-            ]
-          },
-          "Social Science": {
-            chapters: [
-              { id: "css1", name: "Partition of Bengal", section: "History" },
-              { id: "css2", name: "Rise of Gandhi Era", section: "History" },
-              { id: "css3", name: "Role of Assam in Freedom Movement", section: "History" },
-              { id: "css4", name: "Economic Geography", section: "Geography" },
-              { id: "css5", name: "Environment and Problems", section: "Geography" },
-              { id: "css6", name: "Geography of Assam", section: "Geography" },
-              { id: "css7", name: "Indian Democracy", section: "Political Science" },
-              { id: "css8", name: "Money and Banking", section: "Economics" }
-            ]
-          }
+          Mathematics: { names: { en: "Mathematics (General)", as: "সাধাৰণ গণিত", hi: "साधारण गणित" }, chapters: ch("Real Numbers", "Polynomials", "Pair of Linear Equations in Two Variables", "Quadratic Equations", "Arithmetic Progressions", "Triangles", "Coordinate Geometry", "Introduction to Trigonometry", "Applications of Trigonometry", "Circles", "Areas Related to Circles", "Surface Areas and Volumes", "Statistics", "Probability") },
+          Science: { names: { en: "Science (General)", as: "সাধাৰণ বিজ্ঞান", hi: "साधारण विज्ञान" }, chapters: ch("Chemical Reactions and Equations", "Acids, Bases and Salts", "Metals and Non-metals", "Carbon and Its Compounds", "Periodic Classification of Elements", "Life Processes", "Control and Coordination", "How do Organisms Reproduce?", "Heredity and Evolution", "Light - Reflection and Refraction", "The Human Eye and the Colourful World", "Electricity", "Magnetic Effects of Electric Current", "Sources of Energy", "Our Environment", "Sustainable Management of Natural Resources") },
+          "Social Science": { names: { en: "Social Science", as: "সমাজ বিজ্ঞান", hi: "सामाजिक विज्ञान" }, chapters: ch("Advent of Europeans into India", "Growth of Indian Nationalism", "The Moamoriya Rebellion", "Burmese Invasions of Assam", "Beginning of British Administration in Assam", "Changes of Earth's Surface", "Atmosphere: Structure, Pressure Belts and Wind System", "Geography of India", "Geography of Assam", "Political Parties in India", "Types of Government", "Basic Concepts of Economics", "Basic Economic Problems") },
+          English: { names: { en: "English (Second Language)", as: "ইংৰাজী", hi: "अंग्रेजी" }, chapters: ch("A Letter to God", "Nelson Mandela: Long Walk to Freedom", "Glimpses of India", "Madam Rides the Bus", "A Tiger in the Zoo", "Amanda!", "Animals", "The Ball Poem", "The Tale of Custard the Dragon", "The Midnight Visitor", "A Question of Trust", "Footprints without Feet", "The Hack Driver") }
         }
       }
     }
   },
   CBSE: {
-    name: "CBSE (NCERT)",
-    fullName: "Central Board of Secondary Education",
+    names: { en: "CBSE (National Board)", as: "CBSE (ৰাষ্ট্ৰীয় ব'ৰ্ড)", hi: "CBSE (राष्ट्रीय बोर्ड)" },
     classes: {
-      "Class 1": {
-        subjects: {
-          "Mathematics": { chapters: [{ id: "c1m1", name: "Shapes and Space" }, { id: "c1m2", name: "Numbers from 1 to 9" }, { id: "c1m3", name: "Addition" }, { id: "c1m4", name: "Subtraction" }] },
-          "English": { chapters: [{ id: "c1e1", name: "A Happy Child (Poem)" }, { id: "c1e2", name: "Three Little Pigs" }, { id: "c1e3", name: "After a Bath" }] }
-        }
-      },
-      "Class 2": {
-        subjects: {
-          "Mathematics": { chapters: [{ id: "c2m1", name: "What is Long, What is Round?" }, { id: "c2m2", name: "Counting in Groups" }, { id: "c2m3", name: "How Much Can You Carry?" }] },
-          "English": { chapters: [{ id: "c2e1", name: "First Day at School" }, { id: "c2e2", name: "Haldi's Adventure" }, { id: "c2e3", name: "I am Lucky!" }] }
-        }
-      },
-      "Class 3": {
-        subjects: {
-          "Mathematics": { chapters: [{ id: "c3m1", name: "Where to Look From" }, { id: "c3m2", name: "Fun with Numbers" }, { id: "c3m3", name: "Give and Take" }] },
-          "Environmental Studies (EVS)": { chapters: [{ id: "c3v1", name: "Poonam's Day Out" }, { id: "c3v2", name: "The Plant Fairy" }, { id: "c3v3", name: "Water O' Water!" }] },
-          "English": { chapters: [{ id: "c3e1", name: "Good Morning" }, { id: "c3e2", name: "The Enormous Turnip" }, { id: "c3e3", name: "Bird Talk" }] }
-        }
-      },
-      "Class 4": {
-        subjects: {
-          "Mathematics": { chapters: [{ id: "c4m1", name: "Building with Bricks" }, { id: "c4m2", name: "Long and Short" }, { id: "c4m3", name: "A Trip to Bhopal" }] },
-          "Environmental Studies (EVS)": { chapters: [{ id: "c4v1", name: "Going to School" }, { id: "c4v2", name: "The Valley of Flowers" }, { id: "c4v3", name: "Changing Families" }] },
-          "English": { chapters: [{ id: "c4e1", name: "Wake Up!" }, { id: "c4e2", name: "Neha's Alarm Clock" }, { id: "c4e3", name: "Noses" }] }
-        }
-      },
-      "Class 5": {
-        subjects: {
-          "Mathematics": { chapters: [{ id: "c5m1", name: "The Fish Tale" }, { id: "c5m2", name: "Shapes and Angles" }, { id: "c5m3", name: "How Many Squares?" }] },
-          "Environmental Studies (EVS)": { chapters: [{ id: "c5v1", name: "Super Senses" }, { id: "c5v2", name: "A Snake Charmer's Story" }, { id: "c5v3", name: "From Tasting to Digesting" }] },
-          "English": { chapters: [{ id: "c5e1", name: "Ice-cream Man" }, { id: "c5e2", name: "Wonderful Waste!" }, { id: "c5e3", name: "Bamboo Curry" }] }
-        }
-      },
-      "Class 6": {
-        subjects: {
-          "Mathematics": { chapters: [{ id: "c6m1", name: "Knowing Our Numbers" }, { id: "c6m2", name: "Whole Numbers" }, { id: "c6m3", name: "Playing with Numbers" }] },
-          "Science": { chapters: [{ id: "c6s1", name: "Food: Where does it come from?" }, { id: "c6s2", name: "Components of Food" }, { id: "c6s3", name: "Fibre to Fabric" }] },
-          "Social Science": { chapters: [{ id: "c6ss1", name: "What, Where, How and When?" }, { id: "c6ss2", name: "The Earth in the Solar System" }, { id: "c6ss3", name: "Understanding Diversity" }] },
-          "English": { chapters: [{ id: "c6e1", name: "Who Did Patrick's Homework?" }, { id: "c6e2", name: "A House, A Home" }, { id: "c6e3", name: "How the Dog Found Himself a New Master!" }] }
-        }
-      },
-      "Class 7": {
-        subjects: {
-          "Mathematics": { chapters: [{ id: "c7m1", name: "Integers" }, { id: "c7m2", name: "Fractions and Decimals" }, { id: "c7m3", name: "Data Handling" }] },
-          "Science": { chapters: [{ id: "c7s1", name: "Nutrition in Plants" }, { id: "c7s2", name: "Nutrition in Animals" }, { id: "c7s3", name: "Fibre to Fabric" }] },
-          "Social Science": { chapters: [{ id: "c7ss1", name: "Tracing Changes Through A Thousand Years" }, { id: "c7ss2", name: "Environment" }, { id: "c7ss3", name: "On Equality" }] },
-          "English": { chapters: [{ id: "c7e1", name: "Three Questions" }, { id: "c7e2", name: "The Squirrel" }, { id: "c7e3", name: "A Gift of Chappals" }] }
-        }
-      },
-      "Class 8": {
-        subjects: {
-          "Mathematics": { chapters: [{ id: "c8m1", name: "Rational Numbers" }, { id: "c8m2", name: "Linear Equations in One Variable" }, { id: "c8m3", name: "Understanding Quadrilaterals" }] },
-          "Science": { chapters: [{ id: "c8s1", name: "Crop Production and Management" }, { id: "c8s2", name: "Microorganisms: Friend and Foe" }, { id: "c8s3", name: "Synthetic Fibres and Plastics" }] },
-          "Social Science": { chapters: [{ id: "c8ss1", name: "How, When and Where" }, { id: "c8ss2", name: "Resources" }, { id: "c8ss3", name: "The Indian Constitution" }] },
-          "English": { chapters: [{ id: "c8e1", name: "The Best Christmas Present in the World" }, { id: "c8e2", name: "The Ant and the Cricket" }, { id: "c8e3", name: "The Tsunami" }] }
-        }
-      },
-      "Class 9": {
-        subjects: {
-          "Mathematics": {
-            chapters: [
-              { id: "m1", name: "Number Systems" },
-              { id: "m2", name: "Polynomials" },
-              { id: "m3", name: "Coordinate Geometry" },
-              { id: "m4", name: "Linear Equations in Two Variables" },
-              { id: "m5", name: "Introduction to Euclid's Geometry" },
-              { id: "m6", name: "Lines and Angles" },
-              { id: "m7", name: "Triangles" },
-              { id: "m8", name: "Quadrilaterals" },
-              { id: "m10", name: "Circles" },
-              { id: "m12", name: "Heron's Formula" },
-              { id: "m13", name: "Surface Areas and Volumes" },
-              { id: "m14", name: "Statistics" }
-            ]
-          },
-          "Science": {
-            chapters: [
-              { id: "s1", name: "Matter in Our Surroundings", section: "Chemistry" },
-              { id: "s2", name: "Is Matter Around Us Pure", section: "Chemistry" },
-              { id: "s3", name: "Atoms and Molecules", section: "Chemistry" },
-              { id: "s4", name: "Structure of the Atom", section: "Chemistry" },
-              { id: "s5", name: "Cell - Basic Unit of Life", section: "Biology" },
-              { id: "s6", name: "Tissues", section: "Biology" },
-              { id: "s7", name: "Motion", section: "Physics" },
-              { id: "s8", name: "Force and Laws of Motion", section: "Physics" },
-              { id: "s9", name: "Gravitation", section: "Physics" },
-              { id: "s10", name: "Work and Energy", section: "Physics" },
-              { id: "s11", name: "Sound", section: "Physics" },
-              { id: "s12", name: "Improvement in Food Resources", section: "Biology" }
-            ]
-          },
-          "English": {
-            chapters: [
-              { id: "e1", name: "Reading Comprehension", section: "General" },
-              { id: "e2", name: "Writing Skills", section: "General" },
-              { id: "e3", name: "Grammar", section: "General" },
-              { id: "e4", name: "Beehive (Prose)", section: "Literature" },
-              { id: "e5", name: "Beehive (Poetry)", section: "Literature" },
-              { id: "e6", name: "Moments (Supplementary)", section: "Literature" }
-            ]
-          },
-          "Social Science": {
-            chapters: [
-              { id: "ss1", name: "French Revolution", section: "History" },
-              { id: "ss2", name: "Socialism in Europe", section: "History" },
-              { id: "ss3", name: "Nazism and Rise of Hitler", section: "History" },
-              { id: "ss4", name: "India - Size and Location", section: "Geography" },
-              { id: "ss5", name: "Physical Features of India", section: "Geography" },
-              { id: "ss6", name: "Drainage", section: "Geography" },
-              { id: "ss7", name: "Climate", section: "Geography" },
-              { id: "ss8", name: "What is Democracy?", section: "Civics" },
-              { id: "ss9", name: "Constitutional Design", section: "Civics" },
-              { id: "ss10", name: "Story of Village Palampur", section: "Economics" }
-            ]
-          }
-        }
-      },
-      "Class 10": {
-        subjects: {
-          "Mathematics": {
-            chapters: [
-              { id: "cm1", name: "Real Numbers" },
-              { id: "cm2", name: "Polynomials" },
-              { id: "cm3", name: "Pair of Linear Equations" },
-              { id: "cm4", name: "Quadratic Equations" },
-              { id: "cm5", name: "Arithmetic Progressions" },
-              { id: "cm6", name: "Triangles" },
-              { id: "cm7", name: "Coordinate Geometry" },
-              { id: "cm8", name: "Introduction to Trigonometry" },
-              { id: "cm9", name: "Some Applications of Trigonometry" },
-              { id: "cm10", name: "Circles" },
-              { id: "cm11", name: "Areas Related to Circles" },
-              { id: "cm12", name: "Surface Areas and Volumes" },
-              { id: "cm13", name: "Statistics" },
-              { id: "cm14", name: "Probability" }
-            ]
-          },
-          "Science": {
-            chapters: [
-              { id: "cs1", name: "Chemical Reactions and Equations", section: "Chemistry" },
-              { id: "cs2", name: "Acids, Bases and Salts", section: "Chemistry" },
-              { id: "cs3", name: "Metals and Non-metals", section: "Chemistry" },
-              { id: "cs4", name: "Carbon and its Compounds", section: "Chemistry" },
-              { id: "cs5", name: "Life Processes", section: "Biology" },
-              { id: "cs6", name: "Control and Coordination", section: "Biology" },
-              { id: "cs7", name: "How do Organisms Reproduce?", section: "Biology" },
-              { id: "cs8", name: "Heredity and Evolution", section: "Biology" },
-              { id: "cs9", name: "Light - Reflection and Refraction", section: "Physics" },
-              { id: "cs10", name: "Human Eye and Colourful World", section: "Physics" },
-              { id: "cs11", name: "Electricity", section: "Physics" },
-              { id: "cs12", name: "Magnetic Effects of Electric Current", section: "Physics" },
-              { id: "cs13", name: "Our Environment", section: "Biology" }
-            ]
-          },
-          "English": {
-            chapters: [
-              { id: "ce1", name: "Reading Skills & Composition", section: "General" },
-              { id: "ce2", name: "First Flight (Prose)", section: "First Flight" },
-              { id: "ce3", name: "First Flight (Poetry)", section: "First Flight" },
-              { id: "ce4", name: "Footprints without Feet", section: "Supplementary" },
-              { id: "cg1", name: "Grammar", section: "General" }
-            ]
-          },
-          "Social Science": {
-            chapters: [
-              { id: "css1", name: "Rise of Nationalism in Europe", section: "History" },
-              { id: "css2", name: "Nationalism in India", section: "History" },
-              { id: "css3", name: "Resources and Development", section: "Geography" },
-              { id: "css4", name: "Agriculture", section: "Geography" },
-              { id: "css5", name: "Power Sharing", section: "Civics" },
-              { id: "css6", name: "Federalism", section: "Civics" },
-              { id: "css7", name: "Development", section: "Economics" },
-              { id: "css8", name: "Sectors of Indian Economy", section: "Economics" }
-            ]
-          }
-        }
-      }
+      "Class 1": makePrimaryClass(1, {
+        English: { names: t("English (Joyful Series)"), chapters: ch("Fun with Letters", "My Family", "My School", "My Body", "Rhymes and Stories", "Simple Sentences") },
+        Hindi: { names: t("Hindi (Rimjhim)"), chapters: ch("अक्षर ज्ञान", "मेरा घर", "मेरे दोस्त", "चित्र देखकर बोलो", "छोटी कविताएँ", "सरल शब्द") },
+        Mathematics: { names: t("Mathematics (Joyful Maths)"), chapters: ch("Number Play", "Shapes Around Us", "Addition Basics", "Subtraction Basics", "Comparisons", "Patterns") },
+        EVS: { names: t("EV Studies"), chapters: ch("My Family", "My Body", "Plants and Animals", "Food and Water", "Our Home", "Seasons") }
+      }),
+      "Class 2": makePrimaryClass(2, {
+        English: { names: t("English (Mridang)"), chapters: ch("My Bicycle", "Picture Reading", "It is Fun", "Seeing without Eyes", "Come Back Soon", "Between Home and School", "This is My Town", "A Show of Clouds", "My Name", "The Crow", "The Smart Monkey", "Little Drops of Water", "We are all Indians") },
+        Hindi: { names: t("Hindi (Rimjhim)"), chapters: ch("शब्द और वाक्य", "मेरा शहर", "पानी का महत्व", "कहानी पढ़ना", "व्याकरण परिचय", "पाठ समझ") },
+        Mathematics: { names: t("Mathematics (Joyful Maths)"), chapters: ch("A Day at the Beach", "Shapes Around Us", "Fun with Numbers", "Numbers 10 to 99", "Numbers up to 1000", "Addition and Subtraction", "Multiplication Tables", "Time", "Money", "Measurement") }
+      }),
+      "Class 3": makePrimaryClass(3, {
+        English: { names: t("English (My Book of English-III)"), chapters: ch("Arun's Family", "The Monkey and the Elephant", "Lalu and Peelu", "The Mouse and the Pencil", "My Wish", "Bugs", "Our National Symbols", "Means of Transport", "Clean Clean", "Jamun Tree", "Hello Rain!", "Walking with Grandpa", "Traffic Rules", "What's in the Mailbox", "Clean Your Body") },
+        Hindi: { names: t("Hindi (Rimjhim)"), chapters: ch("कविता पाठ", "कहानी समय", "व्याकरण परिचय", "अनुच्छेद लेखन", "शब्द भंडार") },
+        Mathematics: { names: t("Mathematics (Math-Magic)"), chapters: ch("Number Games", "Three-Digit Numbers", "Addition and Subtraction", "Multiplication", "Division", "Fractions (Intro)", "Measurement", "Time", "Money", "Data Handling", "Patterns", "Shapes") },
+        EVS: { names: t("EVS (Looking Around)"), chapters: ch("Family and Friends", "Food We Eat", "Shelter", "Water", "Travel", "Things We Make and Do", "Plants and Animals") }
+      }),
+      "Class 4": makePrimaryClass(4, {
+        English: { names: t("English (Santoor)"), chapters: ch("Together We Can", "The Tinkling Bells", "Be Smart Be Safe", "One Thing at a Time", "The Old Stag", "Braille", "Fit Body Fit Mind Fit Nation", "The Lagori Champions", "Hekko", "The Swing", "A Journey to the Magical Mountains", "Maheshwar") },
+        Hindi: { names: t("Hindi (Rimjhim/Gyankranti)"), chapters: ch("पठन कौशल", "रचनात्मक लेखन", "अनुच्छेद लेखन", "पत्र लेखन", "मुहावरे और लोकोक्तियाँ") },
+        Mathematics: { names: t("Mathematics (Math-Magic)"), chapters: ch("Large Numbers", "Roman Numerals", "Factors and Multiples", "Fractions", "Decimals", "Time and Calendar", "Perimeter", "Data Handling", "Geometric Shapes", "Measurement") },
+        EVS: { names: t("EVS (Looking Around)"), chapters: ch("Family and Friends", "Food and Nutrition", "Shelter", "Water and Sanitation", "Transport", "Things We Make and Do", "Natural Resources") }
+      }),
+      "Class 5": makePrimaryClass(5, {
+        English: { names: t("English (Santoor / Marigold)"), chapters: ch("Papa's Spectacles", "Gone with the Scooter", "The Rainbow", "The Wise Parrot", "The Frog", "What a Tank!", "Gilli Danda", "The Decision of the Panchayat", "Vocation", "Glass Bangles", "Ice-cream Man", "Teamwork", "My Shadow", "The Lazy Frog", "Class Discussion", "Topsy-turvy Land") },
+        Hindi: { names: t("Hindi (Rimjhim/Gyankranti)"), chapters: ch("पाठ समझ", "पत्र लेखन", "मुहावरे", "रचनात्मक लेखन", "निबंध लेखन") },
+        Mathematics: { names: t("Mathematics (Math-Magic)"), chapters: ch("Large Numbers", "HCF and LCM", "Fractions", "Decimals", "Percentage", "Perimeter and Area", "Volume", "Data Handling", "Profit and Loss", "Simple Interest") },
+        EVS: { names: t("EVS (Looking Around)"), chapters: ch("Family and Friends", "Plants and Animals", "Food", "Shelter", "Water", "Travel", "Things We Make and Do", "Natural Resources") }
+      }),
+      "Class 6": makePrimaryClass(6, {
+        English: { names: t("English (Poorvi)"), chapters: ch("Prose and Poetry Selections", "Grammar Practice", "Writing Skills", "Comprehension Skills", "Composition", "The Wit that Won Hearts", "A Concrete Example", "A Tale of Valour", "The Cherry Tree", "Magnifying Glass") },
+        Hindi: { names: t("Hindi (Malhar)"), chapters: ch("वाचन कौशल", "व्याकरण", "लेखन कौशल", "पाठ समझ") },
+        Mathematics: { names: t("Mathematics (Ganita Prakash)"), chapters: ch("Patterns in Mathematics", "Lines and Angles", "Number Play", "Data Handling and Presentation", "Prime Time", "Perimeter and Area", "Fractions", "Playing with Constructions", "Symmetry", "The Other Side of Zero") },
+        Science: { names: t("Science (Curiosity)"), chapters: ch("Food: Where Does It Come From?", "Components of Food", "Fibre to Fabric", "Sorting Materials into Groups", "Separation of Substances", "Changes Around Us", "The Living Organisms and Their Surroundings", "Motion and Measurement of Distances", "Light, Shadows and Reflections", "Electricity and Circuits", "Water", "Air Around Us", "Garbage In, Garbage Out") },
+        "Social Science": { names: t("Social Science (Exploring Society)"), chapters: ch("Locating Places on the Earth", "Oceans and Continents", "Landforms and Life", "Timeline and Sources of History", "India, That Is Bharat", "The Beginnings of Indian Civilisation", "India's Cultural Roots", "Unity in Diversity or Many in the One", "Family and Community", "Grassroots Democracy - Part 1: Governance", "Grassroots Democracy - Part 2: Local Government in Rural Areas", "Grassroots Democracy - Part 3: Local Government in Urban Areas", "The Value of Work", "Economic Activities Around Us") }
+      }),
+      "Class 7": makePrimaryClass(7, {
+        English: { names: t("English (Honeycomb)"), chapters: ch("Three Questions", "The Squirrel", "The Invention of Vita-Wonk", "A Gift of Chappals", "Gopal and the Hilsa Fish", "The Ashes that Made Trees Bloom", "The Necklace", "An Indian-American Woman in Space", "Chivalry", "A Vision of the Future", "The Bear Story", "Daffodils", "Trees", "Meadow Surprises") },
+        Hindi: { names: t("Hindi (Vasant/Durva)"), chapters: ch("वसंत पाठ", "दुर्वेद", "व्याकरण", "रचनात्मक लेखन") },
+        Mathematics: { names: t("Mathematics"), chapters: ch("Integers", "Fractions and Decimals", "Data Handling", "Simple Equations", "Lines and Angles", "The Triangle and Its Properties", "Congruence of Triangles", "Comparing Quantities", "Rational Numbers", "Practical Geometry", "Perimeter and Area", "Algebraic Expressions", "Exponents and Powers", "Symmetry", "Visualising Solid Shapes") },
+        Science: { names: t("Science"), chapters: ch("Nutrition in Plants", "Nutrition in Animals", "Fibre to Fabric", "Heat", "Acids, Bases and Salts", "Physical and Chemical Changes", "Weather, Climate and Adaptations", "Winds, Storms and Cyclones", "Soil", "Respiration in Organisms", "Transportation in Animals and Plants", "Reproduction in Plants", "Motion and Time", "Electric Current and Its Effects", "Light", "Water: A Precious Resource", "Forests: Our Lifeline", "Wastewater Story") },
+        "Social Science": { names: t("Social Science"), chapters: ch("Tracing Changes Through a Thousand Years", "New Kings and Kingdoms", "The Delhi Sultans", "The Mughal Empire", "Environment", "Inside Our Earth", "Our Changing Earth", "Air", "Water", "On Equality", "How the State Government Works", "Markets Around Us", "Struggles for Equality") }
+      }),
+      "Class 8": makePrimaryClass(8, {
+        English: { names: t("English (It So Happened / Honeydew)"), chapters: ch("The Wit that Won Hearts", "A Concrete Example", "A Tale of Valour", "The Cherry Tree", "Magnifying Glass", "The Best Christmas Present in the World", "The Tsunami", "Glimpses of the Past", "Bepin Choudhury's Lapse of Memory", "The Summit Within", "This is Jody's Fawn", "A Visit to Cambridge", "A Short Monsoon Diary", "The Ant and the Cricket") },
+        Hindi: { names: t("Hindi (Kshitij)"), chapters: ch("पाठ संग्रह", "व्याकरण", "लेखन", "निबंध") },
+        Mathematics: { names: t("Mathematics"), chapters: ch("Rational Numbers", "Linear Equations in One Variable", "Understanding Quadrilaterals", "Practical Geometry", "Data Handling", "Squares and Square Roots", "Cubes and Cube Roots", "Comparing Quantities", "Algebraic Expressions and Identities", "Mensuration", "Exponents and Powers", "Direct and Inverse Proportions", "Factorisation", "Introduction to Graphs") },
+        Science: { names: t("Science"), chapters: ch("Crop Production and Management", "Microorganisms: Friend and Foe", "Synthetic Fibres and Plastics", "Materials: Metals and Non-Metals", "Coal and Petroleum", "Combustion and Flame", "Conservation of Plants and Animals", "Cell - Structure and Functions", "Reproduction in Animals", "Reaching the Age of Adolescence", "Force and Pressure", "Friction", "Sound", "Chemical Effects of Electric Current", "Some Natural Phenomena", "Light", "Stars and the Solar System", "Pollution of Air and Water") },
+        "Social Science": { names: t("Social Science"), chapters: ch("How, When and Where", "From Trade to Territory", "Ruling the Countryside", "Tribals, Dikus and the Vision of a Golden Age", "Rebels and the Raj of 1857", "The Making of the National Movement", "India After Independence", "Resources", "Land, Soil, Water, Natural Vegetation and Wildlife", "Mineral and Power Resources", "Agriculture", "Industries", "Human Resources", "The Indian Constitution", "Understanding Laws", "Judiciary", "Understanding Marginalisation", "Law and Social Justice") }
+      }),
+      "Class 9": makePrimaryClass(9, {
+        English: { names: t("English (Beehive & Moments)"), chapters: ch("The Fun They Had", "The Sound of Music", "The Little Girl", "A Truly Beautiful Mind", "The Snake and the Mirror", "My Childhood", "From Mother Dear", "Mystery of the Missing Cap", "No Men Are Foreign", "A Legend of the North", "Wind", "The Road Not Taken", "Rain on the Roof", "The Lake Isle of Innisfree") },
+        Hindi: { names: t("Hindi (Kshitij & Kritika)"), chapters: ch("क्षितिज पाठ", "कृतिका पाठ", "व्याकरण") },
+        Mathematics: { names: t("Mathematics"), chapters: ch("Number Systems", "Polynomials", "Coordinate Geometry", "Linear Equations in Two Variables", "Introduction to Euclid's Geometry", "Lines and Angles", "Triangles", "Quadrilaterals", "Areas of Parallelograms and Triangles", "Circles", "Constructions", "Heron's Formula", "Surface Areas and Volumes", "Statistics", "Probability") },
+        Science: { names: t("Science"), chapters: ch("Matter in Our Surroundings", "Is Matter Around Us Pure", "Atoms and Molecules", "Structure of the Atom", "The Fundamental Unit of Life", "Tissues", "Diversity in Living Organisms", "Motion", "Force and Laws of Motion", "Gravitation", "Work and Energy", "Sound", "Why Do We Fall Ill", "Natural Resources", "Improvement in Food Resources") },
+        "Social Science": { names: t("Social Science"), chapters: ch("The French Revolution", "Socialism in Europe and the Russian Revolution", "Nazism and the Rise of Hitler", "Forest Society and Colonialism", "Pastoralists in the Modern World", "India - Size and Location", "Physical Features of India", "Drainage", "Climate", "Natural Vegetation and Wildlife", "Population", "Democratic Politics", "People as Resource", "Poverty as a Challenge", "Food Security in India") }
+      }),
+      "Class 10": makePrimaryClass(10, {
+        English: { names: t("English (First Flight & Footprints)"), chapters: ch("A Letter to God", "Nelson Mandela: Long Walk to Freedom", "Two Tales of Flying", "Question from Travel", "Glimpses of India (Coorg)", "Glimpses of India (Tea from Assam)", "Glimpses of India (Baker from Goa)", "Mijbil the Otter", "Madam Rides the Bus", "The Serpent and the Eagle", "The Proposal", "The Thief's Story", "A Tiger in the Zoo", "Amanda!", "Animals", "The Ball Poem", "The Tale of Custard the Dragon", "The Midnight Visitor", "A Question of Trust", "Footprints without Feet", "The Hack Driver", "The Necklace", "The Hidden Teacher") },
+        Hindi: { names: t("Hindi (Kshitij, Kritika, Sparsh & Sanchayan)"), chapters: ch("क्षितिज पाठ", "कृतिका पाठ", "स्पर्श पाठ", "संचयन भाग 2") },
+        Mathematics: { names: t("Mathematics"), chapters: ch("Real Numbers", "Polynomials", "Pair of Linear Equations in Two Variables", "Quadratic Equations", "Arithmetic Progressions", "Triangles", "Coordinate Geometry", "Introduction to Trigonometry", "Applications of Trigonometry", "Circles", "Areas Related to Circles", "Surface Areas and Volumes", "Statistics", "Probability") },
+        Science: { names: t("Science"), chapters: ch("Chemical Reactions and Equations", "Acids, Bases and Salts", "Metals and Non-metals", "Carbon and Its Compounds", "Life Processes", "Control and Coordination", "How do Organisms Reproduce?", "Heredity and Evolution", "Light - Reflection and Refraction", "The Human Eye and the Colourful World", "Electricity", "Magnetic Effects of Electric Current", "Our Environment") },
+        "Social Science": { names: t("Social Science"), chapters: ch("Rise of Nationalism in Europe", "Nationalism in India", "The Making of a Global World", "The Age of Industrialization", "Print Culture and the Modern World", "Novels, Society and History", "Resources and Development", "Agriculture", "Minerals and Energy Resources", "Manufacturing Industries", "Lifelines of National Economy", "Development", "Sectors of the Indian Economy", "Money and Credit", "Globalisation and the Indian Economy", "Power-sharing", "Federalism", "Gender, Religion and Caste", "Political Parties", "Outcomes of Democracy", "Popular Struggles and Movements") }
+      })
     }
   },
   ICSE: {
-    name: "ICSE",
-    fullName: "Indian Certificate of Secondary Education",
+    names: { en: "ICSE (CISCE)", as: "ICSE", hi: "ICSE" },
     classes: {
-      "Class 1": {
-        subjects: {
-          "Mathematics": { chapters: [{ id: "i1m1", name: "Numbers and Operations" }, { id: "i1m2", name: "Geometry" }, { id: "i1m3", name: "Measurement" }] },
-          "English": { chapters: [{ id: "i1e1", name: "Language - Phonics" }, { id: "i1e2", name: "Literature - Short Poems" }] }
-        }
-      },
-      "Class 2": {
-        subjects: {
-          "Mathematics": { chapters: [{ id: "i2m1", name: "Addition and Subtraction" }, { id: "i2m2", name: "Shapes and Patterns" }] },
-          "English": { chapters: [{ id: "i2e1", name: "Grammar - Nouns/Verbs" }, { id: "i2e2", name: "Literature - Stories" }] }
-        }
-      },
-      "Class 3": {
-        subjects: {
-          "Mathematics": { chapters: [{ id: "i3m1", name: "Number Systems" }, { id: "i3m2", name: "Basic Geometry" }] },
-          "Environmental Studies (EVS)": { chapters: [{ id: "i3v1", name: "Human Body" }, { id: "i3v2", name: "Animals and Plants" }] },
-          "English": { chapters: [{ id: "i3e1", name: "Language - Tenses" }, { id: "i3e2", name: "Literature - Prose" }] }
-        }
-      },
-      "Class 6": {
-        subjects: {
-          "Mathematics": { chapters: [{ id: "i6m1", name: "Number System" }, { id: "i6m2", name: "Algebra" }, { id: "i6m3", name: "Geometry" }] },
-          "Physics": { chapters: [{ id: "i6p1", name: "Matter" }, { id: "i6p2", name: "Physical Quantities" }, { id: "i6p3", name: "Force and Pressure" }] },
-          "Chemistry": { chapters: [{ id: "i6c1", name: "Introduction to Chemistry" }, { id: "i6c2", name: "Elements, Compounds and Mixtures" }] },
-          "Biology": { chapters: [{ id: "i6b1", name: "Leaf" }, { id: "i6b2", name: "Flower" }, { id: "i6b3", name: "Cell" }] },
-          "History & Civics": { chapters: [{ id: "i6h1", name: "The River Valley Civilizations" }, { id: "i6h2", name: "The Vedic Resistance" }] }
-        }
-      },
-      "Class 7": {
-        subjects: {
-          "Mathematics": { chapters: [{ id: "i7m1", name: "Rational Numbers" }, { id: "i7m2", name: "Ratio and Proportion" }] },
-          "Physics": { chapters: [{ id: "i7p1", name: "Light Energy" }, { id: "i7p2", name: "Heat" }, { id: "i7p3", name: "Sound" }] },
-          "Chemistry": { chapters: [{ id: "i7c1", name: "Matter and Its Composition" }, { id: "i7c2", name: "Atomic Structure" }] },
-          "Biology": { chapters: [{ id: "i7b1", name: "Tissues" }, { id: "i7b2", name: "Kingdom Classification" }] }
-        }
-      },
-      "Class 8": {
-        subjects: {
-          "Mathematics": { chapters: [{ id: "i8m1", name: "Rational Numbers" }, { id: "i8m2", name: "Squares and Square Roots" }] },
-          "Physics": { chapters: [{ id: "i8p1", name: "Heat Transfer" }, { id: "i8p2", name: "Light Energy" }, { id: "i8p3", name: "Electricity" }] },
-          "Chemistry": { chapters: [{ id: "i8c1", name: "Atomic Structure" }, { id: "i8c2", name: "Chemical Reactions" }] },
-          "Biology": { chapters: [{ id: "i8b1", name: "Transport in Plants" }, { id: "i8b2", name: "Reproduction in Plants" }] }
-        }
-      },
-      "Class 9": {
-        subjects: {
-          "Mathematics": {
-            chapters: [
-              { id: "im1", name: "Pure Arithmetic" },
-              { id: "im2", name: "Commercial Mathematics" },
-              { id: "im3", name: "Algebra (Expansions/Factorization)" },
-              { id: "im4", name: "Geometry (Triangles, Pythagoras)" },
-              { id: "im5", name: "Statistics" },
-              { id: "im6", name: "Mensuration" },
-              { id: "im7", name: "Trigonometry" },
-              { id: "im8", name: "Coordinate Geometry" }
-            ]
-          },
-          "Physics": {
-            chapters: [
-              { id: "ip1", name: "Measurements and Experimentation" },
-              { id: "ip2", name: "Motion in One Dimension" },
-              { id: "ip3", name: "Laws of Motion" },
-              { id: "ip4", name: "Fluids" },
-              { id: "ip5", name: "Heat and Energy" },
-              { id: "ip6", name: "Light & Sound" },
-              { id: "ip7", name: "Electricity and Magnetism" }
-            ]
-          },
-          "Chemistry": {
-            chapters: [
-              { id: "ic1", name: "Language of Chemistry" },
-              { id: "ic2", name: "Chemical Changes and Reactions" },
-              { id: "ic3", name: "Water" },
-              { id: "ic4", name: "Atomic Structure and Chemical Bonding" },
-              { id: "ic5", name: "The Periodic Table" },
-              { id: "ic6", name: "Study of Gas Laws" }
-            ]
-          },
-          "Biology": {
-            chapters: [
-              { id: "ib1", name: "Basic Biology - Cell and Tissues" },
-              { id: "ib2", name: "Plant Physiology" },
-              { id: "ib3", name: "Diversity in Living Organisms" },
-              { id: "ib4", name: "Human Anatomy and Physiology" },
-              { id: "ib5", name: "Health and Hygiene" }
-            ]
-          },
-          "English": {
-            chapters: [
-              { id: "ie1", name: "Literature - Merchant of Venice", section: "Literature" },
-              { id: "ie2", name: "Poetry - Treasure Trove", section: "Literature" },
-              { id: "ie3", name: "Short Stories - Treasure Trove", section: "Literature" },
-              { id: "ie4", name: "Grammar & Comprehension", section: "Language" },
-              { id: "ie5", name: "Composition & Letter Writing", section: "Language" }
-            ]
-          }
-        }
-      },
-      "Class 10": {
-        subjects: {
-          "Mathematics": {
-            chapters: [
-              { id: "icm1", name: "GST, Banking, Shares" },
-              { id: "icm2", name: "Linear Inequations, Quadratic Equations" },
-              { id: "icm3", name: "Similarity, Loci, Circles" },
-              { id: "icm4", name: "Mensuration (Cylinder, Cone, Sphere)" },
-              { id: "icm5", name: "Trigonometry (Heights and Distances)" },
-              { id: "icm6", name: "Statistics (Mean, Median, Mode)" },
-              { id: "icm7", name: "Probability" }
-            ]
-          },
-          "Physics": {
-            chapters: [
-              { id: "icp1", name: "Force, Work, Power and Energy" },
-              { id: "icp2", name: "Light (Refraction, Lenses)" },
-              { id: "icp3", name: "Sound" },
-              { id: "icp4", name: "Electricity and Magnetism" },
-              { id: "icp5", name: "Heat" },
-              { id: "icp6", name: "Modern Physics (Radioactivity)" }
-            ]
-          },
-          "Chemistry": {
-            chapters: [
-              { id: "icc1", name: "Periodic Properties" },
-              { id: "icc2", name: "Chemical Bonding" },
-              { id: "icc3", name: "Acids, Bases and Salts" },
-              { id: "icc4", name: "Analytical Chemistry" },
-              { id: "icc5", name: "Mole Concept and Stoichiometry" },
-              { id: "icc6", name: "Electrolysis & Metallurgy" },
-              { id: "icc7", name: "Study of Compounds" },
-              { id: "icc8", name: "Organic Chemistry" }
-            ]
-          },
-          "Biology": {
-            chapters: [
-              { id: "icb1", name: "Cell Cycle and Cell Division" },
-              { id: "icb2", name: "Plant Physiology (Osmosis, Transpiration)" },
-              { id: "icb3", name: "Photosynthesis" },
-              { id: "icb4", name: "Human Anatomy and Physiology" },
-              { id: "icb5", name: "Population & Human Evolution" },
-              { id: "icb6", name: "Pollution" }
-            ]
-          },
-          "English": {
-            chapters: [
-              { id: "ice1", name: "Literature - Merchant of Venice (Act III-V)", section: "Literature" },
-              { id: "ice2", name: "Poetry - Treasure Trove (Later chapters)", section: "Literature" },
-              { id: "ice3", name: "Short Stories - Treasure Trove (Later chapters)", section: "Literature" },
-              { id: "ice4", name: "Grammar & Comprehension", section: "Language" },
-              { id: "ice5", name: "Composition & Letter Writing", section: "Language" }
-            ]
-          }
-        }
-      }
+      "Class 1": makePrimaryClass(1, {
+        English: { names: t("English"), chapters: ch("Phonics", "Simple Sentences", "Story Time", "Rhymes", "Picture Reading", "Alphabet Practice") },
+        Hindi: { names: t("Hindi"), chapters: ch("वर्णमाला", "शब्द निर्माण", "चित्र वर्णन", "सरल वाक्य", "मात्राएँ") },
+        Mathematics: { names: t("Mathematics"), chapters: ch("Numbers 1-100", "Shapes", "Addition", "Subtraction", "Comparison", "Patterns") }
+      }),
+      "Class 2": makePrimaryClass(2, {
+        English: { names: t("English"), chapters: ch("Reading Skills", "Rhymes", "Vocabulary", "Comprehension", "Sentence Building", "Creative Writing") },
+        Hindi: { names: t("Hindi"), chapters: ch("पठन", "लेखन", "व्याकरण परिचय", "शब्द भंडार", "पाठ समझ") },
+        Mathematics: { names: t("Mathematics"), chapters: ch("Place Value", "Addition and Subtraction", "Multiplication Basics", "Time", "Money", "Measurement", "Shapes and Space") }
+      }),
+      "Class 3": makePrimaryClass(3, {
+        English: { names: t("English"), chapters: ch("Comprehension", "Poetry", "Grammar", "Creative Writing", "Story Reading", "Essay Writing") },
+        Mathematics: { names: t("Mathematics"), chapters: ch("Numbers up to 9999", "Multiplication", "Division", "Fractions", "Measurement", "Time", "Money", "Data Handling", "Geometric Shapes") },
+        EVS: { names: t("Environmental Studies"), chapters: ch("Our Body", "Plants", "Animals", "Our Neighborhood", "Transport", "Safety", "Air and Water", "Seasons") },
+        "Computer Studies": { names: t("Computer Studies"), chapters: ch("Computer Basics", "Input Devices", "Paint Tools", "Keyboard Skills", "Parts of Computer") }
+      }),
+      "Class 4": makePrimaryClass(4, {
+        English: { names: t("English"), chapters: ch("Prose", "Poetry", "Creative Writing", "Comprehension", "Grammar Practice", "Letter Writing") },
+        Mathematics: { names: t("Mathematics"), chapters: ch("Large Numbers", "Factors and Multiples", "Fractions", "Decimals", "Geometry", "Perimeter", "Area", "Data Handling", "Time and Calendar") },
+        EVS: { names: t("Environmental Studies"), chapters: ch("Food and Digestion", "Plants and Animals", "Transport", "Pollution", "Water", "Natural Resources", "Our Environment", "Solar System") },
+        "Computer Studies": { names: t("Computer Studies"), chapters: ch("Files and Folders", "Word Processing", "Internet Safety", "Presentations", "MS Paint") }
+      }),
+      "Class 5": makePrimaryClass(5, {
+        English: { names: t("English"), chapters: ch("Comprehension", "Grammar", "Composition", "Poetry Appreciation", "Letter Writing", "Notice Writing", "Dialogue Writing") },
+        Mathematics: { names: t("Mathematics"), chapters: ch("Large Numbers", "Fractions", "Decimals", "Percentage", "Area and Perimeter", "Volume", "Data Interpretation", "Profit and Loss", "Average") },
+        EVS: { names: t("Environmental Studies"), chapters: ch("Human Body Systems", "Natural Resources", "Energy", "Weather and Climate", "Conservation", "Indian Geography", "Solar System") },
+        "Computer Studies": { names: t("Computer Studies"), chapters: ch("Algorithms", "Presentations", "Email Basics", "Internet and Communication", "Flowcharts") }
+      }),
+      "Class 6": makePrimaryClass(6, {
+        English: { names: t("English"), chapters: ch("Language Skills", "Literature", "Grammar", "Composition", "Letter Writing", "Essay Writing") },
+        Mathematics: { names: t("Mathematics"), chapters: ch("Number System", "HCF and LCM", "Fractions", "Decimals", "Ratio and Proportion", "Basic Algebra", "Mensuration", "Practical Geometry", "Data Handling", "Integers", "Sets") },
+        Science: { names: t("Science"), chapters: ch("Matter", "Physical Quantities and Measurement", "Force", "Energy", "Living Organisms", "Cell Structure", "Human Body Systems", "Air and Atmosphere", "Magnets") },
+        "History & Civics": { names: t("History & Civics"), chapters: ch("River Valley Civilisations", "The Vedic Period", "Rise of Kingdoms", "Early Empires", "Understanding Government", "Fundamental Rights and Duties") },
+        Geography: { names: t("Geography"), chapters: ch("Earth and Globe", "Maps", "Latitudes and Longitudes", "Major Landforms", "Climate", "Natural Vegetation", "Water Resources") },
+        "Computer Studies": { names: t("Computer Studies"), chapters: ch("Programming Basics", "Spreadsheets", "Cyber Safety", "HTML Basics") }
+      }),
+      "Class 7": makePrimaryClass(7, {
+        English: { names: t("English"), chapters: ch("Language", "Literature", "Composition", "Letter Writing", "Notice and Email", "Summary Writing") },
+        Mathematics: { names: t("Mathematics"), chapters: ch("Rational Numbers", "Algebraic Expressions", "Linear Equations", "Simple Interest", "Practical Geometry", "Perimeter and Area", "Data Handling", "Visualising Solid Shapes", "Exponents") },
+        Science: { names: t("Science"), chapters: ch("Nutrition", "Heat", "Acids and Bases", "Physical and Chemical Changes", "Respiration", "Transportation in Plants and Animals", "Reproduction in Plants", "Light", "Electric Current", "Motion") },
+        "History & Civics": { names: t("History & Civics"), chapters: ch("Medieval India", "The Delhi Sultanate", "The Mughal Empire", "The Constitution of India", "Role of Government", "Media and Democracy") },
+        Geography: { names: t("Geography"), chapters: ch("Atmosphere", "Hydrosphere", "Natural Vegetation", "Human Environment", "Settlements", "Transport and Communication", "Maps") },
+        "Computer Studies": { names: t("Computer Studies"), chapters: ch("Flowcharts", "Data Representation", "Ethical Computing", "Python Basics") }
+      }),
+      "Class 8": makePrimaryClass(8, {
+        English: { names: t("English"), chapters: ch("Prose", "Poetry", "Drama", "Essay Writing", "Letter Writing", "Comprehension Skills") },
+        Mathematics: { names: t("Mathematics"), chapters: ch("Linear Equations", "Rational Numbers", "Comparing Quantities", "Algebraic Expressions and Identities", "Mensuration", "Data Handling", "Exponents and Powers", "Factorisation", "Squares and Cube Roots", "Direct and Inverse Proportion") },
+        Science: { names: t("Science"), chapters: ch("Crop Production", "Microorganisms", "Metals and Non-metals", "Coal and Petroleum","Cell Structure", "Reproduction", "Force and Pressure", "Sound", "Light", "Chemical Effects of Electric Current", "Natural Phenomena", "Stars and Solar System") },
+        "History & Civics": { names: t("History & Civics"), chapters: ch("Colonial India", "The Revolt of 1857", "National Movement", "Indian Constitution", "Parliament", "Judiciary", "Preamble and Fundamental Rights") },
+        Geography: { names: t("Geography"), chapters: ch("Resources", "Agriculture", "Industries", "Mineral Resources", "Human Resources", "Natural Hazards", "Climate of India") },
+        "Computer Studies": { names: t("Computer Studies"), chapters: ch("Object-Oriented Basics", "HTML Intro", "Networking", "Cyber Security") }
+      }),
+      "Class 9": makePrimaryClass(9, {
+        "English Language": { names: t("English Language"), chapters: ch("Composition", "Letter Writing", "Notice and Email", "Grammar Practice", "Comprehension", "Summary Writing") },
+        "English Literature": { names: t("English Literature"), chapters: ch("Prose", "Poetry", "Drama", "Character Analysis", "Theme-based Questions") },
+        Mathematics: { names: t("Mathematics"), chapters: ch("Rational and Irrational Numbers", "Compound Interest", "Expansions", "Factorisation", "Simultaneous Linear Equations", "Algebraic Fractions", "Indices", "Coordinate Geometry", "Geometry", "Mensuration", "Trigonometry", "Statistics", "Probability") },
+        Physics: { names: t("Physics"), chapters: ch("Measurements and Experimentation", "Motion in One Dimension", "Laws of Motion", "Pressure in Fluids and Atmospheric Pressure", "Upthrust in Fluids", "Heat and Energy", "Light", "Sound", "Electricity and Magnetism") },
+        Chemistry: { names: t("Chemistry"), chapters: ch("Matter and Its Composition", "Atomic Structure and Chemical Bonding", "Periodic Table", "Study of Gas Laws", "Electrolysis", "Metallurgy", "Acids, Bases and Salts") },
+        Biology: { names: t("Biology"), chapters: ch("Cell", "Tissues", "Plant Physiology", "Human Anatomy", "Health and Hygiene", "Pollution and Conservation") },
+        "History & Civics": { names: t("History & Civics"), chapters: ch("Harappan Civilisation", "The Mauryan Empire", "The Sangam Age", "The Constitution of India", "Fundamental Rights", "Directive Principles") },
+        Geography: { names: t("Geography"), chapters: ch("Earth as a Planet", "Geographic Grid", "Rotation and Revolution", "Climate", "Natural Regions of the World", "Map Work") },
+        "Computer Applications": { names: t("Computer Applications"), chapters: ch("Java Basics", "Control Structures", "Arrays", "Functions") }
+      }),
+      "Class 10": makePrimaryClass(10, {
+        "English Language": { names: t("English Language"), chapters: ch("Essay and Letter", "Notice and Email", "Comprehension", "Functional Grammar", "Summary Writing", "Dialogue Writing") },
+        "English Literature": { names: t("English Literature"), chapters: ch("Short Stories", "Poetry", "Drama Text", "Critical Appreciation", "Theme and Context Questions") },
+        Mathematics: { names: t("Mathematics"), chapters: ch("GST", "Banking", "Shares and Dividends", "Linear Inequations", "Quadratic Equations", "Matrices", "Arithmetic and Geometric Progression", "Coordinate Geometry", "Similarity", "Circles", "Mensuration", "Trigonometry", "Statistics", "Probability") },
+        Physics: { names: t("Physics"), chapters: ch("Force and Work", "Machines", "Refraction through Lens", "Spectrum", "Sound", "Current Electricity", "Household Circuits", "Electromagnetism", "Radioactivity") },
+        Chemistry: { names: t("Chemistry"), chapters: ch("Periodic Properties", "Chemical Bonding", "Acids Bases and Salts", "Analytical Chemistry", "Mole Concept", "Electrolysis", "Metallurgy", "Organic Chemistry") },
+        Biology: { names: t("Biology"), chapters: ch("Genetics", "Absorption and Assimilation", "Circulatory System", "Nervous System", "Sense Organs", "Human Evolution", "Population", "Pollution", "Excretory System") },
+        "History & Civics": { names: t("History & Civics"), chapters: ch("First War of Independence", "Growth of Nationalism", "Freedom Movement", "The Union Parliament", "The Judiciary", "UN and International Agencies") },
+        Geography: { names: t("Geography"), chapters: ch("Transport", "Waste Management", "India Agriculture", "Mineral and Energy Resources", "Manufacturing Industries", "Climate of India", "Map Work") },
+        "Computer Applications": { names: t("Computer Applications"), chapters: ch("Classes and Objects", "String Handling", "Program Design", "Arrays", "Functions") }
+      })
     }
   },
   AJBEC: {
-    name: "AJBEC (Jatiya Bidyalaya)",
-    fullName: "Assam Jatiya Bidyalay Education Council",
+    names: { en: "AJBEC (Assam Jatiya Bidyalay)", as: "AJBEC (অসম জাতীয় বিদ্যালয়)", hi: "AJBEC (असम जातीय विद्यालय)" },
     classes: {
-      "Class 1": {
+      "Class 1": makePrimaryClass(1, {
+        Assamese: { names: t("Assamese"), chapters: ch("Alphabet", "Simple Words", "Rhymes", "Picture Reading", "Listening and Speaking") },
+        English: { names: t("English"), chapters: ch("Letters", "Basic Vocabulary", "My Home", "My School", "Simple Sentences") },
+        Mathematics: { names: t("Mathematics"), chapters: ch("Counting", "Shapes", "Addition", "Subtraction", "Patterns") }
+      }),
+      "Class 2": makePrimaryClass(2, {
+        Assamese: { names: t("Assamese"), chapters: ch("Reading Practice", "Story Time", "Grammar Basics", "Poems", "Short Writing") },
+        English: { names: t("English"), chapters: ch("Simple Sentences", "Reading Aloud", "Picture Description", "Vocabulary Building", "Everyday Conversation", "My Friends") },
+        Mathematics: { names: t("Mathematics"), chapters: ch("Numbers up to 100", "Addition and Subtraction", "Multiplication Basics", "Time", "Money", "Measurement", "Shapes") }
+      }),
+      "Class 3": makePrimaryClass(3, {
+        Assamese: { names: t("Assamese"), chapters: ch("Prose", "Poetry", "Language Skills", "Grammar Practice", "Composition") },
+        English: { names: t("English"), chapters: ch("Comprehension", "Poems", "Vocabulary", "Grammar", "Creative Writing", "Story Reading") },
+        Mathematics: { names: t("Mathematics"), chapters: ch("Multiplication", "Division", "Money", "Fractions", "Measurement", "Data Handling", "Time") },
+        EVS: { names: t("EVS"), chapters: ch("Plants", "Food", "Water", "Family and Friends", "Shelter", "Travel", "Animals") }
+      }),
+      "Class 4": makePrimaryClass(4, {
+        Assamese: { names: t("Assamese"), chapters: ch("Reading", "Writing", "Grammar", "Poetry", "Essay") },
+        English: { names: t("English"), chapters: ch("Prose", "Poetry", "Grammar", "Letter Writing", "Comprehension", "Vocabulary") },
+        Mathematics: { names: t("Mathematics"), chapters: ch("Factors", "Fractions", "Decimals", "Geometry Basics", "Perimeter", "Data Handling", "Time and Calendar") },
+        EVS: { names: t("EVS"), chapters: ch("Family and Community", "Food and Health", "Transport", "Clean Environment", "Water and Hygiene", "Natural Resources") }
+      }),
+      "Class 5": makePrimaryClass(5, {
+        Assamese: { names: t("Assamese"), chapters: ch("Language and Literature", "Composition", "Grammar", "Poetry", "Story Writing") },
+        English: { names: t("English"), chapters: ch("Reading Skills", "Creative Writing", "Grammar Practice", "Comprehension", "Vocabulary", "Essay Writing") },
+        Mathematics: { names: t("Mathematics"), chapters: ch("Decimals", "Percentage", "Fractions", "Area and Perimeter", "Volume", "Data Handling", "Profit and Loss") },
+        EVS: { names: t("EVS"), chapters: ch("Natural Resources", "Health and Hygiene", "Travel", "Plants and Animals", "Work and Community", "Conservation") }
+      }),
+      "Class 6": makePrimaryClass(6, {
+        Assamese: { names: t("Assamese"), chapters: ch("Ankuran Reader", "Grammar", "Essay Writing", "Poetry", "Comprehension") },
+        English: { names: t("English (Rainbow Reader)"), chapters: ch("Prose Selections", "Poetry", "Writing Skills", "Grammar Practice", "Comprehension") },
+        Mathematics: { names: t("Mathematics (Ganita Prakash)"), chapters: ch("Patterns in Mathematics", "Lines and Angles", "Number Play", "Data Handling and Presentation", "Prime Time", "Perimeter and Area", "Fractions", "Playing with Constructions", "Symmetry", "Integers") },
+        Science: { names: t("Science"), chapters: ch("Food and Nutrition", "Separation of Substances", "Changes Around Us", "The Living World", "Body Movements", "Motion and Measurement", "Electricity and Circuits", "Water", "Air Around Us") },
+        "Social Science": { names: t("Social Science"), chapters: ch("Locating Places on Earth", "Landforms and Life", "Timeline and Sources", "Family and Community", "Grassroots Democracy", "Economic Activities Around Us") },
+        "Assam History": { names: t("Assam History"), chapters: ch("Early Assam", "Medieval Assam", "Culture of Assam", "People of Assam") }
+      }),
+      "Class 7": makePrimaryClass(7, {
+        Assamese: { names: t("Assamese"), chapters: ch("Literature", "Grammar", "Creative Writing", "Poetry", "Comprehension") },
+        English: { names: t("English (Sunbeam Reader)"), chapters: ch("Prose Selections", "Poetry", "Composition", "Grammar Practice", "Comprehension") },
+        Mathematics: { names: t("Mathematics"), chapters: ch("Integers", "Fractions and Decimals", "Data Handling", "Simple Equations", "Lines and Angles", "The Triangle and Its Properties", "Congruence of Triangles", "Comparing Quantities", "Rational Numbers", "Perimeter and Area", "Exponents and Powers") },
+        Science: { names: t("Science"), chapters: ch("Nutrition in Plants", "Nutrition in Animals", "Fibre to Fabric", "Heat", "Acids, Bases and Salts", "Physical and Chemical Changes", "Soil", "Respiration", "Reproduction in Plants", "Motion and Time", "Light") },
+        "Social Science": { names: t("Social Science"), chapters: ch("Tracing Changes Through a Thousand Years", "The Delhi Sultans", "The Mughal Empire", "Environment", "Our Changing Earth", "On Equality", "State Government", "Markets Around Us") },
+        "Assam History": { names: t("Assam History"), chapters: ch("Ahom Era", "Colonial Assam", "Reformers of Assam", "Freedom Struggle in Assam") }
+      }),
+      "Class 8": makePrimaryClass(8, {
+        Assamese: { names: t("Assamese"), chapters: ch("Assamese Reader", "Grammar", "Essay Writing", "Poetry", "Composition") },
+        English: { names: t("English"), chapters: ch("The Prince of Panidihing", "My Native Land", "Explore India: Quiz Time", "Dokchory Learns about Panchayat", "Louis Pasteur", "A New Day, A New Way", "Sympathy", "Chandraprabha Saikiani") },
+        Mathematics: { names: t("Mathematics"), chapters: ch("Rational Numbers", "Linear Equations in One Variable", "Understanding Quadrilaterals", "Data Handling", "Squares and Square Roots", "Cubes and Cube Roots", "Comparing Quantities", "Algebraic Expressions and Identities", "Mensuration", "Exponents and Powers", "Direct and Inverse Proportions", "Factorisation", "Introduction to Graphs") },
+        Science: { names: t("Science"), chapters: ch("Crop Production and Management", "Microorganisms", "Synthetic Fibres and Plastics", "Metals and Non-metals", "Coal and Petroleum", "Combustion and Flame", "Cell Structure", "Reproduction in Animals", "Force and Pressure", "Sound", "Light", "Pollution of Air and Water") },
+        "Social Science": { names: t("Social Science"), chapters: ch("The Making of the National Movement", "India After Independence", "Weavers, Iron Smelters and Factory Owners", "Mineral and Power Resources", "Agriculture", "Industries", "The Indian Constitution", "Understanding Laws", "Judiciary", "Understanding Marginalisation") },
+        "Assam History": { names: t("Assam History"), chapters: ch("Freedom Movement in Assam", "Modern Assam", "Regional Institutions", "Cultural Heritage of Assam") }
+      }),
+      "Class 9": makePrimaryClass(9, {
+        Assamese: { names: t("Assamese"), chapters: ch("Language Paper", "Literature", "Grammar and Composition", "Poetry", "Essay Writing") },
+        English: { names: t("English"), chapters: ch("English Reader", "Grammar", "Writing Skills", "Comprehension", "Composition") },
+        Mathematics: { names: t("Mathematics"), chapters: ch("Number System", "Polynomials", "Coordinate Geometry", "Linear Equations", "Lines and Angles", "Triangles", "Quadrilaterals", "Circles", "Heron's Formula", "Surface Areas and Volumes", "Probability") },
+        Science: { names: t("Science"), chapters: ch("Matter in Our Surroundings", "Is Matter Around Us Pure", "Atoms and Molecules", "Cell", "Tissues", "Diversity in Living Organisms", "Motion", "Force and Laws of Motion", "Gravitation", "Work and Energy", "Sound") },
+        "Social Science": { names: t("Social Science"), chapters: ch("Advent of Europeans into India", "Growth of Indian Nationalism", "The Moamoriya Rebellion", "Burmese Invasions of Assam", "Changes of Earth's Surface", "Atmosphere", "Political Parties in India", "Basic Economic Problems") }
+      }),
+      "Class 10": makePrimaryClass(10, {
+        Assamese: { names: t("Assamese"), chapters: ch("MIL Assamese", "Literature", "Grammar", "Poetry", "Essay Writing") },
+        English: { names: t("English"), chapters: ch("Reading Comprehension", "Grammar", "Letter and Essay", "Writing Skills", "Composition") },
+        Mathematics: { names: t("Mathematics"), chapters: ch("Real Numbers", "Polynomials", "Linear Equations in Two Variables", "Triangles", "Trigonometry", "Circles", "Mensuration", "Statistics and Probability") },
+        Science: { names: t("Science"), chapters: ch("Chemical Reactions", "Acids Bases and Salts", "Metals and Non-metals", "Carbon and Its Compounds", "Life Processes", "Control and Coordination", "Heredity and Evolution", "Electricity", "Magnetic Effects", "Our Environment") },
+        "Social Science": { names: t("Social Science"), chapters: ch("Growth of Indian Nationalism", "Burmese Invasions of Assam", "Geography of India", "Geography of Assam", "Political Parties in India", "Types of Government", "Basic Concepts of Economics") }
+      }),
+      "Class 11": {
+        names: { en: "Class 11 (HS 1st Year)", as: "একাদশ শ্ৰেণী (উচ্চ মাধ্যমিক ১ম বৰ্ষ)", hi: "कक्षा 11 (उच्च माध्यमिक प्रथम वर्ष)" },
         subjects: {
-          "Mathematics": { chapters: [{ id: "aj1m1", name: "Numbers & Counting" }, { id: "aj1m2", name: "Basic Shapes" }] },
-          "English": { chapters: [{ id: "aj1e1", name: "Alphabet & Sounds" }, { id: "aj1e2", name: "Rhymes" }] }
+          Physics: { names: t("Physics"), chapters: ch("Physical World and Measurement", "Units and Measurements", "Motion in a Straight Line", "Motion in a Plane", "Laws of Motion", "Work, Energy and Power", "Motion of a System of Particles and a Rigid Body", "Gravitation", "Properties of Bulk Matter", "Thermodynamics", "Kinetic Theory of Gases", "Oscillations and Waves") },
+          Chemistry: { names: t("Chemistry"), chapters: ch("Some Basic Concepts of Chemistry", "Structure of Atom", "Classification of Elements and Periodicity in Properties", "Chemical Bonding and Molecular Structure", "Chemical Thermodynamics", "Equilibrium", "Redox Reactions", "Organic Chemistry: Some Basic Principles and Techniques", "Hydrocarbons") },
+          Mathematics: { names: t("Mathematics"), chapters: ch("Sets and Functions", "Algebra (Sequences and Series, Binomial Theorem)", "Coordinate Geometry", "Calculus (Limits and Derivatives)", "Statistics and Probability", "Mathematical Reasoning") },
+          Biology: { names: t("Biology"), chapters: ch("Diversity in the Living World", "Structural Organisation in Plants", "Cell: Structure and Function", "Plant Physiology", "Structural Organisation in Animals", "Human Physiology") },
+          "Accountancy": { names: t("Accountancy"), chapters: ch("Introduction to Accounting", "Theory Base of Accounting", "Recording of Business Transactions", "Trial Balance and Rectification of Errors", "Depreciation, Provisions and Reserves", "Financial Statements") },
+          "Business Studies": { names: t("Business Studies"), chapters: ch("Business, Trade and Commerce", "Forms of Business Organisation", "Public, Private, and Global Enterprises", "Business Services", "Emerging Modes of Business", "Social Responsibilities of Business and Business Ethics", "Formation of a Company", "Sources of Business Finance", "MSME and Business Entrepreneurship", "Internal Trade", "International Business") },
+          "Economics": { names: t("Economics"), chapters: ch("Introduction to Microeconomics", "Consumer's Equilibrium and Demand", "Producer's Behaviour and Supply", "Market Equilibrium", "Introduction to Statistics", "Collection, Organisation and Presentation of Data", "Statistical Tools and Interpretation") }
         }
       },
-      "Class 2": {
+      "Class 12": {
+        names: { en: "Class 12 (HS 2nd Year)", as: "দ্বাদশ শ্ৰেণী (উচ্চ মাধ্যমিক ২য় বৰ্ষ)", hi: "कक्षा 12 (उच्च माध्यमिक द्वितीय वर्ष)" },
         subjects: {
-          "Mathematics": { chapters: [{ id: "aj2m1", name: "Addition & Subtraction" }, { id: "aj2m2", name: "Patterns" }] },
-          "English": { chapters: [{ id: "aj2e1", name: "Naming Words" }, { id: "aj2e2", name: "Action Words" }] }
-        }
-      },
-      "Class 3": {
-        subjects: {
-          "Mathematics": { chapters: [{ id: "aj3m1", name: "Large Numbers" }, { id: "aj3m2", name: "Multiplication Table" }] },
-          "General Science": { chapters: [{ id: "aj3s1", name: "Living Things" }, { id: "aj3s2", name: "Plants Around Us" }, { id: "aj3s3", name: "Science Practical Intro" }] },
-          "English": { chapters: [{ id: "aj3e1", name: "Opposites" }, { id: "aj3e2", name: "Story Reading" }] }
-        }
-      },
-      "Class 6": {
-        subjects: {
-          "Mathematics": { chapters: [{ id: "aj6m1", name: "Fractions" }, { id: "aj6m2", name: "Decimals" }, { id: "aj6m3", name: "Geometry" }] },
-          "Science": { chapters: [{ id: "aj6s1", name: "Fibre to Fabric" }, { id: "aj6s2", name: "Changes Around Us" }, { id: "aj6s3", name: "Magnetism" }] },
-          "Assam History": { chapters: [{ id: "aj6h1", name: "Ancient Assam" }, { id: "aj6h2", name: "Varman Dynasty" }] },
-          "Social Science": { chapters: [{ id: "aj6ss1", name: "Our Environment" }, { id: "aj6ss2", name: "Local Government" }] },
-          "English": { chapters: [{ id: "aj6e1", name: "Spoken English Skills" }, { id: "aj6e2", name: "Parts of Speech" }] }
-        }
-      },
-      "Class 7": {
-        subjects: {
-          "Mathematics": { chapters: [{ id: "aj7m1", name: "Rational Numbers" }, { id: "aj7m2", name: "Simple Equations" }] },
-          "Science": { chapters: [{ id: "aj7s1", name: "Heat" }, { id: "aj7s2", name: "Acids & Bases" }] },
-          "Assam History": { chapters: [{ id: "aj7h1", name: "Medieval Assam" }, { id: "aj7h2", name: "Ahom Kingdom" }] },
-          "English": { chapters: [{ id: "aj7e1", name: "Tenses" }, { id: "aj7e2", name: "Letter Writing" }] }
-        }
-      },
-      "Class 8": {
-        subjects: {
-          "Mathematics": { chapters: [{ id: "aj8m1", name: "Algebraic Expressions" }, { id: "aj8m2", name: "Practical Geometry" }] },
-          "Science": { chapters: [{ id: "aj8s1", name: "Conservation of Plants/Animals" }, { id: "aj8s2", name: "Cell Structure" }] },
-          "Assam History": { chapters: [{ id: "aj8h1", name: "Modern Assam" }, { id: "aj8h2", name: "Assam's Freedom Struggle" }] },
-          "Social Science": { chapters: [{ id: "aj8ss1", name: "Resources" }, { id: "aj8ss2", name: "The Constitution" }] },
-          "English": { chapters: [{ id: "aj8e1", name: "Report Writing" }, { id: "aj8e2", name: "Voice & Narration" }] }
-        }
-      },
-      "Class 9": {
-        subjects: {
-          "Mathematics": { chapters: [{ id: "aj9m1", name: "Number System" }, { id: "aj9m2", name: "Polynomials" }, { id: "aj9m3", name: "Coordinate Geometry" }] },
-          "Science": { chapters: [{ id: "aj9s1", name: "Matter in Surroundings" }, { id: "aj9s2", name: "Fundamental Unit of Life" }] },
-          "Social Science": { chapters: [{ id: "aj9ss1", name: "Geography of World" }, { id: "aj9ss2", name: "Indian Democracy" }] },
-          "English": { chapters: [{ id: "aj9e1", name: "Reading & Writing" }, { id: "aj9e2", name: "Literature Review" }] }
-        }
-      },
-      "Class 10": {
-        subjects: {
-          "Mathematics": { chapters: [{ id: "aj10m1", name: "Real Numbers" }, { id: "aj10m2", name: "Trigonometry Intro" }] },
-          "Science": { chapters: [{ id: "aj10s1", name: "Chemical Reactions" }, { id: "aj10s2", name: "Life Processes" }] },
-          "Social Science": { chapters: [{ id: "aj10ss1", name: "Role of Assam in Movement" }, { id: "aj10ss2", name: "Economic Geography" }] },
-          "English": { chapters: [{ id: "aj10e1", name: "HSLC Practice Set" }, { id: "aj10e2", name: "Advanced Composition" }] }
+          Physics: { names: t("Physics"), chapters: ch("Electric Charges and Fields", "Electrostatic Potential and Capacitance", "Current Electricity", "Moving Charges and Magnetism", "Magnetism and Matter", "Electromagnetic Induction", "Alternating Current", "Electromagnetic Waves", "Ray Optics and Optical Instruments", "Wave Optics", "Dual Nature of Radiation and Matter", "Atoms", "Nuclei", "Semiconductor Electronics") },
+          Chemistry: { names: t("Chemistry"), chapters: ch("Solutions", "Electrochemistry", "Chemical Kinetics", "d- and f-Block Elements", "Coordination Compounds", "Haloalkanes and Haloarenes", "Alcohols, Phenols and Ethers", "Aldehydes, Ketones and Carboxylic Acids", "Amines", "Biomolecules", "Polymers") },
+          Mathematics: { names: t("Mathematics"), chapters: ch("Relations and Functions", "Inverse Trigonometric Functions", "Matrices", "Determinants", "Continuity and Differentiability", "Application of Derivatives", "Integrals", "Application of Integrals", "Differential Equations", "Vector Algebra", "Three Dimensional Geometry", "Linear Programming", "Probability") },
+          Biology: { names: t("Biology"), chapters: ch("Reproduction in Organisms", "Sexual Reproduction in Flowering Plants", "Human Reproduction", "Reproductive Health", "Principles of Inheritance and Variation", "Molecular Basis of Inheritance", "Evolution", "Human Health and Disease", "Strategies for Enhancement in Food Production", "Microbes in Human Welfare", "Biotechnology: Principles and Processes", "Biotechnology and Its Applications", "Organisms and Populations", "Ecosystem", "Biodiversity and Conservation", "Environmental Issues") },
+          "Accountancy": { names: t("Accountancy"), chapters: ch("Accounting for Partnership: Fundamental Concepts", "Reconstitution of a Partnership Firm", "Dissolution of Partnership Firm", "Accounting for Share Capital", "Issue and Redemption of Debentures", "Financial Statement Analysis", "Cash Flow Statement") },
+          "Business Studies": { names: t("Business Studies"), chapters: ch("Nature and Significance of Management", "Principles and Functions of Management", "Business Environment", "Planning", "Organising", "Staffing", "Directing", "Controlling", "Financial Management", "Financial Markets", "Marketing Management", "Consumer Protection") },
+          "Economics": { names: t("Economics"), chapters: ch("Introduction to Microeconomics", "Theory of Consumer Behaviour", "Production and Costs", "Market Forms and Perfect Competition", "Simple Macro-Economics", "National Income Accounting", "Money and Banking", "Income and Employment", "Government Budget and the Economy", "Indian Economic Development", "Current Challenges of Indian Economy") },
+          "English": { names: t("English"), chapters: ch("Prose Selections", "Poetry", "Drama", "Writing Skills", "Comprehension", "Composition", "Letter Writing") },
+          "Political Science": { names: t("Political Science"), chapters: ch("The Cold War Era", "The End of Bipolarity", "US Hegemony in the World", "Contemporary South Asia", "International Organisations", "Environment and Natural Resources", "Politics in India Since Independence", "Challenges to and Restoration of the Congress System", "Popular Movements") },
+          "History": { names: t("History"), chapters: ch("Kings and Chronicles: The Mughal Courts", "Colonial Cities: Urbanisation, Planning, and Architecture", "Mahatma Gandhi and the Nationalist Movement", "Understanding Partition", "Colonialism and the Countryside", "Rebels and the Raj", "Framing the Constitution") },
+          "Geography": { names: t("Geography"), chapters: ch("Population Composition", "Human Settlements", "Manufacturing Industries", "Migration: Types, Causes and Consequences", "Transport, Communication, and Trade", "Natural Resources and Conservation", "Geography of India and Assam") },
+          "Sociology": { names: t("Sociology"), chapters: ch("Introducing Sociology", "Social Institutions", "Change and Development", "Introducing Social Stratification", "Demographic Structure and Cultural Change") }
         }
       }
     }

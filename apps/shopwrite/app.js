@@ -73,6 +73,7 @@ const T = {
 document.addEventListener('DOMContentLoaded', () => {
   buildCategoryGrid();
   setLang('en');
+  renderHistory();
 });
 
 // ---- LANGUAGE ----
@@ -132,6 +133,22 @@ document.getElementById('settingsModal').addEventListener('click', e => {
   if (e.target === document.getElementById('settingsModal')) closeSettings();
 });
 
+// ---- INLINE MESSAGES ----
+function showValidation(msg) {
+  document.getElementById('validationMsg').textContent = msg;
+  document.getElementById('validationWarn').classList.remove('hidden');
+  document.getElementById('errorWarn').classList.add('hidden');
+}
+function showError(msg) {
+  document.getElementById('errorMsg').textContent = msg;
+  document.getElementById('errorWarn').classList.remove('hidden');
+  document.getElementById('validationWarn').classList.add('hidden');
+}
+function clearMessages() {
+  document.getElementById('validationWarn').classList.add('hidden');
+  document.getElementById('errorWarn').classList.add('hidden');
+}
+
 // ---- GENERATE ----
 async function generateDescriptions() {
   const apiKey = GLOBAL_CONFIG.API_KEY;
@@ -145,9 +162,10 @@ async function generateDescriptions() {
   const catObj      = CATEGORIES.find(c => c.id === selectedCategory);
 
   if (!productName || !selectedCategory) {
-    alert(T[currentLang].fillRequired); return;
+    showValidation(T[currentLang].fillRequired); return;
   }
 
+  clearMessages();
   // Show loading
   document.getElementById('outPlaceholder').classList.add('hidden');
   document.getElementById('outResults').classList.add('hidden');
@@ -254,6 +272,7 @@ Respond ONLY with valid JSON (no markdown, no explanation):
     currentResult = parsed;
     activeTab = 0;
     renderResults(parsed, price);
+    saveToHistory(productName, catObj ? catObj.en : selectedCategory, parsed);
 
     document.getElementById('outLoading').classList.add('hidden');
     document.getElementById('outResults').classList.remove('hidden');
@@ -261,8 +280,7 @@ Respond ONLY with valid JSON (no markdown, no explanation):
   } catch (err) {
     document.getElementById('outLoading').classList.add('hidden');
     document.getElementById('outPlaceholder').classList.remove('hidden');
-    alert('❌ ' + (err.message || T[currentLang].errorMsg));
-    console.error(err);
+    showError(err.message || T[currentLang].errorMsg);
   } finally {
     document.getElementById('generateBtn').disabled = false;
   }
@@ -384,6 +402,64 @@ function copyAll(containerId) {
   const tags = document.querySelectorAll(`#${containerId} .hash-tag, #${containerId} .seo-tag`);
   const text = [...tags].map(t => t.textContent).join(' ');
   copyText(text);
+}
+
+// ---- HISTORY ----
+const HISTORY_KEY = 'sw_history';
+const HISTORY_MAX = 10;
+
+function saveToHistory(productName, category, data) {
+  const history = getHistory();
+  history.unshift({
+    id: Date.now(),
+    productName,
+    category,
+    timestamp: new Date().toLocaleString(),
+    seoKeywords: data.seoKeywords || [],
+    hashtags: data.hashtags || [],
+    variants: data.variants || []
+  });
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(0, HISTORY_MAX)));
+  renderHistory();
+}
+
+function getHistory() {
+  try { return JSON.parse(localStorage.getItem(HISTORY_KEY)) || []; }
+  catch { return []; }
+}
+
+function clearHistory() {
+  localStorage.removeItem(HISTORY_KEY);
+  renderHistory();
+}
+
+function renderHistory() {
+  const history = getHistory();
+  const section = document.getElementById('historySection');
+  const grid = document.getElementById('historyGrid');
+  if (!history.length) { section.style.display = 'none'; return; }
+  section.style.display = '';
+  grid.innerHTML = history.map(item => `
+    <div class="history-card" onclick="restoreFromHistory(${item.id})">
+      <div class="history-card-top">
+        <span class="history-product">${esc(item.productName)}</span>
+        <span class="history-cat">${esc(item.category)}</span>
+      </div>
+      <div class="history-meta">${esc(item.timestamp)} · ${item.variants.length} variants · ${item.seoKeywords.length} keywords</div>
+    </div>
+  `).join('');
+}
+
+function restoreFromHistory(id) {
+  const item = getHistory().find(h => h.id === id);
+  if (!item) return;
+  currentResult = item;
+  activeTab = 0;
+  renderResults(item, '');
+  document.getElementById('outPlaceholder').classList.add('hidden');
+  document.getElementById('outLoading').classList.add('hidden');
+  document.getElementById('outResults').classList.remove('hidden');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // ---- ESCAPE HELPERS ----

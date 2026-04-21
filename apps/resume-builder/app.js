@@ -3,34 +3,33 @@
 // ================================================================
 
 // ─── State ───────────────────────────────────────────────────────
-
 let currentStep = 1;
-window.selectedTemplate = 'modern';
+window.selectedTemplate  = 'modern';
 window.generatedResumeData = null;
+window._pendingGenerate  = false;   // set true when user clicks Generate while logged out
+window._selectedPlan     = null;    // 'single' | 'bundle5'
 
 // ─── Init ────────────────────────────────────────────────────────
-
 document.addEventListener('DOMContentLoaded', () => {
   // Inject config-driven text
-  document.getElementById('brandName').textContent    = CONFIG.BRAND_NAME;
-  document.getElementById('headerPrice').textContent  = CONFIG.RESUME_PRICE;
-  document.getElementById('heroPriceBtn').textContent = CONFIG.RESUME_PRICE;
-  document.getElementById('upiId').textContent        = CONFIG.UPI_ID;
-  document.getElementById('upiName').textContent      = CONFIG.UPI_NAME;
-  document.getElementById('coverLetterPrice').textContent = CONFIG.COVER_LETTER_PRICE;
-  document.getElementById('osPriceResume').textContent    = CONFIG.RESUME_PRICE;
-  document.getElementById('osPriceCoverLetter').textContent = CONFIG.COVER_LETTER_PRICE;
-  document.getElementById('footerText').textContent   = `© ${new Date().getFullYear()} ${CONFIG.BRAND_NAME}. All rights reserved.`;
-  updateTotal();
+  document.getElementById('brandName').textContent  = CONFIG.BRAND_NAME;
+  document.getElementById('footerText').textContent =
+    `© ${new Date().getFullYear()} ${CONFIG.BRAND_NAME}. All rights reserved.`;
 
-  // WhatsApp button
+  // Populate UPI details in plans modal
+  const upiIdEl   = document.getElementById('plansUpiId');
+  const upiNameEl = document.getElementById('plansUpiName');
+  if (upiIdEl)   upiIdEl.textContent   = CONFIG.UPI_ID;
+  if (upiNameEl) upiNameEl.textContent = CONFIG.UPI_NAME;
+
+  // WhatsApp FAB
   if (CONFIG.WHATSAPP_NUMBER) {
     const btn = document.createElement('a');
-    btn.href = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}`;
-    btn.target = '_blank';
+    btn.href      = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}`;
+    btn.target    = '_blank';
     btn.className = 'whatsapp-fab';
     btn.innerHTML = '💬';
-    btn.title = 'Chat on WhatsApp';
+    btn.title     = 'Chat on WhatsApp';
     document.body.appendChild(btn);
   }
 });
@@ -38,6 +37,19 @@ document.addEventListener('DOMContentLoaded', () => {
 // ─── Wizard Navigation ───────────────────────────────────────────
 
 function startWizard() {
+  // Require login before entering the wizard
+  if (!window.auth || !window.auth.currentUser) {
+    window._pendingGenerate = false; // will open wizard after login, not generate
+    openAuthModal('login');
+    // After login, the onAuthStateChanged handler fires updateWizardGenerateBtn
+    // but we still need to actually open the wizard; use a one-shot flag
+    window._pendingWizard = true;
+    return;
+  }
+  _openWizard();
+}
+
+function _openWizard() {
   document.getElementById('heroSection').classList.add('hidden');
   document.getElementById('wizardSection').classList.remove('hidden');
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -54,21 +66,18 @@ function prevStep(from) {
 }
 
 function goToStep(n) {
-  // Hide all steps
   document.querySelectorAll('.wizard-step').forEach(s => s.classList.remove('active'));
-  // Show target step
   const target = document.getElementById(`step-${n}`);
   if (target) {
     target.classList.add('active');
     currentStep = n;
   }
-  // Update progress
   updateProgress(n);
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function updateProgress(n) {
-  const totalNav = 6; // steps shown in nav
+  const totalNav = 5; // 5 visible steps
   const fill = Math.min(((n - 1) / (totalNav - 1)) * 100, 100);
   document.getElementById('progressFill').style.width = fill + '%';
 
@@ -164,8 +173,8 @@ function addExperience() {
 
 function toggleExperienceMode() {
   const isExp = document.getElementById('isExperienced').checked;
-  document.getElementById('projectsSection').style.display    = isExp ? 'none' : 'block';
-  document.getElementById('experienceSection').style.display  = isExp ? 'block' : 'none';
+  document.getElementById('projectsSection').style.display   = isExp ? 'none'  : 'block';
+  document.getElementById('experienceSection').style.display = isExp ? 'block' : 'none';
 }
 
 // ─── Template Selection ──────────────────────────────────────────
@@ -176,18 +185,175 @@ function selectTemplate(name, el) {
   el.classList.add('active');
 }
 
-// ─── Totals ──────────────────────────────────────────────────────
+// ─── Update wizard generate button based on auth/credit state ────
 
-function updateTotal() {
-  const wantsCL = document.getElementById('wantsCoverLetter')?.checked;
-  const total = CONFIG.RESUME_PRICE + (wantsCL ? CONFIG.COVER_LETTER_PRICE : 0);
+function updateWizardGenerateBtn() {
+  const btn     = document.getElementById('generateBtn');
+  const infoBox = document.getElementById('genInfoBox');
+  const gibTitle = document.getElementById('gibTitle');
+  const gibSub   = document.getElementById('gibSub');
 
-  document.getElementById('osTotal').textContent       = total;
-  document.getElementById('paymentTotal').textContent  = total;
-  document.getElementById('paymentTotal2').textContent = total;
+  // If wizard isn't open yet, handle pending wizard open
+  if (window._pendingWizard && window.auth?.currentUser) {
+    window._pendingWizard = false;
+    _openWizard();
+    return;
+  }
 
-  const clRow = document.getElementById('osCoverRow');
-  if (clRow) clRow.classList.toggle('hidden', !wantsCL);
+  if (!btn) return;
+
+  const user = window.auth?.currentUser;
+  const u    = window.currentUserData;
+
+  if (!user) {
+    btn.textContent = 'Sign In to Generate →';
+    if (gibTitle) gibTitle.textContent = 'Sign in to continue';
+    if (gibSub)   gibSub.textContent   = 'Free account · 1 demo resume included';
+    if (infoBox)  infoBox.className    = 'gen-info-box';
+    return;
+  }
+
+  const demoUsed  = u?.demoUsed         || 0;
+  const remaining = u?.resumesRemaining || 0;
+
+  if (demoUsed < 1) {
+    btn.textContent = 'Generate Free Demo Resume →';
+    if (gibTitle) gibTitle.textContent = '🎁 1 free demo included';
+    if (gibSub)   gibSub.textContent   = 'Try the full experience for free — no payment needed';
+    if (infoBox)  infoBox.className    = 'gen-info-box demo';
+  } else if (remaining > 0) {
+    btn.textContent = `Generate Resume (${remaining} credit${remaining !== 1 ? 's' : ''} left) →`;
+    if (gibTitle) gibTitle.textContent = `✓ ${remaining} resume${remaining !== 1 ? 's' : ''} remaining`;
+    if (gibSub)   gibSub.textContent   = 'Click below to generate your resume now';
+    if (infoBox)  infoBox.className    = 'gen-info-box paid';
+  } else {
+    btn.textContent = 'Buy Credits to Generate →';
+    if (gibTitle) gibTitle.textContent = 'No credits remaining';
+    if (gibSub)   gibSub.textContent   = 'Single ₹10 · Bundle ₹40 — instant activation';
+    if (infoBox)  infoBox.className    = 'gen-info-box empty';
+  }
+}
+
+// ─── Proceed to Generate (gatekeeper) ────────────────────────────
+
+function proceedToGenerate() {
+  // Auth check
+  if (!window.auth?.currentUser) {
+    window._pendingGenerate = true;
+    openAuthModal('login');
+    return;
+  }
+
+  const u         = window.currentUserData;
+  const demoUsed  = u?.demoUsed         || 0;
+  const remaining = u?.resumesRemaining || 0;
+
+  if (demoUsed < 1) {
+    // Demo available
+    generateResume('demo');
+  } else if (remaining > 0) {
+    // Paid credits available
+    generateResume('paid');
+  } else {
+    // Need to buy
+    openPlansModal();
+  }
+}
+
+// ─── Generate Resume (API Call) ───────────────────────────────────
+
+async function generateResume(mode) {
+  const formData = collectFormData();
+
+  // Reserve credit if paid mode
+  if (mode === 'paid') {
+    try {
+      await reserveResumeCredit();
+    } catch (err) {
+      if (err.code === 'resume/no-credits') {
+        showToast('No credits remaining. Please purchase a plan.', 'error');
+        openPlansModal();
+      } else {
+        showToast('Error: ' + err.message, 'error');
+      }
+      return;
+    }
+  }
+
+  // Move to result step (step 6 now)
+  goToStep(6);
+  showLoading(true);
+
+  const wantsCL = formData.wantsCoverLetter;
+  const prompt  = buildPrompt(formData);
+
+  try {
+    const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+    let url     = GLOBAL_CONFIG.ENDPOINT;
+    let headers = {
+      "Content-Type":  "application/json",
+      "Authorization": `Bearer ${GLOBAL_CONFIG.API_KEY}`
+    };
+
+    if (!isLocal) {
+      url = "/.netlify/functions/chat";
+      delete headers["Authorization"];
+    }
+
+    const res = await fetch(url, {
+      method:  "POST",
+      headers: headers,
+      body:    JSON.stringify({
+        messages:    [{ role: "user", content: prompt }],
+        model:       GLOBAL_CONFIG.MODEL,
+        max_tokens:  wantsCL ? 3000 : 2000,
+        temperature: GLOBAL_CONFIG.TEMPERATURE
+      })
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error?.message || `HTTP ${res.status}`);
+    }
+
+    const apiData = await res.json();
+    const rawText = apiData.choices?.[0]?.message?.content?.trim();
+
+    const cleaned = rawText.replace(/```json|```/gi, '').trim();
+    const match   = cleaned.match(/\{[\s\S]*\}/);
+    if (!match) throw new Error('Could not parse resume JSON from AI response.');
+
+    const resumeData = JSON.parse(match[0]);
+    window.generatedResumeData = resumeData;
+
+    // Mark demo/paid usage
+    if (mode === 'demo') {
+      await incrementDemoUsed();
+    }
+
+    // Save history
+    await saveResumeHistory({
+      name:     formData.name,
+      role:     formData.jobTarget,
+      template: window.selectedTemplate,
+      mode
+    });
+
+    showLoading(false);
+    renderResult(resumeData);
+    updateWizardGenerateBtn();
+
+  } catch (err) {
+
+    // Refund credit if paid generation failed
+    if (mode === 'paid') {
+      await releaseResumeCredit();
+    }
+
+    showLoading(false);
+    showToast('Error generating resume: ' + err.message, 'error');
+    goToStep(5);
+  }
 }
 
 // ─── Collect Form Data ───────────────────────────────────────────
@@ -235,69 +401,6 @@ function collectFormData() {
     wantsCoverLetter: document.getElementById('wantsCoverLetter')?.checked || false,
     selectedTemplate: window.selectedTemplate
   };
-}
-
-// ─── Generate Resume (API Call) ───────────────────────────────────
-
-async function generateResume() {
-  const apiKey = GLOBAL_CONFIG.API_KEY;
-
-  const formData = collectFormData();
-  goToStep(7);
-  showLoading(true);
-
-  const wantsCL = formData.wantsCoverLetter;
-  const prompt  = buildPrompt(formData);
-
-  try {
-    const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
-    let url = GLOBAL_CONFIG.ENDPOINT;
-    let headers = { 
-      "Content-Type": "application/json", 
-      "Authorization": `Bearer ${GLOBAL_CONFIG.API_KEY}`
-    };
-
-    if (!isLocal) {
-      url = "/.netlify/functions/chat";
-      delete headers["Authorization"];
-    }
-
-    const res = await fetch(url, {
-      method: "POST",
-      headers: headers,
-      body: JSON.stringify({
-        messages: [{ role: "user", content: prompt }],
-        model: GLOBAL_CONFIG.MODEL,
-        max_tokens: wantsCL ? 3000 : 2000,
-        temperature: GLOBAL_CONFIG.TEMPERATURE
-      })
-    });
-
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error(err.error?.message || `HTTP ${res.status}`);
-    }
-
-    const apiData = await res.json();
-    const rawText = apiData.choices && apiData.choices[0]?.message?.content?.trim();
-
-    // Parse JSON — strip any markdown fences Claude might add
-    const cleaned = rawText.replace(/```json|```/gi, '').trim();
-    const match   = cleaned.match(/\{[\s\S]*\}/);
-    if (!match) throw new Error('Could not parse resume JSON from AI response.');
-
-    const resumeData = JSON.parse(match[0]);
-    window.generatedResumeData = resumeData;
-
-    showLoading(false);
-    renderResult(resumeData);
-
-  } catch (err) {
-    console.error(err);
-    showLoading(false);
-    showToast('Error: ' + err.message + ' — Please check your API key in config.js.', 'error');
-    goToStep(6);
-  }
 }
 
 // ─── Prompt Builder ───────────────────────────────────────────────
@@ -356,11 +459,9 @@ JSON structure:
 function renderResult(data) {
   document.getElementById('resultState').classList.remove('hidden');
 
-  // Render resume preview
   const tpl = window.selectedTemplate || 'modern';
   document.getElementById('resumePreview').innerHTML = getTemplate(tpl, data);
 
-  // Cover letter
   const hasCL = !!data.coverLetter;
   document.getElementById('coverLetterResult').classList.toggle('hidden', !hasCL);
 
@@ -374,7 +475,7 @@ function renderResult(data) {
 }
 
 function esc2(str) {
-  return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
 // ─── Tabs ──────────────────────────────────────────────────────────
@@ -415,7 +516,7 @@ function showLoading(show) {
 
 function showToast(msg, type = 'info') {
   const t = document.createElement('div');
-  t.className = `toast toast-${type}`;
+  t.className   = `toast toast-${type}`;
   t.textContent = msg;
   document.body.appendChild(t);
   setTimeout(() => t.classList.add('show'), 50);
@@ -428,4 +529,114 @@ function startOver() {
   if (!confirm('Start a new resume? Your current resume will be lost.')) return;
   window.generatedResumeData = null;
   location.reload();
+}
+
+// ─── User Menu Dropdown ──────────────────────────────────────────
+
+function toggleUserMenu() {
+  const dd = document.getElementById('userDropdown');
+  if (!dd) return;
+  dd.classList.toggle('open');
+}
+
+document.addEventListener('click', (e) => {
+  const dd   = document.getElementById('userDropdown');
+  const info = document.querySelector('.user-info');
+  if (dd && !dd.contains(e.target) && !info?.contains(e.target)) {
+    dd.classList.remove('open');
+  }
+});
+
+// ─── Plans Modal ─────────────────────────────────────────────────
+
+const PLAN_DATA = {
+  single:  { planId: 'single',  label: 'Single Resume',   resumes: 1, price: 10 },
+  bundle5: { planId: 'bundle5', label: '5-Resume Bundle',  resumes: 5, price: 40 }
+};
+
+function openPlansModal() {
+  const modal = document.getElementById('plansModal');
+  if (!modal) return;
+  showPlanStep('choose');
+  window._selectedPlan = null;
+  // Reset card selection
+  document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closePlansModal() {
+  const modal = document.getElementById('plansModal');
+  if (!modal) return;
+  modal.style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function plansModalOverlayClick(e) {
+  if (e.target === document.getElementById('plansModal')) closePlansModal();
+}
+
+function authModalOverlayClick(e) {
+  if (e.target === document.getElementById('authModal')) closeAuthModal();
+}
+
+function showPlanStep(stepId) {
+  document.querySelectorAll('.plan-step').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById('planStep-' + stepId);
+  if (el) el.classList.add('active');
+}
+
+function selectPlan(planId) {
+  window._selectedPlan = planId;
+  document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
+  const card = document.getElementById('planCard-' + planId);
+  if (card) card.classList.add('selected');
+}
+
+function proceedToPayment() {
+  if (!window._selectedPlan) {
+    showToast('Please select a plan first.', 'error');
+    return;
+  }
+
+  // Auth check
+  if (!window.auth?.currentUser) {
+    closePlansModal();
+    window._pendingGenerate = false;
+    openAuthModal('login');
+    return;
+  }
+
+  const plan = PLAN_DATA[window._selectedPlan];
+  const titleEl    = document.getElementById('payStepTitle');
+  const amountEl   = document.getElementById('upiAmountText');
+  if (titleEl)  titleEl.textContent  = `Pay ₹${plan.price}`;
+  if (amountEl) amountEl.textContent = `₹${plan.price}`;
+
+  showPlanStep('pay');
+}
+
+async function confirmPayment() {
+  if (!window._selectedPlan) return;
+
+  const btn  = document.getElementById('plansConfirmBtn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Activating...'; }
+
+  try {
+    const plan = PLAN_DATA[window._selectedPlan];
+    await applyPlanToUser(plan);
+
+    const msgEl = document.getElementById('plansSuccessMsg');
+    if (msgEl) {
+      msgEl.textContent = plan.resumes === 1
+        ? 'You now have 1 resume generation ready.'
+        : `You now have ${plan.resumes} resume generations ready.`;
+    }
+
+    showPlanStep('success');
+  } catch (err) {
+    showToast('Error activating plan: ' + err.message, 'error');
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = '✓ I\'ve Paid — Activate Credits'; }
+  }
 }

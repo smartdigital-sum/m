@@ -14,7 +14,6 @@
 <body>
 
   <!-- DECORATIVE BG -->
-  <div class="noise-overlay"></div>
   <div class="bg-blob b1"></div>
   <div class="bg-blob b2"></div>
   <div class="bg-blob b3"></div>
@@ -24,92 +23,154 @@
   <header class="site-header">
     <div class="header-inner">
       <div class="logo">
-        <span class="logo-wa">💬</span>
-        <span class="logo-text">Smart Digital Script<em>Wala</em></span>
+        <img src="../../assets/img/logo.png" alt="Smart Digital" class="logo-img"/>
+        <div class="logo-brand">
+          <span class="logo-brand-main">Smart Digital</span>
+          <span class="logo-brand-sub">Script<em>Wala</em></span>
+        </div>
       </div>
       <nav class="header-nav">
-        <a href="#pricing">Pricing</a>
-        <a href="#generator" class="nav-cta">Generate Scripts →</a>
+        <a href="#pricing" data-i18n="nav_pricing">Pricing</a>
+        <a href="#generator" class="nav-cta" data-i18n="nav_generate">Generate Scripts →</a>
       </nav>
+      <a class="home-btn" href="../../index.html">← Home</a>
+      <div class="header-controls">
+        <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle theme">
+          <span id="themeIcon">🌙</span>
+        </button>
+        <div class="lang-switcher">
+          <button class="lang-btn active" data-lang="en" onclick="setLang('en')">EN</button>
+          <button class="lang-btn" data-lang="hi" onclick="setLang('hi')">HI</button>
+          <button class="lang-btn" data-lang="as" onclick="setLang('as')">AS</button>
+        </div>
+      </div>
     </div>
   </header>
 
   <!-- HERO -->
   <section class="hero">
     <div class="hero-eyebrow">
-      <span class="pulse-dot"></span> AI-Powered for Indian Businesses
+      <span class="pulse-dot"></span>
+      <span data-i18n="hero_eyebrow">AI-Powered for Indian Businesses</span>
     </div>
     <h1 class="hero-title">
-      WhatsApp scripts<br/>
-      <span class="hero-highlight">your customers</span><br/>
-      can't ignore.
+      <span data-i18n="hero_title_1">WhatsApp scripts</span><br/>
+      <span class="hero-highlight" data-i18n="hero_title_2">your customers</span><br/>
+      <span data-i18n="hero_title_3">can't ignore.</span>
     </h1>
-    <p class="hero-sub">
+    <p class="hero-sub" data-i18n="hero_sub">
       Reply templates · Product descriptions · Promo offers · Festive messages.<br/>
-      In <strong>English, Hinglish, Assamese</strong> — ready in seconds.
+      In English, Hinglish, Assamese — ready in seconds.
     </p>
     <div class="hero-tags">
-      <span>🛍️ Retail Shops</span>
-      <span>🍽️ Restaurants</span>
-      <span>💇 Salons</span>
-      <span>🏥 Clinics</span>
-      <span>📦 Wholesalers</span>
-      <span>+ any business</span>
+      <span>🛍️ <span data-i18n="tag_retail">Retail Shops</span></span>
+      <span>🍽️ <span data-i18n="tag_restaurant">Restaurants</span></span>
+      <span>💇 <span data-i18n="tag_salon">Salons</span></span>
+      <span>🏥 <span data-i18n="tag_clinic">Clinics</span></span>
+      <span>📦 <span data-i18n="tag_wholesale">Wholesalers</span></span>
+      <span>+ <span data-i18n="tag_any">any business</span></span>
     </div>
   </section>
 
   <!-- PRICING -->
   <section class="pricing-section" id="pricing">
-    <div class="pricing-label">Simple Pricing</div>
-    <h2 class="section-title">One tool. Two plans.</h2>
+    <div class="pricing-label" data-i18n="pricing_eyebrow">Simple Pricing</div>
+    <h2 class="section-title" data-i18n="pricing_title">Low-ticket. High value.</h2>
+    <p class="section-sub" data-i18n="pricing_sub">Pay once per pack. No subscription needed.</p>
     <div class="pricing-row">
+
+      <div class="plan-card">
+        <div class="plan-header">
+          <span class="plan-icon">✨</span>
+          <div>
+            <div class="plan-name" data-i18n="plan_quick_name">Quick Pack</div>
+            <div class="plan-price">₹9 <span data-i18n="plan_quick_period">one-time</span></div>
+          </div>
+        </div>
+        <ul class="plan-features">
+          <li data-i18n="quick_f1">1 full script bundle</li>
+          <li data-i18n="quick_f2">All 4 template categories</li>
+          <li data-i18n="quick_f3">All 4 tone styles</li>
+          <li data-i18n="quick_f4">Download as .txt file</li>
+          <li data-i18n="quick_f5">Best for trying it out</li>
+        </ul>
+        <a href="#generator" class="plan-btn" data-i18n="plan_cta_get">Get My Scripts</a>
+      </div>
 
       <div class="plan-card">
         <div class="plan-header">
           <span class="plan-icon">⚡</span>
           <div>
-            <div class="plan-name">One-Time Pack</div>
-            <div class="plan-price">₹500 <span>one-time</span></div>
+            <div class="plan-name" data-i18n="plan_starter_name">Starter Pack</div>
+            <div class="plan-price">₹29 <span data-i18n="plan_starter_period">3 bundles</span></div>
           </div>
         </div>
         <ul class="plan-features">
-          <li>Full script bundle generated once</li>
-          <li>All 4 template categories</li>
-          <li>All 4 tone styles</li>
-          <li>Download as .txt file</li>
-          <li>No subscription needed</li>
+          <li data-i18n="starter_f1">3 full script bundles</li>
+          <li data-i18n="starter_f2">All 4 template categories</li>
+          <li data-i18n="starter_f3">All 4 tone styles</li>
+          <li data-i18n="starter_f4">Download as .txt file</li>
+          <li data-i18n="starter_f5">Best for one local business</li>
         </ul>
-        <a href="#generator" class="plan-btn">Get My Scripts</a>
+        <a href="#generator" class="plan-btn" data-i18n="plan_cta_get">Get My Scripts</a>
       </div>
 
       <div class="plan-card featured">
-        <div class="plan-badge">Best Value</div>
+        <div class="plan-badge" data-i18n="badge_popular">Best Value</div>
         <div class="plan-header">
-          <span class="plan-icon">🔄</span>
+          <span class="plan-icon">🔥</span>
           <div>
-            <div class="plan-name">Monthly Plan</div>
-            <div class="plan-price">₹200 <span>/month</span></div>
+            <div class="plan-name" data-i18n="plan_pro_name">Freelancer Pack</div>
+            <div class="plan-price">₹79 <span data-i18n="plan_pro_period">5 businesses</span></div>
           </div>
         </div>
         <ul class="plan-features">
-          <li>Unlimited script generation</li>
-          <li>New festive templates monthly</li>
-          <li>Edit & re-generate anytime</li>
-          <li>Priority support</li>
-          <li>Cancel anytime</li>
+          <li data-i18n="pro_f1">5 script bundles</li>
+          <li data-i18n="pro_f2">₹15.80 per business</li>
+          <li data-i18n="pro_f3">Great for website designers</li>
+          <li data-i18n="pro_f4">Reuse for multiple clients</li>
+          <li data-i18n="pro_f5">Fastest low-ticket offer</li>
         </ul>
-        <a href="#generator" class="plan-btn featured-btn">Start Generating</a>
+        <a href="#generator" class="plan-btn featured-btn" data-i18n="plan_cta_start">Start Generating</a>
       </div>
 
+      <div class="plan-card">
+        <div class="plan-header">
+          <span class="plan-icon">🏢</span>
+          <div>
+            <div class="plan-name" data-i18n="plan_agency_name">Agency Pack</div>
+            <div class="plan-price">₹199 <span data-i18n="plan_agency_period">15 businesses</span></div>
+          </div>
+        </div>
+        <ul class="plan-features">
+          <li data-i18n="agency_f1">15 script bundles</li>
+          <li data-i18n="agency_f2">₹13.27 per business</li>
+          <li data-i18n="agency_f3">Best margin for agencies</li>
+          <li data-i18n="agency_f4">Ideal for recurring local work</li>
+          <li data-i18n="agency_f5">Lowest effective cost per kit</li>
+        </ul>
+        <a href="#generator" class="plan-btn" data-i18n="plan_cta_get">Get My Scripts</a>
+      </div>
+
+    </div>
+
+    <!-- Bundle Banner -->
+    <div class="bundle-banner">
+      <div class="bundle-left">
+        <span class="bundle-tag" data-i18n="bundle_tag">🔥 Bundle Deal</span>
+        <h3 data-i18n="bundle_title">Website + WhatsApp Script Pack</h3>
+        <p data-i18n="bundle_sub">Add ScriptWala to any website package for just <strong>₹79 extra</strong>. High-value add-on your clients will love.</p>
+      </div>
+      <a href="#generator" class="plan-btn featured-btn bundle-cta" data-i18n="bundle_cta">Add to Offer</a>
     </div>
   </section>
 
   <!-- GENERATOR -->
   <section class="generator-section" id="generator">
     <div class="gen-header">
-      <div class="pricing-label">The Generator</div>
-      <h2 class="section-title">Tell us about your business</h2>
-      <p class="section-sub">Fill the form below — we'll create a full WhatsApp script pack instantly.</p>
+      <div class="pricing-label" data-i18n="gen_eyebrow">The Generator</div>
+      <h2 class="section-title" data-i18n="gen_title">Tell us about your business</h2>
+      <p class="section-sub" data-i18n="gen_sub">Fill the form below — we'll create a full WhatsApp script pack instantly.</p>
     </div>
 
     <div class="gen-card">
@@ -118,27 +179,30 @@
       <div class="form-step">
         <div class="step-num">01</div>
         <div class="step-body">
-          <h3 class="step-title">Business Details</h3>
+          <h3 class="step-title" data-i18n="step1_title">Business Details</h3>
 
           <div class="field-row">
             <div class="field-group">
-              <label for="bizName">Business Name</label>
-              <input type="text" id="bizName" placeholder="e.g. Sharma General Store, Priya Beauty Parlour"/>
+              <label for="bizName" data-i18n="label_biz_name">Business Name</label>
+              <input type="text" id="bizName" data-placeholder-i18n="ph_biz_name" placeholder="e.g. Sharma General Store, Priya Beauty Parlour"/>
             </div>
             <div class="field-group">
-              <label for="bizType">Business Type</label>
-              <input type="text" id="bizType" placeholder="e.g. Grocery, Salon, Restaurant, Pharmacy"/>
+              <label for="bizType" data-i18n="label_biz_type">Business Type</label>
+              <input type="text" id="bizType" data-placeholder-i18n="ph_biz_type" placeholder="e.g. Grocery, Salon, Restaurant, Pharmacy"/>
             </div>
           </div>
 
           <div class="field-group">
-            <label for="products">Products / Services (comma-separated)</label>
-            <input type="text" id="products" placeholder="e.g. Rice, Dal, Mustard Oil, Home Delivery, Bulk Orders"/>
+            <label for="products" data-i18n="label_products">Products / Services (comma-separated)</label>
+            <input type="text" id="products" data-placeholder-i18n="ph_products" placeholder="e.g. Rice, Dal, Mustard Oil, Home Delivery, Bulk Orders"/>
           </div>
 
           <div class="field-group">
-            <label for="ownerName">Owner / Contact Name <span class="optional">(optional)</span></label>
-            <input type="text" id="ownerName" placeholder="e.g. Raju Bhai, Priya Di"/>
+            <label for="ownerName">
+              <span data-i18n="label_owner">Owner / Contact Name</span>
+              <span class="optional" data-i18n="optional">(optional)</span>
+            </label>
+            <input type="text" id="ownerName" data-placeholder-i18n="ph_owner" placeholder="e.g. Raju Bhai, Priya Di"/>
           </div>
         </div>
       </div>
@@ -147,39 +211,39 @@
       <div class="form-step">
         <div class="step-num">02</div>
         <div class="step-body">
-          <h3 class="step-title">Choose Your Tone</h3>
-          <p class="step-hint">Pick one tone for your scripts.</p>
+          <h3 class="step-title" data-i18n="step2_title">Choose Your Tone</h3>
+          <p class="step-hint" data-i18n="step2_hint">Pick one tone for your scripts.</p>
           <div class="tone-grid">
             <label class="tone-option">
               <input type="radio" name="tone" value="Formal / Professional" checked/>
               <div class="tone-card">
                 <span class="tone-icon">👔</span>
-                <span class="tone-name">Formal</span>
-                <span class="tone-desc">Professional & official</span>
+                <span class="tone-name" data-i18n="tone_formal">Formal</span>
+                <span class="tone-desc" data-i18n="tone_formal_desc">Professional & official</span>
               </div>
             </label>
             <label class="tone-option">
               <input type="radio" name="tone" value="Friendly & Casual"/>
               <div class="tone-card">
                 <span class="tone-icon">😊</span>
-                <span class="tone-name">Friendly</span>
-                <span class="tone-desc">Warm & approachable</span>
+                <span class="tone-name" data-i18n="tone_friendly">Friendly</span>
+                <span class="tone-desc" data-i18n="tone_friendly_desc">Warm & approachable</span>
               </div>
             </label>
             <label class="tone-option">
               <input type="radio" name="tone" value="Hinglish (Hindi+English mix)"/>
               <div class="tone-card">
                 <span class="tone-icon">🇮🇳</span>
-                <span class="tone-name">Hinglish</span>
-                <span class="tone-desc">Hindi + English mix</span>
+                <span class="tone-name" data-i18n="tone_hinglish">Hinglish</span>
+                <span class="tone-desc" data-i18n="tone_hinglish_desc">Hindi + English mix</span>
               </div>
             </label>
             <label class="tone-option">
               <input type="radio" name="tone" value="Assamese regional feel"/>
               <div class="tone-card">
                 <span class="tone-icon">🌿</span>
-                <span class="tone-name">Assamese</span>
-                <span class="tone-desc">Local NE India feel</span>
+                <span class="tone-name" data-i18n="tone_assamese">Assamese</span>
+                <span class="tone-desc" data-i18n="tone_assamese_desc">Local NE India feel</span>
               </div>
             </label>
           </div>
@@ -190,16 +254,18 @@
       <div class="form-step">
         <div class="step-num">03</div>
         <div class="step-body">
-          <h3 class="step-title">Select Template Types</h3>
-          <p class="step-hint">Pick one or more to include in your script pack.</p>
+          <h3 class="step-title" data-i18n="step3_title">Select Template Types</h3>
+          <p class="step-hint" data-i18n="step3_hint">Pick one or more to include in your script pack.</p>
           <div class="template-grid">
 
             <label class="template-option">
               <input type="checkbox" name="templates" value="reply" checked/>
               <div class="template-card">
                 <span class="tmpl-icon">💬</span>
-                <span class="tmpl-name">Reply Templates</span>
-                <span class="tmpl-desc">Greetings, FAQs, Follow-ups</span>
+                <div>
+                  <span class="tmpl-name" data-i18n="tmpl_reply">Reply Templates</span>
+                  <span class="tmpl-desc" data-i18n="tmpl_reply_desc">Greetings, FAQs, Follow-ups</span>
+                </div>
               </div>
             </label>
 
@@ -207,8 +273,10 @@
               <input type="checkbox" name="templates" value="product" checked/>
               <div class="template-card">
                 <span class="tmpl-icon">🛒</span>
-                <span class="tmpl-name">Product Descriptions</span>
-                <span class="tmpl-desc">Showcase what you sell</span>
+                <div>
+                  <span class="tmpl-name" data-i18n="tmpl_product">Product Descriptions</span>
+                  <span class="tmpl-desc" data-i18n="tmpl_product_desc">Showcase what you sell</span>
+                </div>
               </div>
             </label>
 
@@ -216,8 +284,10 @@
               <input type="checkbox" name="templates" value="promo" checked/>
               <div class="template-card">
                 <span class="tmpl-icon">🎯</span>
-                <span class="tmpl-name">Promo & Offers</span>
-                <span class="tmpl-desc">Sales, discounts, deals</span>
+                <div>
+                  <span class="tmpl-name" data-i18n="tmpl_promo">Promo & Offers</span>
+                  <span class="tmpl-desc" data-i18n="tmpl_promo_desc">Sales, discounts, deals</span>
+                </div>
               </div>
             </label>
 
@@ -225,8 +295,10 @@
               <input type="checkbox" name="templates" value="festive" checked/>
               <div class="template-card">
                 <span class="tmpl-icon">🪔</span>
-                <span class="tmpl-name">Festive Messages</span>
-                <span class="tmpl-desc">Diwali, Eid, Bihu, Christmas</span>
+                <div>
+                  <span class="tmpl-name" data-i18n="tmpl_festive">Festive Messages</span>
+                  <span class="tmpl-desc" data-i18n="tmpl_festive_desc">Diwali, Eid, Bihu, Christmas</span>
+                </div>
               </div>
             </label>
 
@@ -236,7 +308,7 @@
 
       <!-- GENERATE BUTTON -->
       <button class="generate-btn" id="generateBtn">
-        <span class="gen-btn-text">✨ Generate My WhatsApp Scripts</span>
+        <span class="gen-btn-text" data-i18n="btn_generate">✨ Generate My WhatsApp Scripts</span>
         <span class="gen-btn-loader" id="genLoader" hidden>
           <span class="ld"></span><span class="ld"></span><span class="ld"></span>
         </span>
@@ -254,12 +326,13 @@
   <section class="output-section" id="outputSection" hidden>
     <div class="output-header-row">
       <div>
-        <div class="pricing-label">Your Script Pack</div>
-        <h2 class="section-title" style="text-align:left;">Ready to copy &amp; send! 🚀</h2>
+        <div class="pricing-label" data-i18n="output_eyebrow">Your Script Pack</div>
+        <h2 class="section-title" style="text-align:left;" data-i18n="output_title">Ready to copy &amp; send! 🚀</h2>
       </div>
       <div class="output-actions">
-        <button class="out-btn" id="regenBtn">🔄 Re-generate</button>
-        <button class="out-btn primary" id="downloadAllBtn">⬇ Download All (.txt)</button>
+        <button class="out-btn" id="regenBtn" data-i18n="btn_regen">🔄 Re-generate</button>
+        <button class="out-btn" id="copyAllBtn" data-i18n="btn_copy_all">📋 Copy All</button>
+        <button class="out-btn primary" id="downloadAllBtn" data-i18n="btn_download">⬇ Download All (.txt)</button>
       </div>
     </div>
 
@@ -270,14 +343,31 @@
     <div class="panels-container" id="panelsContainer"></div>
   </section>
 
+  <!-- HISTORY SECTION -->
+  <section class="history-section" id="historySection" style="display:none;">
+    <div class="history-inner">
+      <div class="history-header">
+        <div>
+          <h3 class="history-title" data-i18n="history_title">🕘 Recent Script Packs</h3>
+          <p class="history-sub" data-i18n="history_sub">Restore older script packs from this browser.</p>
+        </div>
+        <button class="history-clear-btn" onclick="clearHistory()" data-i18n="history_clear">Clear All</button>
+      </div>
+      <div class="history-list" id="historyList"></div>
+    </div>
+  </section>
+
   <!-- FOOTER -->
   <footer class="site-footer">
     <div class="footer-inner">
-      <div class="footer-logo">💬 Script<em>Wala</em></div>
-      <p>WhatsApp script packs for Indian small businesses.</p>
+      <div class="footer-logo">💬 Smart Digital Script<em>Wala</em></div>
+      <p data-i18n="footer_tagline">WhatsApp script packs for Indian small businesses.</p>
       <p class="footer-copy">© 2025 ScriptWala · Built for Bharat · Powered by AI</p>
     </div>
   </footer>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
 
   <script src="app.js"></script>
 </body>
