@@ -316,13 +316,19 @@ function buildGreeting() {
 }
 
 // ── INIT ─────────────────────────────────────────────────────────────────────
-window.addEventListener('DOMContentLoaded', () => {
+function initBot() {
   const restored = restoreSession();
   if (!restored) {
     addBubble(buildGreeting(), 'bot');
     showSuggestions();
   }
-});
+}
+
+if (document.readyState === 'loading') {
+  window.addEventListener('DOMContentLoaded', initBot);
+} else {
+  initBot();
+}
 
 // ── QUICK-REPLY SUGGESTIONS ──────────────────────────────────────────────────
 const SUGGESTIONS = [
@@ -415,9 +421,13 @@ async function sendMessage() {
       addWhatsAppButton();
     }
   } catch (err) {
-    const friendly = err.message === 'MISSING_KEY'
-      ? "My API key is missing. Please check the setup in `config.js`."
-      : "I'm having a little trouble connecting right now 😅 Please try again in a moment, or reach us directly!";
+    let friendly;
+    if (err.message === 'MISSING_KEY') {
+      friendly = "My API key is missing. Please check the setup in `config.js`.";
+    } else {
+      // Show actual error to help diagnose issues on live site
+      friendly = `⚠️ Error: ${err.message}\n\nPlease try again, or reach us on WhatsApp.`;
+    }
 
     addBubble(friendly, 'bot');
 
@@ -460,28 +470,47 @@ async function callGroq() {
     || window.location.protocol === 'file:';
 
   const url = isLocal
-    ? 'https://api.groq.com/openai/v1/chat/completions'
+    ? (CONFIG.GROQ?.ENDPOINT || 'https://api.groq.com/openai/v1/chat/completions')
     : '/.netlify/functions/chat';
 
   const headers = { 'Content-Type': 'application/json' };
   if (isLocal) headers['Authorization'] = `Bearer ${API_KEY}`;
 
-  const response = await fetch(url, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify({
-      messages,
-      model: 'llama-3.3-70b-versatile',
-      temperature: 0.3,
-      max_tokens: 450,
-    }),
-  });
+  // Use model from config so it stays in sync with other apps
+  const model = CONFIG.GROQ?.MODEL || 'llama-3.3-70b-versatile';
+
+  // Fetch with timeout (15s) to prevent hanging requests
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 15000);
+
+  let response;
+  try {
+    response = await fetch(url, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        messages,
+        model,
+        temperature: 0.3,
+        max_tokens: 450,
+      }),
+      signal: controller.signal,
+    });
+  } catch (fetchErr) {
+    clearTimeout(timeoutId);
+    if (fetchErr.name === 'AbortError') {
+      throw new Error('Request timed out. The server took too long to respond.');
+    }
+    throw new Error(`Network error: ${fetchErr.message}`);
+  }
+  clearTimeout(timeoutId);
 
   if (!response.ok) {
     const errData = await response.json().catch(() => ({}));
     const errMsg = typeof errData.error === 'string'
       ? errData.error
       : (errData.error?.message || `HTTP ${response.status}`);
+    console.error('Chatbot API error:', response.status, errData);
     throw new Error(errMsg);
   }
 

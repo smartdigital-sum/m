@@ -650,7 +650,7 @@ const SERVICE_DATA = {
   pan: {
     icon: "fas fa-id-card",
     color: "linear-gradient(135deg,#6366f1,#818cf8)",
-    price: "₹150–300",
+    price: "Contact on WhatsApp",
     desc: "Quick and hassle-free PAN Card application, correction and tracking.",
     includes: [
       "New PAN application",
@@ -662,7 +662,7 @@ const SERVICE_DATA = {
   aadhaar: {
     icon: "fas fa-fingerprint",
     color: "linear-gradient(135deg,#f59e0b,#fbbf24)",
-    price: "₹100–200",
+    price: "Contact on WhatsApp",
     desc: "Complete Aadhaar enrollment, update and verification services.",
     includes: [
       "Aadhaar update (name/DOB/address)",
@@ -674,20 +674,20 @@ const SERVICE_DATA = {
   print: {
     icon: "fas fa-print",
     color: "linear-gradient(135deg,#06b6d4,#22d3ee)",
-    price: "₹2–15/page",
+    price: "Contact on WhatsApp",
     desc: "High-quality B&W and color printing, scanning & PDF creation.",
     includes: [
-      "B&W printing ₹5/page",
-      "Color printing ₹15/page",
-      "Photocopy ₹2/page",
-      "Scanning & PDF ₹20/doc",
-      "Lamination ₹20/sheet",
+      "B&W printing",
+      "Color printing",
+      "Photocopy",
+      "Scanning & PDF creation",
+      "Lamination",
     ],
   },
   photo: {
     icon: "fas fa-camera",
     color: "linear-gradient(135deg,#ec4899,#f43f5e)",
-    price: "₹30–50/set",
+    price: "Contact on WhatsApp",
     desc: "Professional passport-size and ID photos taken on the spot.",
     includes: [
       "Passport-size photos",
@@ -699,7 +699,7 @@ const SERVICE_DATA = {
   form: {
     icon: "fas fa-file-alt",
     color: "linear-gradient(135deg,#10b981,#34d399)",
-    price: "₹50–200",
+    price: "Contact on WhatsApp",
     desc: "All government online form filling and application submission.",
     includes: [
       "Income certificate",
@@ -712,7 +712,7 @@ const SERVICE_DATA = {
   ticket: {
     icon: "fas fa-ticket-alt",
     color: "linear-gradient(135deg,#8b5cf6,#a78bfa)",
-    price: "₹30–60/ticket",
+    price: "Contact on WhatsApp",
     desc: "Railway, bus and flight ticket booking with fast confirmation.",
     includes: [
       "IRCTC railway tickets",
@@ -725,7 +725,7 @@ const SERVICE_DATA = {
   recharge: {
     icon: "fas fa-mobile-alt",
     color: "linear-gradient(135deg,#f97316,#fb923c)",
-    price: "No Extra Charge",
+    price: "Contact on WhatsApp",
     desc: "Instant mobile and DTH recharge for all operators.",
     includes: [
       "Airtel, Jio, BSNL, Vi",
@@ -737,7 +737,7 @@ const SERVICE_DATA = {
   voter: {
     icon: "fas fa-vote-yea",
     color: "linear-gradient(135deg,#0ea5e9,#38bdf8)",
-    price: "₹100–150",
+    price: "Contact on WhatsApp",
     desc: "Voter ID new registration, correction and verification help.",
     includes: [
       "New voter registration",
@@ -749,7 +749,7 @@ const SERVICE_DATA = {
   website: {
     icon: "fas fa-globe",
     color: "linear-gradient(135deg,#1e293b,#334155)",
-    price: "₹3,000–10,000",
+    price: "Contact on WhatsApp",
     desc: "Basic websites for local businesses, shops, and personal use.",
     includes: [
       "1-page or multi-page site",
@@ -793,10 +793,10 @@ const AGENT_DATA = {
     color: "linear-gradient(135deg,#25d366,#059669)",
     tagline: "Your shop never sleeps — replies flow even at 2 AM.",
     problem: "You lose customers every night. Messages pile up on WhatsApp at midnight, weekends, during pujas — and by the time you reply, they've bought from someone else.",
-    solution: "An intelligent WhatsApp bot built on n8n + AI that replies instantly, 24/7. Handles menu queries, pricing, booking requests, and even forwards hot leads to your phone with full context.",
+    solution: "An intelligent WhatsApp bot built on n8n + AI that replies instantly, 24/7. Handles menu queries, service details, booking requests, and even forwards hot leads to your phone with full context.",
     features: [
       "24/7 instant replies in English + Assamese",
-      "Auto-sends your product catalog & pricing",
+      "Auto-sends your product catalog",
       "Collects customer info → saves to Google Sheet",
       "Sends daily status updates automatically",
       "Flags 'hot' leads to you via notification",
@@ -810,13 +810,13 @@ const AGENT_DATA = {
     icon: "💬",
     color: "linear-gradient(135deg,#7c3aed,#a855f7)",
     tagline: "Stop typing the same reply 50 times a day.",
-    problem: "You answer 'What are your timings?', 'Do you deliver?', 'What's the price?' hundreds of times each week. That's 2-3 hours a day gone — time you could spend actually running your business.",
+    problem: "You answer the same timings, delivery, and service-detail questions hundreds of times each week. That's 2-3 hours a day gone — time you could spend actually running your business.",
     solution: "A smart reply agent that understands customer questions (even typos, Hinglish, Assamese mix) and drafts the perfect response. You review and send with one tap — or let it auto-reply to routine queries.",
     features: [
       "Understands English, Assamese, Hinglish",
       "Learns your tone — sounds like YOU, not a robot",
       "Drafts replies for WhatsApp, Instagram DMs, website chat",
-      "Handles FAQs, pricing, availability queries",
+      "Handles FAQs, service details, availability queries",
       "Escalates complex queries to you with summary",
       "Gets smarter with every conversation",
     ],
@@ -923,15 +923,11 @@ function closeAgentModal() {
 
 // ─── QUOTE CALCULATOR ──────────────────────────────────────
 function calcQuote() {
-  const price = parseFloat(document.getElementById("quoteService").value) || 0;
-  const qty = parseInt(document.getElementById("quoteQty").value) || 1;
-  const total = price * qty;
-  document.getElementById("calcTotal").textContent = total;
+  const result = document.getElementById("calcTotal");
+  if (result) result.textContent = "WhatsApp";
   const box = document.getElementById("calcResult");
   box.style.background =
-    total > 0
-      ? "linear-gradient(135deg,#6366f1,#8b5cf6)"
-      : "linear-gradient(135deg,#94a3b8,#64748b)";
+    "linear-gradient(135deg,#6366f1,#8b5cf6)";
 }
 
 // ─── GALLERY ───────────────────────────────────────────────
@@ -1324,8 +1320,27 @@ document.addEventListener("click", (e) => {
 // ─── CONTACT FORM ──────────────────────────────────────────
 function handleFormSubmit(e) {
   e.preventDefault();
-  showToast("✅ Thank you! We will contact you soon.", "success");
-  e.target.reset();
+  const form = e.target;
+  const to = "smartdigitalassam@gmail.com";
+  const name = form.elements.name?.value.trim() || "Website visitor";
+  const phone = form.elements.phone?.value.trim() || "Not provided";
+  const service = form.elements.service?.value || "Not selected";
+  const message = form.elements.message?.value.trim() || "No message provided";
+  const subject = `Smart Digital enquiry from ${name}`;
+  const body = [
+    `Name: ${name}`,
+    `Phone: ${phone}`,
+    `Service Required: ${service}`,
+    "",
+    "Message:",
+    message,
+    "",
+    "Sent from smartdigitalassam.com"
+  ].join("\n");
+
+  window.location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  showToast("✅ Opening email app to send your message.", "success");
+  form.reset();
 }
 
 // ─── SCROLL REVEAL ─────────────────────────────────────────
@@ -1666,4 +1681,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
     tick();
 })();
-

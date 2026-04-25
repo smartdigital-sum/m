@@ -1,0 +1,286 @@
+diff --git a/index.html b/index.html
+index 072b0a5..8e78e72 100644
+--- a/index.html
++++ b/index.html
+@@ -3,12 +3,21 @@
+ <html lang="en" data-lang="en" data-theme="dark"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+     
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+-    <title>Smart Digital - Assam</title>
+-    <meta name="description" content="Welcome to Smart Digital, your trusted local shop for digital services and website design in Assam. Browse our online demos today!">
+-    <!-- Future Shop Address: Kachua Tiniali Main Market, Kampur, Assam 782426 -->
+-    <meta property="og:title" content="Smart Digital - Assam">
+-    <meta property="og:description" content="Digital services for everyone in Kampur and surrounding areas.">
+-    <meta property="og:image" content="assets/img/logo.png">
++    <title>Smart Digital — Website, PAN Card, Aadhaar & Digital Services | Kampur, Nagaon, Assam</title>
++    <meta name="description" content="Your trusted digital shop at Kachua Tiniali, Kampur, Nagaon (PIN 782426). Get website design, PAN card help, Aadhaar update, QR codes, WhatsApp bots, exam paper generators, resume builder & more. Call 86387 59478.">
++    <meta name="keywords" content="smart digital kampur, website design assam, pan card nagaon, aadhaar update kampur, digital shop kachua tiniali, whatsapp bot assam, qr code generator, resume builder, exam paper generator, online services nagaon, digital services assam">
++    <link rel="canonical" href="https://smartdigitalassam.com/">
++    <link rel="alternate" hreflang="en" href="https://smartdigitalassam.com/" />
++    <link rel="alternate" hreflang="as" href="https://smartdigitalassam.com/" />
++    <meta property="og:title" content="Smart Digital — Website, PAN Card, Aadhaar & Digital Services | Kampur, Nagaon, Assam">
++    <meta property="og:description" content="Your trusted digital shop at Kachua Tiniali, Kampur, Nagaon. Get website design, PAN card, Aadhaar, QR codes, WhatsApp bots & more. Call 86387 59478.">
++    <meta property="og:image" content="https://smartdigitalassam.com/assets/img/logo.png">
++    <meta property="og:url" content="https://smartdigitalassam.com/">
++    <meta property="og:type" content="website">
++    <meta name="twitter:card" content="summary_large_image">
++    <meta name="twitter:title" content="Smart Digital — Website, PAN Card, Aadhaar & Digital Services | Kampur, Nagaon, Assam">
++    <meta name="twitter:description" content="Your trusted digital shop at Kachua Tiniali, Kampur, Nagaon. Get website design, PAN card, Aadhaar, QR codes, WhatsApp bots & more.">
++    <meta name="twitter:image" content="https://smartdigitalassam.com/assets/img/logo.png">
+     
+ 
+     <!-- Google Fonts -->
+@@ -35,7 +44,46 @@
+     </script>
+ 
+     
+-<link rel="icon" type="image/png" href="assets/img/logo.png"><link rel="preconnect" href="https://fonts.googleapis.com/"><link href="assets/css/fonts.css" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><link rel="stylesheet" href="assets/css/style.css"><script src="assets/js/config.js"></script><link rel="stylesheet" href="chatbot/bot.css"></head>
++<link rel="icon" type="image/png" href="assets/img/logo.png"><link rel="preconnect" href="https://fonts.googleapis.com/"><link href="assets/css/fonts.css" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><link rel="stylesheet" href="assets/css/style.css"><script src="assets/js/config.js"></script><link rel="stylesheet" href="chatbot/bot.css">
++    <!-- LocalBusiness Structured Data (SEO) -->
++    <script type="application/ld+json">
++    {
++      "@context": "https://schema.org",
++      "@type": "LocalBusiness",
++      "name": "Smart Digital",
++      "image": "https://smartdigitalassam.com/assets/img/logo.png",
++      "@id": "https://smartdigitalassam.com/",
++      "url": "https://smartdigitalassam.com/",
++      "telephone": "+91-86387-59478",
++      "email": "smartdigitalassam@gmail.com",
++      "address": {
++        "@type": "PostalAddress",
++        "streetAddress": "Kachua Tiniali Main Market",
++        "addressLocality": "Kampur",
++        "addressRegion": "Assam",
++        "postalCode": "782426",
++        "addressCountry": "IN"
++      },
++      "geo": {
++        "@type": "GeoCoordinates",
++        "latitude": "PLACEHOLDER_ADD_LATITUDE",
++        "longitude": "PLACEHOLDER_ADD_LONGITUDE"
++      },
++      "openingHoursSpecification": {
++        "@type": "OpeningHoursSpecification",
++        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
++        "opens": "09:00",
++        "closes": "18:00"
++      },
++      "priceRange": "Rs",
++      "serviceType": ["Website Design", "PAN Card Services", "Aadhaar Services", "QR Code Generation", "WhatsApp Bot Automation", "Resume Building", "Exam Paper Generation", "Digital Marketing", "Document Services", "Printing & Scanning"],
++      "areaServed": {
++        "@type": "City",
++        "name": "Kampur, Nagaon, Assam"
++      }
++    }
++    </script>
++</head>
+ 
+ <body style="opacity: 1;">
+ 
+@@ -97,7 +145,7 @@
+             <div class="urgent-body">
+                 <span class="urgent-label">URGENT NOTICE</span>
+                 <span id="urgentNoticeText">⭐ We are LIVE! Get your business online with our Website &amp; WhatsApp Bot
+-                    services! 💬 starting at just ₹3,000! 🔥🔥🔥</span>
++                    services! 💬 Message us on WhatsApp for details. 🔥🔥🔥</span>
+             </div>
+             <div class="urgent-timer">
+                 <i class="fas fa-hourglass-half"></i>
+@@ -150,9 +198,6 @@
+                     <a href="#services" class="btn btn-liquid-glass btn-hero-cta">
+                         <i class="fas fa-robot"></i> <span data-en="Our Services" data-as="আমাৰ সেৱাসমূহ">Our Services</span>
+                     </a>
+-                    <a href="#websites" onclick="setTimeout(function(){document.querySelector('[onclick*=games-projects-tab]').click()},400)" class="btn btn-liquid-glass btn-hero-cta-alt">
+-                        <i class="fas fa-gamepad"></i> <span data-en="Play Games" data-as="গেম খেলক">Play Games</span>
+-                    </a>
+                 </div>
+             </div>
+             <input type="file" id="hero-bg-input" accept="image/*" hidden>
+@@ -311,20 +356,20 @@
+                 <div class="board-ticker-wrap">
+                     <span class="ticker-label"><i class="fas fa-bullhorn"></i> LATEST</span>
+                     <div class="board-ticker">
+-                        <span id="boardTickerText" data-en="🚀 Boost your business with our NEW Website Creation &amp; WhatsApp Bot services! Get online today! 🌐📱" data-as="🚀 আমাৰ নতুন ৱেবছাইট নিৰ্মাণ আৰু WhatsApp বট সেৱাৰে আপোনাৰ ব্যৱসায় বৃদ্ধি কৰক! আজি অনলাইন হওক! 🌐📱">🎉  🔥 Special Launch Offer: Professional websites starting at just ₹3,000! Contact us now. 💻✨   •   📢  🤖 Automate Your WhatsApp with n8n! Auto-replies, lead capture, order updates &amp; more — 24/7 without manual work. 📲⚡</span>
++                        <span id="boardTickerText" data-en="🚀 Boost your business with our Website Creation &amp; WhatsApp Bot services! Message us on WhatsApp. 🌐📱" data-as="🚀 আমাৰ ৱেবছাইট নিৰ্মাণ আৰু WhatsApp বট সেৱাৰে আপোনাৰ ব্যৱসায় বৃদ্ধি কৰক! WhatsApp ত যোগাযোগ কৰক। 🌐📱">🎉  Build your professional business website with Smart Digital. Message us on WhatsApp for details. 💻✨   •   📢  🤖 Automate Your WhatsApp with n8n! Auto-replies, lead capture, order updates &amp; more — 24/7 without manual work. 📲⚡</span>
+                     </div>
+                 </div>
+                 <div class="board-notifs" id="notifContainer">
+                     <div class="board-empty" id="boardEmpty" style="display: none;">
+                         <i class="fas fa-bell-slash"></i>
+-                        <p data-en="🔥 Special Launch Offer: Professional websites starting at just ₹3,000! Contact us now. 💻✨" data-as="🔥 বিশেষ মুকলি অফাৰ: মাত্ৰ ৩,০০০ টকাৰ পৰা পেছাদাৰী ৱেবছাইট! এতিয়াই যোগাযোগ কৰক। 💻✨">
+-                            🔥 Special Launch Offer: Professional websites starting at just ₹3,000! Contact us now. 💻✨
++                        <p data-en="Build your professional business website with Smart Digital. Message us on WhatsApp for details. 💻✨" data-as="Smart Digital ৰ সৈতে আপোনাৰ পেছাদাৰী ব্যৱসায়িক ৱেবছাইট বনাওক। সবিশেষৰ বাবে WhatsApp ত যোগাযোগ কৰক। 💻✨">
++                            Build your professional business website with Smart Digital. Message us on WhatsApp for details. 💻✨
+                         </p>
+                     </div>
+                 <div class="notif-card notif-type-event reveal active" style="animation-delay: 0s;">
+       <div class="notif-card-icon">🎉</div>
+       <div class="notif-card-body">
+-        <p class="notif-card-text">🔥 Special Launch Offer: Professional websites starting at just ₹3,000! Contact us now. 💻✨</p>
++        <p class="notif-card-text">Build your professional business website with Smart Digital. Message us on WhatsApp for details. 💻✨</p>
+         <span class="notif-card-time"><i class="far fa-clock"></i> 21 Feb</span>
+       </div>
+       <div class="notif-card-tag notif-tag-event">EVENT</div>
+@@ -1644,10 +1689,8 @@
+     <section class="calculator-section" id="calculator" style="display: none;">
+         <div class="container">
+             <div class="section-head">
+-                <h2 class="section-title" data-en="Quick Quote Calculator" data-as="দ্ৰুত মূল্য গণনাকাৰী">Quick Quote
+-                    Calculator</h2>
+-                <p class="section-sub" data-en="Get an instant price estimate" data-as="তাৎক্ষণিক মূল্য অনুমান পাওক">Get
+-                    an instant price estimate</p>
++                <h2 class="section-title" data-en="Service Enquiry" data-as="সেৱাৰ অনুসন্ধান">Service Enquiry</h2>
++                <p class="section-sub" data-en="Choose a service and message us on WhatsApp" data-as="সেৱা বাছক আৰু WhatsApp ত যোগাযোগ কৰক">Choose a service and message us on WhatsApp</p>
+             </div>
+             <div class="calc-card">
+                 <div class="calc-grid">
+@@ -1656,24 +1699,18 @@
+                         <select id="quoteService" onchange="calcQuote()">
+                             <option value="0" data-en="Choose a service..." data-as="এটা সেৱা বাছক...">Choose a
+                                 service...</option>
+-                            <option value="150" data-en="PAN Card — ₹150" data-as="পেন কাৰ্ড — ₹150">PAN Card — ₹150
++                            <option value="0" data-en="PAN Card" data-as="পেন কাৰ্ড">PAN Card
+                             </option>
+-                            <option value="100" data-en="Aadhaar Update — ₹100" data-as="আধাৰ আপডেট — ₹100">Aadhaar
+-                                Update — ₹100</option>
+-                            <option value="100" data-en="Voter ID — ₹100" data-as="ভোটাৰ পৰিচয়পত্ৰ — ₹100">Voter ID —
+-                                ₹100</option>
+-                            <option value="2" data-en="Photocopy (per page) — ₹2" data-as="ফটোকপি (প্ৰতি পৃষ্ঠা) — ₹2">
+-                                Photocopy (per page) — ₹2</option>
+-                            <option value="5" data-en="B&amp;W Print (per page) — ₹5" data-as="বি&amp;ডব্লু প্ৰিন্ট (প্ৰতি পৃষ্ঠা) — ₹5">B&amp;W Print (per page) — ₹5</option>
+-                            <option value="15" data-en="Color Print (per page) — ₹15" data-as="কালাৰ প্ৰিন্ট (প্ৰতি পৃষ্ঠা) — ₹15">Color Print (per page) — ₹15</option>
+-                            <option value="20" data-en="Lamination — ₹20" data-as="লেমিনেচন — ₹20">Lamination — ₹20
++                            <option value="0" data-en="Aadhaar Update" data-as="আধাৰ আপডেট">Aadhaar Update</option>
++                            <option value="0" data-en="Voter ID" data-as="ভোটাৰ পৰিচয়পত্ৰ">Voter ID</option>
++                            <option value="0" data-en="Photocopy" data-as="ফটোকপি">Photocopy</option>
++                            <option value="0" data-en="B&amp;W Print" data-as="বি&amp;ডব্লু প্ৰিন্ট">B&amp;W Print</option>
++                            <option value="0" data-en="Color Print" data-as="কালাৰ প্ৰিন্ট">Color Print</option>
++                            <option value="0" data-en="Lamination" data-as="লেমিনেচন">Lamination
+                             </option>
+-                            <option value="50" data-en="Passport Photo (set) — ₹50" data-as="পাছপোৰ্ট ফটো (ছেট) — ₹50">
+-                                Passport Photo (set) — ₹50</option>
+-                            <option value="100" data-en="Form Filling — ₹100" data-as="ফৰ্ম পূৰণ — ₹100">Form Filling —
+-                                ₹100</option>
+-                            <option value="40" data-en="Railway Ticket — ₹40" data-as="ৰেলৱে টিকট — ₹40">Railway Ticket
+-                                — ₹40</option>
++                            <option value="0" data-en="Passport Photo" data-as="পাছপোৰ্ট ফটো">Passport Photo</option>
++                            <option value="0" data-en="Form Filling" data-as="ফৰ্ম পূৰণ">Form Filling</option>
++                            <option value="0" data-en="Railway Ticket" data-as="ৰেলৱে টিকট">Railway Ticket</option>
+                         </select>
+                     </div>
+                     <div class="calc-field">
+@@ -1682,11 +1719,10 @@
+                     </div>
+                 </div>
+                 <div class="calc-result" id="calcResult">
+-                    <div class="calc-result-label" data-en="Estimated Total" data-as="আনুমানিক মুঠ">Estimated Total
++                    <div class="calc-result-label" data-en="Next Step" data-as="পৰৱৰ্তী পদক্ষেপ">Next Step
+                     </div>
+-                    <div class="calc-total">₹<span id="calcTotal">0</span></div>
+-                    <p class="calc-note" data-en="*Final price may vary based on requirements" data-as="*প্ৰয়োজনীয়তাৰ ওপৰত চূড়ান্ত মূল্য পৰিবৰ্তিত হ'ব পাৰে">*Final price may vary based on
+-                        requirements</p>
++                    <div class="calc-total"><span id="calcTotal">WhatsApp</span></div>
++                    <p class="calc-note" data-en="Share your requirement with us directly." data-as="আপোনাৰ প্ৰয়োজনীয়তা পোনপটীয়াকৈ জনাওক।">Share your requirement with us directly.</p>
+                 </div>
+                 <div style="text-align:center; margin-top:1.5rem;">
+                     <a href="https://wa.me/918638759478" class="btn btn-primary" target="_blank" data-en="Book on WhatsApp" data-as="WhatsApp ত বুক কৰক">Book on WhatsApp</a>
+@@ -1856,7 +1892,7 @@
+                         <div class="loc-icon"><i class="fas fa-envelope"></i></div>
+                         <div>
+                             <h4 data-en="Email" data-as="ইমেইল">Email</h4>
+-                            <p><a href="mailto:smartdigital.assam@gmail.com">smartdigital.assam@gmail.com</a></p>
++                            <p><a href="mailto:smartdigitalassam@gmail.com">smartdigitalassam@gmail.com</a></p>
+                         </div>
+                     </div>
+                     <div class="loc-item reveal active">
+@@ -1886,15 +1922,15 @@
+                     <form class="contact-form" onsubmit="handleFormSubmit(event)">
+                         <div class="form-group">
+                             <label data-en="Your Name" data-as="আপোনাৰ নাম">Your Name</label>
+-                            <input type="text" placeholder="Enter your name" required="" data-en-placeholder="Enter your name" data-as-placeholder="আপোনাৰ নাম দিয়ক">
++                            <input type="text" name="name" placeholder="Enter your name" required="" data-en-placeholder="Enter your name" data-as-placeholder="আপোনাৰ নাম দিয়ক">
+                         </div>
+                         <div class="form-group">
+                             <label data-en="Phone Number" data-as="ফোন নম্বৰ">Phone Number</label>
+-                            <input type="tel" placeholder="Enter your phone number" data-en-placeholder="Enter your phone number" data-as-placeholder="আপোনাৰ ফোন নম্বৰ দিয়ক">
++                            <input type="tel" name="phone" placeholder="Enter your phone number" data-en-placeholder="Enter your phone number" data-as-placeholder="আপোনাৰ ফোন নম্বৰ দিয়ক">
+                         </div>
+                         <div class="form-group">
+                             <label data-en="Service Required" data-as="প্ৰয়োজনীয় সেৱা">Service Required</label>
+-                            <select>
++                            <select name="service">
+                                 <option data-en="Select a service" data-as="এটা সেৱা বাছক">Select a service</option>
+                                 <option>PAN Card</option>
+                                 <option>Aadhaar Services</option>
+@@ -1908,7 +1944,7 @@
+                         </div>
+                         <div class="form-group">
+                             <label data-en="Message" data-as="বাৰ্তা">Message</label>
+-                            <textarea rows="4" placeholder="How can we help you?" data-en-placeholder="How can we help you?" data-as-placeholder="আমি আপোনাক কেনেকৈ সহায় কৰিব পাৰো?"></textarea>
++                            <textarea rows="4" name="message" placeholder="How can we help you?" data-en-placeholder="How can we help you?" data-as-placeholder="আমি আপোনাক কেনেকৈ সহায় কৰিব পাৰো?"></textarea>
+                         </div>
+                         <button type="submit" class="btn btn-primary" style="width:100%">
+                             <i class="fas fa-paper-plane"></i>
+@@ -1981,13 +2017,22 @@
+                     <ul>
+                         <li><a href="#home" data-en="Home" data-as="ঘৰ">Home</a></li>
+                         <li><a href="#services" data-en="Services" data-as="সেৱা">Services</a></li>
+-                        <li><a href="#calculator" data-en="Pricing" data-as="মূল্য">Pricing</a></li>
++                        <li><a href="#contact" data-en="Enquiry" data-as="অনুসন্ধান">Enquiry</a></li>
+                         <li><a href="#gallery" data-en="Gallery" data-as="গেলেৰী">Gallery</a></li>
+                         <li><a href="#certificates" data-en="Certificates" data-as="প্ৰমাণপত্ৰ">Certificates</a></li>
+                         <li><a href="#location" data-en="Location" data-as="অৱস্থান">Location</a></li>
+                         <li><a href="#contact" data-en="Contact" data-as="যোগাযোগ">Contact</a></li>
+                     </ul>
+                 </div>
++                <div class="footer-links">
++                    <h4>Legal</h4>
++                    <ul>
++                        <li><a href="terms-and-conditions.html">Terms &amp; Conditions</a></li>
++                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
++                        <li><a href="cancellation-refund-policy.html">Cancellation &amp; Refund Policy</a></li>
++                        <li><a href="contact-us.html">Contact / Business Address</a></li>
++                    </ul>
++                </div>
+                 <div class="footer-links">
+                     <h4 data-en="Our Services" data-as="আমাৰ সেৱা">Our Services</h4>
+                     <ul>
+@@ -2002,12 +2047,11 @@
+                 </div>
+                 <div class="footer-contact">
+                     <h4 data-en="Contact Info" data-as="যোগাযোগৰ তথ্য">Contact Info</h4>
+-                    <p style="display:none;"><i class="fas fa-map-marker-alt"></i> <span data-en="Assam" data-as="অসম">Assam</span>
+-                    </p>
++                    <p><i class="fas fa-map-marker-alt"></i> <span>Kachua Tiniali Main Market, Kampur, Assam 782426</span></p>
+                     <p><i class="fas fa-phone"></i> <a href="tel:+918638759478">+91 86387 59478</a></p>
+                     <p><i class="fab fa-whatsapp"></i> <a href="https://wa.me/918638759478" target="_blank">+91 86387
+                             59478</a></p>
+-                    <p><i class="fas fa-envelope"></i> <a href="mailto:smartdigital.assam@gmail.com">smartdigital.assam@gmail.com</a>
++                    <p><i class="fas fa-envelope"></i> <a href="mailto:smartdigitalassam@gmail.com">smartdigitalassam@gmail.com</a>
+                     </p>
+                     <p style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08);">
+                         <i class="fas fa-user" style="color: #6366f1;"></i>
+@@ -2067,9 +2111,9 @@
+                 <p id="agentUseCase" style="font-style: italic;"></p>
+             </div>
+ 
+-            <div class="agent-modal-pricing-note">
++            <div class="agent-modal-contact-note">
+                 <i class="fas fa-info-circle"></i>
+-                <span>Custom pricing based on your needs. Monthly plans available. Message us to get a free demo + quote.</span>
++                <span>Every setup is discussed manually. Message us on WhatsApp to explain your need and get a free demo.</span>
+             </div>
+ 
+             <a id="agentWhatsApp" href="#" target="_blank" class="btn btn-primary agent-modal-cta">
+@@ -2087,8 +2131,8 @@
+             <h2 id="modalTitle">Service</h2>
+             <p id="modalDesc">Description</p>
+             <div class="modal-price-box">
+-                <span data-en="Price" data-as="মূল্য">Price</span>
+-                <strong id="modalPrice">₹0</strong>
++                <span data-en="Enquiry" data-as="অনুসন্ধান">Enquiry</span>
++                <strong id="modalPrice">Contact on WhatsApp</strong>
+             </div>
+             <ul class="modal-includes" id="modalIncludes"></ul>
+             <a id="modalWhatsApp" href="#" target="_blank" class="btn btn-primary" style="display:block;text-align:center;margin-top:1.5rem;">

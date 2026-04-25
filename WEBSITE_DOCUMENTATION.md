@@ -607,16 +607,16 @@ The current language is stored in `currentLang` variable and toggled by `toggleL
 |---|---|
 | Business Name | Smart Digital |
 | Owner/Developer | Suman Bisa |
-| Email | sumanbisas123@gmail.com |
+| Email | smartdigitalassam@gmail.com |
 | WhatsApp | +91 86387 59478 |
 | Physical Location | Kachua Tiniali, Kampur, Assam — 782426 |
 | Shop Hours | Monday–Saturday, 9 AM – 6 PM |
 | GitHub (demos) | smartdigital-sum.github.io |
 
-**Offline services pricing:**
-- Website Creation: ₹3,000 – ₹16,000
-- n8n WhatsApp Bot Automation: ₹1,500 – ₹5,000
-- Documentation (PAN, Aadhaar, Printing, Scanning, Ticket Booking): Coming soon
+**Offline service enquiries:**
+- Website Creation: Manual discussion on WhatsApp
+- n8n WhatsApp Bot Automation: Manual discussion on WhatsApp
+- Documentation (PAN, Aadhaar, Printing, Scanning, Ticket Booking): Ask on WhatsApp or at the shop
 
 ---
 
