@@ -2,7 +2,7 @@
 
 > A full-stack static web platform combining a local-business showcase site with **9 browser-based AI apps**, **10 HTML5 games**, a live **Firebase-powered notice board**, and an embedded **AI chatbot** — all built with **vanilla HTML/CSS/JS**, no framework, no build step.
 
-**Live Demo:** https://smartdigitalkampur.netlify.app
+**Live Demo:** https://smartdigitalassam.com
 **Repo:** https://github.com/smartdigital-sum/m
 
 ---

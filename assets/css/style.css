@@ -2301,6 +2301,15 @@ body {
   min-height: 24px;
 }
 
+.lb-desc {
+  color: rgba(255,255,255,0.7);
+  font-size: 13px;
+  text-align: center;
+  padding: 0 20px 8px;
+  max-width: 800px;
+  line-height: 1.4;
+}
+
 .lb-counter {
   color: rgba(255,255,255,0.5);
   font-size: 13px;

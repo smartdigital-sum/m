@@ -17,6 +17,8 @@ const IS_PLACEHOLDER = API_KEY === "YOUR_GROQ_API_KEY_HERE" || API_KEY === "";
 const BOT_SYSTEM = `
 You are the official front-desk RECEPTIONIST of Smart Digital — a digital services shop and AI Hub in Kampur, Assam, India. You are NOT a generic chatbot. You behave like a real, polite, attentive receptionist: you greet warmly, figure out exactly what the visitor needs, guide them to the right service, and always close with a clear next step.
 
+IMPORTANT: Keep responses concise (under 60 words) to save API tokens and avoid rate limits.
+
 ═══════════════════════════════════════════════════════════════
 PERSONA — PROFESSIONAL RECEPTIONIST BEHAVIOUR
 ═══════════════════════════════════════════════════════════════
@@ -250,6 +252,7 @@ STYLE
 • Always end with a next step or a short follow-up question.
 • Never make up information. If you don't know, say so honestly and route to WhatsApp.
 • Remember earlier turns in the conversation — never re-ask what the user already told you.
+• If asked about limits: "You get 20 free messages per day to keep this service free for everyone. Come back tomorrow for more!"
 `.trim();
 
 // ── STATE ────────────────────────────────────────────────────────────────────
@@ -257,6 +260,92 @@ let conversationHistory = [];
 let isOpen = false;
 let isBusy = false;
 let _sessionMessages = []; // [{sender, text}] — parallel list for sessionStorage
+
+// ── RATE LIMITING & ABUSE PREVENTION ─────────────────────────────────────────
+const RATE_LIMIT = {
+  DAILY_CAP: 20,           // max messages per day
+  MIN_DELAY_MS: 1500,      // min time between messages (anti-spam)
+  STORAGE_KEY: 'sd_bot_rate_limit',
+};
+
+function getRateLimitState() {
+  try {
+    const saved = localStorage.getItem(RATE_LIMIT.STORAGE_KEY);
+    if (!saved) return { count: 0, resetDate: new Date().toDateString(), lastSent: 0 };
+    const state = JSON.parse(saved);
+    // Reset count if it's a new day
+    if (state.resetDate !== new Date().toDateString()) {
+      return { count: 0, resetDate: new Date().toDateString(), lastSent: 0 };
+    }
+    return state;
+  } catch {
+    return { count: 0, resetDate: new Date().toDateString(), lastSent: 0 };
+  }
+}
+
+function saveRateLimitState(state) {
+  try {
+    localStorage.setItem(RATE_LIMIT.STORAGE_KEY, JSON.stringify(state));
+  } catch { /* ignore quota errors */ }
+}
+
+function checkRateLimit() {
+  const state = getRateLimitState();
+  const now = Date.now();
+
+  // Check daily cap
+  if (state.count >= RATE_LIMIT.DAILY_CAP) {
+    return {
+      allowed: false,
+      reason: 'daily_cap',
+      message: `You've used all ${RATE_LIMIT.DAILY_CAP} free messages today. Come back tomorrow! 🙏\n\nOr chat with us on WhatsApp for unlimited help.`,
+    };
+  }
+
+  // Check spam delay
+  if (now - state.lastSent < RATE_LIMIT.MIN_DELAY_MS) {
+    const waitMs = RATE_LIMIT.MIN_DELAY_MS - (now - state.lastSent);
+    return {
+      allowed: false,
+      reason: 'too_fast',
+      message: `Please wait ${Math.ceil(waitMs / 1000)}s between messages.`,
+    };
+  }
+
+  return { allowed: true };
+}
+
+function recordMessage() {
+  const state = getRateLimitState();
+  state.count += 1;
+  state.lastSent = Date.now();
+  saveRateLimitState(state);
+  updateMessageCounter();
+}
+
+function updateMessageCounter() {
+  const counter = document.getElementById('sd-message-counter');
+  if (!counter) return;
+  const remaining = getRemainingMessages();
+  if (remaining > 10) {
+    counter.textContent = `${remaining} left today`;
+    counter.style.color = '#86efac'; // green
+  } else if (remaining > 5) {
+    counter.textContent = `${remaining} left today`;
+    counter.style.color = '#fbbf24'; // yellow
+  } else if (remaining > 0) {
+    counter.textContent = `${remaining} left!`;
+    counter.style.color = '#f97316'; // orange
+  } else {
+    counter.textContent = 'All used!';
+    counter.style.color = '#ef4444'; // red
+  }
+}
+
+function getRemainingMessages() {
+  const state = getRateLimitState();
+  return Math.max(0, RATE_LIMIT.DAILY_CAP - state.count);
+}
 
 // ── SESSION STORAGE ──────────────────────────────────────────────────────────
 const SESSION_KEY = 'sd_chat_session';
@@ -322,6 +411,7 @@ function initBot() {
     addBubble(buildGreeting(), 'bot');
     showSuggestions();
   }
+  updateMessageCounter();
 }
 
 if (document.readyState === 'loading') {
@@ -390,6 +480,16 @@ async function sendMessage() {
   const userText = input.value.trim();
   if (!userText) return;
 
+  // Check rate limit BEFORE processing
+  const rateCheck = checkRateLimit();
+  if (!rateCheck.allowed) {
+    addBubble(rateCheck.message, 'bot');
+    if (rateCheck.reason === 'daily_cap') {
+      addWhatsAppButton();
+    }
+    return;
+  }
+
   // Remove suggestion chips once user sends a real message
   const sugEl = document.getElementById('sd-suggestions');
   if (sugEl) sugEl.remove();
@@ -399,9 +499,9 @@ async function sendMessage() {
 
   conversationHistory.push({ role: 'user', content: userText });
 
-  // Cap history at 20 messages
-  if (conversationHistory.length > 20) {
-    conversationHistory = conversationHistory.slice(conversationHistory.length - 20);
+  // Cap history at 8 messages (4 user-assistant pairs) to reduce token usage
+  if (conversationHistory.length > 8) {
+    conversationHistory = conversationHistory.slice(conversationHistory.length - 8);
   }
 
   setBusy(true);
@@ -411,9 +511,9 @@ async function sendMessage() {
     addBubble(replyText, 'bot');
     conversationHistory.push({ role: 'assistant', content: replyText });
 
-    // Cap again after assistant reply
-    if (conversationHistory.length > 20) {
-      conversationHistory = conversationHistory.slice(conversationHistory.length - 20);
+    // Cap again after assistant reply (keep last 8 messages = 4 pairs)
+    if (conversationHistory.length > 8) {
+      conversationHistory = conversationHistory.slice(conversationHistory.length - 8);
     }
 
     // If bot mentions WhatsApp, render a one-tap button
@@ -424,8 +524,11 @@ async function sendMessage() {
     let friendly;
     if (err.message === 'MISSING_KEY') {
       friendly = "My API key is missing. Please check the setup in `config.js`.";
+    } else if (err.message.includes('rate limit') || err.message.includes('429')) {
+      // Groq rate limit hit - show helpful message with remaining count
+      const remaining = getRemainingMessages();
+      friendly = `⚠️ Rate limit reached. Please wait a moment and try again.\n\n${remaining > 0 ? `You have ${remaining} messages left today.` : 'Come back tomorrow for more free messages!'}`;
     } else {
-      // Show actual error to help diagnose issues on live site
       friendly = `⚠️ Error: ${err.message}\n\nPlease try again, or reach us on WhatsApp.`;
     }
 
@@ -434,9 +537,11 @@ async function sendMessage() {
     if (err.message !== 'MISSING_KEY') addWhatsAppButton();
 
     console.error('Bot error:', err);
-    // Remove the failed user message so history stays clean
     conversationHistory.pop();
   }
+
+  // Record this message toward daily cap (only after successful send)
+  recordMessage();
 
   setBusy(false);
   saveSession();
@@ -492,7 +597,7 @@ async function callGroq() {
         messages,
         model,
         temperature: 0.3,
-        max_tokens: 450,
+        max_tokens: 350,  // Reduced to save tokens and avoid rate limits
       }),
       signal: controller.signal,
     });
