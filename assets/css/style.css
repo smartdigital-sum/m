@@ -4486,7 +4486,7 @@ body.legal-page {
   border: 1.5px solid var(--border);
   border-radius: 60px;
   padding: 6px;
-  max-width: 520px;
+  max-width: 720px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
