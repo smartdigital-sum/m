@@ -62,31 +62,52 @@ if (MISSING_ELEMENTS.length) {
   throw new Error(`Translator init failed: missing ${MISSING_ELEMENTS.join(", ")}`);
 }
 
-// ── CREDITS SYSTEM ───────────────────────────────────────────────────
+// ── CREDITS SYSTEM (Firestore-backed) ────────────────────────────────
+// Legacy localStorage helpers kept for glossary/history only.
+// Doc credits now live in Firestore via firebase-auth.js.
+
 function getCredits() {
-  return parseInt(localStorage.getItem('lipi_credits') || '0');
+  // Return Firestore credits if logged in, else 0
+  if (window.currentUserData) return window.currentUserData.docsRemaining || 0;
+  return 0;
 }
-function addCredits(n) {
-  localStorage.setItem('lipi_credits', getCredits() + n);
-  updateCreditsDisplay();
-}
-function useCredit() {
-  const c = getCredits();
-  if (c > 0) {
-    localStorage.setItem('lipi_credits', c - 1);
-    updateCreditsDisplay();
-    return true;
-  }
-  return false;
-}
+
 function updateCreditsDisplay() {
-  if (!creditsEl) return;
-  const c = getCredits();
-  if (c > 0) {
-    creditsEl.textContent = `📄 ${c} file credit${c !== 1 ? 's' : ''} remaining`;
-    creditsEl.style.display = 'inline-block';
-  } else {
-    creditsEl.style.display = 'none';
+  // Delegated to firebase-auth.js updateCreditsDisplay() when logged in.
+  // Also update the inline credits bar in the translator card.
+  if (creditsEl) {
+    const u = window.currentUserData;
+    if (!u) { creditsEl.style.display = 'none'; return; }
+    const remaining = u.docsRemaining || 0;
+    if (remaining > 0) {
+      creditsEl.textContent = `📄 ${remaining} file credit${remaining !== 1 ? 's' : ''} remaining`;
+      creditsEl.style.display = 'inline-block';
+    } else {
+      creditsEl.style.display = 'none';
+    }
+  }
+  // Also update the header badge via firebase-auth.js helper
+  if (typeof window.currentUserData !== 'undefined') {
+    const badge = document.getElementById('creditsBadge');
+    if (!badge) return;
+    const u = window.currentUserData;
+    if (!u) return;
+    const demoUsed  = u.demoUsed      || 0;
+    const remaining = u.docsRemaining || 0;
+    const hasPlan   = !!u.plan;
+    if (hasPlan && remaining > 0) {
+      badge.textContent      = `${remaining} doc${remaining !== 1 ? 's' : ''} left`;
+      badge.style.background = '#2563EB';
+    } else if (hasPlan && remaining <= 0) {
+      badge.textContent      = 'Credits used';
+      badge.style.background = '#dc2626';
+    } else if (demoUsed < 1) {
+      badge.textContent      = '1 free demo';
+      badge.style.background = '#f59e0b';
+    } else {
+      badge.textContent      = 'Demo used — Buy plan';
+      badge.style.background = '#dc2626';
+    }
   }
 }
 
@@ -123,7 +144,10 @@ function clearFileMode() {
 
 function updateTranslateBtn() {
   const c = getCredits();
-  if (isFileUpload && c === 0) {
+  const loggedIn = !!window.auth?.currentUser;
+  if (isFileUpload && !loggedIn) {
+    btnText.textContent = 'Sign In to Translate →';
+  } else if (isFileUpload && c === 0) {
     btnText.textContent = 'Pay & Translate →';
   } else if (isFileUpload && c > 0) {
     btnText.textContent = `Translate Document (${c} credit${c !== 1 ? 's' : ''} left)`;
@@ -272,8 +296,21 @@ async function handleTranslate() {
   }
 
   if (isFileUpload) {
+    // Require login for file uploads
+    if (!window.auth?.currentUser) {
+      window._pendingTranslate = true;
+      openAuthModal('login');
+      return;
+    }
     if (getCredits() === 0) { openPayModal('single'); return; }
-    useCredit();
+    // Reserve credit via Firestore transaction
+    try {
+      await reserveDocCredit();
+    } catch (err) {
+      if (err.code === 'lipi/no-credits') { openPayModal('single'); return; }
+      showError("Could not reserve credit. Please try again.");
+      return;
+    }
   }
 
   hideError();
@@ -316,7 +353,7 @@ async function handleTranslate() {
     saveToHistory(text, translated, src, tgt);
 
   } catch (err) {
-    if (isFileUpload) addCredits(1);
+    if (isFileUpload) releaseDocCredit();
     if (err.message.includes("401") || err.message.includes("403")) {
       showError("API authentication error. Please check your API key configuration.");
     } else if (err.message.includes("429")) {
@@ -817,6 +854,7 @@ function submitReport() {
     reports.unshift(report);
     if (reports.length > 50) reports.pop();
     localStorage.setItem(REPORTS_KEY, JSON.stringify(reports));
+  } catch (e) { /* ignore storage errors */ }
 
   // Show thank-you state
   const form = document.getElementById('reportForm');
@@ -870,6 +908,10 @@ function saveToHistory(sourceText, translatedText, src, tgt) {
   if (history.length > HISTORY_MAX) history.pop();
   localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
   renderHistory();
+  // Also save to Firestore if logged in
+  if (typeof saveTranslationHistory === 'function') {
+    saveTranslationHistory({ src, tgt, tone: currentTone, mode: isFileUpload ? 'paid' : 'free', words: entry.words });
+  }
 }
 
 function getHistory() {
@@ -962,9 +1004,22 @@ function confirmPayment() {
   document.getElementById('pay-step-confirm').classList.remove('active');
   document.getElementById('pay-step-proc').classList.add('active');
 
-  setTimeout(() => {
+  setTimeout(async () => {
     const plan = PAYMENT_PLANS[pendingPlan];
-    addCredits(plan.credits);
+
+    // If user is logged in, apply credits via Firestore
+    if (window.auth?.currentUser && typeof applyPlanToUser === 'function') {
+      try {
+        await applyPlanToUser({
+          planId: pendingPlan,
+          label:  plan.label,
+          docs:   plan.credits
+        });
+      } catch (err) {
+        console.error("applyPlanToUser error:", err);
+      }
+    }
+
     document.getElementById('pay-step-proc').classList.remove('active');
     document.getElementById('pay-step-success').classList.add('active');
     const c = getCredits();
@@ -991,3 +1046,19 @@ updateTranslateBtn();
 renderHistory();
 renderGlossary();
 updateGlossaryCount();
+
+// ── USER DROPDOWN TOGGLE ─────────────────────────────────────────────
+function toggleUserMenu() {
+  const dropdown = document.getElementById('userDropdown');
+  if (!dropdown) return;
+  dropdown.classList.toggle('open');
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', (e) => {
+  const panel = document.getElementById('userPanel');
+  const dropdown = document.getElementById('userDropdown');
+  if (dropdown && panel && !panel.contains(e.target)) {
+    dropdown.classList.remove('open');
+  }
+});

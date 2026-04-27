@@ -10,9 +10,10 @@ const FREE_SAMPLE_USED_KEY = 'patralekhak_free_sample_used';
 const FREE_SAMPLE_LIMIT = 1;
 
 const PAYMENT_PLANS = {
-  single: { labelKey: 'plan_single_name', base: 9, credits: 1 },
-  pack: { labelKey: 'plan_pack_name', base: 35, credits: 5 },
-  pro: { labelKey: 'plan_pro_name', base: 79, credits: 15 }
+  single: { labelKey: 'plan_single_name', base: 100, credits: 1 },
+  pack: { labelKey: 'plan_pack_name', base: 150, credits: 1 },
+  pro: { labelKey: 'plan_pro_name', base: 250, credits: 1 },
+  provider: { labelKey: 'plan_provider_name', base: 999, credits: 20 }
 };
 
 // ====== STATE ======
@@ -127,25 +128,31 @@ const i18n = {
     pricing_free_f3: 'Copy, edit, save, or download',
     pricing_free_f4: 'Perfect for first-time users',
     pricing_free_cta: 'Try Free →',
-    pricing_single_label: 'Single Letter',
-    pricing_single_f1: '1 credit for 1 formal letter',
-    pricing_single_f2: 'Best for one urgent complaint',
+    pricing_single_label: 'Simple Complaint Letter',
+    pricing_single_f1: '1 credit for 1 complaint letter',
+    pricing_single_f2: 'Standard format complaint',
     pricing_single_f3: 'PDF + TXT + save included',
-    pricing_single_f4: 'Low-cost and easy to try',
-    pricing_single_cta: 'Buy 1 Letter →',
-    pricing_best_badge: 'Best Value',
-    pricing_pack_label: '5-Letter Pack',
-    pricing_pack_f1: '5 letter credits',
-    pricing_pack_f2: 'Just ₹7 per letter',
-    pricing_pack_f3: 'Good for CSCs and local services',
-    pricing_pack_f4: 'Most practical starter pack',
-    pricing_pack_cta: 'Buy Pack →',
-    pricing_pro_label: '15-Letter Pack',
-    pricing_pro_f1: '15 letter credits',
-    pricing_pro_f2: 'About ₹5.3 per letter',
-    pricing_pro_f3: 'Best for shop operators and freelancers',
-    pricing_pro_f4: 'Higher margin for client work',
-    pricing_pro_cta: 'Buy 15 Letters →',
+    pricing_single_f4: 'Instant delivery',
+    pricing_single_cta: 'Buy Now →',
+    pricing_best_badge: 'Specialized',
+    pricing_pack_label: 'RTI / Legal Notice',
+    pricing_pack_f1: '1 legal or RTI format letter',
+    pricing_pack_f2: 'Proper legal terminology',
+    pricing_pack_f3: 'PDF + TXT + save included',
+    pricing_pack_f4: 'Instant delivery',
+    pricing_pack_cta: 'Buy Now →',
+    pricing_pro_label: 'Urgent Same-Day',
+    pricing_pro_f1: 'Priority delivery',
+    pricing_pro_f2: 'Any letter type',
+    pricing_pro_f3: 'PDF + TXT + save included',
+    pricing_pro_f4: 'Instant delivery',
+    pricing_pro_cta: 'Buy Now →',
+    pricing_provider_label: 'Service Provider Pack',
+    pricing_provider_f1: '20 letter credits',
+    pricing_provider_f2: 'For CSCs and local shops',
+    pricing_provider_f3: 'Highest margin for clients',
+    pricing_provider_f4: 'Manage multiple clients',
+    pricing_provider_cta: 'Buy Pack →',
     pricing_tip_tag: '💡 Suggested Selling Price',
     pricing_tip_title: 'Easy Margin for Service Operators',
     pricing_tip_body: 'If you pay <strong>₹7–₹9</strong> per generated letter, you can comfortably charge clients <strong>₹100–₹150</strong> for a standard complaint and more for RTI or legal notices.',
@@ -168,9 +175,10 @@ const i18n = {
     pay_success_title: 'Payment Successful!',
     pay_success_cta: 'Write Letter Now →',
     pay_success_msg: '{added} {creditWord} added. {total} {totalWord} available now.',
-    plan_single_name: 'Single Letter',
-    plan_pack_name: '5-Letter Pack',
-    plan_pro_name: '15-Letter Pack',
+    plan_single_name: 'Simple Complaint',
+    plan_pack_name: 'RTI / Legal Notice',
+    plan_pro_name: 'Urgent Same-Day',
+    plan_provider_name: 'Service Provider Pack',
     credit_singular: 'credit',
     credit_plural: 'credits',
     credits_free_left: '🆓 1 free sample available',
@@ -300,25 +308,31 @@ const i18n = {
     pricing_free_f3: 'कॉपी, एडिट, सेव और डाउनलोड शामिल',
     pricing_free_f4: 'पहली बार उपयोग करने वालों के लिए बढ़िया',
     pricing_free_cta: 'फ्री ट्राय करें →',
-    pricing_single_label: 'सिंगल लेटर',
-    pricing_single_f1: '1 औपचारिक पत्र के लिए 1 क्रेडिट',
-    pricing_single_f2: 'एक जरूरी शिकायत के लिए सबसे ठीक',
+    pricing_single_label: 'साधारण शिकायत पत्र',
+    pricing_single_f1: '1 शिकायत पत्र के लिए 1 क्रेडिट',
+    pricing_single_f2: 'मानक प्रारूप शिकायत',
     pricing_single_f3: 'PDF + TXT + सेव शामिल',
-    pricing_single_f4: 'कम कीमत और आसान शुरुआत',
-    pricing_single_cta: '1 लेटर खरीदें →',
-    pricing_best_badge: 'बेस्ट वैल्यू',
-    pricing_pack_label: '5-लेटर पैक',
-    pricing_pack_f1: '5 लेटर क्रेडिट',
-    pricing_pack_f2: 'सिर्फ ₹7 प्रति पत्र',
-    pricing_pack_f3: 'CSC और लोकल सेवाओं के लिए अच्छा',
-    pricing_pack_f4: 'सबसे उपयोगी स्टार्टर पैक',
-    pricing_pack_cta: 'पैक खरीदें →',
-    pricing_pro_label: '15-लेटर पैक',
-    pricing_pro_f1: '15 लेटर क्रेडिट',
-    pricing_pro_f2: 'लगभग ₹5.3 प्रति पत्र',
-    pricing_pro_f3: 'दुकान संचालक और फ्रीलांसर के लिए बेहतर',
-    pricing_pro_f4: 'क्लाइंट वर्क में ज्यादा मार्जिन',
-    pricing_pro_cta: '15 लेटर खरीदें →',
+    pricing_single_f4: 'तुरंत डिलीवरी',
+    pricing_single_cta: 'अभी खरीदें →',
+    pricing_best_badge: 'विशेष',
+    pricing_pack_label: 'RTI / कानूनी नोटिस',
+    pricing_pack_f1: '1 कानूनी या RTI प्रारूप पत्र',
+    pricing_pack_f2: 'उचित कानूनी शब्दावली',
+    pricing_pack_f3: 'PDF + TXT + सेव शामिल',
+    pricing_pack_f4: 'तुरंत डिलीवरी',
+    pricing_pack_cta: 'अभी खरीदें →',
+    pricing_pro_label: 'तत्काल उसी दिन',
+    pricing_pro_f1: 'प्राथमिकता डिलीवरी',
+    pricing_pro_f2: 'किसी भी प्रकार का पत्र',
+    pricing_pro_f3: 'PDF + TXT + सेव शामिल',
+    pricing_pro_f4: 'तुरंत डिलीवरी',
+    pricing_pro_cta: 'अभी खरीदें →',
+    pricing_provider_label: 'सेवा प्रदाता पैक',
+    pricing_provider_f1: '20 लेटर क्रेडिट',
+    pricing_provider_f2: 'CSC और लोकल शॉप्स के लिए',
+    pricing_provider_f3: 'क्लाइंट वर्क में सबसे ज्यादा मार्जिन',
+    pricing_provider_f4: 'कई क्लाइंट्स प्रबंधित करें',
+    pricing_provider_cta: 'पैक खरीदें →',
     pricing_tip_tag: '💡 सुझाई गई बिक्री कीमत',
     pricing_tip_title: 'सेवा प्रदाताओं के लिए आसान मार्जिन',
     pricing_tip_body: 'अगर आपकी लागत प्रति पत्र <strong>₹7–₹9</strong> रहे, तो आप साधारण शिकायत पत्र के लिए क्लाइंट से आसानी से <strong>₹100–₹150</strong> ले सकते हैं।',
@@ -341,9 +355,10 @@ const i18n = {
     pay_success_title: 'पेमेंट सफल रही!',
     pay_success_cta: 'अब पत्र लिखें →',
     pay_success_msg: '{added} {creditWord} जुड़ गए। अब आपके पास {total} {totalWord} उपलब्ध हैं।',
-    plan_single_name: 'सिंगल लेटर',
-    plan_pack_name: '5-लेटर पैक',
-    plan_pro_name: '15-लेटर पैक',
+    plan_single_name: 'साधारण शिकायत पत्र',
+    plan_pack_name: 'RTI / कानूनी नोटिस',
+    plan_pro_name: 'तत्काल उसी दिन',
+    plan_provider_name: 'सेवा प्रदाता पैक',
     credit_singular: 'क्रेडिट',
     credit_plural: 'क्रेडिट',
     credits_free_left: '🆓 1 फ्री सैंपल उपलब्ध है',
@@ -473,25 +488,31 @@ const i18n = {
     pricing_free_f3: 'কপি, সম্পাদনা, সংৰক্ষণ আৰু ডাউনলোড অন্তৰ্ভুক্ত',
     pricing_free_f4: 'প্ৰথমবাৰৰ ব্যৱহাৰকাৰীৰ বাবে উৎকৃষ্ট',
     pricing_free_cta: 'ফ্ৰী চেষ্টা কৰক →',
-    pricing_single_label: 'এখন পত্ৰ',
-    pricing_single_f1: '1টা আনুষ্ঠানিক পত্ৰৰ বাবে 1টা ক্রেডিট',
-    pricing_single_f2: 'এটা জৰুৰী অভিযোগৰ বাবে ভাল',
+    pricing_single_label: 'সাধাৰণ অভিযোগ পত্ৰ',
+    pricing_single_f1: '1টা অভিযোগ পত্ৰৰ বাবে 1টা ক্রেডিট',
+    pricing_single_f2: 'সাধাৰণ ফৰ্মেট অভিযোগ',
     pricing_single_f3: 'PDF + TXT + সংৰক্ষণ অন্তৰ্ভুক্ত',
-    pricing_single_f4: 'কম দাম আৰু সহজ আৰম্ভণি',
-    pricing_single_cta: '1খন পত্ৰ কিনক →',
-    pricing_best_badge: 'সৰ্বোত্তম মূল্য',
-    pricing_pack_label: '5-পত্ৰ পেক',
-    pricing_pack_f1: '5টা পত্ৰ ক্রেডিট',
-    pricing_pack_f2: 'প্ৰতি পত্ৰ মাত্ৰ ₹7',
-    pricing_pack_f3: 'CSC আৰু স্থানীয় সেৱাৰ বাবে ভাল',
-    pricing_pack_f4: 'আটাইতকৈ ব্যৱহাৰিক আৰম্ভণি পেক',
-    pricing_pack_cta: 'পেক কিনক →',
-    pricing_pro_label: '15-পত্ৰ পেক',
-    pricing_pro_f1: '15টা পত্ৰ ক্রেডিট',
-    pricing_pro_f2: 'প্ৰতি পত্ৰ প্ৰায় ₹5.3',
-    pricing_pro_f3: 'দোকান পৰিচালক আৰু ফ্ৰীলেঞ্চাৰৰ বাবে উত্তম',
-    pricing_pro_f4: 'ক্লায়েণ্ট কামত অধিক মাৰ্জিন',
-    pricing_pro_cta: '15খন পত্ৰ কিনক →',
+    pricing_single_f4: 'তৎক্ষণাৎ ডেলিভাৰি',
+    pricing_single_cta: 'এতিয়াই কিনক →',
+    pricing_best_badge: 'বিশেষ',
+    pricing_pack_label: 'RTI / আইনী নোটিছ',
+    pricing_pack_f1: '1খন আইনী বা RTI ফৰ্মেট পত্ৰ',
+    pricing_pack_f2: 'সঠিক আইনী পৰিভাষা',
+    pricing_pack_f3: 'PDF + TXT + সংৰক্ষণ অন্তৰ্ভুক্ত',
+    pricing_pack_f4: 'তৎক্ষণাৎ ডেলিভাৰি',
+    pricing_pack_cta: 'এতিয়াই কিনক →',
+    pricing_pro_label: 'একেদিনাই জৰুৰী',
+    pricing_pro_f1: 'প্ৰাথমিকতা ডেলিভাৰি',
+    pricing_pro_f2: 'যিকোনো প্ৰকাৰৰ পত্ৰ',
+    pricing_pro_f3: 'PDF + TXT + সংৰক্ষণ অন্তৰ্ভুক্ত',
+    pricing_pro_f4: 'তৎক্ষণাৎ ডেলিভাৰি',
+    pricing_pro_cta: 'এতিয়াই কিনক →',
+    pricing_provider_label: 'সেৱা প্ৰদানকাৰী পেক',
+    pricing_provider_f1: '20টা পত্ৰ ক্রেডিট',
+    pricing_provider_f2: 'CSC আৰু স্থানীয় দোকানৰ বাবে',
+    pricing_provider_f3: 'ক্লায়েণ্ট কামত সৰ্বাধিক মাৰ্জিন',
+    pricing_provider_f4: 'একাধিক ক্লায়েণ্ট পৰিচালনা কৰক',
+    pricing_provider_cta: 'পেক কিনক →',
     pricing_tip_tag: '💡 পৰামৰ্শমূলক বিক্ৰী মূল্য',
     pricing_tip_title: 'সেৱা প্ৰদানকাৰীৰ বাবে সহজ মাৰ্জিন',
     pricing_tip_body: 'যদি প্ৰতিখন পত্ৰত আপোনাৰ খৰচ <strong>₹7–₹9</strong> হয়, তেন্তে সাধাৰণ অভিযোগ পত্ৰৰ বাবে ক্লায়েণ্টৰ পৰা সহজে <strong>₹100–₹150</strong> ল’ব পাৰিব।',
@@ -514,9 +535,10 @@ const i18n = {
     pay_success_title: 'পেমেণ্ট সফল হ’ল!',
     pay_success_cta: 'এতিয়া পত্ৰ লিখক →',
     pay_success_msg: '{added}টা {creditWord} যোগ হ’ল। এতিয়া আপোনাৰ ওচৰত {total}টা {totalWord} উপলব্ধ আছে।',
-    plan_single_name: 'এখন পত্ৰ',
-    plan_pack_name: '5-পত্ৰ পেক',
-    plan_pro_name: '15-পত্ৰ পেক',
+    plan_single_name: 'সাধাৰণ অভিযোগ পত্ৰ',
+    plan_pack_name: 'RTI / আইনী নোটিছ',
+    plan_pro_name: 'একেদিনাই জৰুৰী',
+    plan_provider_name: 'সেৱা প্ৰদানকাৰী পেক',
     credit_singular: 'ক্রেডিট',
     credit_plural: 'ক্রেডিট',
     credits_free_left: '🆓 1টা ফ্ৰী নমুনা উপলব্ধ আছে',
@@ -575,45 +597,25 @@ function getSavedLetters() {
 }
 
 function getCredits() {
-  return parseInt(localStorage.getItem(CREDITS_STORAGE_KEY) || '0', 10);
-}
-
-function addCredits(count) {
-  localStorage.setItem(CREDITS_STORAGE_KEY, String(getCredits() + count));
-  updateCreditsDisplay();
-  updateGenerateButton();
-}
-
-function useCredit() {
-  const credits = getCredits();
-  if (credits <= 0) return false;
-  localStorage.setItem(CREDITS_STORAGE_KEY, String(credits - 1));
-  updateCreditsDisplay();
-  updateGenerateButton();
-  return true;
+  if (window.currentUserData) return window.currentUserData.lettersRemaining || 0;
+  return 0;
 }
 
 function hasFreeSampleRemaining() {
-  return parseInt(localStorage.getItem(FREE_SAMPLE_USED_KEY) || '0', 10) < FREE_SAMPLE_LIMIT;
-}
-
-function useFreeSample() {
-  const used = parseInt(localStorage.getItem(FREE_SAMPLE_USED_KEY) || '0', 10);
-  localStorage.setItem(FREE_SAMPLE_USED_KEY, String(used + 1));
-  updateCreditsDisplay();
-  updateGenerateButton();
+  if (!window.currentUserData) return false;
+  return (window.currentUserData.demoUsed || 0) < FREE_SAMPLE_LIMIT;
 }
 
 function refundAccess(mode) {
   if (mode === 'credit') {
-    addCredits(1);
-    return;
+    if (typeof releaseLetterCredit === 'function') releaseLetterCredit();
   }
   if (mode === 'free') {
-    const used = parseInt(localStorage.getItem(FREE_SAMPLE_USED_KEY) || '0', 10);
-    localStorage.setItem(FREE_SAMPLE_USED_KEY, String(Math.max(0, used - 1)));
-    updateCreditsDisplay();
-    updateGenerateButton();
+    if (window.currentUserData && window.currentUserData.demoUsed > 0) {
+      window.currentUserData.demoUsed -= 1;
+      updateCreditsDisplay();
+      updateGenerateButton();
+    }
   }
 }
 
@@ -627,6 +629,31 @@ function getCreditWord(count) {
 }
 
 function updateCreditsDisplay() {
+  // Update header badge
+  const badge = document.getElementById('creditsBadge');
+  if (badge) {
+    const u = window.currentUserData;
+    if (u) {
+      const demoUsed  = u.demoUsed || 0;
+      const remaining = u.lettersRemaining || 0;
+      const hasPlan   = !!u.plan;
+      if (hasPlan && remaining > 0) {
+        badge.textContent      = `${remaining} letter${remaining !== 1 ? 's' : ''} left`;
+        badge.style.background = '#2563EB';
+      } else if (hasPlan && remaining <= 0) {
+        badge.textContent      = 'Credits used';
+        badge.style.background = '#dc2626';
+      } else if (demoUsed < 1) {
+        badge.textContent      = '1 free demo';
+        badge.style.background = '#f59e0b';
+      } else {
+        badge.textContent      = 'Demo used — Buy plan';
+        badge.style.background = '#dc2626';
+      }
+    }
+  }
+
+  // Update form pill
   const pill = document.getElementById('creditsDisplay');
   if (!pill) return;
 
@@ -672,14 +699,21 @@ function formatLetterDate(outputLang) {
 
 function getSystemMessage(outputLang) {
   if (outputLang === 'Assamese') {
-    return `You are PatraLekhak, an expert Indian formal-letter writer writing in pure Assamese (অসমীয়া).
-Write only in natural Assamese, never Bengali.
-Critical rules:
-- Use Assamese vocabulary and grammar only.
-- Use Assamese script conventions, especially "ৰ" instead of Bengali "র".
-- Do not output Bengali-style words such as "এবং", "করব", "সরকার", or "আপনি".
-- Keep the tone formal and submission-ready.
-- Return only the requested tagged sections.`;
+    return `You are PatraLekhak, an expert Indian formal-letter writer writing in pure, flawless Assamese (অসমীয়া).
+You MUST strictly avoid any Bengali (বাংলা) words, spellings, or grammatical structures. 
+
+CRITICAL ASSAMESE vs BENGALI RULES:
+1. ALPHABET: Always use the Assamese 'ৰ' (Ra) instead of the Bengali 'র', and use 'ৱ' (Wa) where appropriate.
+2. VOCABULARY: 
+   - Never use "এবং" (Ebong). Use "আৰু" (Aru).
+   - Never use "আপনি" (Apni). Use "আপুনি" (Apuni).
+   - Never use "করব" (Korbo) or "করা". Use "কৰিম" (Korim) or "কৰা".
+   - Never use "সরকার" (Sorkar). Use "চৰকাৰ" (Sorkar).
+   - Never use "জন্য" (Jonno). Use "বাবে" (Babe) or "কাৰণে" (Karone).
+   - Never use "দয়া করে" (Doya kore). Use "অনুগ্ৰহ কৰি" (Onugroh kori).
+3. GRAMMAR: Ensure all verb conjugations and sentence structures are strictly Assamese. Do not use Bengali suffixes.
+4. TONE: Keep the tone highly formal, respectful, and submission-ready for official Indian authorities.
+5. FORMAT: Return only the requested tagged sections, absolutely no conversational text.`;
   }
 
   if (outputLang === 'Hindi') {
@@ -800,19 +834,31 @@ function confirmPayment() {
   document.getElementById('pay-step-confirm').classList.remove('active');
   document.getElementById('pay-step-proc').classList.add('active');
 
-  setTimeout(() => {
-    addCredits(plan.credits);
-    document.getElementById('pay-step-proc').classList.remove('active');
-    document.getElementById('pay-step-success').classList.add('active');
+  setTimeout(async () => {
+    try {
+      if (typeof applyPlanToUser === 'function') {
+        await applyPlanToUser({
+          planId: pendingPlan,
+          label: getText(plan.labelKey),
+          resumes: plan.credits
+        });
+      }
+      document.getElementById('pay-step-proc').classList.remove('active');
+      document.getElementById('pay-step-success').classList.add('active');
 
-    const credits = getCredits();
-    const word = getCreditWord(plan.credits);
-    const totalWord = getCreditWord(credits);
-    document.getElementById('pay-success-msg').textContent = getText('pay_success_msg')
-      .replace('{added}', plan.credits)
-      .replace('{creditWord}', word)
-      .replace('{total}', credits)
-      .replace('{totalWord}', totalWord);
+      const credits = getCredits();
+      const word = getCreditWord(plan.credits);
+      const totalWord = getCreditWord(credits);
+      document.getElementById('pay-success-msg').textContent = getText('pay_success_msg')
+        .replace('{added}', plan.credits)
+        .replace('{creditWord}', word)
+        .replace('{total}', credits)
+        .replace('{totalWord}', totalWord);
+    } catch (e) {
+      console.error(e);
+      alert('Error applying credits. Please check your connection and try again.');
+      closePayModal();
+    }
   }, 1800);
 }
 
@@ -918,11 +964,18 @@ async function generateLetter() {
   if (!recipientName) { showToast(getText('toast_enter_recipient')); return; }
   if (!problem) { showToast(getText('toast_enter_problem')); return; }
 
+  if (!window.currentUserData) {
+    window._pendingGenerate = true;
+    openAuthModal('login');
+    return;
+  }
+
   if (getCredits() > 0) {
-    if (!useCredit()) return;
+    const res = await reserveLetterCredit();
+    if (!res.reserved) return;
     accessMode = 'credit';
   } else if (hasFreeSampleRemaining()) {
-    useFreeSample();
+    await incrementDemoUsed();
     accessMode = 'free';
   } else {
     pendingGenerateAfterPayment = true;
@@ -1317,3 +1370,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+function toggleUserMenu() { const menu = document.getElementById('userDropdown'); if (menu) { menu.classList.toggle('open'); } }
+function authModalOverlayClick(e) { if (e.target.id === 'authModal') closeAuthModal(); }

@@ -1705,3 +1705,212 @@ document.addEventListener('DOMContentLoaded', () => {
 
     tick();
 })();
+
+
+// ============================================================
+// UX IMPROVEMENTS — v3.1
+// ============================================================
+
+// ── 1. BACK TO TOP ──────────────────────────────────────────
+(function () {
+  const btn = document.getElementById('backToTop');
+  if (!btn) return;
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 400) {
+      btn.classList.add('visible');
+    } else {
+      btn.classList.remove('visible');
+    }
+  }, { passive: true });
+
+  btn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+})();
+
+// ── 2. SERVICE CARD HOVER TOOLTIPS ──────────────────────────
+(function () {
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.ai-svc-card').forEach(card => {
+      const desc = card.querySelector('p');
+      if (!desc) return;
+      // Only add tooltip if not already present
+      if (card.querySelector('.ai-svc-tooltip')) return;
+      const tip = document.createElement('div');
+      tip.className = 'ai-svc-tooltip';
+      tip.textContent = desc.textContent.trim();
+      card.appendChild(tip);
+    });
+  });
+})();
+
+// ── 4. NAV ACTIVE HIGHLIGHT — already handled by scroll spy ─
+// (Existing scroll spy sets .active class; CSS now gives it a stronger style)
+
+// ── 5. SEARCH EMPTY STATE WITH WHATSAPP CTA ─────────────────
+(function () {
+  document.addEventListener('DOMContentLoaded', () => {
+    const input = document.getElementById('toolSearch');
+    const enhanced = document.getElementById('noResultsEnhanced');
+    const legacy = document.getElementById('noResults');
+    const waLink = document.getElementById('noResultsWaLink');
+    if (!input || !enhanced) return;
+
+    input.addEventListener('input', (e) => {
+      const term = e.target.value.trim();
+      const cards = document.querySelectorAll('.ai-svc-card');
+      let hasVisible = false;
+
+      cards.forEach(card => {
+        const name = (card.getAttribute('data-name') || '').toLowerCase();
+        const match = name.includes(term.toLowerCase());
+        card.style.display = match ? 'flex' : 'none';
+        if (match) hasVisible = true;
+      });
+
+      const showEmpty = !hasVisible && term.length > 0;
+
+      // Hide legacy empty state, use enhanced one
+      if (legacy) legacy.style.display = 'none';
+      enhanced.classList.toggle('visible', showEmpty);
+
+      // Update WhatsApp link with the search term
+      if (waLink && term) {
+        const msg = encodeURIComponent(`Hi Smart Digital! I was searching for "${term}" but couldn't find it. Can you help?`);
+        waLink.href = `https://wa.me/918638759478?text=${msg}`;
+      }
+    });
+  });
+})();
+
+// ── 6. WHATSAPP FLOAT LABEL ──────────────────────────────────
+(function () {
+  const label = document.getElementById('waFloatLabel');
+  if (!label) return;
+
+  // Show label after 3 seconds on first visit
+  const shown = sessionStorage.getItem('wa_label_shown');
+  if (!shown) {
+    setTimeout(() => {
+      label.classList.add('show');
+      setTimeout(() => {
+        label.classList.remove('show');
+        sessionStorage.setItem('wa_label_shown', '1');
+      }, 4000);
+    }, 3000);
+  }
+
+  // Also show on hover of the WhatsApp button
+  const waBtn = document.getElementById('whatsappFloat');
+  if (waBtn) {
+    waBtn.addEventListener('mouseenter', () => label.classList.add('show'));
+    waBtn.addEventListener('mouseleave', () => label.classList.remove('show'));
+  }
+})();
+
+// ── 7. SHOP STATUS CARD MOBILE COLLAPSE ─────────────────────
+function toggleShopExpand() {
+  const card = document.getElementById('shopStatusCard');
+  const labelEl = document.getElementById('shopExpandLabel');
+  if (!card) return;
+  const isExpanded = card.classList.toggle('expanded');
+  if (labelEl) {
+    labelEl.textContent = isExpanded ? 'Hide details' : 'Show details';
+  }
+}
+
+// ── 8. BUTTON RIPPLE EFFECT ──────────────────────────────────
+(function () {
+  function addRipple(e) {
+    const btn = e.currentTarget;
+    const existing = btn.querySelector('.btn-ripple');
+    if (existing) existing.remove();
+
+    const rect = btn.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    const x = e.clientX - rect.left - size / 2;
+    const y = e.clientY - rect.top - size / 2;
+
+    const ripple = document.createElement('span');
+    ripple.className = 'btn-ripple';
+    ripple.style.cssText = `width:${size}px;height:${size}px;left:${x}px;top:${y}px;`;
+    btn.appendChild(ripple);
+
+    ripple.addEventListener('animationend', () => ripple.remove());
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Apply to call, whatsapp, and hero CTA buttons
+    document.querySelectorAll('.btn-call, .btn-whatsapp, .btn-hero-cta, .btn-liquid-glass, .btn-primary').forEach(btn => {
+      // Ensure position relative for ripple positioning
+      const pos = getComputedStyle(btn).position;
+      if (pos === 'static') btn.style.position = 'relative';
+      btn.style.overflow = 'hidden';
+      btn.addEventListener('click', addRipple);
+    });
+  });
+})();
+
+// ── 9. LANGUAGE TOGGLE FADE TRANSITION ──────────────────────
+(function () {
+  const origToggle = window.toggleLanguage;
+  window.toggleLanguage = function () {
+    document.body.classList.add('lang-transitioning');
+    setTimeout(() => {
+      origToggle();
+      document.body.classList.remove('lang-transitioning');
+    }, 180);
+  };
+})();
+
+// ── 10. NOTIFICATION TIMESTAMP — relative time already exists ─
+// relTime() function already handles this. Enhancing to show full date on hover.
+(function () {
+  document.addEventListener('DOMContentLoaded', () => {
+    // Add title attribute with full date to all notif time elements
+    const observer = new MutationObserver(() => {
+      document.querySelectorAll('.notif-card-time').forEach(el => {
+        if (el.dataset.tsEnhanced) return;
+        // Try to find timestamp from parent card's data or text
+        const timeText = el.textContent.trim();
+        if (timeText && !el.title) {
+          el.title = 'Posted: ' + timeText.replace(/[^\w\s,]/g, '').trim();
+        }
+        el.dataset.tsEnhanced = '1';
+      });
+    });
+    const container = document.getElementById('notifContainer');
+    if (container) observer.observe(container, { childList: true, subtree: true });
+  });
+})();
+
+// ── 11. KEYBOARD NAVIGATION FOR AI SCROLL ───────────────────
+(function () {
+  document.addEventListener('DOMContentLoaded', () => {
+    const wrapper = document.getElementById('aiScrollWrapper');
+    if (!wrapper) return;
+
+    // Make it focusable
+    wrapper.setAttribute('tabindex', '0');
+    wrapper.setAttribute('role', 'region');
+    wrapper.setAttribute('aria-label', 'AI Tools — use arrow keys to scroll');
+
+    wrapper.addEventListener('keydown', (e) => {
+      const scrollAmount = 260;
+      if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        wrapper.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        wrapper.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        wrapper.scrollTo({ left: 0, behavior: 'smooth' });
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        wrapper.scrollTo({ left: wrapper.scrollWidth, behavior: 'smooth' });
+      }
+    });
+  });
+})();

@@ -4,6 +4,9 @@
 
 const KIT_HISTORY_KEY = 'bizwrite_history_v2';
 const KIT_HISTORY_MAX = 8;
+const FREE_DEMO_LIMIT = 1;
+
+window._pendingGenerate = false;
 
 const SECTION_DEFS = [
   { marker: 'GOOGLE_BUSINESS', id: 'google', title: 'Google Business Profile' },
@@ -35,6 +38,17 @@ const translations = {
     label_lang_out: 'Output Language',
     label_generate: 'Generate:',
     btn_generate: 'Generate Business Kit',
+    btn_generate_free: 'Generate Free Business Kit',
+    btn_generate_credit: 'Generate Business Kit ({count} left)',
+    btn_generate_paid: 'Buy Credits to Generate',
+    buy_credits: 'Buy Credits',
+    credits_signin: 'Sign in to use 1 free demo',
+    credits_free_left: '1 free demo available',
+    credits_balance: '{count} business kit {credits} left',
+    credits_empty: 'No credits left',
+    credit_singular: 'credit',
+    credit_plural: 'credits',
+    toast_buy_plan: 'Your free demo is used. Please buy BizWrite credits to generate more kits.',
     ph_name: 'e.g. Sharma Sweets',
     ph_type: 'e.g. Sweet Shop / Salon / Grocery',
     ph_location: 'e.g. Tezpur, Assam',
@@ -147,6 +161,17 @@ const translations = {
     label_lang_out: 'आउटपुट भाषा',
     label_generate: 'जनरेट करें:',
     btn_generate: 'बिज़नेस किट जनरेट करें',
+    btn_generate_free: 'फ्री बिज़नेस किट जनरेट करें',
+    btn_generate_credit: 'बिज़नेस किट जनरेट करें ({count} बचे)',
+    btn_generate_paid: 'जनरेट करने के लिए क्रेडिट खरीदें',
+    buy_credits: 'क्रेडिट खरीदें',
+    credits_signin: '1 फ्री डेमो इस्तेमाल करने के लिए साइन इन करें',
+    credits_free_left: '1 फ्री डेमो उपलब्ध है',
+    credits_balance: '{count} बिज़नेस किट क्रेडिट बचे हैं',
+    credits_empty: 'कोई क्रेडिट नहीं बचा',
+    credit_singular: 'क्रेडिट',
+    credit_plural: 'क्रेडिट',
+    toast_buy_plan: 'आपका फ्री डेमो इस्तेमाल हो गया है। और किट बनाने के लिए BizWrite क्रेडिट खरीदें।',
     ph_name: 'उदा. शर्मा स्वीट्स',
     ph_type: 'उदा. स्वीट शॉप / सैलून / किराना',
     ph_location: 'उदा. तेजपुर, असम',
@@ -259,6 +284,17 @@ const translations = {
     label_lang_out: 'আউটপুট ভাষা',
     label_generate: 'তৈয়াৰ কৰক:',
     btn_generate: 'ব্যৱসায়িক কিট তৈয়াৰ কৰক',
+    btn_generate_free: 'ফ্ৰী ব্যৱসায়িক কিট তৈয়াৰ কৰক',
+    btn_generate_credit: 'ব্যৱসায়িক কিট তৈয়াৰ কৰক ({count} বাকী)',
+    btn_generate_paid: 'তৈয়াৰ কৰিবলৈ credits কিনক',
+    buy_credits: 'Credits কিনক',
+    credits_signin: '1টা free demo ব্যৱহাৰ কৰিবলৈ sign in কৰক',
+    credits_free_left: '1টা free demo উপলব্ধ',
+    credits_balance: '{count}টা business kit credit বাকী',
+    credits_empty: 'কোনো credit বাকী নাই',
+    credit_singular: 'credit',
+    credit_plural: 'credits',
+    toast_buy_plan: 'আপোনাৰ free demo ব্যৱহাৰ হৈছে। আৰু kit তৈয়াৰ কৰিবলৈ BizWrite credits কিনক।',
     ph_name: 'যেনে: Sharma Sweets',
     ph_type: 'যেনে: Sweet Shop / Salon / Grocery',
     ph_location: 'যেনে: Tezpur, Assam',
@@ -358,6 +394,15 @@ let currentLang = localStorage.getItem('bizwrite_lang') || 'en';
 let currentKit = null;
 let invoiceItems = [];
 let sectionObserver = null;
+let pendingGenerateAfterPayment = false;
+
+const PLAN_DATA = {
+  starter: { planId: 'starter', label: 'Starter Kit', kits: 1, price: 9 },
+  freelancer: { planId: 'freelancer', label: 'Freelancer Pack', kits: 3, price: 29 },
+  studio: { planId: 'studio', label: 'Studio Pack', kits: 10, price: 79 }
+};
+
+window._selectedPlan = null;
 
 function setLang(lang) {
   currentLang = lang;
@@ -383,6 +428,7 @@ function applyTranslations() {
   });
   renderInvoiceItems();
   syncInvoicePreview();
+  updateGenerateButton();
 }
 
 function showPage(page) {
@@ -440,6 +486,65 @@ function getSelectedSections() {
     const checkbox = document.getElementById(`chk${section.id.charAt(0).toUpperCase()}${section.id.slice(1)}`);
     return checkbox?.checked;
   });
+}
+
+function getCredits() {
+  return window.currentUserData?.kitsRemaining || 0;
+}
+
+function hasFreeSampleRemaining() {
+  if (!window.currentUserData) return false;
+  return (window.currentUserData.demoUsed || 0) < FREE_DEMO_LIMIT;
+}
+
+function getCreditWord(count) {
+  return count === 1 ? getTranslation('credit_singular') : getTranslation('credit_plural');
+}
+
+function updateGenerateButton() {
+  const label = document.querySelector('#generateBtn .btn-label');
+  const pill = document.getElementById('creditsDisplay');
+
+  if (!label && !pill) return;
+
+  const credits = getCredits();
+  const isSignedIn = Boolean(window.auth?.currentUser && window.currentUserData);
+
+  if (label) {
+    if (!isSignedIn) {
+      label.textContent = getTranslation('btn_generate');
+    } else if (credits > 0) {
+      label.textContent = getTranslation('btn_generate_credit').replace('{count}', credits);
+    } else if (hasFreeSampleRemaining()) {
+      label.textContent = getTranslation('btn_generate_free');
+    } else {
+      label.textContent = getTranslation('btn_generate_paid');
+    }
+  }
+
+  if (pill) {
+    let message = getTranslation('credits_signin');
+    if (isSignedIn && credits > 0) {
+      message = getTranslation('credits_balance')
+        .replace('{count}', credits)
+        .replace('{credits}', getCreditWord(credits));
+    } else if (isSignedIn && hasFreeSampleRemaining()) {
+      message = getTranslation('credits_free_left');
+    } else if (isSignedIn) {
+      message = getTranslation('credits_empty');
+    }
+    pill.textContent = message;
+  }
+}
+
+async function refundAccess(mode) {
+  if (mode === 'credit' && typeof releaseKitCredit === 'function') {
+    await releaseKitCredit();
+  }
+  if (mode === 'free' && typeof releaseDemoUse === 'function') {
+    await releaseDemoUse();
+  }
+  updateGenerateButton();
 }
 
 function getSystemMessage(outputLang) {
@@ -519,6 +624,7 @@ ${sectionInstructions}`;
 async function generateDescriptions() {
   const inputs = collectBusinessInputs();
   const sections = getSelectedSections();
+  let accessMode = null;
 
   if (!inputs.name || !inputs.type || !inputs.location) {
     showToast('Please fill in Business Name, Type, and Location.');
@@ -527,6 +633,36 @@ async function generateDescriptions() {
 
   if (!sections.length) {
     showToast('Please select at least one output type.');
+    return;
+  }
+
+  if (window.auth?.currentUser && !window.currentUserData && typeof loadOrCreateBizwriteUser === 'function') {
+    await loadOrCreateBizwriteUser(window.auth.currentUser);
+  }
+
+  if (!window.auth?.currentUser || !window.currentUserData) {
+    window._pendingGenerate = true;
+    openAuthModal('login');
+    return;
+  }
+
+  if (getCredits() > 0) {
+    try {
+      const res = await reserveKitCredit();
+      if (!res.reserved) return;
+      accessMode = 'credit';
+    } catch (err) {
+      showToast(err.code === 'bizwrite/no-credits' ? getTranslation('toast_buy_plan') : err.message);
+      if (err.code === 'bizwrite/no-credits') openPlansModal('starter');
+      return;
+    }
+  } else if (hasFreeSampleRemaining()) {
+    await incrementDemoUsed();
+    accessMode = 'free';
+  } else {
+    pendingGenerateAfterPayment = true;
+    openPlansModal('starter');
+    showToast(getTranslation('toast_buy_plan'));
     return;
   }
 
@@ -592,15 +728,24 @@ async function generateDescriptions() {
     window._lastBizType = inputs.type;
     saveKitToHistory(currentKit);
     renderHistory();
+    await saveBizwriteHistory({
+      businessName: inputs.name,
+      businessType: inputs.type,
+      outputLang: inputs.outputLang,
+      sections: sections.map((section) => section.marker),
+      mode: accessMode === 'free' ? 'demo' : 'paid'
+    });
 
     document.getElementById('outputSection').classList.remove('hidden');
     document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
   } catch (err) {
+    await refundAccess(accessMode);
     showToast('Error connecting to AI. Please check your connection.');
   } finally {
     btn.querySelector('.btn-label').classList.remove('hidden');
     btn.querySelector('.btn-loading').classList.add('hidden');
     btn.disabled = false;
+    updateGenerateButton();
   }
 }
 
@@ -826,62 +971,116 @@ function removeItem(i) {
 
 // ---- AUTH ----
 function initAuth() {
-  const overlay = document.getElementById('authOverlay');
-  const googleBtn = document.getElementById('googleSignInBtn');
-  const emailBtn = document.getElementById('emailSignInBtn');
-  const emailInput = document.getElementById('authEmail');
-  const passwordInput = document.getElementById('authPassword');
-  const errorEl = document.getElementById('authError');
-  const switchLink = document.getElementById('authSwitchLink');
+  updateGenerateButton();
+}
 
-  let isRegister = false;
+document.addEventListener('click', (event) => {
+  const dropdown = document.getElementById('userDropdown');
+  const userInfo = document.querySelector('.user-info');
+  if (dropdown && !dropdown.contains(event.target) && !userInfo?.contains(event.target)) {
+    dropdown.classList.remove('open');
+  }
+});
 
-  switchLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    isRegister = !isRegister;
-    emailBtn.textContent = isRegister ? 'Register Free' : 'Sign In / Register';
-    switchLink.textContent = isRegister ? 'Already have an account? Sign in' : 'No account? Register free';
-  });
+function openPlansModal(defaultPlanId) {
+  const modal = document.getElementById('plansModal');
+  if (!modal) return;
+  showPlanStep('choose');
+  window._selectedPlan = null;
+  document.querySelectorAll('.plan-card').forEach((card) => card.classList.remove('selected'));
+  if (defaultPlanId) selectPlan(defaultPlanId);
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
 
-  window.auth.onAuthStateChanged((user) => {
-    if (user) {
-      overlay.style.display = 'none';
-    } else {
-      overlay.style.display = 'flex';
+function closePlansModal() {
+  const modal = document.getElementById('plansModal');
+  if (!modal) return;
+  modal.style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function plansModalOverlayClick(event) {
+  if (event.target === document.getElementById('plansModal')) {
+    closePlansModal();
+  }
+}
+
+function showPlanStep(stepId) {
+  document.querySelectorAll('.plan-step').forEach((step) => step.classList.remove('active'));
+  document.getElementById('planStep-' + stepId)?.classList.add('active');
+}
+
+function selectPlan(planId) {
+  if (!PLAN_DATA[planId]) return;
+  window._selectedPlan = planId;
+  document.querySelectorAll('.plan-card').forEach((card) => card.classList.remove('selected'));
+  document.getElementById('planCard-' + planId)?.classList.add('selected');
+}
+
+function proceedToPayment() {
+  if (!window._selectedPlan) {
+    showToast('Please select a plan first.');
+    return;
+  }
+  if (!window.auth?.currentUser) {
+    closePlansModal();
+    openAuthModal('login');
+    return;
+  }
+
+  const plan = PLAN_DATA[window._selectedPlan];
+  const titleEl = document.getElementById('payStepTitle');
+  if (titleEl) titleEl.textContent = `Pay ₹${plan.price}`;
+  showPlanStep('pay');
+}
+
+function selectPayMethod(button) {
+  document.querySelectorAll('.pay-method').forEach((method) => method.classList.remove('selected'));
+  button.classList.add('selected');
+}
+
+async function confirmPayment() {
+  if (!window._selectedPlan) return;
+
+  const btn = document.getElementById('plansConfirmBtn');
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = 'Activating...';
+  }
+
+  try {
+    const plan = PLAN_DATA[window._selectedPlan];
+    await new Promise((resolve) => setTimeout(resolve, 900));
+    await applyPlanToUser(plan);
+
+    const msgEl = document.getElementById('plansSuccessMsg');
+    if (msgEl) {
+      msgEl.textContent = plan.kits === 1
+        ? 'You now have 1 business kit credit.'
+        : `You now have ${plan.kits} business kit credits.`;
     }
-  });
-
-  googleBtn.addEventListener('click', async () => {
-    errorEl.textContent = '';
-    try {
-      await window.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
-      overlay.style.display = 'none';
-    } catch (err) {
-      errorEl.textContent = err.message;
+    showPlanStep('success');
+  } catch (err) {
+    showToast('Error activating credits: ' + err.message);
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = '✓ Confirm Payment & Activate';
     }
-  });
+  }
+}
 
-  emailBtn.addEventListener('click', async () => {
-    errorEl.textContent = '';
-    const email = emailInput.value.trim();
-    const password = passwordInput.value;
-    if (!email || !password) { errorEl.textContent = 'Please enter email and password.'; return; }
-    try {
-      if (isRegister) {
-        const cred = await window.auth.createUserWithEmailAndPassword(email, password);
-        await cred.user.updateProfile({ displayName: email.split('@')[0] });
-      } else {
-        await window.auth.signInWithEmailAndPassword(email, password);
-      }
-      overlay.style.display = 'none';
-    } catch (err) {
-      let msg = err.message;
-      if (err.code === 'auth/email-already-in-use') msg = 'Account exists. Please sign in instead.';
-      if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential') msg = 'Invalid email or password.';
-      if (err.code === 'auth/wrong-password') msg = 'Wrong password.';
-      errorEl.textContent = msg;
-    }
-  });
+function finishPlansFlow() {
+  const shouldGenerate = pendingGenerateAfterPayment;
+  pendingGenerateAfterPayment = false;
+  closePlansModal();
+  updateGenerateButton();
+  if (shouldGenerate) {
+    generateDescriptions();
+  } else {
+    showPage('generator');
+  }
 }
 
 function syncInvoicePreview() {

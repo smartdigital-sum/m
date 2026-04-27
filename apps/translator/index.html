@@ -10,6 +10,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <!-- AI CONFIG -->
   <script src="../../assets/js/config.js"></script>
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="firebase-auth.js"></script>
 </head>
 <body>
 
@@ -30,6 +36,24 @@
         <a href="#pricing">Pricing</a>
         <a href="#translate" class="nav-cta">Translate Now</a>
       </nav>
+      <!-- Shown when logged OUT -->
+      <div id="authButtonsGroup" class="auth-btns-group">
+        <button class="btn-auth-outline" onclick="openAuthModal('login')">Sign In</button>
+        <button class="btn-auth-solid"   onclick="openAuthModal('register')">Sign Up</button>
+      </div>
+      <!-- Shown when logged IN -->
+      <div id="userPanel" class="user-panel" style="display:none;">
+        <span class="credits-badge" id="creditsBadge">Loading...</span>
+        <div class="user-info" onclick="toggleUserMenu()">
+          <div class="user-avatar" id="userAvatar">U</div>
+          <span class="user-name" id="userName">User</span>
+          <span class="user-chevron">▾</span>
+        </div>
+        <div class="user-dropdown" id="userDropdown">
+          <button onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'}); toggleUserMenu()">Buy Credits</button>
+          <button onclick="signOutUser()">Sign Out</button>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -384,6 +408,86 @@
         </div>
       </div>
 
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       AUTH MODAL
+  ═══════════════════════════════════════════════════════════════ -->
+  <div class="rb-modal-overlay" id="authModal" style="display:none;" onclick="authModalOverlayClick(event)">
+    <div class="rb-modal-box auth-modal-box">
+      <button class="rb-modal-close" onclick="closeAuthModal()">✕</button>
+
+      <!-- Tabs -->
+      <div class="auth-tabs">
+        <button class="auth-tab-btn" id="authTab-login"    onclick="showAuthTab('login')">Sign In</button>
+        <button class="auth-tab-btn" id="authTab-register" onclick="showAuthTab('register')">Sign Up</button>
+      </div>
+
+      <!-- Login Panel -->
+      <div class="auth-form-panel" id="authPanel-login">
+        <h3 class="auth-form-title">Welcome Back</h3>
+
+        <button class="btn-google" onclick="signInWithGoogle()">
+          <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>
+          Continue with Google
+        </button>
+        <div class="auth-divider"><span>or</span></div>
+
+        <form onsubmit="handleLogin(event)">
+          <div class="auth-field">
+            <label for="loginEmail">Email Address</label>
+            <input type="email" id="loginEmail" placeholder="Enter your email" required autocomplete="email" />
+          </div>
+          <div class="auth-field">
+            <label for="loginPassword">Password</label>
+            <div class="auth-password-wrap">
+              <input type="password" id="loginPassword" placeholder="Enter password" required autocomplete="current-password" />
+              <button type="button" class="auth-toggle-pw" onclick="togglePasswordVisibility('loginPassword', this)">Show</button>
+            </div>
+          </div>
+          <div class="auth-error" id="loginError"></div>
+          <button type="submit" class="auth-submit-btn">Sign In →</button>
+        </form>
+        <p class="auth-switch-text">Don't have an account?
+          <a href="#" onclick="showAuthTab('register'); return false;">Sign Up</a>
+        </p>
+      </div>
+
+      <!-- Register Panel -->
+      <div class="auth-form-panel" id="authPanel-register">
+        <h3 class="auth-form-title">Create Account</h3>
+
+        <button class="btn-google" onclick="signInWithGoogle()">
+          <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>
+          Continue with Google
+        </button>
+        <div class="auth-divider"><span>or</span></div>
+
+        <form onsubmit="handleRegister(event)">
+          <div class="auth-field">
+            <label for="regName">Full Name</label>
+            <input type="text" id="regName" placeholder="Enter your name" required />
+          </div>
+          <div class="auth-field">
+            <label for="regEmail">Email Address</label>
+            <input type="email" id="regEmail" placeholder="Enter your email" required autocomplete="email" />
+          </div>
+          <div class="auth-field">
+            <label for="regPassword">Password</label>
+            <div class="auth-password-wrap">
+              <input type="password" id="regPassword" placeholder="Min 6 characters" required minlength="6" autocomplete="new-password" />
+              <button type="button" class="auth-toggle-pw" onclick="togglePasswordVisibility('regPassword', this)">Show</button>
+            </div>
+          </div>
+          <div class="auth-error"   id="regError"></div>
+          <div class="auth-success" id="regSuccess"></div>
+          <button type="submit" class="auth-submit-btn">Create Account →</button>
+        </form>
+        <p class="auth-switch-text">Already have an account?
+          <a href="#" onclick="showAuthTab('login'); return false;">Sign In</a>
+        </p>
+      </div>
     </div>
   </div>
 

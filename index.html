@@ -297,6 +297,10 @@
                     <span id="shopCountdown">Closes in: 12h 18m 16s</span>
                 </div>
                 <div class="shop-clock" id="shopLiveClock">8:38:44 AM</div>
+                <button class="shop-expand-btn" id="shopExpandBtn" onclick="toggleShopExpand()" aria-label="Show more details">
+                    <span id="shopExpandLabel">Show details</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
             </div>
     </div></section>
 
@@ -548,6 +552,17 @@
                 <div id="noResults" class="ai-no-results">
                     <h3 data-en="No matching tools found" data-as="কোনো মিল থকা সঁজুলি পোৱা নগ'ল">No matching tools found</h3>
                     <p data-en="Try searching for different keywords or categories." data-as="বেলেগ কীৱৰ্ড বা শ্ৰেণীৰ সৈতে বিচাৰক।">Try searching for different keywords or categories.</p>
+                </div>
+
+                <!-- Enhanced No Results with WhatsApp CTA -->
+                <div id="noResultsEnhanced" class="ai-no-results-enhanced">
+                    <div class="no-res-icon">🔍</div>
+                    <h3 data-en="No matching tools found" data-as="কোনো মিল থকা সঁজুলি পোৱা নগ'ল">No matching tools found</h3>
+                    <p data-en="Can't find what you need? Tell us and we'll help!" data-as="বিচৰা সঁজুলি নাই? আমাক জনাওক, আমি সহায় কৰিম!">Can't find what you need? Tell us and we'll help!</p>
+                    <a id="noResultsWaLink" href="https://wa.me/918638759478?text=Hi%20Smart%20Digital!%20I%20was%20searching%20for%20a%20tool%20but%20couldn%27t%20find%20it." target="_blank" class="no-res-wa">
+                        <i class="fab fa-whatsapp"></i>
+                        <span data-en="Ask us on WhatsApp" data-as="WhatsApp ত সোধক">Ask us on WhatsApp</span>
+                    </a>
                 </div>
             </div>
             </div>
@@ -1084,8 +1099,8 @@
                     <div class="offline-svc-cta-strip">
                         <i class="fas fa-store"></i>
                         <span data-en="Visit our shop or call for any of these services" data-as="এই যিকোনো সেৱাৰ বাবে আমাৰ দোকানলৈ আহক বা ফোন কৰক">Visit our shop or call for any of these services</span>
-                        <a href="tel:6001559478" class="offline-svc-call-btn" data-en="Call 6001559478" data-as="ফোন 6001559478">
-                            <i class="fas fa-phone"></i> Call 6001559478
+                        <a href="tel:+918638759478" class="offline-svc-call-btn" data-en="Call 86387 59478" data-as="ফোন 86387 59478">
+                            <i class="fas fa-phone"></i> Call 86387 59478
                         </a>
                     </div>
                 </div>
@@ -2366,6 +2381,14 @@
             <div id="magic-error" style="display: none; color: #ef4444; margin-top: 10px; font-weight: bold;"></div>
         </div>
     </div>
+
+    <!-- ===== BACK TO TOP ===== -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top" title="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- ===== WHATSAPP FLOAT LABEL ===== -->
+    <div class="whatsapp-float-label" id="waFloatLabel">Chat with us 💬</div>
 
     <!-- ===== AI CHATBOT WIDGET ===== -->
     <!-- Floating toggle button (stacks above WhatsApp float) -->
