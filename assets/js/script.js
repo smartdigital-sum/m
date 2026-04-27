@@ -1611,7 +1611,7 @@ console.log(
   "color:#6366f1;font-size:22px;font-weight:bold;",
 );
 console.log(
-  "%cKachua Tiniali, Kampur, Assam — Your Digital Partner",
+  "%cTiniali Bazar, Kachua, Kampur, Nagaon, Assam — Your Digital Partner",
   "color:#f97316;font-size:13px;",
 );
 
@@ -1683,7 +1683,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Shop is open — hide the bar (or show "We're Open!")
             bar.innerHTML = `<div class="ocb-inner" style="justify-content:center; gap:12px;">
                 <span style="font-size:22px;">🎉</span>
-                <span style="color:#fff; font-weight:800; font-size:16px;">Smart Digital is NOW OPEN at Kachua Tiniali, Kampur!</span>
+                <span style="color:#fff; font-weight:800; font-size:16px;">Smart Digital is NOW OPEN at Tiniali Bazar, Kachua, Kampur!</span>
                 <a href="https://wa.me/918638759478" target="_blank" class="ocb-notify-btn"><i class="fab fa-whatsapp"></i> Chat Now</a>
             </div>`;
             return; // stop ticking

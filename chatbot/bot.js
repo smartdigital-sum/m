@@ -240,7 +240,7 @@ PRICING:
 
 SHOP:
 • Hours: Mon-Sat, 9 AM – 6 PM.
-• Location: Kachua Tiniali, Kampur, Assam.
+• Location: Tiniali Bazar, Kachua, Kampur, Nagaon, Assam.
 • WhatsApp: +91 86387 59478.
 • Call: +91 86387 59478.
 

@@ -224,4 +224,65 @@ document.addEventListener('DOMContentLoaded', () => {
     document.documentElement.setAttribute('data-theme', 'light');
     document.getElementById('themeIcon').className = 'fas fa-sun';
   }
+  initAuth();
 });
+
+// ---- AUTH ----
+function initAuth() {
+  const overlay = document.getElementById('authOverlay');
+  const googleBtn = document.getElementById('googleSignInBtn');
+  const emailBtn = document.getElementById('emailSignInBtn');
+  const emailInput = document.getElementById('authEmail');
+  const passwordInput = document.getElementById('authPassword');
+  const errorEl = document.getElementById('authError');
+  const switchLink = document.getElementById('authSwitchLink');
+
+  let isRegister = false;
+
+  switchLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    isRegister = !isRegister;
+    emailBtn.textContent = isRegister ? 'Register Free' : 'Sign In / Register';
+    switchLink.textContent = isRegister ? 'Already have an account? Sign in' : 'No account? Register free';
+  });
+
+  window.auth.onAuthStateChanged((user) => {
+    if (user) {
+      overlay.style.display = 'none';
+    } else {
+      overlay.style.display = 'flex';
+    }
+  });
+
+  googleBtn.addEventListener('click', async () => {
+    errorEl.textContent = '';
+    try {
+      await window.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+      overlay.style.display = 'none';
+    } catch (err) {
+      errorEl.textContent = err.message;
+    }
+  });
+
+  emailBtn.addEventListener('click', async () => {
+    errorEl.textContent = '';
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+    if (!email || !password) { errorEl.textContent = 'Please enter email and password.'; return; }
+    try {
+      if (isRegister) {
+        const cred = await window.auth.createUserWithEmailAndPassword(email, password);
+        await cred.user.updateProfile({ displayName: email.split('@')[0] });
+      } else {
+        await window.auth.signInWithEmailAndPassword(email, password);
+      }
+      overlay.style.display = 'none';
+    } catch (err) {
+      let msg = err.message;
+      if (err.code === 'auth/email-already-in-use') msg = 'Account exists. Please sign in instead.';
+      if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential') msg = 'Invalid email or password.';
+      if (err.code === 'auth/wrong-password') msg = 'Wrong password.';
+      errorEl.textContent = msg;
+    }
+  });
+}

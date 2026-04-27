@@ -7,7 +7,16 @@ let currentStep = 1;
 window.selectedTemplate  = 'modern';
 window.generatedResumeData = null;
 window._pendingGenerate  = false;   // set true when user clicks Generate while logged out
-window._selectedPlan     = null;    // 'single' | 'bundle5'
+window._selectedPlan     = null;    // 'plan15' | 'plan25' | 'plan45'
+
+window.userPhotoBase64 = null;
+function handlePhotoUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (evt) => { window.userPhotoBase64 = evt.target.result; };
+  reader.readAsDataURL(file);
+}
 
 // ─── Init ────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
@@ -77,7 +86,7 @@ function goToStep(n) {
 }
 
 function updateProgress(n) {
-  const totalNav = 5; // 5 visible steps
+  const totalNav = 6; // 6 visible steps
   const fill = Math.min(((n - 1) / (totalNav - 1)) * 100, 100);
   document.getElementById('progressFill').style.width = fill + '%';
 
@@ -97,16 +106,23 @@ function validateStep(step) {
     if (!val('name'))      errors.push('Full Name is required.');
     if (!val('email'))     errors.push('Email is required.');
     if (!val('phone'))     errors.push('Phone Number is required.');
-    if (!val('location'))  errors.push('City / Location is required.');
     if (!val('jobTarget')) errors.push('Job Target / Role is required.');
   }
 
   if (step === 2) {
+    if (!val('permAddress')) errors.push('Permanent Address is required.');
+    if (!val('dob'))         errors.push('Date of Birth is required.');
+    if (!val('gender'))      errors.push('Gender is required.');
+    if (!val('fatherName'))  errors.push('Father\'s Name is required.');
+    if (!val('motherName'))  errors.push('Mother\'s Name is required.');
+  }
+
+  if (step === 3) {
     const degrees = document.querySelectorAll('.edu-degree');
     if (!degrees[0]?.value.trim()) errors.push('Please add at least one education entry.');
   }
 
-  if (step === 3) {
+  if (step === 4) {
     if (!val('technicalSkills')) errors.push('Please enter at least one technical skill.');
   }
 
@@ -280,8 +296,8 @@ async function generateResume(mode) {
     }
   }
 
-  // Move to result step (step 6 now)
-  goToStep(6);
+  // Move to result step (step 7 now)
+  goToStep(7);
   showLoading(true);
 
   const wantsCL = formData.wantsCoverLetter;
@@ -324,6 +340,7 @@ async function generateResume(mode) {
     if (!match) throw new Error('Could not parse resume JSON from AI response.');
 
     const resumeData = JSON.parse(match[0]);
+    resumeData.photo = formData.photo; // Inject photo into result
     window.generatedResumeData = resumeData;
 
     // Mark demo/paid usage
@@ -352,7 +369,7 @@ async function generateResume(mode) {
 
     showLoading(false);
     showToast('Error generating resume: ' + err.message, 'error');
-    goToStep(5);
+    goToStep(6);
   }
 }
 
@@ -387,10 +404,22 @@ function collectFormData() {
     name:             val('name'),
     email:            val('email'),
     phone:            val('phone'),
-    location:         val('location'),
+    photo:            window.userPhotoBase64,
     jobTarget:        val('jobTarget'),
     linkedin:         val('linkedin'),
     github:           val('github'),
+    personal: {
+      permAddress: val('permAddress'),
+      corrAddress: val('corrAddress'),
+      dob: val('dob'),
+      gender: val('gender'),
+      fatherName: val('fatherName'),
+      motherName: val('motherName'),
+      religion: val('religion'),
+      nationality: val('nationality'),
+      maritalStatus: val('maritalStatus'),
+      caste: val('caste')
+    },
     education:        edu,
     technicalSkills:  val('technicalSkills'),
     softSkills:       val('softSkills'),
@@ -416,10 +445,21 @@ Candidate Details:
 - Name: ${fd.name}
 - Email: ${fd.email}
 - Phone: ${fd.phone}
-- Location: ${fd.location}
+- Permanent Address: ${fd.personal.permAddress}
+${fd.personal.corrAddress ? `- Correspondence Address: ${fd.personal.corrAddress}` : ''}
 - Target Role: ${fd.jobTarget}
 - LinkedIn: ${fd.linkedin || 'N/A'}
 - GitHub: ${fd.github || 'N/A'}
+
+Personal Details:
+- Date of Birth: ${fd.personal.dob}
+- Gender: ${fd.personal.gender}
+- Father's Name: ${fd.personal.fatherName}
+- Mother's Name: ${fd.personal.motherName}
+- Religion: ${fd.personal.religion || 'N/A'}
+- Nationality: ${fd.personal.nationality || 'N/A'}
+- Marital Status: ${fd.personal.maritalStatus || 'N/A'}
+- Caste: ${fd.personal.caste || 'N/A'}
 
 Education:
 ${fd.education.map(e => `- ${e.degree} from ${e.institution} (${e.year}) — ${e.grade}`).join('\n') || 'Not provided'}
@@ -446,7 +486,8 @@ JSON structure:
   "name": "",
   "headline": "Professional headline",
   "summary": "2-3 sentence summary",
-  "contact": { "email": "", "phone": "", "location": "", "linkedin": "", "github": "" },
+  "contact": { "email": "", "phone": "", "permAddress": "", "corrAddress": "", "linkedin": "", "github": "" },
+  "personal": { "dob": "", "gender": "", "fatherName": "", "motherName": "", "religion": "", "nationality": "", "maritalStatus": "", "caste": "" },
   "education": [{ "degree": "", "institution": "", "year": "", "grade": "", "highlights": [] }],
   "experience": [{ "title": "", "company": "", "duration": "", "bullets": ["","",""] }],
   "projects":   [{ "name": "", "description": "", "technologies": "" }],
@@ -550,8 +591,9 @@ document.addEventListener('click', (e) => {
 // ─── Plans Modal ─────────────────────────────────────────────────
 
 const PLAN_DATA = {
-  single:  { planId: 'single',  label: 'Single Resume',   resumes: 1, price: 10 },
-  bundle5: { planId: 'bundle5', label: '5-Resume Bundle',  resumes: 5, price: 40 }
+  plan15:  { planId: 'plan15',  label: 'Basic Plan',   resumes: 1, price: 15 },
+  plan25:  { planId: 'plan25',  label: 'Standard Plan',  resumes: 3, price: 25 },
+  plan45:  { planId: 'plan45',  label: 'Premium Plan', resumes: 5, price: 45 }
 };
 
 function openPlansModal() {

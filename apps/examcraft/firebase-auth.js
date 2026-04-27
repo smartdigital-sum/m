@@ -224,6 +224,33 @@ async function setLoginSession(user, identifier, method) {
   closeAuthModal();
 }
 
+// ================================================================
+// GOOGLE SIGN-IN
+// ================================================================
+async function signInWithGoogle() {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  provider.addScope('email');
+  provider.addScope('profile');
+
+  try {
+    const result = await window.auth.signInWithPopup(provider);
+    const user   = result.user;
+    await loadOrCreateUser(user);
+    updateAuthUI(user);
+    closeAuthModal();
+  } catch (err) {
+    console.error('Google sign-in error:', err);
+    if (err.code === 'auth/popup-closed-by-user' || err.code === 'auth/cancelled-popup-request') {
+      return; // User simply closed the popup — no toast needed
+    }
+    if (err.code === 'auth/unauthorized-domain') {
+      showToast('This domain is not authorised. Please contact support.', 'error');
+    } else {
+      showToast('Google sign-in failed. Please try again.', 'error');
+    }
+  }
+}
+
 
 // ================================================================
 // SIGN OUT
