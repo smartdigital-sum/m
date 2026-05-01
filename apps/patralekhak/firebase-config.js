@@ -1,8 +1,8 @@
 // ================================================================
-// Smart Digital Resume Builder — Firebase Configuration
+// Smart Digital PatraLekhak — Firebase Configuration
 // ----------------------------------------------------------------
 // Uses the same Firebase project as ExamCraft for shared auth.
-// Users' resume credits are stored in the 'resumeUsers' collection.
+// Users' letter credits are stored in the 'patralekhakUsers' collection.
 // ================================================================
 
 const FIREBASE_CONFIG = {

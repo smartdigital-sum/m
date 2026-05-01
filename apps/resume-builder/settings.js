@@ -1,5 +1,5 @@
 // ================================================================
-//  SMART DIGITAL SERVICE — AI Resume Builder
+//  SMART DIGITAL RESUME BUILDER — AI Resume Maker
 //  settings.js  —  Edit this file to set up your app
 // ================================================================
 //
@@ -22,7 +22,7 @@ const CONFIG = {
   BUNDLE_PRICE: 40,   // 5 resume generations
 
   // 🏢 Branding
-  BRAND_NAME: 'Smart Digital Service',
+  BRAND_NAME: 'Resume Builder',
   TAGLINE:    'AI-Powered Resumes for Students & Freshers',
 
   // 📞 Optional WhatsApp support button (include country code, no +)

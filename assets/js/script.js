@@ -1683,7 +1683,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Shop is open — hide the bar (or show "We're Open!")
             bar.innerHTML = `<div class="ocb-inner" style="justify-content:center; gap:12px;">
                 <span style="font-size:22px;">🎉</span>
-                <span style="color:#fff; font-weight:800; font-size:16px;">Smart Digital is NOW OPEN at Tiniali Bazar, Kachua, Kampur!</span>
+                <span class="ocb-text" style="font-weight:800; font-size:16px;">Smart Digital is NOW OPEN at Tiniali Bazar, Kachua, Kampur!</span>
                 <a href="https://wa.me/918638759478" target="_blank" class="ocb-notify-btn"><i class="fab fa-whatsapp"></i> Chat Now</a>
             </div>`;
             return; // stop ticking
