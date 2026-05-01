@@ -22,6 +22,76 @@ const DEMO_PAPER_LIMIT = 2;
 const DEMO_MAX_QUESTIONS = 20;
 const DEMO_VISIBLE_QUESTIONS = 3;
 
+const ASSAMESE_LANGUAGE_PROFILE = {
+  generationRules: `ASSAMESE LANGUAGE PROFILE — SEBA SCHOOL STANDARD:
+- Write ONLY in standard Assamese (অসমীয়া ভাষা), not Bengali.
+- Use natural Assamese used by Assamese-medium teachers in Assam.
+- Keep sentences simple and clear for Class 6–8 unless the selected class requires more depth.
+- Avoid Bengali vocabulary, Bengali grammar, Bengali command endings, and Bengali-translated sentence order.
+- Avoid overly Sanskrit-heavy or translation-like wording when a common Assamese school word exists.
+- Use Assamese exam phrasing: "শুদ্ধ উত্তৰটো বাছি উলিওৱা", "চমুকৈ উত্তৰ দিয়া", "ব্যাখ্যা কৰা", "নিৰ্ণয় কৰা".
+- Use "হয়" for "is/are"; never use Bengali "হল".
+- Use "কিমানটা" for "how many"; never use "কতগুলি" or "কতটি".
+- Use "যিবোৰ" for plural relative clauses; never use "যেগুলি".
+- Use "আটাইতকৈ ভাল" or "সৰ্বোত্তম"; never use "সবচেয়ে ভাল".
+- Use "ধাৰা" for pattern, especially in Mathematics.
+- MCQ options should use Assamese labels: ক), খ), গ), ঘ).`,
+  fewShotCorrections: `BENGALI-CONTAMINATION EXAMPLES TO AVOID:
+Wrong: কতগুলি সংখ্যা ৫ দ্বারা বিভাজ্য হল?
+Correct: কিমানটা সংখ্যা ৫ ৰে বিভাজ্য হয়?
+
+Wrong: যেগুলি সংখ্যা জোড়, সেগুলি লেখো।
+Correct: যিবোৰ সংখ্যা যুগ্ম সংখ্যা, সেইবোৰ লিখা।
+
+Wrong: এই প্যাটার্নের পরের সংখ্যা নির্ণয় করো।
+Correct: এই ধাৰাৰ পৰৱৰ্তী সংখ্যাটো নিৰ্ণয় কৰা।
+
+Wrong: সবচেয়ে ভাল উত্তরটি নির্বাচন করো।
+Correct: আটাইতকৈ ভাল উত্তৰটো বাছি উলিওৱা।`,
+  sectionLabels: {
+    MCQ: 'বহু-বিকল্প প্ৰশ্ন',
+    ShortAnswer: 'চমু উত্তৰ',
+    LongAnswer: 'দীঘল উত্তৰ'
+  },
+  sectionLetters: ['ক', 'খ', 'গ', 'ঘ', 'ঙ', 'চ'],
+  optionLetters: ['ক', 'খ', 'গ', 'ঘ'],
+  bannedTerms: [
+    'হল',
+    'হলো',
+    'সবচেয়ে',
+    'সবচেয়ে ভাল',
+    'সবচেয়ে ভালো',
+    'যেগুলি',
+    'যেগুলো',
+    'কতগুলি',
+    'কতগুলো',
+    'কতটি',
+    'প্যাটার্ন',
+    'প্যাটার্নের',
+    'পেটার্ন',
+    'পেটার্নের',
+    'গানের',
+    'তাহলে',
+    'করো',
+    'লেখো',
+    'দাও',
+    'প্রশ্নগুলি',
+    'উত্তর দাও',
+    'নিচের'
+  ],
+  bannedPatterns: [
+    { label: 'Bengali plural suffix -গুলি', regex: /[\u0980-\u09FF]+গুলি/g },
+    { label: 'Bengali plural suffix -গুলো', regex: /[\u0980-\u09FF]+গুলো/g },
+    { label: 'Bengali possessive suffix -দের', regex: /[\u0980-\u09FF]+দের/g },
+    { label: 'Bengali possessive suffix -ের', regex: /[\u0980-\u09FF]+ের(?![\u0980-\u09FF])/g },
+    { label: 'Bengali command ending করো', regex: /করো/g },
+    { label: 'Bengali command ending লেখো', regex: /লেখো/g },
+    { label: 'Bengali command ending দাও', regex: /দাও/g },
+    { label: 'Bengali letters ড়/ঢ় present', regex: /[ড়ঢ়]/g },
+    { label: 'Bengali letter র present', regex: /র/g }
+  ]
+};
+
 // ---- IMAGE UPLOAD STATE ----
 let inputMode = 'type'; // 'type' | 'image'
 let uploadedImages = []; // [{ data: string, mediaType: string, name: string }]
@@ -631,7 +701,7 @@ const T = {
     apiKeyMissing: "লোকেল ডেভেলপমেন্টত প্ৰশ্নপত্ৰ তৈয়াৰ কৰাৰ আগতে Groq API Key লাগিব।",
     errorParsing: "AI উত্তৰ পাৰ্ছ কৰিব পৰা নগ'ল। অনুগ্ৰহ কৰি পুনৰায় চেষ্টা কৰক।",
     errorNetwork: "নেটৱাৰ্ক ত্ৰুটি। আপোনাৰ API Key পৰীক্ষা কৰক।",
-    answerKey: "উত্তৰ কুঁচি / নম্বৰ আঁচনি",
+    answerKey: "উত্তৰসূচী / নম্বৰ আঁচনি",
     questPaper: "প্ৰশ্নপত্ৰ",
     classLabel: "শ্ৰেণী:",
     subjectLabel: "বিষয়:",
@@ -747,19 +817,30 @@ function getSelectedChapterContext(board, cls, subject, selectedChapters) {
     .filter((chapter) => selectedSet.has(chapter.canonicalName));
 }
 
-function getRequestedQuestionTypeDescriptors(qtypes) {
-  const labels = {
-    MCQ: 'Multiple Choice Questions',
-    ShortAnswer: 'Short Answer Questions',
-    LongAnswer: 'Long Answer Questions'
-  };
+function getRequestedQuestionTypeDescriptors(qtypes, options = {}) {
+  const isAssamese = options.isAssamese === true;
+  const labels = isAssamese
+    ? ASSAMESE_LANGUAGE_PROFILE.sectionLabels
+    : {
+      MCQ: 'Multiple Choice Questions',
+      ShortAnswer: 'Short Answer Questions',
+      LongAnswer: 'Long Answer Questions'
+    };
 
   return qtypes.map((type, index) => {
-    const sectionLetter = String.fromCharCode(65 + index);
+    const sectionLetter = isAssamese
+      ? (ASSAMESE_LANGUAGE_PROFILE.sectionLetters[index] || String(index + 1))
+      : String.fromCharCode(65 + index);
     return {
       type,
-      title: `Section ${sectionLetter} - ${labels[type] || type}`,
-      marksHint: type === 'MCQ' ? '1 mark each' : type === 'ShortAnswer' ? '2-4 marks each' : '4-8 marks each'
+      title: isAssamese
+        ? `${sectionLetter} অংশ - ${labels[type] || type}`
+        : `Section ${sectionLetter} - ${labels[type] || type}`,
+      marksHint: type === 'MCQ'
+        ? (isAssamese ? 'প্ৰতিটো ১ নম্বৰ' : '1 mark each')
+        : type === 'ShortAnswer'
+          ? (isAssamese ? 'প্ৰতিটো ২-৪ নম্বৰ' : '2-4 marks each')
+          : (isAssamese ? 'প্ৰতিটো ৪-৮ নম্বৰ' : '4-8 marks each')
     };
   });
 }
@@ -794,7 +875,7 @@ function buildPaperPrompt({
 }) {
   const { canonicalSubjectName, canonicalClassName } = getSubjectContext(board, cls, subject);
   const chapterContext = getSelectedChapterContext(board, cls, subject, selectedChapters);
-  const requestedSections = getRequestedQuestionTypeDescriptors(qtypes);
+  const requestedSections = getRequestedQuestionTypeDescriptors(qtypes, { isAssamese });
 
   const chapterList = chapterContext.length
     ? chapterContext.map((chapter) => `- ${chapter.canonicalName}`).join('\n')
@@ -805,8 +886,12 @@ function buildPaperPrompt({
   )).join('\n');
 
   const assameseReminder = isAssamese
-    ? `\n\nFINAL REMINDER — LANGUAGE CHECK BEFORE OUTPUT: Every single word in your JSON output (questions, options, answers, titles) MUST be in pure Assamese (অসমীয়া). Use ৰ (U+09F0) not র (U+09B0) for the "ra" character. Do NOT use Bengali words. Do NOT use English words. A fluent Assamese reader must find zero foreign words.`
+    ? `\n\n${ASSAMESE_LANGUAGE_PROFILE.generationRules}\n\n${ASSAMESE_LANGUAGE_PROFILE.fewShotCorrections}\n\nFINAL REMINDER — LANGUAGE CHECK BEFORE OUTPUT: JSON keys and required enum values may remain as specified, but every teacher-facing JSON value (section titles, question text, options, answers) MUST be pure Assamese (অসমীয়া). Use Assamese grammar and school style. Do NOT use Bengali words or Bengali sentence flow.`
     : '';
+
+  const jsonShape = isAssamese
+    ? '{"sections":[{"type":"MCQ|ShortAnswer|LongAnswer","title":"ক অংশ - বহু-বিকল্প প্ৰশ্ন","questions":[{"qno":1,"chapter":"exact chapter name","text":"প্ৰশ্নৰ পাঠ","options":["ক) ...","খ) ...","গ) ...","ঘ) ..."],"answer":"শুদ্ধ উত্তৰ","marks":1}]}]}'
+    : '{"sections":[{"type":"MCQ|ShortAnswer|LongAnswer","title":"Section title","questions":[{"qno":1,"chapter":"exact chapter name","text":"question text","options":["(a)...","(b)...","(c)...","(d)..."],"answer":"correct answer","marks":1}]}]}';
 
   return `${subjectLanguageInstruction}
 
@@ -826,7 +911,7 @@ SECTIONS REQUIRED:
 ${sectionRules}
 
 JSON SHAPE:
-{"sections":[{"type":"MCQ|ShortAnswer|LongAnswer","title":"Section title","questions":[{"qno":1,"chapter":"exact chapter name","text":"question text","options":["(a)...","(b)...","(c)...","(d)..."],"answer":"correct answer","marks":1}]}]}
+${jsonShape}
 
 Rules: every question needs qno, chapter, text, answer, marks. MCQ must have exactly 4 options. ShortAnswer/LongAnswer omit options. Output JSON only.${assameseReminder}`;
 }
@@ -840,11 +925,9 @@ Rules: every question needs qno, chapter, text, answer, marks. MCQ must have exa
 function fixAssameseScript(text) {
   if (!text) return text;
 
-  // ── Step 1: Character fix ──────────────────────────────────────────────────
-  // Bengali র (U+09B0) → Assamese ৰ (U+09F0) except before ্ (virama conjunct)
-  let out = text.replace(/র(?!্)/g, 'ৰ');
+  let out = String(text);
 
-  // ── Step 2: Bengali → Assamese word dictionary ────────────────────────────
+  // ── Step 1: Bengali → Assamese word dictionary ────────────────────────────
   // Ordered longest-first so multi-word phrases match before single words.
   // Format: [bengali_pattern, assamese_replacement]
   // Use regex with word boundaries (\b doesn't work for Indic; we use zero-width
@@ -859,6 +942,21 @@ function fixAssameseScript(text) {
     // ════════════════════════════════════════════════════════════════════════
     // MULTI-WORD PHRASES (must come before single-word entries)
     // ════════════════════════════════════════════════════════════════════════
+    [wb('সবচেয়ে ভাল'),    'আটাইতকৈ ভাল'],
+    [wb('সবচেয়ে ভালো'),   'আটাইতকৈ ভাল'],
+    [wb('সবচেয়ে'),        'আটাইতকৈ'],
+    [wb('প্যাটার্নের'),     'ধাৰাৰ'],
+    [wb('পেটার্নের'),      'ধাৰাৰ'],
+    [wb('পেটাৰ্নের'),      'ধাৰাৰ'],
+    [wb('গানের'),          'ধাৰাৰ'],
+    [wb('উত্তর দাও'),      'উত্তৰ দিয়া'],
+    [wb('সবচেয়ে ভাল উত্তরটি নির্বাচন করো'), 'আটাইতকৈ ভাল উত্তৰটো বাছি উলিওৱা'],
+    [wb('সবচেয়ে ভালো উত্তরটি নির্বাচন করো'), 'আটাইতকৈ ভাল উত্তৰটো বাছি উলিওৱা'],
+    [wb('সঠিক উত্তরটি নির্বাচন করো'), 'শুদ্ধ উত্তৰটো বাছি উলিওৱা'],
+    [wb('উত্তরটি নির্বাচন করো'), 'উত্তৰটো বাছি উলিওৱা'],
+    [wb('নির্বাচন করো'),   'বাছি উলিওৱা'],
+    [wb('যদি'),            'যদি'],
+    [wb('যদি হয় তাহলে'),  'যদি হয় তেন্তে'],
     [wb('কাছ থেকে'),        'ওচৰৰ পৰা'],
     [wb('দেওয়া হলো'),      'দিয়া হ\'ল'],
     [wb('দেওয়া হয়'),      'দিয়া হয়'],
@@ -945,6 +1043,9 @@ function fixAssameseScript(text) {
     [wb('যেটি'),   'যেটা'],
     [wb('কোনটি'),  'কোনটা'],
     [wb('প্রতিটি'), 'প্ৰতিটো'],
+    [wb('কতগুলি'), 'কিমানটা'],
+    [wb('কতগুলো'), 'কিমানটা'],
+    [wb('কতটি'),   'কিমানটা'],
     // -জন (person counters)
     [wb('একজন'),   'এজন'],
     [wb('দুজন'),   'দুজন'],
@@ -975,6 +1076,8 @@ function fixAssameseScript(text) {
     [wb('করা'),     'কৰা'],
     [wb('করে'),     'কৰে'],
     [wb('করেন'),    'কৰে'],
+    [wb('করো'),     'কৰা'],
+    [wb('করুন'),    'কৰক'],
     [wb('কর'),      'কৰ'],
     [wb('হইবে'),    'হ\'ব'],
     [wb('হইবেক'),   'হ\'ব'],
@@ -988,8 +1091,10 @@ function fixAssameseScript(text) {
     [wb('হবে'),     'হ\'ব'],
     [wb('হোক'),     'হওক'],
     [wb('হলে'),     'হ\'লে'],
-    [wb('হলো'),     'হ\'ল'],
-    [wb('হয়'),     'হয়'],
+    [wb('হল'),      'হয়'],
+    [wb('হলো'),     'হয়'],
+    [wb('হয়'),     'হয়'],
+    [wb('হয়'),      'হয়'],
     [wb('দেওয়া'),  'দিয়া'],
     [wb('দেওয়'),   'দিয়'],
     [wb('দেখাও'),   'দেখুৱাও'],
@@ -1065,6 +1170,10 @@ function fixAssameseScript(text) {
     [wb('তাহারা'),   'তেওঁলোক'],
     [wb('আমরা'),     'আমি'],
     [wb('তোমরা'),    'তোমালোক'],
+    [wb('যেগুলি'),   'যিবোৰ'],
+    [wb('যেগুলো'),   'যিবোৰ'],
+    [wb('সেগুলি'),   'সেইবোৰ'],
+    [wb('সেগুলো'),   'সেইবোৰ'],
     [wb('সবাই'),     'সকলো'],
     [wb('সকলে'),     'সকলো'],
     [wb('কেউকে'),    'কাকো'],
@@ -1077,6 +1186,7 @@ function fixAssameseScript(text) {
     // ════════════════════════════════════════════════════════════════════════
     [wb('থেকে'),     'পৰা'],
     [wb('হতে'),      'পৰা'],
+    [wb('দ্বারা'),    'ৰে'],
     [wb('দিয়ে'),    'দি'],
     [wb('কাছে'),     'ওচৰত'],
     [wb('কাছের'),    'ওচৰৰ'],
@@ -1120,7 +1230,9 @@ function fixAssameseScript(text) {
     [wb('কতটুকু'),   'কিমান'],
     [wb('কতটা'),     'কিমান'],
     [wb('কত'),       'কিমান'],
+    [wb('কতগুলি'),   'কিমানটা'],
     [wb('কতগুলো'),   'কিমানটা'],
+    [wb('কতটি'),     'কিমানটা'],
     [wb('কোনটা'),    'কোনটা'],
     [wb('কোনটি'),    'কোনটা'],
     [wb('কোনো'),     'কোনো'],
@@ -1157,7 +1269,9 @@ function fixAssameseScript(text) {
     // GENERAL EXAM / PAPER WORDS
     // ════════════════════════════════════════════════════════════════════════
     [wb('প্রশ্নপত্র'), 'প্ৰশ্নকাকত'],
+    [wb('প্রশ্নটি'),   'প্ৰশ্নটো'],
     [wb('প্রশ্ন'),     'প্ৰশ্ন'],
+    [wb('উত্তরটি'),    'উত্তৰটো'],
     [wb('উত্তর'),      'উত্তৰ'],
     [wb('উত্তরঃ'),     'উত্তৰঃ'],
     [wb('উত্তরপত্র'),  'উত্তৰকাকত'],
@@ -1252,6 +1366,11 @@ function fixAssameseScript(text) {
     [wb('অনুপাত'),     'অনুপাত'],
     [wb('শতাংশ'),      'শতাংশ'],
     [wb('শতকরা'),      'শতাংশ'],
+    [wb('প্যাটার্ন'),   'ধাৰা'],
+    [wb('পেটার্ন'),    'ধাৰা'],
+    [wb('পেটাৰ্ন'),    'ধাৰা'],
+    [wb('প্যাটাৰ্ন'),   'ধাৰা'],
+    [wb('নকশা'),       'ধাৰা'],
     [wb('সুদ'),        'সুদ'],
     [wb('আসল'),        'মূলধন'],
     [wb('মুনাফা'),     'লাভ'],
@@ -1458,7 +1577,187 @@ function fixAssameseScript(text) {
     out = out.replace(pattern, replacement);
   }
 
+  // ── Step 2: Bengali suffix cleanup that is hard to enumerate ──────────────
+  out = out
+    .replace(new RegExp(`([${B}]+)গুলি(?![${B}])`, 'g'), '$1বোৰ')
+    .replace(new RegExp(`([${B}]+)গুলো(?![${B}])`, 'g'), '$1বোৰ')
+    .replace(new RegExp(`([${B}]+)দের(?![${B}])`, 'g'), '$1সকলৰ')
+    .replace(new RegExp(`([${B}]+)ের(?![${B}])`, 'g'), '$1ৰ');
+
+  // ── Step 3: Character fix ─────────────────────────────────────────────────
+  // Enforce Assamese-specific ra across all contexts to avoid Bengali-script bleed.
+  // This runs after word-level replacement so dictionary patterns still match first.
+  out = out.replace(/র/g, 'ৰ');
+
   return out;
+}
+
+function escapeRegExp(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function wholeIndicWordRegex(term) {
+  const B = '\u0980-\u09FF';
+  return new RegExp(`(?<![${B}])${escapeRegExp(term)}(?![${B}])`, 'g');
+}
+
+function getAssameseSectionTitle(type, index = 0) {
+  const sectionLetter = ASSAMESE_LANGUAGE_PROFILE.sectionLetters[index] || String(index + 1);
+  const label = ASSAMESE_LANGUAGE_PROFILE.sectionLabels[type] || type;
+  return `${sectionLetter} অংশ - ${label}`;
+}
+
+function normalizeAssameseOptionMarker(option, index) {
+  const fixed = fixAssameseScript(option).trim();
+  const letter = ASSAMESE_LANGUAGE_PROFILE.optionLetters[index] || String(index + 1);
+  if (/^\s*\(?[A-Da-d]\)?[\).]?\s*/u.test(fixed)) {
+    return fixed.replace(/^\s*\(?[A-Da-d]\)?[\).]?\s*/u, `${letter}) `);
+  }
+  return fixed.replace(/^\s*(?:\(?[A-Da-d]\)?|[কখগঘ][\).]?|[০-৯0-9]+[\).])\s*/u, `${letter}) `);
+}
+
+function normalizeAssamesePaperLanguage(paperData) {
+  if (!paperData || !Array.isArray(paperData.sections)) return paperData;
+
+  return {
+    ...paperData,
+    sections: paperData.sections.map((section, sectionIndex) => ({
+      ...section,
+      title: getAssameseSectionTitle(section.type, sectionIndex),
+      questions: (section.questions || []).map((question) => ({
+        ...question,
+        text: fixAssameseScript(question.text || '').trim(),
+        options: Array.isArray(question.options)
+          ? question.options.map((option, optionIndex) => normalizeAssameseOptionMarker(option, optionIndex))
+          : undefined,
+        answer: fixAssameseScript(question.answer || '').trim()
+      }))
+    }))
+  };
+}
+
+function collectAssamesePaperText(paperData) {
+  const chunks = [];
+  if (!paperData || !Array.isArray(paperData.sections)) return chunks;
+
+  paperData.sections.forEach((section) => {
+    if (section?.title) chunks.push(section.title);
+    (section.questions || []).forEach((question) => {
+      if (question?.text) chunks.push(question.text);
+      if (Array.isArray(question?.options)) chunks.push(...question.options);
+      if (question?.answer) chunks.push(question.answer);
+    });
+  });
+
+  return chunks;
+}
+
+function validateAssamesePaperLanguage(paperData) {
+  const text = collectAssamesePaperText(paperData).join('\n');
+  const normalizedText = fixAssameseScript(text);
+  const scanText = `${text}\n${normalizedText}`;
+  const hits = [];
+
+  ASSAMESE_LANGUAGE_PROFILE.bannedTerms.forEach((term) => {
+    if (wholeIndicWordRegex(term).test(scanText)) hits.push(term);
+  });
+
+  ASSAMESE_LANGUAGE_PROFILE.bannedPatterns.forEach((item) => {
+    const matches = scanText.match(item.regex);
+    if (matches?.length) hits.push(`${item.label}: ${matches.slice(0, 3).join(', ')}`);
+  });
+
+  // Additional strictness: if normalization changed teacher-facing text heavily,
+  // treat it as contamination and force one more repair pass.
+  if (text && normalizedText && text !== normalizedText) {
+    const changedSamples = [];
+    const originalLines = text.split('\n');
+    const normalizedLines = normalizedText.split('\n');
+    for (let i = 0; i < Math.min(originalLines.length, normalizedLines.length); i++) {
+      if (originalLines[i] !== normalizedLines[i]) {
+        changedSamples.push(`${originalLines[i]} -> ${normalizedLines[i]}`);
+      }
+      if (changedSamples.length >= 2) break;
+    }
+    if (changedSamples.length) {
+      hits.push(`Script normalization required: ${changedSamples.join(' | ')}`);
+    }
+  }
+
+  const uniqueHits = [...new Set(hits)].slice(0, 10);
+  return {
+    ok: uniqueHits.length === 0,
+    reason: uniqueHits.length ? `Bengali contamination detected (${uniqueHits.join('; ')})` : '',
+    hits: uniqueHits
+  };
+}
+
+function buildAssameseLanguageRepairPrompt({
+  rawJson,
+  contaminationReason,
+  selectedChapters,
+  qtypes,
+  totalQ,
+  subjectLanguageInstruction
+}) {
+  return `${subjectLanguageInstruction}
+
+${ASSAMESE_LANGUAGE_PROFILE.generationRules}
+
+${ASSAMESE_LANGUAGE_PROFILE.fewShotCorrections}
+
+Rewrite the following exam paper JSON into pure standard Assamese suitable for Assamese-medium SEBA school question papers.
+
+Detected issue: ${contaminationReason}
+
+STRICT REPAIR RULES:
+- Preserve the same JSON shape, keys, section types, question count, marks, and answer meanings.
+- Keep each "chapter" value exactly as one of the allowed chapter strings.
+- Do not add or remove questions.
+- Rewrite only teacher-facing values: section titles, question text, options, and answers.
+- Remove all Bengali words, Bengali grammar, Bengali suffixes, and Bengali command endings.
+- MCQ options must use Assamese labels: ক), খ), গ), ঘ).
+- Output valid JSON only.
+
+Allowed chapters: ${selectedChapters.join(' | ')}
+Required question types: ${qtypes.join(', ')}
+Required total questions: ${totalQ}
+
+JSON TO REWRITE:
+${rawJson}`;
+}
+
+async function enforcePureAssamesePaperLanguage({
+  paperData,
+  requestPaperFromModel,
+  selectedChapters,
+  qtypes,
+  totalQ,
+  subjectLanguageInstruction,
+  maxTokens
+}) {
+  let currentPaper = normalizeAssamesePaperLanguage(paperData);
+  let structureValidation = validateGeneratedPaper(currentPaper, { selectedChapters, qtypes, totalQ });
+  let languageReport = validateAssamesePaperLanguage(currentPaper);
+
+  for (let attempt = 0; structureValidation.ok && !languageReport.ok && attempt < 3; attempt++) {
+    const repairPrompt = buildAssameseLanguageRepairPrompt({
+      rawJson: JSON.stringify(currentPaper, null, 2),
+      contaminationReason: languageReport.reason,
+      selectedChapters,
+      qtypes,
+      totalQ,
+      subjectLanguageInstruction
+    });
+
+    const repairResult = await requestPaperFromModel(repairPrompt, maxTokens);
+    currentPaper = normalizeGeneratedPaper(repairResult.parsed, qtypes, selectedChapters);
+    currentPaper = normalizeAssamesePaperLanguage(currentPaper);
+    structureValidation = validateGeneratedPaper(currentPaper, { selectedChapters, qtypes, totalQ });
+    languageReport = validateAssamesePaperLanguage(currentPaper);
+  }
+
+  return { paperData: currentPaper, structureValidation, languageReport };
 }
 
 function validateGeneratedPaper(paperData, { selectedChapters, qtypes, totalQ }) {
@@ -1797,7 +2096,7 @@ async function generatePaper() {
   // Build language instruction based on effective medium
   let subjectLanguageInstruction;
   if (isAssameseMedium) {
-    subjectLanguageInstruction = 'CRITICAL LANGUAGE RULE: You MUST write every single word — questions, options, answers, section titles, instructions — in pure Assamese (অসমীয়া) script only. ZERO English words allowed anywhere in the output, including words like "Answer", "Section", "Q1", "marks" etc. — translate ALL of these to Assamese. ZERO Bengali words allowed — Assamese and Bengali share the same script but are different languages. Use authentic Assamese vocabulary and grammar only. Assamese-specific markers: use "ৰ" not Bengali "র", use "কিয়", "ক\'ত", "হাতী", "নহয়", "উত্তৰ", "খণ্ড", "নম্বৰ" etc. If any English or Bengali word appears in your output, it is a failure.';
+    subjectLanguageInstruction = `CRITICAL LANGUAGE RULE: Teacher-facing output must be pure Assamese (অসমীয়া), using Assamese-medium SEBA school style. JSON keys and enum values may remain exactly as requested for parsing, but section titles, questions, MCQ options, and answers must contain no Bengali words, Bengali suffixes, or Bengali sentence flow. ${ASSAMESE_LANGUAGE_PROFILE.generationRules}`;
   } else if (isHindiMedium) {
     subjectLanguageInstruction = 'IMPORTANT: The medium of instruction is Hindi. ALL question text, options, and answers MUST be written entirely in हिंदी (Hindi). Do NOT use English or any other language for question text.';
   } else {
@@ -1997,13 +2296,31 @@ async function generatePaper() {
       validation = validateGeneratedPaper(paperData, { selectedChapters, qtypes, totalQ });
     }
 
+    if (isAssameseMedium) {
+      const assameseResult = await enforcePureAssamesePaperLanguage({
+        paperData,
+        requestPaperFromModel,
+        selectedChapters,
+        qtypes,
+        totalQ,
+        subjectLanguageInstruction,
+        maxTokens: Math.min(GROQ_MAX_TOKENS, Math.max(1800, Math.round(GROQ_MAX_TOKENS * 0.85)))
+      });
+      paperData = assameseResult.paperData;
+      validation = assameseResult.structureValidation;
+
+      if (validation.ok && !assameseResult.languageReport.ok) {
+        throw new Error(`Assamese language validation failed: ${assameseResult.languageReport.reason}`);
+      }
+    }
+
     if (!validation.ok) {
       throw new Error(`Generated paper failed validation: ${validation.reason}`);
     }
 
     // Set whether this paper has answers based on plan or toggle
     const paperHasAnswers = planIncludesAnswers || includeAnswers;
-    paperData.meta = { board, schoolName, cls, subject, topic: selectedChapters.join(', '), totalMarks, timeLimit, withAnswers: paperHasAnswers };
+    paperData.meta = { board, schoolName, cls, subject, topic: selectedChapters.join(', '), totalMarks, timeLimit, withAnswers: paperHasAnswers, medium: effectiveMedium };
     currentPaperData = paperData;
     hasAnswersForCurrentPaper = paperHasAnswers;
 
@@ -2072,6 +2389,7 @@ async function generatePaperFromImages() {
   const qtypes = getCheckedValues('qtype');
   const extraInstr = document.getElementById('instructions').value.trim();
   const selectedMedium = document.querySelector('input[name="medium"]:checked')?.value || 'English';
+  const isAssameseMedium = selectedMedium === 'Assamese';
   const imageSubject = document.getElementById('imageSubject')?.value.trim() || 'Chapter Pages';
   const imageClass = document.getElementById('imageClass')?.value.trim() || '';
 
@@ -2130,8 +2448,8 @@ async function generatePaperFromImages() {
 
     // Build medium instruction
     let mediumInstruction;
-    if (selectedMedium === 'Assamese') {
-      mediumInstruction = 'Write ALL text in pure Assamese (অসমীয়া) script only. Zero English words anywhere.';
+    if (isAssameseMedium) {
+      mediumInstruction = `Write teacher-facing text in pure Assamese (অসমীয়া) only. JSON keys and enum values may remain as specified, but section titles, question text, options, and answers must follow this profile:\n${ASSAMESE_LANGUAGE_PROFILE.generationRules}\n\n${ASSAMESE_LANGUAGE_PROFILE.fewShotCorrections}`;
     } else if (selectedMedium === 'Hindi') {
       mediumInstruction = 'Write ALL question text in Hindi (हिंदी). Zero English words in questions.';
     } else {
@@ -2147,23 +2465,26 @@ async function generatePaperFromImages() {
 
     // Sentinel so validation can match chapter field
     const CHAPTER_SENTINEL = 'Chapter from Images';
-
-    const textPrompt = `You are an expert school exam paper creator. Carefully read the textbook/chapter page(s) shown in the images, then generate a complete question paper based ONLY on the content visible in those pages.
-
-STRICT REQUIREMENTS:
-- Total questions: exactly ${totalQ}
-- Total marks: ${totalMarks}
-- Time: ${timeLimit} minutes
-- Difficulty: ${difficulty}
-- Include question types: ${qtypeDescriptions}
-- Language rule: ${mediumInstruction}
-- Every question's "chapter" field MUST be exactly the string: "${CHAPTER_SENTINEL}"
-- MCQ questions MUST have exactly 4 options in the "options" array (e.g. ["A. ...", "B. ...", "C. ...", "D. ..."])
-- Every question MUST have a non-empty "answer" field
-${extraInstr ? `- Special instructions: ${extraInstr}` : ''}
-
-Return ONLY valid JSON — no markdown fences, no explanation text. Use this exact structure:
-{
+    const jsonExample = isAssameseMedium
+      ? `{
+  "sections": [
+    {
+      "type": "MCQ",
+      "title": "ক অংশ - বহু-বিকল্প প্ৰশ্ন",
+      "questions": [
+        { "qno": 1, "chapter": "${CHAPTER_SENTINEL}", "text": "প্ৰশ্নৰ পাঠ", "options": ["ক) ...", "খ) ...", "গ) ...", "ঘ) ..."], "answer": "শুদ্ধ উত্তৰ", "marks": 1 }
+      ]
+    },
+    {
+      "type": "ShortAnswer",
+      "title": "খ অংশ - চমু উত্তৰ",
+      "questions": [
+        { "qno": 5, "chapter": "${CHAPTER_SENTINEL}", "text": "প্ৰশ্নৰ পাঠ", "answer": "উত্তৰ", "marks": 2 }
+      ]
+    }
+  ]
+}`
+      : `{
   "sections": [
     {
       "type": "MCQ",
@@ -2181,6 +2502,23 @@ Return ONLY valid JSON — no markdown fences, no explanation text. Use this exa
     }
   ]
 }`;
+
+    const textPrompt = `You are an expert school exam paper creator. Carefully read the textbook/chapter page(s) shown in the images, then generate a complete question paper based ONLY on the content visible in those pages.
+
+STRICT REQUIREMENTS:
+- Total questions: exactly ${totalQ}
+- Total marks: ${totalMarks}
+- Time: ${timeLimit} minutes
+- Difficulty: ${difficulty}
+- Include question types: ${qtypeDescriptions}
+- Language rule: ${mediumInstruction}
+- Every question's "chapter" field MUST be exactly the string: "${CHAPTER_SENTINEL}"
+- MCQ questions MUST have exactly 4 options in the "options" array (e.g. ${isAssameseMedium ? '["ক) ...", "খ) ...", "গ) ...", "ঘ) ..."]' : '["A. ...", "B. ...", "C. ...", "D. ..."]'})
+- Every question MUST have a non-empty "answer" field
+${extraInstr ? `- Special instructions: ${extraInstr}` : ''}
+
+Return ONLY valid JSON — no markdown fences, no explanation text. Use this exact structure:
+${jsonExample}`;
 
     const imageContents = uploadedImages.map(img => ({
       type: 'image',
@@ -2209,7 +2547,8 @@ Return ONLY valid JSON — no markdown fences, no explanation text. Use this exa
     }
 
     const apiData = await response.json();
-    const rawText = apiData.content?.[0]?.text?.trim();
+    const rawTextRaw = apiData.content?.[0]?.text?.trim();
+    const rawText = isAssameseMedium ? fixAssameseScript(rawTextRaw) : rawTextRaw;
     if (!rawText) throw new Error('Empty response from Claude Vision');
 
     let parsed;
@@ -2223,7 +2562,58 @@ Return ONLY valid JSON — no markdown fences, no explanation text. Use this exa
 
     const sentinelChapters = [CHAPTER_SENTINEL];
     let paperData = normalizeGeneratedPaper(parsed, qtypes, sentinelChapters);
-    const validation = validateGeneratedPaper(paperData, { selectedChapters: sentinelChapters, qtypes, totalQ });
+    let validation = validateGeneratedPaper(paperData, { selectedChapters: sentinelChapters, qtypes, totalQ });
+
+    if (isAssameseMedium) {
+      const requestAssameseRepairFromClaude = async (repairPrompt, maxTokens) => {
+        const repairResponse = await fetch(CLAUDE_ENDPOINT, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': CLAUDE_API_KEY,
+            'anthropic-version': '2023-06-01',
+            'anthropic-dangerous-direct-browser-access': 'true'
+          },
+          body: JSON.stringify({
+            model: CLAUDE_MODEL,
+            max_tokens: maxTokens,
+            temperature: 0.1,
+            system: 'You are an expert Assamese-medium SEBA question paper editor. Return valid JSON only.',
+            messages: [{ role: 'user', content: repairPrompt }]
+          })
+        });
+
+        if (!repairResponse.ok) {
+          const errData = await repairResponse.json().catch(() => ({}));
+          throw new Error(errData.error?.message || `Claude API Error ${repairResponse.status}`);
+        }
+
+        const repairData = await repairResponse.json();
+        const repairRawText = fixAssameseScript(repairData.content?.[0]?.text?.trim());
+        if (!repairRawText) throw new Error('Empty Assamese repair response');
+
+        const jsonMatch = repairRawText.match(/```json\s*([\s\S]*?)```|```\s*([\s\S]*?)```|\{[\s\S]*\}/);
+        const jsonStr = jsonMatch ? (jsonMatch[1] || jsonMatch[2] || jsonMatch[0]) : repairRawText;
+        return { rawText: repairRawText, parsed: JSON.parse(jsonStr) };
+      };
+
+      const assameseResult = await enforcePureAssamesePaperLanguage({
+        paperData,
+        requestPaperFromModel: requestAssameseRepairFromClaude,
+        selectedChapters: sentinelChapters,
+        qtypes,
+        totalQ,
+        subjectLanguageInstruction: `Teacher-facing output must be pure Assamese (অসমীয়া), using Assamese-medium SEBA school style. ${ASSAMESE_LANGUAGE_PROFILE.generationRules}`,
+        maxTokens: 4096
+      });
+      paperData = assameseResult.paperData;
+      validation = assameseResult.structureValidation;
+
+      if (validation.ok && !assameseResult.languageReport.ok) {
+        throw new Error(`Assamese language validation failed: ${assameseResult.languageReport.reason}`);
+      }
+    }
+
     if (!validation.ok) throw new Error(`Paper validation failed: ${validation.reason}`);
 
     paperData.meta = {
@@ -2234,7 +2624,8 @@ Return ONLY valid JSON — no markdown fences, no explanation text. Use this exa
       topic: `${uploadedImages.length} uploaded page(s)`,
       totalMarks,
       timeLimit,
-      withAnswers: planIncludesAnswers
+      withAnswers: planIncludesAnswers,
+      medium: selectedMedium
     };
     currentPaperData = paperData;
     hasAnswersForCurrentPaper = planIncludesAnswers;
@@ -2261,8 +2652,12 @@ Return ONLY valid JSON — no markdown fences, no explanation text. Use this exa
 }
 
 function renderPaper(data) {
-  const t = T[currentLang];
   const { meta, sections } = data;
+  const isPaperAssamese = meta?.medium === 'Assamese';
+  const labelLang = isPaperAssamese ? 'as' : currentLang;
+  const t = T[labelLang] || T[currentLang];
+  const questionPrefix = isPaperAssamese ? 'প্ৰশ্ন' : 'Q';
+  const marksSuffix = isPaperAssamese ? 'নম্বৰ' : 'M';
 
   const watermarkOverlay = document.getElementById('watermarkOverlay');
   const unlockCallout = document.getElementById('unlockCallout');
@@ -2310,8 +2705,8 @@ function renderPaper(data) {
   }
 
   const subjObj = window.SYLLABUS_DATA[meta.board]?.classes[meta.cls]?.subjects[meta.subject];
-  const subjName = subjObj?.names?.[currentLang] || meta.subject;
-  const clsName = window.SYLLABUS_DATA[meta.board]?.classes[meta.cls]?.names?.[currentLang] || meta.cls;
+  const subjName = subjObj?.names?.[labelLang] || meta.subject;
+  const clsName = window.SYLLABUS_DATA[meta.board]?.classes[meta.cls]?.names?.[labelLang] || meta.cls;
   const safeSchoolName = escapeHtml(meta.schoolName);
   const safeSubjName = escapeHtml(subjName);
   const safeClsName = escapeHtml(clsName);
@@ -2337,7 +2732,7 @@ function renderPaper(data) {
       const safeQuestionText = escapeHtml(q.text);
       const safeQuestionMarks = escapeHtml(q.marks);
       html += `<div class="question-item ${blurClass}">
-        <span class="qnum">Q${qCount}.</span> ${safeQuestionText} <span class="marks">[${safeQuestionMarks}M]</span>`;
+        <span class="qnum">${questionPrefix} ${qCount}.</span> ${safeQuestionText} <span class="marks">[${safeQuestionMarks} ${marksSuffix}]</span>`;
       if (q.options) {
         html += `<div class="mcq-options">${q.options.map(o => `<div class="opt">${escapeHtml(o)}</div>`).join('')}</div>`;
       }
@@ -2363,7 +2758,7 @@ function renderPaper(data) {
     sections.forEach(sec => {
       sec.questions.forEach(q => {
         html += `<div style="margin-bottom:10px; font-size:0.9rem;">
-            <b style="color:#334155">Q${aCount}.</b> ${escapeHtml(q.answer)}
+            <b style="color:#334155">${questionPrefix} ${aCount}.</b> ${escapeHtml(q.answer)}
         </div>`;
         aCount++;
       });
@@ -2382,7 +2777,7 @@ function renderPaper(data) {
     let lockedPlaceholder = '';
     sections.forEach(sec => {
       sec.questions.forEach(q => {
-        lockedPlaceholder += `<span style="background:#e2e8f0; color:#94a3b8; padding:6px 12px; border-radius:6px; font-size:0.78rem; font-weight:600;">Q${aCount} • ${escapeHtml(q.marks)} Marks</span>`;
+        lockedPlaceholder += `<span style="background:#e2e8f0; color:#94a3b8; padding:6px 12px; border-radius:6px; font-size:0.78rem; font-weight:600;">${questionPrefix} ${aCount} • ${escapeHtml(q.marks)} ${marksSuffix}</span>`;
         aCount++;
       });
     });
@@ -2522,11 +2917,15 @@ function handleAnswerKeyRequest() {
 function _buildPrintHTML(withAnswers) {
   if (!currentPaperData) return '';
   const { meta, sections } = currentPaperData;
-  const t = T[currentLang];
+  const isPaperAssamese = meta?.medium === 'Assamese';
+  const labelLang = isPaperAssamese ? 'as' : currentLang;
+  const t = T[labelLang] || T[currentLang];
+  const questionPrefix = isPaperAssamese ? 'প্ৰশ্ন' : 'Q';
+  const marksSuffix = isPaperAssamese ? 'নম্বৰ' : 'M';
 
   const subjObj = window.SYLLABUS_DATA?.[meta.board]?.classes?.[meta.cls]?.subjects?.[meta.subject];
-  const subjName = subjObj?.names?.[currentLang] || meta.subject;
-  const clsName  = window.SYLLABUS_DATA?.[meta.board]?.classes?.[meta.cls]?.names?.[currentLang] || meta.cls;
+  const subjName = subjObj?.names?.[labelLang] || meta.subject;
+  const clsName  = window.SYLLABUS_DATA?.[meta.board]?.classes?.[meta.cls]?.names?.[labelLang] || meta.cls;
   const safeSchoolName = escapeHtml(meta.schoolName || 'Question Paper');
   const safeSubjName = escapeHtml(subjName);
   const safeClsName = escapeHtml(clsName);
@@ -2550,9 +2949,9 @@ function _buildPrintHTML(withAnswers) {
       const safeQuestionText = escapeHtml(q.text);
       const safeQuestionMarks = escapeHtml(q.marks);
       questionsHTML += `<div class="p-question">
-        <span class="p-qnum">Q${qCount}.</span>
+        <span class="p-qnum">${questionPrefix} ${qCount}.</span>
         <span class="p-qtext">${safeQuestionText}</span>
-        <span class="p-marks">[${safeQuestionMarks}M]</span>`;
+        <span class="p-marks">[${safeQuestionMarks} ${marksSuffix}]</span>`;
       if (q.options && q.options.length) {
         questionsHTML += `<div class="p-options">` +
           q.options.map(o => `<div class="p-opt">${escapeHtml(o)}</div>`).join('') +
@@ -2571,7 +2970,7 @@ function _buildPrintHTML(withAnswers) {
       <h3>🔑 ${safeAnswerKeyLabel}</h3>`;
     sections.forEach(sec => {
       sec.questions.forEach(q => {
-        answerHTML += `<div class="p-ans-row"><b>Q${aCount}.</b> ${escapeHtml(q.answer)}</div>`;
+        answerHTML += `<div class="p-ans-row"><b>${questionPrefix} ${aCount}.</b> ${escapeHtml(q.answer)}</div>`;
         aCount++;
       });
     });
@@ -2579,7 +2978,7 @@ function _buildPrintHTML(withAnswers) {
   }
 
   return `<!DOCTYPE html>
-<html lang="en">
+<html lang="${isPaperAssamese ? 'as' : 'en'}">
 <head>
 <meta charset="UTF-8"/>
 <title>${safeSchoolName} — ${safeSubjName}</title>
@@ -2632,10 +3031,14 @@ function exportPDF() {
   if (!currentPaperData) { showToast("No paper generated yet.", 'info'); return; }
 
   const { meta, sections } = currentPaperData;
-  const t = T[currentLang];
+  const isPaperAssamese = meta?.medium === 'Assamese';
+  const labelLang = isPaperAssamese ? 'as' : currentLang;
+  const t = T[labelLang] || T[currentLang];
+  const questionPrefix = isPaperAssamese ? 'প্ৰশ্ন' : 'Q';
+  const marksSuffix = isPaperAssamese ? 'নম্বৰ' : (t.marks || 'M');
   const subjObj = window.SYLLABUS_DATA?.[meta.board]?.classes?.[meta.cls]?.subjects?.[meta.subject];
-  const subjName = subjObj?.names?.[currentLang] || meta.subject;
-  const clsName  = window.SYLLABUS_DATA?.[meta.board]?.classes?.[meta.cls]?.names?.[currentLang] || meta.cls;
+  const subjName = subjObj?.names?.[labelLang] || meta.subject;
+  const clsName  = window.SYLLABUS_DATA?.[meta.board]?.classes?.[meta.cls]?.names?.[labelLang] || meta.cls;
 
   // Check if jsPDF is available
   const jsPDF = window.jspdf?.jsPDF || window.jsPDF;
@@ -2703,8 +3106,8 @@ function exportPDF() {
 
       sec.questions.forEach(q => {
         checkPage(20);
-        const qText = `Q${qCount}. ${q.text}`;
-        const marksText = `[${q.marks}${t.marks || 'M'}]`;
+        const qText = `${questionPrefix} ${qCount}. ${q.text}`;
+        const marksText = `[${q.marks} ${marksSuffix}]`;
 
         // Split question text if too long
         const lines = doc.splitTextToSize(qText, contentWidth - 20);
@@ -2712,7 +3115,7 @@ function exportPDF() {
 
         doc.setFontSize(10);
         doc.setFont('helvetica', 'bold');
-        doc.text(`Q${qCount}.`, margin, y);
+        doc.text(`${questionPrefix} ${qCount}.`, margin, y);
         doc.setFont('helvetica', 'normal');
         const qTextLines = doc.splitTextToSize(q.text, contentWidth - 25);
         doc.text(qTextLines, margin + 12, y);
@@ -2760,7 +3163,7 @@ function exportPDF() {
           doc.setFontSize(10);
           doc.setFont('helvetica', 'bold');
           doc.setTextColor(51, 65, 85);
-          doc.text(`Q${aCount}.`, margin, y);
+          doc.text(`${questionPrefix} ${aCount}.`, margin, y);
           doc.setFont('helvetica', 'normal');
           doc.setTextColor(0, 0, 0);
           const ansLines = doc.splitTextToSize(q.answer || 'N/A', contentWidth - 20);
@@ -2786,10 +3189,14 @@ function exportText() {
   if (!currentPaperData) { showToast("No paper generated yet.", 'info'); return; }
 
   const { meta, sections } = currentPaperData;
-  const t = T[currentLang];
+  const isPaperAssamese = meta?.medium === 'Assamese';
+  const labelLang = isPaperAssamese ? 'as' : currentLang;
+  const t = T[labelLang] || T[currentLang];
+  const questionPrefix = isPaperAssamese ? 'প্ৰশ্ন' : 'Q';
+  const marksSuffix = isPaperAssamese ? 'নম্বৰ' : 'M';
   const subjObj = window.SYLLABUS_DATA?.[meta.board]?.classes?.[meta.cls]?.subjects?.[meta.subject];
-  const subjName = subjObj?.names?.[currentLang] || meta.subject;
-  const clsName  = window.SYLLABUS_DATA?.[meta.board]?.classes?.[meta.cls]?.names?.[currentLang] || meta.cls;
+  const subjName = subjObj?.names?.[labelLang] || meta.subject;
+  const clsName  = window.SYLLABUS_DATA?.[meta.board]?.classes?.[meta.cls]?.names?.[labelLang] || meta.cls;
   const line40   = '─'.repeat(40);
 
   let text = `${meta.schoolName || ''}\n`;
@@ -2801,7 +3208,7 @@ function exportText() {
   sections.forEach(sec => {
     text += `\n${sec.title}\n${line40}\n`;
     sec.questions.forEach(q => {
-      text += `Q${qCount}. ${q.text}  [${q.marks}M]\n`;
+      text += `${questionPrefix} ${qCount}. ${q.text}  [${q.marks} ${marksSuffix}]\n`;
       if (q.options && q.options.length) {
         q.options.forEach(o => { text += `    ${o}\n`; });
       }
@@ -2815,7 +3222,7 @@ function exportText() {
     let aCount = 1;
     sections.forEach(sec => {
       sec.questions.forEach(q => {
-        text += `Q${aCount}. ${q.answer}\n`;
+        text += `${questionPrefix} ${aCount}. ${q.answer}\n`;
         aCount++;
       });
     });
