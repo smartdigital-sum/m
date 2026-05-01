@@ -321,7 +321,28 @@ async function loadOrCreateUser(user) {
 
     updateCreditsDisplay();
   } catch (err) {
-    console.error("Firestore load error:", err);
+    // ⚠️ DASHBOARD BROKEN IF YOU SEE THIS ERROR ⚠️
+    // Most common cause: Firestore Security Rules are expired (test mode 30-day limit)
+    // Fix: Go to Firebase Console → Firestore → Rules → update the expiry date or use proper auth rules
+    console.error("❌ [ExamCraft] Firestore load error — dashboard will not work!", err);
+    console.error("   → Check: Firebase Console → Firestore Database → Rules tab");
+    console.error("   → If you see PERMISSION_DENIED, your Firestore rules have expired or are incorrect.");
+    // Set a minimal fallback so the UI doesn't fully break
+    if (!window.currentUserData) {
+      window.currentUserData = {
+        uid: user.uid,
+        name: user.displayName || '',
+        email: user.email || '',
+        phone: '', phoneNormalized: '',
+        photo: user.photoURL || '',
+        plan: null, planLabel: null,
+        papersTotal: 0, papersUsed: 0, papersRemaining: 0,
+        demoUsed: 0, includesAnswers: false,
+        purchasedOn: null, expiresOn: null,
+        _firestoreError: true  // flag to detect this state
+      };
+    }
+    updateCreditsDisplay();
   }
 }
 
@@ -528,7 +549,18 @@ function updateCreditsDisplay() {
 async function openDashboard() {
   const u = window.currentUserData;
   const user = window.auth.currentUser;
-  if (!u || !user) return;
+  if (!u || !user) {
+    console.warn('[ExamCraft] openDashboard called but currentUserData or currentUser is null. Firestore may have failed to load.');
+    if (typeof showToast === 'function') {
+      showToast('Dashboard data could not load. Please check your internet connection and try signing in again.', 'error');
+    }
+    return;
+  }
+
+  // Warn if user data was loaded from fallback (Firestore error)
+  if (u._firestoreError) {
+    console.warn('[ExamCraft] Dashboard opened but Firestore data could not be fetched. Showing limited info.');
+  }
 
   const displayName = u.name || user.displayName || 'User';
   const avatarEl = document.getElementById('md-avatar');
