@@ -17,10 +17,10 @@ This section reflects the current ExamCraft app behavior in code.
 | Demo preview | First 2 questions visible, remaining questions blurred, answer key locked |
 | Demo export | ❌ No export/download until the paper is unlocked |
 | Export formats | ✅ PDF, ✅ Text, ✅ Print |
-| Individual pricing | ₹19 single paper, ₹79 for 5 papers, ₹199 for 15 papers |
-| Answer key pricing | ₹11 upgrade for an already generated paper |
-| Group pricing | ₹299 for 20, ₹599 for 50, ₹999 for 100 papers |
-| School pricing | ₹799 monthly, ₹2499 term, ₹5999 annual (`q-only`) with higher answer-inclusive tiers |
+| Individual pricing | ₹30 single paper, ₹125 for 5 papers, ₹349 for 15 papers (GST-inclusive checkout totals) |
+| Answer key pricing | ₹15 upgrade for an already generated paper |
+| Group pricing | ₹599 for 20, ₹1250 for 50, ₹1999 for 100 papers |
+| School pricing | ₹2500 for 100, ₹7499 for 350, ₹14999 for 1000 papers (`q-only`) with higher answer-inclusive tiers |
 | Payment state | Simulated client-side checkout for now; Razorpay not integrated yet |
 | Credit tracking | Firestore-based user credits and generation history |
 | Production AI calls | Routed through Netlify function proxy |
@@ -82,26 +82,26 @@ This section reflects the current ExamCraft app behavior in code.
                               ↓
 ┌─────────────────────────────────────────────────────────────┐
 │  INDIVIDUAL PACKS                                           │
-│  • Single Paper: ₹19                                       │
-│  • 5 Papers Pack: ₹79                                      │
-│  • 15 Papers Pack: ₹199                                    │
+│  • Single Paper: ₹30                                       │
+│  • 5 Papers Pack: ₹125                                     │
+│  • 15 Papers Pack: ₹349                                    │
 │  • Answer-inclusive pricing available                      │
 └─────────────────────────────────────────────────────────────┘
                               ↓
 ┌─────────────────────────────────────────────────────────────┐
 │  GROUP / COACHING PACKS                                    │
-│  • 20 Papers: ₹299                                         │
-│  • 50 Papers: ₹599                                         │
-│  • 100 Papers: ₹999                                        │
+│  • 20 Papers: ₹599                                         │
+│  • 50 Papers: ₹1250                                        │
+│  • 100 Papers: ₹1999                                       │
 │  • Higher pricing when bundled with answers                │
 └─────────────────────────────────────────────────────────────┘
                               ↓
 ┌─────────────────────────────────────────────────────────────┐
 │  SCHOOL / INSTITUTE PLANS                                  │
-│  • Monthly Unlimited: ₹799 / ₹999 with answers            │
-│  • Term (4 months): ₹2499 / ₹3199 with answers            │
-│  • Annual Unlimited: ₹5999 / ₹7499 with answers           │
-│  • Unlimited usage model                                   │
+│  • 100 Papers: ₹2500 / ₹3750 with answers                 │
+│  • 350 Papers: ₹7499 / ₹11250 with answers                │
+│  • 1000 Papers: ₹14999 / ₹22500 with answers              │
+│  • Bulk credit model                                       │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -120,16 +120,16 @@ This section reflects the current ExamCraft app behavior in code.
 #### **INDIVIDUAL TEACHER** - Pay Per Pack
 | Feature | Details |
 |---------|---------|
-| Single Paper | ₹19 |
-| 5 Papers Pack | ₹79 |
-| 15 Papers Pack | ₹199 |
-| With answers | ₹30 / ₹124 / ₹314 |
+| Single Paper | ₹30 |
+| 5 Papers Pack | ₹125 |
+| 15 Papers Pack | ₹349 |
+| With answers | ₹45 / ₹199 / ₹599 |
 | Export formats | PDF, Text, Print |
 
 #### **ANSWER KEY UPGRADE** - Existing Paper Only
 | Feature | Details |
 |---------|---------|
-| Price | ₹11 (+ GST shown in checkout UI) |
+| Price | ₹15 checkout total |
 | Use case | Add answers to an already generated paper |
 | Availability | Only after a paper has been generated |
 | Output | Same paper with answer key visibility unlocked |
@@ -137,20 +137,20 @@ This section reflects the current ExamCraft app behavior in code.
 #### **GROUP / COACHING** - Shared Packs
 | Feature | Details |
 |---------|---------|
-| 20 Papers | ₹299 |
-| 50 Papers | ₹599 |
-| 100 Papers | ₹999 |
-| With answer keys | ₹479 / ₹929 / ₹1499 |
+| 20 Papers | ₹599 |
+| 50 Papers | ₹1250 |
+| 100 Papers | ₹1999 |
+| With answer keys | ₹899 / ₹1999 / ₹3000 |
 
 #### **SCHOOL / INSTITUTE** - Unlimited
 | Feature | Details |
 |---------|---------|
-| Monthly Unlimited | ₹799 |
-| Monthly Unlimited + Answers | ₹999 |
-| Term (4 months) | ₹2499 |
-| Term + Answers | ₹3199 |
-| Annual Unlimited | ₹5999 |
-| Annual + Answers | ₹7499 |
+| 100 Papers | ₹2500 |
+| 100 Papers + Answers | ₹3750 |
+| 350 Papers | ₹7499 |
+| 350 Papers + Answers | ₹11250 |
+| 1000 Papers | ₹14999 |
+| 1000 Papers + Answers | ₹22500 |
 | Current export options | PDF, Text, Print |
 
 ---
@@ -164,16 +164,16 @@ This section reflects the current ExamCraft app behavior in code.
 | **Teacher salary context** | Govt teachers earn ₹30K-60K, private ₹15K-25K |
 | **Time saved** | 2-3 hours per paper = ₹150-300 value at minimum wage |
 | **Competitor pricing** | Generic AI tools: ₹500-2000/month. We're 4x cheaper |
-| **Perceived value** | "Less than a cup of tea per day" (₹199 ≈ ₹6.6/day) |
+| **Perceived value** | "Less than a cup of tea per day" positioning still works for discounted multi-paper packs |
 | **School budget** | Schools spend ₹500-2000/month on stationery; ₹999 is reasonable |
 
 ### 3.2 Price Anchoring Strategy
 
 ```
-Pay-per-paper:     ₹19  (makes monthly look cheap)
-Monthly:          ₹199  (SWEET SPOT - main seller)
-Yearly:         ₹1,999  (appears as discount, locks users)
-School:           ₹999  (bulk discount for institutions)
+Pay-per-paper:     ₹30  (simple single-paper checkout total)
+5-paper pack:     ₹125  (entry pack for regular teachers)
+15-paper pack:    ₹349  (main individual-teacher value pack)
+School:         ₹2,500+ (bulk discount for institutions)
 ```
 
 ### 3.3 Promotional Pricing
@@ -369,7 +369,7 @@ Current preview behavior:
 |------------|-------|---------------|
 | Question.ai | ₹499/month | We cost 60% less |
 | Test Generator | $10/month | Local board support |
-| Manual creation | ₹150-300/paper | We cost ₹19/paper |
+| Manual creation | ₹150-300/paper | We start at ₹30/paper, with lower per-paper cost in packs |
 | ChatGPT | Free but setup needed | One-click, board-specific |
 
 ---
@@ -400,7 +400,7 @@ Current preview behavior:
 ### Recommended Starting Point:
 **Launch with:**
 - Free demo (2 papers total, no export)
-- Individual single paper: ₹19
+- Individual single paper: ₹30 checkout total
 - 5-paper pack: ₹79
 
 **This gives you:**

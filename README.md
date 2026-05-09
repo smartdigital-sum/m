@@ -60,7 +60,7 @@ Smart Digital serves two audiences from a single static codebase:
 | Database | Firebase Realtime Database |
 | Auth | Firebase Auth (Email / Password) |
 | AI (primary) | Groq API — `llama-3.3-70b-versatile` |
-| AI (secondary) | Anthropic Claude API — `claude-haiku-4-5` |
+| AI (secondary) | Anthropic Claude API — `claude-sonnet-4-20250514` / `claude-3-5-haiku-20241022` fallback |
 | PDF / DOCX | `html2pdf.js`, `jsPDF`, `docx`, `FileSaver.js` |
 | Icons / Fonts | Font Awesome 6, Google Fonts |
 
@@ -117,12 +117,12 @@ Edit `assets/js/config.js` with your own keys:
 ```js
 window.SMART_DIGITAL_CONFIG = {
   GROQ:   { API_KEY: "gsk_...", MODEL: "llama-3.3-70b-versatile", ... },
-  CLAUDE: { API_KEY: "sk-ant-...", MODEL: "claude-haiku-4-5-20251001", ... },
+  CLAUDE: { MODEL: "claude-sonnet-4-20250514", ... },
   ADMIN_EMAIL: "you@example.com"
 };
 ```
 
-For production, set `GROQ_API_KEY` and `CLAUDE_API_KEY` in Netlify env vars instead — the serverless functions will proxy them.
+For production, set `GROQ_API_KEY` and `ANTHROPIC_API_KEY` in Netlify env vars instead — the serverless functions will proxy them. `CLAUDE_API_KEY` is also accepted for backward compatibility.
 
 ### Firebase
 
@@ -135,7 +135,7 @@ Replace the Firebase config block at the top of `index.html` with your own proje
 1. Push to GitHub.
 2. "New site from Git" on Netlify, point at the repo.
 3. Build command: _(none)_ — Publish directory: `.`
-4. Add env vars: `GROQ_API_KEY`, `CLAUDE_API_KEY`.
+4. Add env vars: `GROQ_API_KEY`, `ANTHROPIC_API_KEY` (or `CLAUDE_API_KEY`).
 5. Deploy. Done.
 
 ---

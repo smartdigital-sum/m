@@ -59,9 +59,9 @@ const PRICING_PLANS = [
     tagline: "Pay per paper, no commitment",
     color: "#E85D26",
     options: [
-      { id: "single",  label: "Single Paper",    papers: 1,   qOnly: 19,  qAndA: 30,  tag: null },
-      { id: "pack5",   label: "5 Papers Pack",   papers: 5,   qOnly: 79,  qAndA: 124, tag: "Save ₹16" },
-      { id: "pack15",  label: "15 Papers Pack",  papers: 15,  qOnly: 199, qAndA: 314, tag: "Most Popular" },
+      { id: "single",  label: "Single Paper",    papers: 1,   qOnly: 25,  qAndA: 38,  tag: "₹30 total" },
+      { id: "pack5",   label: "5 Papers Pack",   papers: 5,   qOnly: 106, qAndA: 169, tag: "Save ₹25" },
+      { id: "pack15",  label: "15 Papers Pack",  papers: 15,  qOnly: 296, qAndA: 508, tag: "Most Popular" },
     ]
   },
   {
@@ -71,9 +71,9 @@ const PRICING_PLANS = [
     tagline: "For coaching centers & study groups",
     color: "#2563EB",
     options: [
-      { id: "g20",  label: "20 Papers Pack",  papers: 20,  qOnly: 299,  qAndA: 479,  tag: "₹14.95/paper" },
-      { id: "g50",  label: "50 Papers Pack",  papers: 50,  qOnly: 599,  qAndA: 929,  tag: "₹11.98/paper" },
-      { id: "g100", label: "100 Papers Pack", papers: 100, qOnly: 999,  qAndA: 1499, tag: "Best Value" },
+      { id: "g20",  label: "20 Papers Pack",  papers: 20,  qOnly: 508,  qAndA: 762,  tag: "₹29.95/paper" },
+      { id: "g50",  label: "50 Papers Pack",  papers: 50,  qOnly: 1059, qAndA: 1694, tag: "₹25/paper" },
+      { id: "g100", label: "100 Papers Pack", papers: 100, qOnly: 1694, qAndA: 2542, tag: "Best Value" },
     ]
   },
   {
@@ -83,9 +83,9 @@ const PRICING_PLANS = [
     tagline: "Unlimited papers + teacher dashboard",
     color: "#059669",
     options: [
-      { id: "s_monthly", label: "Monthly Unlimited", papers: "∞", qOnly: 799,  qAndA: 999,  tag: "Up to 10 teachers" },
-      { id: "s_term",    label: "Term (4 months)",   papers: "∞", qOnly: 2499, qAndA: 3199, tag: "Save ₹697" },
-      { id: "s_yearly",  label: "Annual Unlimited",  papers: "∞", qOnly: 5999, qAndA: 7499, tag: "Save ₹3,589" },
+      { id: "s_100",  label: "100 Papers Pack",  papers: 100,  qOnly: 2119,  qAndA: 3178,  tag: "School Starter" },
+      { id: "s_350",  label: "350 Papers Pack",  papers: 350,  qOnly: 6355,  qAndA: 9534,  tag: "Most Popular" },
+      { id: "s_1000", label: "1000 Papers Pack", papers: 1000, qOnly: 12711, qAndA: 19068, tag: "Institution Max" },
     ]
   }
 ];
@@ -185,7 +185,7 @@ const Payment = (() => {
           <div class="scheme-locked-icon">🔒</div>
           <div class="scheme-locked-title">Answer Key Locked</div>
           <p class="scheme-locked-text">Unlock the full paper to view the marking scheme and model answers.</p>
-          <button class="scheme-unlock-btn" onclick="Payment.openPricingModal(true)">Unlock with Answers — ₹30</button>
+          <button class="scheme-unlock-btn" onclick="Payment.openPricingModal(true)">Unlock with Answers — ₹45</button>
         </div>`;
     }
 
@@ -255,7 +255,7 @@ const Payment = (() => {
   function _getPrice() {
     const plan = PRICING_PLANS[activePlanIdx];
     const opt  = plan.options[activeOptionIdx];
-    if (addingAnswerKeyOnly) return 11; // flat add-on price
+    if (addingAnswerKeyOnly) return 13; // ₹15 checkout total after rounded GST
     return includeAnswers ? opt.qAndA : opt.qOnly;
   }
 
@@ -305,7 +305,7 @@ const Payment = (() => {
 
     const answerKeySection = addingAnswerKeyOnly ? `
       <div class="pm-upgrade-note">
-        <span>📋 Adding Answer Key to your existing paper — flat fee ₹11</span>
+        <span>📋 Adding Answer Key to your existing paper — ₹15 checkout total</span>
       </div>` : `
       <div class="pm-answer-toggle">
         <div class="pm-answer-toggle-label">
@@ -313,8 +313,8 @@ const Payment = (() => {
           <div class="pm-field-sub">Step-by-step solutions for every question</div>
         </div>
         <div class="pm-toggle-btns">
-          <button class="pm-toggle-btn ${!includeAnswers ? 'active-q' : ''}" onclick="Payment._setAnswers(false)">📄 Q Only  ₹19</button>
-          <button class="pm-toggle-btn ${includeAnswers ? 'active-a' : ''}" onclick="Payment._setAnswers(true)">📄+✅ With Answers  ₹30</button>
+          <button class="pm-toggle-btn ${!includeAnswers ? 'active-q' : ''}" onclick="Payment._setAnswers(false)">📄 Q Only  ₹30</button>
+          <button class="pm-toggle-btn ${includeAnswers ? 'active-a' : ''}" onclick="Payment._setAnswers(true)">📄+✅ With Answers  ₹45</button>
         </div>
       </div>`;
 
@@ -324,7 +324,7 @@ const Payment = (() => {
           <div class="pm-header">
             <div>
               <div class="pm-header-title">${addingAnswerKeyOnly ? '📋 Add Answer Key' : '🔓 Unlock Your Paper'}</div>
-              <div class="pm-header-sub">${addingAnswerKeyOnly ? 'Get step-by-step solutions for ₹11' : 'Choose a plan that works for you'}</div>
+              <div class="pm-header-sub">${addingAnswerKeyOnly ? 'Get step-by-step solutions for ₹15' : 'Choose a plan that works for you'}</div>
             </div>
             <button class="pm-close" onclick="Payment._closeModal()">✕</button>
           </div>
@@ -517,7 +517,7 @@ Replace with:
             <span data-en="Print" data-hi="प्रिंट" data-as="প্ৰিণ্ট">Print</span>
           </button>
           <button id="addAnswerKeyBtn" class="export-btn add-answer-btn" onclick="Payment.openAddAnswerKeyModal()" style="display:none">
-            ✅ Add Answer Key +₹11
+            ✅ Add Answer Key +₹15
           </button>
           <button class="export-btn regen-btn" onclick="generatePaper()">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>

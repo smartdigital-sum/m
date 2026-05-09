@@ -14,6 +14,12 @@ window.SMART_DIGITAL_CONFIG = {
     ENDPOINT: "https://api.groq.com/openai/v1/chat/completions"
   },
 
+  CLAUDE: {
+    PROVIDER: "ANTHROPIC",
+    MODEL: "claude-sonnet-4-20250514",
+    ENDPOINT: "https://api.anthropic.com/v1/messages"
+  },
+
   // --- BUSINESS DEFAULTS ---
   ADMIN_EMAIL: "sumanbisas123@gmail.com",
 };

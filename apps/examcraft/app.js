@@ -21,6 +21,17 @@ let hasAnswersForCurrentPaper = false;
 const DEMO_PAPER_LIMIT = 2;
 const DEMO_MAX_QUESTIONS = 20;
 const DEMO_VISIBLE_QUESTIONS = 3;
+const GST_RATE = 0.18;
+const ANSWER_UPGRADE_BASE_PRICE = 13; // ₹15 checkout total after rounded GST.
+
+function getGstAmount(basePrice) {
+  return Math.round(Number(basePrice || 0) * GST_RATE);
+}
+
+function getCheckoutTotal(basePrice) {
+  const base = Number(basePrice || 0);
+  return base + getGstAmount(base);
+}
 
 // Per-chapter scope hints used to keep AI-generated questions inside the
 // correct grade level. Looked up as CHAPTER_SCOPE_HINTS[board]?.[cls]?.[subject]?.[chapterName].
@@ -309,32 +320,32 @@ const PLANS = [
   {
     id: 'individual', icon: '👤', label: 'Individual Teacher', tagline: 'Pay per paper, no commitment', color: '#E85D26',
     options: [
-      { label: 'Single Paper',         papers: 1,   qOnly: 19,   qAndA: 30,   tagQ: null,                 tagQA: null },
-      { label: '5 Papers Pack',        papers: 5,   qOnly: 79,   qAndA: 124,  tagQ: 'Save ₹16',           tagQA: 'Save ₹26' },
-      { label: '15 Papers Pack',       papers: 15,  qOnly: 199,  qAndA: 314,  tagQ: 'Most Popular',       tagQA: 'Best Deal' },
+      { label: 'Single Paper',         papers: 1,   qOnly: 25,   qAndA: 38,   tagQ: '₹30 total',          tagQA: '₹45 total' },
+      { label: '5 Papers Pack',        papers: 5,   qOnly: 106,  qAndA: 169,  tagQ: 'Save ₹25',           tagQA: 'Save ₹26' },
+      { label: '15 Papers Pack',       papers: 15,  qOnly: 296,  qAndA: 508,  tagQ: 'Most Popular',       tagQA: 'Best Deal' },
     ]
   },
   // Answer Key Upgrade option (shown only to users who already bought a paper)
   {
     id: 'answerUpgrade', icon: '🔑', label: 'Answer Key Upgrade', tagline: 'Already bought a paper? Unlock answers only', color: '#059669',
     options: [
-      { label: 'Unlock Answers',    papers: 1,   qOnly: 11,   qAndA: 11,   tagQ: 'Already paid ₹19',   tagQA: 'Just ₹11 extra' },
+      { label: 'Unlock Answers',    papers: 1,   qOnly: ANSWER_UPGRADE_BASE_PRICE,   qAndA: ANSWER_UPGRADE_BASE_PRICE,   tagQ: 'After paper unlock',   tagQA: '₹15 total' },
     ]
   },
   {
     id: 'group', icon: '👥', label: 'Group / Coaching', tagline: 'For coaching centers & study groups', color: '#2563EB',
     options: [
-      { label: '20 Papers Pack',  papers: 20,  qOnly: 299,  qAndA: 479,  tagQ: '₹14.95/paper', tagQA: '₹23.95/paper' },
-      { label: '50 Papers Pack',  papers: 50,  qOnly: 599,  qAndA: 929,  tagQ: '₹11.98/paper', tagQA: '₹18.58/paper' },
-      { label: '100 Papers Pack', papers: 100, qOnly: 999,  qAndA: 1499, tagQ: 'Best Value',    tagQA: 'Best Value' },
+      { label: '20 Papers Pack',  papers: 20,  qOnly: 508,  qAndA: 762,  tagQ: '₹29.95/paper', tagQA: '₹44.95/paper' },
+      { label: '50 Papers Pack',  papers: 50,  qOnly: 1059, qAndA: 1694, tagQ: '₹25/paper',    tagQA: '₹39.98/paper' },
+      { label: '100 Papers Pack', papers: 100, qOnly: 1694, qAndA: 2542, tagQ: 'Best Value',    tagQA: 'Best Value' },
     ]
   },
   {
     id: 'school', icon: '🏫', label: 'School / Institute', tagline: 'Bulk paper credits for institutions', color: '#059669',
     options: [
-      { label: '100 Papers Pack',   papers: 100,  qOnly: 799,  qAndA: 999,  tagQ: 'School Starter', tagQA: 'School Starter' },
-      { label: '350 Papers Pack',   papers: 350,  qOnly: 2499, qAndA: 3199, tagQ: 'Most Popular',   tagQA: 'Best Value' },
-      { label: '1000 Papers Pack',  papers: 1000, qOnly: 5999, qAndA: 7499, tagQ: 'Institution Max', tagQA: 'Institution Max' },
+      { label: '100 Papers Pack',   papers: 100,  qOnly: 2119,  qAndA: 3178,  tagQ: 'School Starter', tagQA: 'School Starter' },
+      { label: '350 Papers Pack',   papers: 350,  qOnly: 6355,  qAndA: 9534,  tagQ: 'Most Popular',   tagQA: 'Best Value' },
+      { label: '1000 Papers Pack',  papers: 1000, qOnly: 12711, qAndA: 19068, tagQ: 'Institution Max', tagQA: 'Institution Max' },
     ]
   }
 ];
@@ -432,6 +443,7 @@ function renderOptionsGrid() {
   grid.innerHTML = plan.options.map((opt, i) => {
     const isBundle = plan.id !== 'answerUpgrade' && includeAnswers;
     const price = plan.id === 'answerUpgrade' ? opt.qOnly : (isBundle ? opt.qAndA : opt.qOnly);
+    const checkoutPrice = getCheckoutTotal(price);
     const tag   = plan.id === 'answerUpgrade' ? opt.tagQ : (isBundle ? opt.tagQA : opt.tagQ);
     const papers = typeof opt.papers === 'number'
       ? `${opt.papers} paper${opt.papers > 1 ? 's' : ''}${isBundle ? ' + answers' : ''}`
@@ -443,8 +455,8 @@ function renderOptionsGrid() {
            onclick="selectOption(${i})">
         ${tag ? `<div class="option-card-tag" style="background:${plan.color}">${tag}</div>` : ''}
         <div class="option-card-label">${opt.label}</div>
-        <div class="option-card-price" style="color:${plan.color}">₹${price}</div>
-        <div class="option-card-sub">${papers}</div>
+        <div class="option-card-price" style="color:${plan.color}">₹${checkoutPrice}</div>
+        <div class="option-card-sub">${papers} • incl. GST</div>
       </div>`;
   }).join('');
 
@@ -463,10 +475,10 @@ function renderOptionsGrid() {
           <strong>Answer Key Service — Who Can Use:</strong><br/>
           ✅ You must <b>generate a question paper first</b> using the Generator tab.<br/>
           ✅ You must <b>unlock that question paper first</b> from the Question Paper plan.<br/>
-          ❌ You cannot pay only <b>₹11</b> and get both questions + answers together.<br/>
+          ❌ You cannot pay only <b>₹15</b> and get both questions + answers together.<br/>
           ${hasUnlockedPaper
             ? '<span style="color:#059669; font-weight:600;">✅ This paper is already unlocked. You can now add the answer key.</span>'
-            : '<span style="color:#dc2626; font-weight:600;">⚠️ Unlock the question paper first with the ₹19 plan, then come back here.</span>'}
+            : '<span style="color:#dc2626; font-weight:600;">⚠️ Unlock the question paper first with the ₹30 plan, then come back here.</span>'}
         </div>
       </div>
     </div>`;
@@ -475,32 +487,34 @@ function renderOptionsGrid() {
     <div style="display:flex; flex-direction:column; gap:8px;">
       ${noticeBox}
       <div style="display:flex; align-items:center; gap:12px; padding:12px; background:#f0fdf4; border:1px solid #86efac; border-radius:8px;">
-        <span style="font-size:1.1rem; font-weight:800; color:#059669;">₹11</span>
-        <span style="font-size:0.8rem; color:#64748b;">(+ ~₹2 GST) = ~₹13 total</span>
+        <span style="font-size:1.1rem; font-weight:800; color:#059669;">₹15</span>
+        <span style="font-size:0.8rem; color:#64748b;">inclusive of GST</span>
       </div>
       <span style="font-size:0.78rem; color:#059669; font-weight:600;">💡 Step 2 only: add answers after the question paper is already visible.</span>
     </div>`;
     } else {
       const qp = opt.qOnly;
       const qap = opt.qAndA;
-      const ppq = typeof opt.papers === 'number' && opt.papers > 1 ? ` (₹${(qp/opt.papers).toFixed(2)}/paper)` : '';
-      const ppqa = typeof opt.papers === 'number' && opt.papers > 1 ? ` (₹${(qap/opt.papers).toFixed(2)}/paper)` : '';
+      const qpTotal = getCheckoutTotal(qp);
+      const qapTotal = getCheckoutTotal(qap);
+      const ppq = typeof opt.papers === 'number' && opt.papers > 1 ? ` (₹${(qpTotal/opt.papers).toFixed(2)}/paper)` : '';
+      const ppqa = typeof opt.papers === 'number' && opt.papers > 1 ? ` (₹${(qapTotal/opt.papers).toFixed(2)}/paper)` : '';
       if (includeAnswers) {
         bd.innerHTML = `
           <span>📄+🔑 This pack includes both question papers and answer keys for each paper you generate.</span>
-          <span>✅ Pack price: <b style="color:#059669">₹${qap}</b>${ppqa}</span>
+          <span>✅ Pack price: <b style="color:#059669">₹${qapTotal}</b>${ppqa} incl. GST</span>
           <span>📊 Each generation will consume one paper credit and usage will be tracked on the dashboard.</span>`;
       } else {
         bd.innerHTML = `
-          <span>📄 Question paper pack price: <b style="color:#E85D26">₹${qp}</b>${ppq}</span>
-          <span>🔑 If you want answers later for a generated paper, use the Answer Key tab for <b style="color:#059669">₹11</b> per paper.</span>
+          <span>📄 Question paper pack price: <b style="color:#E85D26">₹${qpTotal}</b>${ppq} incl. GST</span>
+          <span>🔑 If you want answers later for a generated paper, use the Answer Key tab for <b style="color:#059669">₹15</b> per paper.</span>
           <span>📊 Each generation will consume one paper credit and usage will be tracked on the dashboard.</span>`;
       }
     }
 
     if (plan.id !== 'answerUpgrade' && !includeAnswers) {
       bd.innerHTML += `<div class="plan-warning" style="margin-top:12px; padding:10px 12px; background:#fef3c7; border:1px solid #fbbf24; border-radius:8px; font-size:0.78rem; color:#92400e;">
-        ⚠️ <strong>Important:</strong> This payment unlocks only question-paper generation. To see answers for a generated paper later, unlock that paper first and then use the <b>Answer Key</b> tab for the separate ₹11 step.
+        ⚠️ <strong>Important:</strong> This payment unlocks only question-paper generation. To see answers for a generated paper later, unlock that paper first and then use the <b>Answer Key</b> tab for the separate ₹15 step.
       </div>`;
     }
   }
@@ -508,11 +522,11 @@ function renderOptionsGrid() {
   // Update Pay button
   let price, total;
   if (plan.id === 'answerUpgrade') {
-    price = 11;
-    total = price + Math.round(price * 0.18);
+    price = ANSWER_UPGRADE_BASE_PRICE;
+    total = getCheckoutTotal(price);
   } else {
     price = includeAnswers ? opt.qAndA : opt.qOnly;
-    total = price + Math.round(price * 0.18);
+    total = getCheckoutTotal(price);
   }
   const payBtn = document.getElementById('planPayBtn');
   if (payBtn) {
@@ -564,15 +578,15 @@ function initiatePayment() {
   const isUpgrade = plan.id === 'answerUpgrade';
 
   if (isUpgrade && !canUseAnswerKeyUpgrade()) {
-    showToast("Unlock the question paper first with the ₹19 plan. Then return here and pay ₹11 for answers.", 'info');
+    showToast("Unlock the question paper first with the ₹30 plan. Then return here and pay ₹15 for answers.", 'info');
     openQuestionPaperPricing();
     return;
   }
 
-  const base = isUpgrade ? 11 : (includeAnswers ? opt.qAndA : opt.qOnly);
+  const base = isUpgrade ? ANSWER_UPGRADE_BASE_PRICE : (includeAnswers ? opt.qAndA : opt.qOnly);
   const ansAddon = isUpgrade ? 0 : Math.max(0, opt.qAndA - opt.qOnly);
-  const gst  = Math.round(base * 0.18);
-  const total = base + gst;
+  const gst  = getGstAmount(base);
+  const total = getCheckoutTotal(base);
 
   // Modal details
   document.getElementById('pay-title').textContent = opt.label;
@@ -932,6 +946,12 @@ function estimateGenerationMaxTokens(totalQ, wantsAnswers, configuredMaxTokens, 
   return Math.min(modelMax, Math.max(1200, estimated * scriptMultiplier));
 }
 
+function constrainQuestionCountToTotalMarks(totalQ, totalMarks) {
+  const safeTotalQ = Math.max(1, Math.min(30, Math.round(Number(totalQ) || 10)));
+  const safeTotalMarks = Math.max(1, Math.round(Number(totalMarks) || 50));
+  return Math.min(safeTotalQ, safeTotalMarks);
+}
+
 function buildPaperPrompt({
   board,
   cls,
@@ -1025,13 +1045,14 @@ ${jsonShape}
 Rules: every question needs qno, chapter, text, answer, marks. MCQ must have exactly 4 options. ShortAnswer/LongAnswer omit options. Output JSON only.${assameseReminder}`;
 }
 
-// Produce a per-section marks plan that sums to totalMarks, given qtypes & totalQ.
-// Heuristic: MCQ=1 mark, ShortAnswer=2 marks, LongAnswer=remaining/count rounded.
-// The plan is a *suggestion* to the model — validation hard-checks the sum.
+// Produce a per-section marks plan that sums exactly to totalMarks.
+// The plan is a suggestion to the model; rebalancePaperMarks is still the final authority.
 function suggestMarksDistribution(qtypes, totalQ, totalMarks) {
   if (!Array.isArray(qtypes) || qtypes.length === 0 || !totalQ || !totalMarks) return '- Distribute marks so the sum equals the total.';
 
-  const perTypeMarks = { MCQ: 1, ShortAnswer: 2, LongAnswer: 5 };
+  totalQ = constrainQuestionCountToTotalMarks(totalQ, totalMarks);
+  totalMarks = Math.max(1, Math.round(Number(totalMarks) || 1));
+
   const nTypes = qtypes.length;
   const baseQPerType = Math.floor(totalQ / nTypes);
   const remainder = totalQ - baseQPerType * nTypes;
@@ -1043,21 +1064,36 @@ function suggestMarksDistribution(qtypes, totalQ, totalMarks) {
   if (longIdx >= 0 && leftover > 0) { counts[longIdx] += leftover; leftover = 0; }
   for (let i = qtypes.length - 1; i >= 0 && leftover > 0; i--) { counts[i] += 1; leftover--; }
 
-  // Tentative marks per question per type.
-  const marksPer = qtypes.map((t) => perTypeMarks[t] ?? 2);
-  let runningTotal = counts.reduce((s, c, i) => s + c * marksPer[i], 0);
+  const questions = [];
+  qtypes.forEach((type, typeIndex) => {
+    for (let i = 0; i < counts[typeIndex]; i++) {
+      questions.push({ type, marks: 1 });
+    }
+  });
 
-  // Adjust LongAnswer marks-per-question to absorb the gap (or last type if no Long).
-  const adjustIdx = longIdx >= 0 ? longIdx : qtypes.length - 1;
-  if (counts[adjustIdx] > 0) {
-    const others = runningTotal - counts[adjustIdx] * marksPer[adjustIdx];
-    const need = (totalMarks - others) / counts[adjustIdx];
-    if (Number.isFinite(need) && need > 0) marksPer[adjustIdx] = Math.max(1, Math.round(need));
+  const priority = { LongAnswer: 0, ShortAnswer: 1, MCQ: 2 };
+  const targets = [...questions].sort((a, b) => (priority[a.type] ?? 3) - (priority[b.type] ?? 3));
+  let extraMarks = Math.max(0, totalMarks - questions.length);
+  while (extraMarks > 0 && targets.length > 0) {
+    for (const question of targets) {
+      if (extraMarks === 0) break;
+      question.marks += 1;
+      extraMarks -= 1;
+    }
   }
-  runningTotal = counts.reduce((s, c, i) => s + c * marksPer[i], 0);
 
-  const lines = qtypes.map((t, i) => `- ${t}: ${counts[i]} questions × ${marksPer[i]} marks = ${counts[i] * marksPer[i]}`);
-  lines.push(`- TOTAL: ${runningTotal} marks (must equal ${totalMarks})`);
+  const runningTotal = questions.reduce((sum, question) => sum + question.marks, 0);
+
+  const lines = qtypes.map((type) => {
+    const marks = questions.filter((question) => question.type === type).map((question) => question.marks);
+    const frequency = new Map();
+    marks.forEach((mark) => frequency.set(mark, (frequency.get(mark) || 0) + 1));
+    const parts = [...frequency.entries()]
+      .sort((a, b) => a[0] - b[0])
+      .map(([mark, count]) => `${count} question${count === 1 ? '' : 's'} × ${mark} mark${mark === 1 ? '' : 's'}`);
+    return `- ${type}: ${parts.join(' + ')} = ${marks.reduce((sum, mark) => sum + mark, 0)}`;
+  });
+  lines.push(`- TOTAL: ${runningTotal} marks (must equal exactly ${totalMarks})`);
   return lines.join('\n');
 }
 
@@ -1889,6 +1925,7 @@ async function enforcePureAssamesePaperLanguage({
   maxTokens
 }) {
   let currentPaper = normalizeAssamesePaperLanguage(paperData);
+  rebalancePaperMarks(currentPaper, totalMarks);
   let structureValidation = validateGeneratedPaper(currentPaper, { selectedChapters, qtypes, totalQ, totalMarks, subject });
   let languageReport = validateAssamesePaperLanguage(currentPaper);
 
@@ -1905,6 +1942,7 @@ async function enforcePureAssamesePaperLanguage({
     const repairResult = await requestPaperFromModel(repairPrompt, maxTokens);
     currentPaper = normalizeGeneratedPaper(repairResult.parsed, qtypes, selectedChapters);
     currentPaper = normalizeAssamesePaperLanguage(currentPaper);
+    rebalancePaperMarks(currentPaper, totalMarks);
     structureValidation = validateGeneratedPaper(currentPaper, { selectedChapters, qtypes, totalQ, totalMarks, subject });
     languageReport = validateAssamesePaperLanguage(currentPaper);
   }
@@ -2025,6 +2063,55 @@ function validateGeneratedPaper(paperData, { selectedChapters, qtypes, totalQ, t
   }
 
   return { ok: true };
+}
+
+// Force the paper's per-question marks to sum to exactly totalMarks. Models
+// (especially Claude) reliably produce a paper structure but routinely miss
+// the arithmetic on marks, so we own the math instead of trusting the model.
+// We bias adjustments toward LongAnswer questions when present (since those
+// can absorb larger swings without looking absurd), and round-robin to avoid
+// dumping the entire diff into a single question.
+function rebalancePaperMarks(paperData, totalMarks) {
+  if (!paperData || !Array.isArray(paperData.sections)) return paperData;
+  if (!Number.isFinite(totalMarks) || totalMarks <= 0) return paperData;
+
+  const allQuestions = paperData.sections.flatMap((s) => s?.questions || []);
+  if (allQuestions.length === 0) return paperData;
+
+  const targetTotal = Math.round(totalMarks);
+  if (paperData.meta) paperData.meta.totalMarks = targetTotal;
+
+  for (const q of allQuestions) {
+    q.marks = Math.max(1, Math.round(Number(q.marks) || 1));
+  }
+
+  let currentSum = allQuestions.reduce((s, q) => s + q.marks, 0);
+  if (currentSum === targetTotal) return paperData;
+
+  const longQuestions = paperData.sections
+    .filter((s) => s?.type === 'LongAnswer')
+    .flatMap((s) => s?.questions || []);
+  const primaryTargets = longQuestions.length > 0 ? longQuestions : allQuestions;
+
+  const distributeDiff = (targets) => {
+    let diff = targetTotal - currentSum;
+    while (diff !== 0) {
+      let anyChanged = false;
+      for (const q of targets) {
+        if (diff === 0) break;
+        if (diff > 0) { q.marks++; diff--; currentSum++; anyChanged = true; }
+        else if (q.marks > 1) { q.marks--; diff++; currentSum--; anyChanged = true; }
+      }
+      if (!anyChanged) break;
+    }
+  };
+
+  distributeDiff(primaryTargets);
+  if (currentSum !== targetTotal && primaryTargets !== allQuestions) {
+    distributeDiff(allQuestions);
+  }
+
+  return paperData;
 }
 
 function normalizeGeneratedPaper(paperData, allowedTypes, selectedChapters) {
@@ -2240,7 +2327,13 @@ async function generatePaper() {
   const selectedChapters = [...document.querySelectorAll('input[name="selectedChapters"]:checked')].map(cb => cb.value);
   
   let totalQ = Math.min(30, parseInt(document.getElementById('totalQ').value) || 10);
-  const totalMarks = parseInt(document.getElementById('totalMarks').value) || 50;
+  const totalMarks = Math.max(1, parseInt(document.getElementById('totalMarks').value) || 50);
+  const markConstrainedTotalQ = constrainQuestionCountToTotalMarks(totalQ, totalMarks);
+  if (markConstrainedTotalQ !== totalQ) {
+    totalQ = markConstrainedTotalQ;
+    document.getElementById('totalQ').value = totalQ;
+    showToast(`Question count adjusted to ${totalQ} so the paper can total exactly ${totalMarks} marks.`, 'info');
+  }
   const timeLimit = parseInt(document.getElementById('timeLimit').value) || 90;
   const difficulty = getDifficulty();
   const qtypes = getCheckedValues('qtype');
@@ -2283,8 +2376,8 @@ async function generatePaper() {
 
   const planIncludesAnswers = hasPlan ? (ud?.includesAnswers || false) : false;
   if (!hasPlan && totalQ > DEMO_MAX_QUESTIONS) {
-    totalQ = DEMO_MAX_QUESTIONS;
-    document.getElementById('totalQ').value = DEMO_MAX_QUESTIONS;
+    totalQ = constrainQuestionCountToTotalMarks(DEMO_MAX_QUESTIONS, totalMarks);
+    document.getElementById('totalQ').value = totalQ;
     showToast(`Free demo papers are limited to ${DEMO_MAX_QUESTIONS} questions. Adjusted automatically.`, 'info');
   }
 
@@ -2341,7 +2434,7 @@ async function generatePaper() {
   // Sonnet 4.6 is required for Assamese — its grasp of Assamese-vs-Bengali register
   // and academic depth is substantially stronger than Haiku's.
   const CLAUDE_PROXY_URL = '/.netlify/functions/chat';
-  const CLAUDE_MODEL = window.SMART_DIGITAL_CONFIG?.CLAUDE?.MODEL || 'claude-sonnet-4-6';
+  const CLAUDE_MODEL = window.SMART_DIGITAL_CONFIG?.CLAUDE?.MODEL || 'claude-sonnet-4-20250514';
 
   const prompt = buildPaperPrompt({
     board,
@@ -2509,6 +2602,7 @@ async function generatePaper() {
 
     let { rawText, parsed } = await requestPaperFromModel(prompt, GROQ_MAX_TOKENS);
     let paperData = normalizeGeneratedPaper(parsed, qtypes, selectedChapters);
+    rebalancePaperMarks(paperData, totalMarks);
     let validation = validateGeneratedPaper(paperData, { selectedChapters, qtypes, totalQ, totalMarks, subject });
 
     if (!validation.ok) {
@@ -2526,6 +2620,7 @@ async function generatePaper() {
         Math.min(configuredMaxTokens, Math.max(1400, Math.round(GROQ_MAX_TOKENS * 0.75)))
       );
       paperData = normalizeGeneratedPaper(repairResult.parsed, qtypes, selectedChapters);
+      rebalancePaperMarks(paperData, totalMarks);
       validation = validateGeneratedPaper(paperData, { selectedChapters, qtypes, totalQ, totalMarks, subject });
     }
 
@@ -2618,7 +2713,13 @@ async function generatePaperFromImages() {
 
   const schoolName = document.getElementById('schoolName').value.trim() || 'Your School';
   let totalQ = Math.min(30, parseInt(document.getElementById('totalQ').value) || 10);
-  const totalMarks = parseInt(document.getElementById('totalMarks').value) || 50;
+  const totalMarks = Math.max(1, parseInt(document.getElementById('totalMarks').value) || 50);
+  const markConstrainedTotalQ = constrainQuestionCountToTotalMarks(totalQ, totalMarks);
+  if (markConstrainedTotalQ !== totalQ) {
+    totalQ = markConstrainedTotalQ;
+    document.getElementById('totalQ').value = totalQ;
+    showToast(`Question count adjusted to ${totalQ} so the paper can total exactly ${totalMarks} marks.`, 'info');
+  }
   const timeLimit = parseInt(document.getElementById('timeLimit').value) || 90;
   const difficulty = getDifficulty();
   const qtypes = getCheckedValues('qtype');
@@ -2651,8 +2752,8 @@ async function generatePaperFromImages() {
 
   const planIncludesAnswers = hasPlan ? (ud?.includesAnswers || false) : false;
   if (!hasPlan && totalQ > DEMO_MAX_QUESTIONS) {
-    totalQ = DEMO_MAX_QUESTIONS;
-    document.getElementById('totalQ').value = DEMO_MAX_QUESTIONS;
+    totalQ = constrainQuestionCountToTotalMarks(DEMO_MAX_QUESTIONS, totalMarks);
+    document.getElementById('totalQ').value = totalQ;
     showToast(`Free demo papers are limited to ${DEMO_MAX_QUESTIONS} questions. Adjusted automatically.`, 'info');
   }
 
@@ -2660,9 +2761,9 @@ async function generatePaperFromImages() {
   hasAnswersForCurrentPaper = planIncludesAnswers;
   includeAnswers = planIncludesAnswers;
 
-  // Image upload uses Claude Vision (Sonnet 4.6) via the Netlify proxy — key stays server-side.
+  // Image upload uses Claude Vision (Sonnet 4) via the Netlify proxy — key stays server-side.
   const CLAUDE_PROXY_URL = '/.netlify/functions/chat';
-  const CLAUDE_MODEL = window.SMART_DIGITAL_CONFIG?.CLAUDE?.MODEL || 'claude-sonnet-4-6';
+  const CLAUDE_MODEL = window.SMART_DIGITAL_CONFIG?.CLAUDE?.MODEL || 'claude-sonnet-4-20250514';
 
   let creditReserved = false;
   try {
@@ -2691,6 +2792,7 @@ async function generatePaperFromImages() {
       if (qt === 'LongAnswer') return '"LongAnswer" type (paragraph answers)';
       return qt;
     }).join(', ');
+    const marksDistribution = suggestMarksDistribution(qtypes, totalQ, totalMarks);
 
     // Sentinel so validation can match chapter field
     const CHAPTER_SENTINEL = 'Chapter from Images';
@@ -2736,10 +2838,12 @@ async function generatePaperFromImages() {
 
 STRICT REQUIREMENTS:
 - Total questions: exactly ${totalQ}
-- Total marks: ${totalMarks}
+- Total marks: exactly ${totalMarks}
 - Time: ${timeLimit} minutes
 - Difficulty: ${difficulty}
 - Include question types: ${qtypeDescriptions}
+- Per-question marks MUST follow this exact total:
+${marksDistribution}
 - Language rule: ${mediumInstruction}
 - Every question's "chapter" field MUST be exactly the string: "${CHAPTER_SENTINEL}"
 - MCQ questions MUST have exactly 4 options in the "options" array (e.g. ${isAssameseMedium ? '["ক) ...", "খ) ...", "গ) ...", "ঘ) ..."]' : '["A. ...", "B. ...", "C. ...", "D. ..."]'})
@@ -2792,6 +2896,7 @@ ${jsonExample}`;
 
     const sentinelChapters = [CHAPTER_SENTINEL];
     let paperData = normalizeGeneratedPaper(parsed, qtypes, sentinelChapters);
+    rebalancePaperMarks(paperData, totalMarks);
     let validation = validateGeneratedPaper(paperData, { selectedChapters: sentinelChapters, qtypes, totalQ, totalMarks, subject: imageSubject });
 
     if (isAssameseMedium) {
@@ -3021,7 +3126,7 @@ function renderPaper(data) {
       <div style="text-align:center; padding:10px;">
         <div style="font-size:2.5rem; margin-bottom:12px;">🔒</div>
         <div style="font-size:1.15rem; font-weight:800; color:#0f172a; margin-bottom:4px;">Answer Key Locked</div>
-        <div style="font-size:0.85rem; color:#475569; margin-bottom:20px; max-width:280px;">${canUpgradeAnswers ? `Pay once to unlock ${aCount - 1} answers with complete marking scheme.` : 'Unlock the question paper first. After that, you can add answers for this same paper for ₹11.'}</div>
+        <div style="font-size:0.85rem; color:#475569; margin-bottom:20px; max-width:280px;">${canUpgradeAnswers ? `Pay once to unlock ${aCount - 1} answers with complete marking scheme.` : 'Unlock the question paper first. After that, you can add answers for this same paper for ₹15.'}</div>
         <button onclick="${canUpgradeAnswers ? 'handleAnswerKeyRequest()' : 'openQuestionPaperPricing()'}" style="padding:12px 28px; background:linear-gradient(135deg, #059669, #10b981); color:#fff; border:none; border-radius:10px; font-weight:800; font-size:1rem; cursor:pointer; box-shadow:0 4px 15px rgba(5,150,105,0.4); transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
           ${canUpgradeAnswers ? '🔓 Unlock All Answers' : '📄 Unlock Question Paper First'}
         </button>
@@ -3084,13 +3189,13 @@ function updateAnswerKeyBar() {
   } else {
     if (canUseAnswerKeyUpgrade()) {
       title.textContent = '📋 Want the Answer Key?';
-      sub.textContent   = 'This paper is already unlocked. Add answers for this exact paper for ₹11.';
-      btn.textContent   = 'Unlock Answers ₹11 →';
+      sub.textContent   = 'This paper is already unlocked. Add answers for this exact paper for ₹15.';
+      btn.textContent   = 'Unlock Answers ₹15 →';
       btn.style.background = '#2563EB';
     } else {
       title.textContent = '📄 Unlock Question Paper First';
-      sub.textContent   = 'First unlock the full question paper for ₹19. After that, the answer key can be added for ₹11.';
-      btn.textContent   = 'Unlock Question Paper ₹19 →';
+      sub.textContent   = 'First unlock the full question paper for ₹30. After that, the answer key can be added for ₹15.';
+      btn.textContent   = 'Unlock Question Paper ₹30 →';
       btn.style.background = '#E85D26';
     }
   }
@@ -3123,7 +3228,7 @@ function handleAnswerKeyRequest() {
 
   // Check if user has a generated paper to add answers to
   if (!canUseAnswerKeyUpgrade()) {
-    showToast("Generate and unlock a question paper first (₹19), then return here to add the answer key for ₹11.", 'info');
+    showToast("Generate and unlock a question paper first (₹30), then return here to add the answer key for ₹15.", 'info');
     openQuestionPaperPricing();
     return;
   }

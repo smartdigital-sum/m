@@ -34,7 +34,7 @@ export const handler = async (event) => {
   }
 
   const GROQ_KEY = process.env.GROQ_API_KEY;
-  const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY;
+  const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY || process.env.CLAUDE_API_KEY;
 
   // ─────────────────────────────────────────────────────────────
   // BRANCH A: Direct Claude (used by examcraft Assamese + vision)
@@ -43,7 +43,7 @@ export const handler = async (event) => {
   // ─────────────────────────────────────────────────────────────
   if (provider === "anthropic") {
     if (!ANTHROPIC_KEY) {
-      return { statusCode: 500, headers, body: JSON.stringify({ error: "ANTHROPIC_API_KEY is not set on the server." }) };
+      return { statusCode: 500, headers, body: JSON.stringify({ error: "ANTHROPIC_API_KEY or CLAUDE_API_KEY is not set on the server." }) };
     }
 
     // Allow caller to pass either Anthropic-native messages (content arrays for vision)
@@ -70,7 +70,7 @@ export const handler = async (event) => {
           "anthropic-version": "2023-06-01",
         },
         body: JSON.stringify({
-          model: model || "claude-sonnet-4-6",
+          model: model || "claude-sonnet-4-20250514",
           max_tokens: max_tokens || 4096,
           temperature: temperature !== undefined ? temperature : 0.4,
           ...(systemPrompt ? { system: systemPrompt } : {}),
@@ -141,7 +141,7 @@ export const handler = async (event) => {
     return { statusCode: lastGroqError?.status || 500, headers, body: JSON.stringify({ error: lastGroqError?.message || "Groq unavailable." }) };
   }
   if (!ANTHROPIC_KEY) {
-    return { statusCode: 500, headers, body: JSON.stringify({ error: "Groq failed and ANTHROPIC_API_KEY is not set." }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: "Groq failed and ANTHROPIC_API_KEY or CLAUDE_API_KEY is not set." }) };
   }
 
   try {
@@ -176,7 +176,7 @@ export const handler = async (event) => {
         "anthropic-version": "2023-06-01",
       },
       body: JSON.stringify({
-        model: "claude-haiku-4-5",
+        model: "claude-3-5-haiku-20241022",
         max_tokens: fallbackMaxTokens,
         temperature: temperature !== undefined ? temperature : 0.4,
         ...(systemPrompt ? { system: systemPrompt } : {}),
