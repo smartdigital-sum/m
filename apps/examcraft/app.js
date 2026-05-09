@@ -2375,6 +2375,7 @@ async function generatePaper() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             provider: "anthropic",
+            prefill_json: true,
             model: CLAUDE_MODEL,
             max_tokens: maxTokens,
             // Higher temperature on Assamese encourages stem variety + lexical
@@ -2406,7 +2407,7 @@ async function generatePaper() {
           try {
             parsed = JSON.parse(jsonStr);
           } catch (parseErr) {
-            // JSON parse failed, falling back
+            console.error("[examcraft] Claude JSON parse failed. Raw response (first 1500 chars):", rawText?.slice(0, 1500));
             throw new Error("Could not parse Claude response");
           }
         }
@@ -2480,7 +2481,7 @@ async function generatePaper() {
       try {
         parsed = JSON.parse(jsonStr);
       } catch (parseErr) {
-        // JSON parse failed
+        console.error("[examcraft] AI JSON parse failed. Raw response (first 1500 chars):", rawText?.slice(0, 1500));
         throw new Error("Could not parse AI response");
       }
     }
@@ -2758,6 +2759,7 @@ ${jsonExample}`;
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         provider: 'anthropic',
+        prefill_json: true,
         model: CLAUDE_MODEL,
         max_tokens: 4096,
         // Higher temperature on Assamese for stem/lexical variety; rules + validation enforce quality.
@@ -2782,7 +2784,10 @@ ${jsonExample}`;
     } catch {
       const jsonMatch = rawText.match(/```json\s*([\s\S]*?)```|```\s*([\s\S]*?)```|\{[\s\S]*\}/);
       const jsonStr = jsonMatch ? (jsonMatch[1] || jsonMatch[2] || jsonMatch[0]) : rawText;
-      try { parsed = JSON.parse(jsonStr); } catch { throw new Error('Could not parse AI response as JSON'); }
+      try { parsed = JSON.parse(jsonStr); } catch {
+        console.error("[examcraft] Vision JSON parse failed. Raw response (first 1500 chars):", rawText?.slice(0, 1500));
+        throw new Error('Could not parse AI response as JSON');
+      }
     }
 
     const sentinelChapters = [CHAPTER_SENTINEL];
@@ -2796,6 +2801,7 @@ ${jsonExample}`;
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             provider: 'anthropic',
+            prefill_json: true,
             model: CLAUDE_MODEL,
             max_tokens: maxTokens,
             temperature: 0.1,

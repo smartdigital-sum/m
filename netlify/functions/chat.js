@@ -24,6 +24,9 @@ export const handler = async (event) => {
     no_fallback,
     provider,        // "anthropic" → skip Groq, go straight to Claude
     system,          // optional separate system prompt (Anthropic-native style)
+    prefill_json,    // when true, prefills the assistant turn with "{" so Claude
+                     // is forced to continue valid JSON. The "{" is stitched
+                     // back onto the response so callers parse complete JSON.
   } = body;
 
   if (!messages || !Array.isArray(messages)) {
@@ -51,6 +54,13 @@ export const handler = async (event) => {
       .map((m) => ({ role: m.role === "assistant" ? "assistant" : "user", content: m.content }));
     const systemPrompt = [system, ...inlineSystemParts].filter(Boolean).join("\n\n");
 
+    // Prefill the assistant turn with "{" so Claude must continue with valid JSON.
+    // Without this, Sonnet/Haiku occasionally wrap output in prose or markdown
+    // fences which then fail JSON.parse on the client.
+    if (prefill_json) {
+      claudeMessages.push({ role: "assistant", content: "{" });
+    }
+
     try {
       const r = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
@@ -72,7 +82,11 @@ export const handler = async (event) => {
       if (!r.ok) {
         return { statusCode: r.status, headers, body: JSON.stringify({ error: data.error?.message || `Claude API Error: ${r.status}` }) };
       }
-      // Pass Claude's native shape through unchanged
+      // Stitch the prefilled "{" back onto the first text block so callers
+      // reading data.content[0].text get a complete JSON document.
+      if (prefill_json && Array.isArray(data.content) && data.content[0]?.type === "text") {
+        data.content[0].text = "{" + (data.content[0].text || "");
+      }
       return { statusCode: 200, headers, body: JSON.stringify(data) };
     } catch (error) {
       console.error("Direct Claude call failed:", error);
@@ -131,7 +145,7 @@ export const handler = async (event) => {
   }
 
   try {
-    const wantsJson = response_format?.type === "json_object";
+    const wantsJson = response_format?.type === "json_object" || prefill_json === true;
     const systemParts = messages.filter((m) => m.role === "system").map((m) => m.content);
     if (wantsJson) systemParts.push("You must respond with a single valid JSON object only. No prose, no markdown, no code fences.");
     const systemPrompt = systemParts.join("\n\n");
@@ -139,6 +153,20 @@ export const handler = async (event) => {
     const claudeMessages = messages
       .filter((m) => m.role !== "system")
       .map((m) => ({ role: m.role === "assistant" ? "assistant" : "user", content: String(m.content ?? "") }));
+
+    // Prefill assistant turn with "{" when JSON is expected — forces Claude to
+    // continue valid JSON instead of prose/markdown wrappers.
+    if (wantsJson) {
+      claudeMessages.push({ role: "assistant", content: "{" });
+    }
+
+    // Floor max_tokens for the fallback Claude path. Groq's response_format gives
+    // tight JSON, but Claude's JSON is wordier — a 1200-token cap (the typical
+    // examcraft estimate for a 10-question English paper) routinely truncates
+    // mid-JSON, which is unrecoverable on the client.
+    const fallbackMaxTokens = wantsJson
+      ? Math.max(max_tokens || 1000, 2500)
+      : (max_tokens || 1000);
 
     const r = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
@@ -149,7 +177,7 @@ export const handler = async (event) => {
       },
       body: JSON.stringify({
         model: "claude-haiku-4-5",
-        max_tokens: max_tokens || 1000,
+        max_tokens: fallbackMaxTokens,
         temperature: temperature !== undefined ? temperature : 0.4,
         ...(systemPrompt ? { system: systemPrompt } : {}),
         messages: claudeMessages,
@@ -162,7 +190,8 @@ export const handler = async (event) => {
     }
 
     const data = await r.json();
-    const text = (data.content || []).filter((c) => c.type === "text").map((c) => c.text).join("");
+    let text = (data.content || []).filter((c) => c.type === "text").map((c) => c.text).join("");
+    if (wantsJson) text = "{" + text;
 
     // Fallback path normalizes to OpenAI shape so apps reading data.choices[0].message.content keep working
     return {
