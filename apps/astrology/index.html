@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cosmic Self — Your Personal Astrology Guide</title>
+  <meta name="description" content="Enter your birth details to discover your birth chart, zodiac reading, life path number, and personalized daily horoscope." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════ LANDING / INPUT SCREEN ═══ -->
+  <div id="app-landing" class="screen active">
+    <div class="stars-bg"></div>
+    <div class="landing-inner">
+      <div class="logo-wrap">
+        <div class="logo-icon">✦</div>
+        <h1 class="logo-title">Cosmic Self</h1>
+        <p class="logo-sub">Your Personal Astrology Guide</p>
+      </div>
+
+      <form id="birth-form" class="birth-form" novalidate>
+        <div class="form-card">
+          <h2 class="form-heading">Enter Your Birth Details</h2>
+
+          <div class="form-group">
+            <label for="birth-date">Date of Birth</label>
+            <input type="date" id="birth-date" name="birth-date" required max="2025-12-31" />
+          </div>
+
+          <div class="form-group">
+            <label for="birth-time">Time of Birth <span class="optional">(optional but recommended)</span></label>
+            <input type="time" id="birth-time" name="birth-time" />
+          </div>
+
+          <div class="form-group">
+            <label for="birth-place">Place of Birth</label>
+            <input type="text" id="birth-place" name="birth-place" placeholder="e.g. Mumbai, India" required autocomplete="off" />
+            <div id="place-suggestions" class="suggestions-box" role="listbox" aria-label="Place suggestions"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="user-name">Your Name <span class="optional">(optional)</span></label>
+            <input type="text" id="user-name" name="user-name" placeholder="e.g. Rahul" />
+          </div>
+
+          <button type="submit" id="reveal-btn" class="btn-primary">
+            <span class="btn-text">Reveal My Chart ✦</span>
+            <span class="btn-loader hidden">Calculating…</span>
+          </button>
+        </div>
+      </form>
+
+      <p class="disclaimer">All calculations are performed locally — your data never leaves your device.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ RESULTS SCREEN ═══════════ -->
+  <div id="app-results" class="screen">
+
+    <!-- Top bar -->
+    <header class="results-header">
+      <div class="header-left">
+        <button id="back-btn" class="icon-btn" aria-label="Go back">←</button>
+        <div class="header-identity">
+          <span id="hdr-sign" class="hdr-sign">Aquarius</span>
+          <span class="hdr-dot">•</span>
+          <span id="hdr-lifepath" class="hdr-lp">Life Path 4</span>
+        </div>
+      </div>
+      <div class="header-right">
+
+      </div>
+    </header>
+
+    <!-- Scrollable content -->
+    <main id="results-main" class="results-main">
+
+      <!-- 1. BIRTH CHART -->
+      <section class="card chart-card" aria-label="Your Birth Chart">
+        <div class="card-title-row">
+          <span class="card-icon">🌙</span>
+          <h2 class="card-title">Your Birth Chart</h2>
+        </div>
+        <canvas id="chart-canvas" width="320" height="320" aria-label="Birth chart wheel"></canvas>
+        <div id="planet-legend" class="planet-legend"></div>
+      </section>
+
+      <!-- 2. DAILY HOROSCOPE -->
+      <section class="card horoscope-card" aria-label="Daily Horoscope">
+        <div class="card-title-row">
+          <span class="card-icon">✨</span>
+          <h2 class="card-title">Daily Horoscope</h2>
+          <button id="refresh-horoscope" class="icon-btn refresh-btn" aria-label="Refresh horoscope">↻</button>
+        </div>
+        <div class="horoscope-box">
+          <p id="horoscope-text" class="horoscope-text"></p>
+        </div>
+        <div class="horoscope-pillars">
+          <div class="pillar" id="pillar-love">
+            <span class="pillar-icon">♡</span>
+            <span class="pillar-label">LOVE</span>
+            <p class="pillar-desc" id="love-text"></p>
+          </div>
+          <div class="pillar" id="pillar-career">
+            <span class="pillar-icon">💼</span>
+            <span class="pillar-label">CAREER</span>
+            <p class="pillar-desc" id="career-text"></p>
+          </div>
+          <div class="pillar" id="pillar-wellness">
+            <span class="pillar-icon">⚡</span>
+            <span class="pillar-label">WELLNESS</span>
+            <p class="pillar-desc" id="wellness-text"></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. LIFE PATH -->
+      <section class="card lifepath-card" aria-label="Life Path">
+        <div class="card-title-row">
+          <span class="card-icon">☀️</span>
+          <h2 class="card-title" id="lp-heading">Life Path 4</h2>
+        </div>
+
+        <div class="lp-personality">
+          <h3 class="lp-section-label">YOUR PERSONALITY</h3>
+          <p id="lp-personality-text" class="lp-text"></p>
+        </div>
+
+        <div class="lp-grid">
+          <div class="lp-box strengths-box">
+            <h4 class="lp-box-title">STRENGTHS</h4>
+            <p id="lp-strengths" class="lp-box-text"></p>
+          </div>
+          <div class="lp-box challenges-box">
+            <h4 class="lp-box-title">CHALLENGES</h4>
+            <p id="lp-challenges" class="lp-box-text"></p>
+          </div>
+        </div>
+
+        <blockquote id="lp-quote" class="lp-quote"></blockquote>
+      </section>
+
+      <!-- 4. ZODIAC PROFILE -->
+      <section class="card zodiac-card" aria-label="Zodiac Profile">
+        <div class="card-title-row">
+          <span id="zodiac-glyph" class="zodiac-glyph">♒</span>
+          <h2 class="card-title" id="zodiac-heading">Aquarius Profile</h2>
+        </div>
+        <div class="zodiac-meta">
+          <span class="zmeta-item" id="z-element"></span>
+          <span class="zmeta-item" id="z-ruling"></span>
+          <span class="zmeta-item" id="z-modality"></span>
+        </div>
+        <p id="zodiac-desc" class="lp-text"></p>
+
+        <div class="traits-row">
+          <div class="traits-col" id="z-strengths-list"></div>
+          <div class="traits-col" id="z-weaknesses-list"></div>
+        </div>
+      </section>
+
+      <!-- 5. MOON SIGN -->
+      <section class="card moon-card" aria-label="Moon Sign">
+        <div class="card-title-row">
+          <span class="card-icon">🌕</span>
+          <h2 class="card-title">Moon Sign: <span id="moon-sign-name"></span></h2>
+        </div>
+        <p id="moon-sign-desc" class="lp-text"></p>
+      </section>
+
+      <!-- 6. RISING SIGN -->
+      <section class="card rising-card" aria-label="Rising Sign">
+        <div class="card-title-row">
+          <span class="card-icon">⬆️</span>
+          <h2 class="card-title">Rising Sign: <span id="rising-sign-name"></span></h2>
+        </div>
+        <p id="rising-sign-desc" class="lp-text"></p>
+        <p class="rising-note" id="rising-note"></p>
+      </section>
+
+      <!-- 7. LUCKY NUMBERS / COLORS -->
+      <section class="card lucky-card" aria-label="Lucky Details">
+        <div class="card-title-row">
+          <span class="card-icon">🍀</span>
+          <h2 class="card-title">Lucky Details</h2>
+        </div>
+        <div class="lucky-grid">
+          <div class="lucky-item">
+            <span class="lucky-label">Lucky Numbers</span>
+            <span id="lucky-numbers" class="lucky-value"></span>
+          </div>
+          <div class="lucky-item">
+            <span class="lucky-label">Lucky Colors</span>
+            <span id="lucky-colors" class="lucky-value"></span>
+          </div>
+          <div class="lucky-item">
+            <span class="lucky-label">Lucky Day</span>
+            <span id="lucky-day" class="lucky-value"></span>
+          </div>
+          <div class="lucky-item">
+            <span class="lucky-label">Lucky Stone</span>
+            <span id="lucky-stone" class="lucky-value"></span>
+          </div>
+        </div>
+      </section>
+
+      <p class="results-footer">✦ Cosmic Self · Based on Western Astrology & Pythagorean Numerology</p>
+    </main>
+  </div>
+
+  <script src="astro.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

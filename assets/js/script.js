@@ -1024,6 +1024,13 @@ const GALLERY_DATA = [
   { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321400/20220221_232830_b3scqe.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321400/20220221_232830_b3scqe.jpg", title: "Room Mural 6", desc: "A stunning room mural 6 wall mural for interior decoration.", category: "wallart", sub: "murals" },
   { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321411/IMG-20220603-WA0000_gdxcf2.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321411/IMG-20220603-WA0000_gdxcf2.jpg", title: "Room Mural 7", desc: "A stunning room mural 7 wall mural for interior decoration.", category: "wallart", sub: "murals" },
   { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321412/20230401_164517_hiddt5.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321412/20230401_164517_hiddt5.jpg", title: "Room Mural 8", desc: "A stunning room mural 8 wall mural for interior decoration.", category: "wallart", sub: "murals" },
+
+  // Videos (5)
+  { thumb: "https://res.cloudinary.com/duzr2cnth/video/upload/so_2,w_600,c_fill,f_jpg/v1777758710/TEST_03_FINAL_vnju0u.jpg", full: "https://res.cloudinary.com/duzr2cnth/video/upload/v1777758710/TEST_03_FINAL_vnju0u.mp4", title: "Drinks Can Product Animation", desc: "3D product animation showcasing a drinks can with cinematic motion.", category: "videos", sub: "videos", type: "video" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/video/upload/so_2,w_600,c_fill,f_jpg/v1777758725/deo_product_egy47o.jpg", full: "https://res.cloudinary.com/duzr2cnth/video/upload/v1777758725/deo_product_egy47o.mp4", title: "Moisture Cream Product Animation", desc: "Smooth product animation for a moisture cream bottle.", category: "videos", sub: "videos", type: "video" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/video/upload/so_2,w_600,c_fill,f_jpg/v1777758841/test_07_rgdkyn.jpg", full: "https://res.cloudinary.com/duzr2cnth/video/upload/v1777758841/test_07_rgdkyn.mp4", title: "Satisfying Video 1", desc: "A clean, satisfying motion sequence for visual content.", category: "videos", sub: "videos", type: "video" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/video/upload/so_2,w_600,c_fill,f_jpg/v1777758829/test_6_-_Copy_hxp0xu.jpg", full: "https://res.cloudinary.com/duzr2cnth/video/upload/v1777758829/test_6_-_Copy_hxp0xu.mp4", title: "Satisfying Video 2", desc: "A clean, satisfying motion sequence for visual content.", category: "videos", sub: "videos", type: "video" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/video/upload/so_2,w_600,c_fill,f_jpg/v1777758811/Timeline_1_kvjn4n.jpg", full: "https://res.cloudinary.com/duzr2cnth/video/upload/v1777758811/Timeline_1_kvjn4n.mp4", title: "Satisfying Video 3", desc: "A clean, satisfying motion sequence for visual content.", category: "videos", sub: "videos", type: "video" },
 ];
 
 const GALLERY_CATEGORIES = {
@@ -1052,28 +1059,70 @@ const GALLERY_SUB_FILTERS = {
 
 const INITIAL_LOAD = 12;
 const LOAD_MORE_COUNT = 12;
+let currentMode = "images";
 let currentCategory = "all";
 let currentSubFilter = "all";
 let visibleCount = INITIAL_LOAD;
 
+function getModeData() {
+  return currentMode === "videos"
+    ? GALLERY_DATA.filter((it) => it.type === "video")
+    : GALLERY_DATA.filter((it) => it.type !== "video");
+}
+
 function getCategoryCount(cat) {
-  if (cat === "all") return GALLERY_DATA.length;
-  return GALLERY_DATA.filter((img) => img.category === cat).length;
+  const pool = getModeData();
+  if (cat === "all") return pool.length;
+  return pool.filter((img) => img.category === cat).length;
 }
 
 function getSubFilterCount(sub) {
-  return GALLERY_DATA.filter((img) => img.sub === sub).length;
+  return getModeData().filter((img) => img.sub === sub).length;
 }
 
 function getFilteredImages() {
-  let filtered = GALLERY_DATA;
-  if (currentCategory !== "all") {
-    filtered = filtered.filter((img) => img.category === currentCategory);
-  }
-  if (currentSubFilter !== "all") {
-    filtered = filtered.filter((img) => img.sub === currentSubFilter);
+  let filtered = getModeData();
+  if (currentMode === "images") {
+    if (currentCategory !== "all") {
+      filtered = filtered.filter((img) => img.category === currentCategory);
+    }
+    if (currentSubFilter !== "all") {
+      filtered = filtered.filter((img) => img.sub === currentSubFilter);
+    }
   }
   return filtered;
+}
+
+function switchMode(mode, btn) {
+  if (currentMode === mode) return;
+  currentMode = mode;
+  currentCategory = "all";
+  currentSubFilter = "all";
+  visibleCount = INITIAL_LOAD;
+
+  document.querySelectorAll(".mode-tab").forEach((b) => b.classList.remove("active"));
+  if (btn) btn.classList.add("active");
+
+  const filterBtns = document.getElementById("galleryFilterBtns");
+  const subFilters = document.querySelector(".sub-filter-btns");
+  if (mode === "videos") {
+    if (filterBtns) filterBtns.style.display = "none";
+    if (subFilters) subFilters.remove();
+  } else {
+    if (filterBtns) filterBtns.style.display = "";
+    buildFilterButtons();
+    buildSubFilters();
+  }
+  renderGallery();
+}
+
+function updateModeCounts() {
+  const imgEl = document.getElementById("imagesCount");
+  const vidEl = document.getElementById("videosCount");
+  const imgCount = GALLERY_DATA.filter((it) => it.type !== "video").length;
+  const vidCount = GALLERY_DATA.filter((it) => it.type === "video").length;
+  if (imgEl) imgEl.textContent = imgCount;
+  if (vidEl) vidEl.textContent = vidCount;
 }
 
 function buildFilterButtons() {
@@ -1082,6 +1131,7 @@ function buildFilterButtons() {
   container.innerHTML = "";
   Object.entries(GALLERY_CATEGORIES).forEach(([key, val]) => {
     const count = getCategoryCount(key);
+    if (key !== "all" && count === 0) return;
     const btn = document.createElement("button");
     btn.className = "filter-btn" + (key === currentCategory ? " active" : "");
     btn.setAttribute("data-category", key);
@@ -1142,8 +1192,9 @@ function renderGallery() {
 
   grid.innerHTML = "";
   toShow.forEach((img, i) => {
+    const isVideo = img.type === "video";
     const item = document.createElement("div");
-    item.className = "gallery-item fade-in";
+    item.className = "gallery-item fade-in" + (isVideo ? " is-video" : "");
     item.style.animationDelay = `${i * 0.05}s`;
     item.setAttribute("data-category", img.category);
     item.setAttribute("data-sub", img.sub);
@@ -1153,8 +1204,9 @@ function renderGallery() {
     };
     item.innerHTML = `
       <img src="${img.thumb}" alt="${img.title}" loading="lazy">
+      ${isVideo ? '<div class="play-badge"><i class="fas fa-play"></i></div>' : ""}
       <div class="gallery-overlay">
-        <div class="overlay-icon"><i class="fas fa-search-plus"></i></div>
+        <div class="overlay-icon"><i class="fas ${isVideo ? "fa-play" : "fa-search-plus"}"></i></div>
         <div class="overlay-title">${img.title}</div>
         <div class="overlay-tag">${img.category}</div>
       </div>
@@ -1185,14 +1237,12 @@ function loadMoreGallery() {
 }
 
 // ── Lightbox ──
-let lbImages = [],
-  lbData = [],
+let lbData = [],
   lbIndex = 0;
 
 function openLightbox(el) {
   const filtered = getFilteredImages();
   lbData = filtered;
-  lbImages = filtered.map((img) => img.full);
   const globalIdx = parseInt(el.getAttribute("data-index"));
   lbIndex = filtered.indexOf(GALLERY_DATA[globalIdx]);
   if (lbIndex < 0) lbIndex = 0;
@@ -1203,33 +1253,62 @@ function openLightbox(el) {
 }
 
 function updateLightbox() {
-  if (!lbImages.length) return;
-  document.getElementById("lbImage").src = lbImages[lbIndex];
-  document.getElementById("lbCaption").textContent = lbData[lbIndex].title;
-  
-  const descEl = document.getElementById("lbDesc");
-  if (descEl) {
-    descEl.textContent = lbData[lbIndex].desc || "";
+  if (!lbData.length) return;
+  const item = lbData[lbIndex];
+  const imgEl = document.getElementById("lbImage");
+  const videoEl = document.getElementById("lbVideo");
+
+  if (item.type === "video") {
+    imgEl.style.display = "none";
+    imgEl.removeAttribute("src");
+    videoEl.style.display = "block";
+    videoEl.src = item.full;
+    videoEl.poster = item.thumb || "";
+    videoEl.load();
+  } else {
+    if (videoEl) {
+      videoEl.pause();
+      videoEl.removeAttribute("src");
+      videoEl.load();
+      videoEl.style.display = "none";
+    }
+    imgEl.style.display = "block";
+    imgEl.src = item.full;
   }
 
-  document.getElementById("lbCounter").textContent = `${lbIndex + 1} / ${lbImages.length}`;
-  document.getElementById("lbDownload").href = lbImages[lbIndex];
+  document.getElementById("lbCaption").textContent = item.title;
+
+  const descEl = document.getElementById("lbDesc");
+  if (descEl) {
+    descEl.textContent = item.desc || "";
+  }
+
+  document.getElementById("lbCounter").textContent = `${lbIndex + 1} / ${lbData.length}`;
+  document.getElementById("lbDownload").href = item.full;
 }
 
 function closeLightbox() {
+  const videoEl = document.getElementById("lbVideo");
+  if (videoEl) {
+    videoEl.pause();
+    videoEl.removeAttribute("src");
+    videoEl.load();
+  }
   document.getElementById("lightbox").classList.remove("active");
   document.body.style.overflow = "";
 }
 
 function nextImg(e) {
   if (e) e.stopPropagation();
-  lbIndex = (lbIndex + 1) % lbImages.length;
+  if (!lbData.length) return;
+  lbIndex = (lbIndex + 1) % lbData.length;
   updateLightbox();
 }
 
 function prevImg(e) {
   if (e) e.stopPropagation();
-  lbIndex = (lbIndex - 1 + lbImages.length) % lbImages.length;
+  if (!lbData.length) return;
+  lbIndex = (lbIndex - 1 + lbData.length) % lbData.length;
   updateLightbox();
 }
 
@@ -1245,6 +1324,7 @@ document.addEventListener("DOMContentLoaded", () => {
   try {
     initTheme();
     initFirebase();
+    updateModeCounts();
     buildFilterButtons();
     buildSubFilters();
     renderGallery();

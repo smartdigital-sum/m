@@ -4,7 +4,8 @@
       "WebSearch",
       "Bash(find \"d:/WEB DEV/web PRACTICE/main/smartdigital/apps\" -name \"app.js\" -exec wc -l {} \\\\;)",
       "Bash(grep -l \"\\\\.hidden\" \"d:/WEB DEV/web PRACTICE/main/smartdigital/apps\"/*/app.js)",
-      "Bash(grep -l \"back\\\\|home\\\\|<a.*index\" \"d:/WEB DEV/web PRACTICE/main/smartdigital/apps\"/*/index.html)"
+      "Bash(grep -l \"back\\\\|home\\\\|<a.*index\" \"d:/WEB DEV/web PRACTICE/main/smartdigital/apps\"/*/index.html)",
+      "Bash(node --check \"d:/WEB DEV/web PRACTICE/main/smartdigital/apps/examcraft/app.js\")"
     ]
   }
 }

@@ -198,7 +198,7 @@
                     <a href="#services" class="btn btn-liquid-glass btn-hero-cta">
                         <i class="fas fa-robot"></i> <span data-en="Our Services" data-as="আমাৰ সেৱাসমূহ">Our Services</span>
                     </a>
-                    <a href="https://yxyo4au4sc.youware.app" target="_blank" rel="noopener noreferrer" class="btn btn-liquid-glass btn-hero-cta">
+                    <a href="apps/astrology/index.html" class="btn btn-liquid-glass btn-hero-cta">
                         <i class="fas fa-meteor"></i> <span data-en="Cosmic Predictor" data-as="ব্ৰহ্মাণ্ডীয় ভৱিষ্যদ্বক্তা">Cosmic Predictor</span>
                     </a>
                 </div>
@@ -1514,7 +1514,7 @@
 
                 <!-- Demo 9: Doctor Appointment Clinic -->
                 <div class="ai-svc-card">
-                    <div class="ai-svc-badge ai-badge-new">3 DEMOS</div>
+                    <div class="ai-svc-badge ai-badge-new">4 DEMOS</div>
                     <div class="ai-svc-icon" style="background: linear-gradient(135deg, #06b6d4, #0ea5e9);">🏥</div>
                     <div class="ai-svc-tag">Healthcare</div>
                     <h3 data-en="Doctor Appointment Clinic" data-as="ডাক্তৰ এপইণ্টমেন্ট ক্লিনিক">Doctor Appointment Clinic</h3>
@@ -1538,6 +1538,13 @@
                         <div class="demo-pill-wrap">
                             <a href="https://smartdigital-sum.github.io/m-9-c/" target="_blank" class="demo-pill">Demo 3 <i class="fas fa-external-link-alt"></i></a>
                             <div class="punch-widget-demo" data-id="demo-m9c-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
+                            </div>
+                        </div>
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-9-d/" target="_blank" class="demo-pill">Demo 4 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m9d-like" title="Like this demo">
                                 <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
                                 <span class="punch-count-xs">0</span>
                             </div>
@@ -1606,7 +1613,7 @@
 
                 <!-- Demo 12: Furniture -->
                 <div class="ai-svc-card">
-                    <div class="ai-svc-badge ai-badge-new">3 DEMOS</div>
+                    <div class="ai-svc-badge ai-badge-new">4 DEMOS</div>
                     <div class="ai-svc-icon" style="background: linear-gradient(135deg, #b45309, #d97706);">🛋️</div>
                     <div class="ai-svc-tag">Furniture &amp; Home</div>
                     <h3 data-en="Furniture Store" data-as="ফাৰ্ণিচাৰ ষ্ট'ৰ">Furniture Store</h3>
@@ -1630,6 +1637,13 @@
                         <div class="demo-pill-wrap">
                             <a href="https://smartdigital-sum.github.io/m-12-c/" target="_blank" class="demo-pill">Demo 3 <i class="fas fa-external-link-alt"></i></a>
                             <div class="punch-widget-demo" data-id="demo-m12c-like" title="Like this demo">
+                                <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
+                                <span class="punch-count-xs">0</span>
+                            </div>
+                        </div>
+                        <div class="demo-pill-wrap">
+                            <a href="https://smartdigital-sum.github.io/m-12-d/" target="_blank" class="demo-pill">Demo 4 <i class="fas fa-external-link-alt"></i></a>
+                            <div class="punch-widget-demo" data-id="demo-m12d-like" title="Like this demo">
                                 <button class="punch-btn-xs" onclick="doPunch(this)"><i class="fas fa-heart"></i></button>
                                 <span class="punch-count-xs">0</span>
                             </div>
@@ -1848,6 +1862,18 @@
                 <h2 class="section-title" data-en="Our Gallery" data-as="আমাৰ গেলেৰী">Our Gallery</h2>
                 <p class="section-sub" data-en="Explore our creative work" data-as="আমাৰ সৃষ্টিশীল কাম অন্বেষণ কৰক">Explore our creative work</p>
             </div>
+            <div class="gallery-mode-tabs" id="galleryModeTabs">
+                <button class="mode-tab active" data-mode="images" onclick="switchMode('images', this)">
+                    <i class="fas fa-image"></i>
+                    <span data-en="Images" data-as="ছবি">Images</span>
+                    <span class="mode-count" id="imagesCount"></span>
+                </button>
+                <button class="mode-tab" data-mode="videos" onclick="switchMode('videos', this)">
+                    <i class="fas fa-play"></i>
+                    <span data-en="Videos" data-as="ভিডিঅ'">Videos</span>
+                    <span class="mode-count" id="videosCount"></span>
+                </button>
+            </div>
             <div class="filter-btns" id="galleryFilterBtns"></div>
             <div class="gallery-grid" id="galleryGrid"></div>
             <div class="load-more-wrap" id="loadMoreWrap" style="display:none;">
@@ -1864,6 +1890,7 @@
         <span class="lb-close" onclick="closeLightbox()"><i class="fas fa-times"></i></span>
         <div class="lb-body" onclick="closeLightbox()">
             <img class="lb-image" id="lbImage" src="" alt="">
+            <video class="lb-video" id="lbVideo" controls playsinline preload="metadata" style="display:none;" onclick="event.stopPropagation();"></video>
         </div>
         <div class="lb-caption" id="lbCaption"></div>
         <div class="lb-desc" id="lbDesc"></div>

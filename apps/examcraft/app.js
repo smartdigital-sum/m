@@ -22,6 +22,34 @@ const DEMO_PAPER_LIMIT = 2;
 const DEMO_MAX_QUESTIONS = 20;
 const DEMO_VISIBLE_QUESTIONS = 3;
 
+// Per-chapter scope hints used to keep AI-generated questions inside the
+// correct grade level. Looked up as CHAPTER_SCOPE_HINTS[board]?.[cls]?.[subject]?.[chapterName].
+// Hints are 1-line phrases injected next to each chapter in the prompt; missing
+// entries simply skip — safe to expand incrementally.
+const CHAPTER_SCOPE_HINTS = {
+  SEBA: {
+    'Class 9': {
+      Mathematics: {
+        'Number Systems': 'rationals/irrationals on number line, decimal expansions, laws of exponents for real numbers — no complex numbers',
+        'Polynomials': 'factor theorem, remainder theorem, polynomial identities up to degree 3 — NO quadratic-equation root formulas (Class 10)',
+        'Coordinate Geometry': 'Cartesian plane, plotting points, quadrants — NO distance/section formula (Class 10)',
+        'Linear Equations in Two Variables': 'forms ax+by+c=0, solutions as ordered pairs, graph of linear equation — NO solving simultaneous pairs (Class 10)',
+        "Introduction to Euclid's Geometry": "Euclid's 5 axioms and 5 postulates, definitions, equivalent versions of 5th postulate — NO advanced theorem proofs",
+        'Lines and Angles': 'angle pair properties, parallel lines cut by transversal, angle sum of triangle proof',
+        'Triangles': 'congruence rules SAS/ASA/SSS/RHS, properties of isosceles triangles, inequalities in a triangle — NO similarity (Class 10)',
+        'Quadrilaterals': 'angle sum, properties of parallelograms, mid-point theorem',
+        'Areas of Parallelograms and Triangles': 'area on same base & between same parallels — NO Heron computations here (use Heron chapter)',
+        'Circles': 'equal chords, perpendicular from centre, angle subtended by arc, cyclic quadrilaterals — NO tangents (Class 10)',
+        'Constructions': 'bisect angle, perpendicular bisector, construct triangle given base+angle+sum/difference of sides',
+        "Heron's Formula": 'area of triangle using sides, area of quadrilateral by splitting into triangles',
+        'Surface Areas and Volumes': 'cuboid, cube, cylinder, cone, sphere, hemisphere — formulas + numeric problems',
+        'Statistics': 'collection/presentation, bar/histogram/frequency polygon, mean/median/mode of ungrouped data — NO cumulative-frequency curves (Class 10)',
+        'Probability': 'empirical probability from observed data only — NO theoretical probability (Class 10)'
+      }
+    }
+  }
+};
+
 const ASSAMESE_LANGUAGE_PROFILE = {
   generationRules: `ASSAMESE LANGUAGE PROFILE — SEBA SCHOOL STANDARD:
 - Write ONLY in standard Assamese (অসমীয়া ভাষা), not Bengali.
@@ -35,7 +63,44 @@ const ASSAMESE_LANGUAGE_PROFILE = {
 - Use "যিবোৰ" for plural relative clauses; never use "যেগুলি".
 - Use "আটাইতকৈ ভাল" or "সৰ্বোত্তম"; never use "সবচেয়ে ভাল".
 - Use "ধাৰা" for pattern, especially in Mathematics.
-- MCQ options should use Assamese labels: ক), খ), গ), ঘ).`,
+- MCQ options should use Assamese labels: ক), খ), গ), ঘ).
+- ARTICLES/COUNTERS — formal exam register only:
+    • Use "এটা" (not "একটা") for one neuter/object: "এটা সমকোণী ত্ৰিভুজ".
+    • Use "এখন" for one flat/sheet-like object (book, paper, map): "এখন কিতাপ".
+    • Use "এজন" for one person (male/neutral): "এজন ছাত্ৰ".
+    • Use "এজনী" for one female person: "এজনী ছাত্ৰী".
+    • "একটা" sounds informal/Bengali-leaning and is FORBIDDEN in formal Assamese exam papers.
+
+VERB TAXONOMY — pick the verb by question intent (do NOT use "নিৰ্ণয় কৰা" by default):
+- Definition / "what is" / "define" → "সংজ্ঞা দিয়া" or "_ কাক বোলে?"
+    e.g.  "সমকোণী ত্ৰিভুজ কাক বোলে?"  /  "মূলদ সংখ্যাৰ সংজ্ঞা দিয়া।"
+- Explain / discuss / describe → "ব্যাখ্যা কৰা" / "বৰ্ণনা কৰা" / "আলোচনা কৰা"
+    e.g.  "ইউক্লিডৰ পঞ্চম স্বতঃসিদ্ধটো ব্যাখ্যা কৰা।"
+- Calculate a numeric value / find / determine a quantity → "নিৰ্ণয় কৰা" / "উলিওৱা" / "বিচাৰি উলিওৱা"
+    e.g.  "ত্ৰিভুজটোৰ ক্ষেত্ৰফল নিৰ্ণয় কৰা।"
+- Solve an equation → "সমাধান কৰা"
+    e.g.  "2x + 5 = 15 সমীকৰণটো সমাধান কৰা।"
+- Prove / show / verify → "প্ৰমাণ কৰা" / "দেখুৱা"
+    e.g.  "সমদ্বিবাহু ত্ৰিভুজৰ ভূমিৰ কোণদ্বয় সমান বুলি প্ৰমাণ কৰা।"
+- Give an example → "উদাহৰণ দিয়া"
+- Construct / draw → "অংকন কৰা" / "চিত্ৰ অংকন কৰা"
+- Compare / state difference → "_ ৰ মাজত পাৰ্থক্য লিখা"
+- State / write / list → "লিখা" / "উল্লেখ কৰা"
+
+WRONG verb usage (do NOT do this):
+✘ "সমকোণ কি? নিৰ্ণয় কৰা।"   (you cannot "calculate" what a definition is)
+✘ "মূল কি? নিৰ্ণয় কৰা।"     (vague + wrong verb; pick "সংজ্ঞা দিয়া" or "ব্যাখ্যা কৰা")
+✓ "সমকোণ কাক বোলে? চিত্ৰসহ ব্যাখ্যা কৰা।"
+✓ "এটা ত্ৰিভুজৰ তিনিটা বাহুৰ দৈৰ্ঘ্য ক্ৰমে 5 ছে.মি, 12 ছে.মি, 13 ছে.মি হ'লে ক্ষেত্ৰফল নিৰ্ণয় কৰা।"
+
+QUESTION SPECIFICITY:
+- Avoid one-word abstract questions like "মূল ধাৰণা কি?" — they are forbidden.
+- Every question must reference a specific axiom, theorem, formula, named figure, or numeric example.
+✘ Vague:    "ইউক্লিডৰ জ্যামিতিৰ মূল ধাৰণা কি?"
+✓ Specific: "ইউক্লিডৰ পাঁচটা স্বতঃসিদ্ধৰ যিকোনো দুটা লিখা।"
+✓ Specific: "উপপাদ্য আৰু স্বতঃসিদ্ধৰ মাজত পাৰ্থক্য লিখা।"
+✘ Vague:    "ৰৈখিক সমীকৰণত চলক কি?"
+✓ Specific: "2x + 5 = 15 সমীকৰণটো সমাধান কৰি x ৰ মান নিৰ্ণয় কৰা।"`,
   fewShotCorrections: `BENGALI-CONTAMINATION EXAMPLES TO AVOID:
 Wrong: কতগুলি সংখ্যা ৫ দ্বারা বিভাজ্য হল?
 Correct: কিমানটা সংখ্যা ৫ ৰে বিভাজ্য হয়?
@@ -47,7 +112,16 @@ Wrong: এই প্যাটার্নের পরের সংখ্যা 
 Correct: এই ধাৰাৰ পৰৱৰ্তী সংখ্যাটো নিৰ্ণয় কৰা।
 
 Wrong: সবচেয়ে ভাল উত্তরটি নির্বাচন করো।
-Correct: আটাইতকৈ ভাল উত্তৰটো বাছি উলিওৱা।`,
+Correct: আটাইতকৈ ভাল উত্তৰটো বাছি উলিওৱা।
+
+Wrong: একটা সমকোণী ত্ৰিভুজত সমকোণ কি?
+Correct: সমকোণী ত্ৰিভুজ কাক বোলে? চিত্ৰসহ ব্যাখ্যা কৰা।
+
+POSITIVE FEW-SHOTS — well-formed Class 9 Mathematics questions:
+- "এটা ত্ৰিভুজৰ দুটা কোণৰ পৰিমাণ ৪৫° আৰু ৬৫° হ'লে, তৃতীয় কোণটোৰ পৰিমাণ নিৰ্ণয় কৰা।"
+- "x² − 5x + 6 বহুপদটো উৎপাদকত বিশ্লেষণ কৰা।"
+- "ইউক্লিডৰ পঞ্চম স্বতঃসিদ্ধটো লিখা আৰু ইয়াৰ এটা সমতুল্য ৰূপ উল্লেখ কৰা।"
+- "এখন আয়তাকাৰ মাটিৰ দৈৰ্ঘ্য ১৫ মিটাৰ আৰু প্ৰস্থ ৮ মিটাৰ। মাটিখনৰ পৰিসীমা আৰু ক্ষেত্ৰফল নিৰ্ণয় কৰা।"`,
   sectionLabels: {
     MCQ: 'বহু-বিকল্প প্ৰশ্ন',
     ShortAnswer: 'চমু উত্তৰ',
@@ -77,7 +151,9 @@ Correct: আটাইতকৈ ভাল উত্তৰটো বাছি উ�
     'দাও',
     'প্রশ্নগুলি',
     'উত্তর দাও',
-    'নিচের'
+    'নিচের',
+    'একটা',
+    'একটি'
   ],
   bannedPatterns: [
     { label: 'Bengali plural suffix -গুলি', regex: /[\u0980-\u09FF]+গুলি/g },
@@ -876,17 +952,48 @@ function buildPaperPrompt({
   const { canonicalSubjectName, canonicalClassName } = getSubjectContext(board, cls, subject);
   const chapterContext = getSelectedChapterContext(board, cls, subject, selectedChapters);
   const requestedSections = getRequestedQuestionTypeDescriptors(qtypes, { isAssamese });
+  const isMath = /math/i.test(canonicalSubjectName || subject || '');
 
+  // Chapter list — append per-chapter scope hint when known so the AI stays
+  // inside grade-level content (e.g. don't write Class-10 quadratics under
+  // a Class-9 polynomial chapter).
+  const scopeMap = CHAPTER_SCOPE_HINTS[board]?.[cls]?.[subject] || {};
+  const formatChapterLine = (name) => {
+    const hint = scopeMap[name];
+    return hint ? `- ${name}  [SCOPE: ${hint}]` : `- ${name}`;
+  };
   const chapterList = chapterContext.length
-    ? chapterContext.map((chapter) => `- ${chapter.canonicalName}`).join('\n')
-    : selectedChapters.map((chapter) => `- ${chapter}`).join('\n');
+    ? chapterContext.map((chapter) => formatChapterLine(chapter.canonicalName)).join('\n')
+    : selectedChapters.map((chapter) => formatChapterLine(chapter)).join('\n');
 
   const sectionRules = requestedSections.map((section) => (
     `- type: "${section.type}", title: "${section.title}", typical marks: ${section.marksHint}`
   )).join('\n');
 
+  // Suggest a marks distribution that already sums to the requested total so
+  // the model has a target to land on (validation will hard-check the sum).
+  const marksDistribution = suggestMarksDistribution(qtypes, totalQ, totalMarks);
+
+  // Diversity / specificity / variety rules — applied to every paper.
+  const qualityRules = `
+DIVERSITY & VARIETY RULES (mandatory):
+- Each distinct concept may appear AT MOST ONCE across the entire paper. Do NOT re-ask the same concept across MCQ → ShortAnswer → LongAnswer.
+- Distribute questions across as many of the selected chapters as possible (target: every selected chapter contributes at least one question when totalQ ≥ chapterCount).
+- Vary question stems: definition, application, theorem use, calculation, comparison, diagram-based, word-problem. No two consecutive questions may begin with the same opening word.
+- Each question must reference a SPECIFIC axiom, theorem, formula, named figure, or numeric example. One-word abstract questions ("মূল ধাৰণা কি?", "What is the basic idea?") are forbidden.
+
+GRADE-LEVEL GUARD:
+- Only generate content that belongs to ${canonicalClassName} for this board. If a topic typically belongs to a higher grade, do NOT include it even if it is loosely related to a selected chapter.
+- Respect the [SCOPE: ...] hints next to each chapter above; treat anything outside the listed scope as out-of-syllabus and skip it.${isMath ? `
+
+MATHEMATICS SOLVING REQUIREMENT:
+- At least 60% of LongAnswer (≥4 marks) questions MUST involve genuine problem-solving: actual computation with concrete numbers, equation solving, theorem proof, geometric construction, or word-problem application.
+- At most 40% of LongAnswer questions may be pure theory/definition.
+- ShortAnswer questions should mix definitions with at least 1–2 computations or applications.
+- Use realistic numbers (avoid "find x in 2x = 10" style trivialities). Show that the question requires real Class-${canonicalClassName.replace(/[^0-9]/g, '') || '?'} skill.` : ''}`;
+
   const assameseReminder = isAssamese
-    ? `\n\n${ASSAMESE_LANGUAGE_PROFILE.generationRules}\n\n${ASSAMESE_LANGUAGE_PROFILE.fewShotCorrections}\n\nFINAL REMINDER — LANGUAGE CHECK BEFORE OUTPUT: JSON keys and required enum values may remain as specified, but every teacher-facing JSON value (section titles, question text, options, answers) MUST be pure Assamese (অসমীয়া). Use Assamese grammar and school style. Do NOT use Bengali words or Bengali sentence flow.`
+    ? `\n\n${ASSAMESE_LANGUAGE_PROFILE.generationRules}\n\n${ASSAMESE_LANGUAGE_PROFILE.fewShotCorrections}\n\nFINAL REMINDER — LANGUAGE CHECK BEFORE OUTPUT: JSON keys and required enum values may remain as specified, but every teacher-facing JSON value (section titles, question text, options, answers) MUST be pure Assamese (অসমীয়া). Use Assamese grammar and school style. Do NOT use Bengali words or Bengali sentence flow. Pick the verb by the verb-taxonomy above — never default to "নিৰ্ণয় কৰা".`
     : '';
 
   const jsonShape = isAssamese
@@ -910,10 +1017,50 @@ ${chapterList}
 SECTIONS REQUIRED:
 ${sectionRules}
 
+MARKS DISTRIBUTION (the per-question marks across all sections MUST sum to exactly ${totalMarks}):
+${marksDistribution}
+${qualityRules}
+
 JSON SHAPE:
 ${jsonShape}
 
 Rules: every question needs qno, chapter, text, answer, marks. MCQ must have exactly 4 options. ShortAnswer/LongAnswer omit options. Output JSON only.${assameseReminder}`;
+}
+
+// Produce a per-section marks plan that sums to totalMarks, given qtypes & totalQ.
+// Heuristic: MCQ=1 mark, ShortAnswer=2 marks, LongAnswer=remaining/count rounded.
+// The plan is a *suggestion* to the model — validation hard-checks the sum.
+function suggestMarksDistribution(qtypes, totalQ, totalMarks) {
+  if (!Array.isArray(qtypes) || qtypes.length === 0 || !totalQ || !totalMarks) return '- Distribute marks so the sum equals the total.';
+
+  const perTypeMarks = { MCQ: 1, ShortAnswer: 2, LongAnswer: 5 };
+  const nTypes = qtypes.length;
+  const baseQPerType = Math.floor(totalQ / nTypes);
+  const remainder = totalQ - baseQPerType * nTypes;
+
+  // Tentative q count per type — distribute remainder to LongAnswer first, else last type.
+  const counts = qtypes.map(() => baseQPerType);
+  let leftover = remainder;
+  const longIdx = qtypes.indexOf('LongAnswer');
+  if (longIdx >= 0 && leftover > 0) { counts[longIdx] += leftover; leftover = 0; }
+  for (let i = qtypes.length - 1; i >= 0 && leftover > 0; i--) { counts[i] += 1; leftover--; }
+
+  // Tentative marks per question per type.
+  const marksPer = qtypes.map((t) => perTypeMarks[t] ?? 2);
+  let runningTotal = counts.reduce((s, c, i) => s + c * marksPer[i], 0);
+
+  // Adjust LongAnswer marks-per-question to absorb the gap (or last type if no Long).
+  const adjustIdx = longIdx >= 0 ? longIdx : qtypes.length - 1;
+  if (counts[adjustIdx] > 0) {
+    const others = runningTotal - counts[adjustIdx] * marksPer[adjustIdx];
+    const need = (totalMarks - others) / counts[adjustIdx];
+    if (Number.isFinite(need) && need > 0) marksPer[adjustIdx] = Math.max(1, Math.round(need));
+  }
+  runningTotal = counts.reduce((s, c, i) => s + c * marksPer[i], 0);
+
+  const lines = qtypes.map((t, i) => `- ${t}: ${counts[i]} questions × ${marksPer[i]} marks = ${counts[i] * marksPer[i]}`);
+  lines.push(`- TOTAL: ${runningTotal} marks (must equal ${totalMarks})`);
+  return lines.join('\n');
 }
 
 /**
@@ -945,6 +1092,11 @@ function fixAssameseScript(text) {
     [wb('সবচেয়ে ভাল'),    'আটাইতকৈ ভাল'],
     [wb('সবচেয়ে ভালো'),   'আটাইতকৈ ভাল'],
     [wb('সবচেয়ে'),        'আটাইতকৈ'],
+    // Informal/Bengali-leaning singular article — formal exam register uses এটা.
+    // (Person/sheet contexts — এজন/এজনী/এখন — are not auto-fixable; the prompt
+    //  + bannedTerms detection handles those.)
+    [wb('একটা'),           'এটা'],
+    [wb('একটি'),           'এটা'],
     [wb('প্যাটার্নের'),     'ধাৰাৰ'],
     [wb('পেটার্নের'),      'ধাৰাৰ'],
     [wb('পেটাৰ্নের'),      'ধাৰাৰ'],
@@ -1733,11 +1885,13 @@ async function enforcePureAssamesePaperLanguage({
   selectedChapters,
   qtypes,
   totalQ,
+  totalMarks,
+  subject,
   subjectLanguageInstruction,
   maxTokens
 }) {
   let currentPaper = normalizeAssamesePaperLanguage(paperData);
-  let structureValidation = validateGeneratedPaper(currentPaper, { selectedChapters, qtypes, totalQ });
+  let structureValidation = validateGeneratedPaper(currentPaper, { selectedChapters, qtypes, totalQ, totalMarks, subject });
   let languageReport = validateAssamesePaperLanguage(currentPaper);
 
   for (let attempt = 0; structureValidation.ok && !languageReport.ok && attempt < 3; attempt++) {
@@ -1753,14 +1907,14 @@ async function enforcePureAssamesePaperLanguage({
     const repairResult = await requestPaperFromModel(repairPrompt, maxTokens);
     currentPaper = normalizeGeneratedPaper(repairResult.parsed, qtypes, selectedChapters);
     currentPaper = normalizeAssamesePaperLanguage(currentPaper);
-    structureValidation = validateGeneratedPaper(currentPaper, { selectedChapters, qtypes, totalQ });
+    structureValidation = validateGeneratedPaper(currentPaper, { selectedChapters, qtypes, totalQ, totalMarks, subject });
     languageReport = validateAssamesePaperLanguage(currentPaper);
   }
 
   return { paperData: currentPaper, structureValidation, languageReport };
 }
 
-function validateGeneratedPaper(paperData, { selectedChapters, qtypes, totalQ }) {
+function validateGeneratedPaper(paperData, { selectedChapters, qtypes, totalQ, totalMarks, subject } = {}) {
   if (!paperData || !Array.isArray(paperData.sections) || paperData.sections.length === 0) {
     return { ok: false, reason: 'No valid sections were returned.' };
   }
@@ -1772,6 +1926,8 @@ function validateGeneratedPaper(paperData, { selectedChapters, qtypes, totalQ })
   const allowedChapters = new Set(selectedChapters);
   const allowedChaptersNorm = new Set(selectedChapters.map(normalizeStr));
   let totalQuestions = 0;
+  let marksSum = 0;
+  const allQuestions = []; // [{ type, text, marks }] \u2014 used for cross-question checks below
 
   for (const section of paperData.sections) {
     if (!section || !allowedTypes.has(section.type)) {
@@ -1795,6 +1951,7 @@ function validateGeneratedPaper(paperData, { selectedChapters, qtypes, totalQ })
       if (!Number.isFinite(marks) || marks <= 0) {
         return { ok: false, reason: `Question "${question.text.slice(0, 40)}" has invalid marks.` };
       }
+      marksSum += marks;
 
       if (!question.answer || typeof question.answer !== 'string') {
         return { ok: false, reason: `Question "${question.text.slice(0, 40)}" is missing an answer.` };
@@ -1805,11 +1962,68 @@ function validateGeneratedPaper(paperData, { selectedChapters, qtypes, totalQ })
           return { ok: false, reason: `MCQ "${question.text.slice(0, 40)}" must have exactly 4 options.` };
         }
       }
+
+      allQuestions.push({ type: section.type, text: question.text, marks });
     }
   }
 
   if (totalQuestions !== totalQ) {
     return { ok: false, reason: `Expected exactly ${totalQ} questions, but received ${totalQuestions}.` };
+  }
+
+  // \u2500\u2500 Marks-sum check \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+  if (Number.isFinite(totalMarks) && marksSum !== totalMarks) {
+    return { ok: false, reason: `Per-question marks sum to ${marksSum} but the paper declares ${totalMarks}. Adjust per-question marks so they total exactly ${totalMarks}.` };
+  }
+
+  // \u2500\u2500 Duplicate-concept check (Jaccard on content tokens \u2265 0.7) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+  // Strip punctuation/marks-tags, lowercase, drop very short stop-tokens.
+  function toTokenSet(text) {
+    const cleaned = String(text)
+      .replace(/[\[\](){}.,;:!?"'\u2018\u2019\u201C\u201D\u0964\u0965]/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .toLowerCase();
+    return new Set(cleaned.split(' ').filter((tok) => tok.length >= 3));
+  }
+  const tokenSets = allQuestions.map((q) => toTokenSet(q.text));
+  for (let i = 0; i < tokenSets.length; i++) {
+    for (let j = i + 1; j < tokenSets.length; j++) {
+      const a = tokenSets[i], b = tokenSets[j];
+      if (a.size === 0 || b.size === 0) continue;
+      let inter = 0;
+      a.forEach((t) => { if (b.has(t)) inter++; });
+      const union = a.size + b.size - inter;
+      if (union > 0 && inter / union >= 0.7) {
+        return { ok: false, reason: `Two questions are near-duplicates: "${allQuestions[i].text.slice(0, 50)}" and "${allQuestions[j].text.slice(0, 50)}". Rewrite so each concept appears only once.` };
+      }
+    }
+  }
+
+  // \u2500\u2500 Stem-variety check: no single opening word covers > 40% of questions \u2500\u2500
+  if (allQuestions.length >= 5) {
+    const firstWords = allQuestions.map((q) => (q.text.trim().split(/\s+/)[0] || '').toLowerCase());
+    const counts = new Map();
+    firstWords.forEach((w) => counts.set(w, (counts.get(w) || 0) + 1));
+    let maxWord = '', maxCount = 0;
+    counts.forEach((c, w) => { if (c > maxCount) { maxCount = c; maxWord = w; } });
+    if (maxCount / allQuestions.length > 0.4) {
+      return { ok: false, reason: `Too many questions begin with "${maxWord}" (${maxCount}/${allQuestions.length}). Vary the opening of each question stem.` };
+    }
+  }
+
+  // \u2500\u2500 Math computational-share check (LongAnswer \u22654 marks) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+  if (subject && /math/i.test(subject)) {
+    const longs = allQuestions.filter((q) => q.type === 'LongAnswer' && q.marks >= 4);
+    if (longs.length >= 3) {
+      // Heuristic: a question is "computational" if it contains a digit, a math operator,
+      // or one of these solving verbs (English + Assamese forms).
+      const computationalRegex = /[0-9]|[+\-\u00D7\u00F7=\u221A\u2211\u222B]|solve|prove|construct|calculate|find|determine|simplify|factor|evaluate|\u09B8\u09AE\u09BE\u09A7\u09BE\u09A8|\u09A8\u09BF\u09F0\u09CD\u09A3\u09AF\u09BC|\u0989\u09B2\u09BF\u0993\u09F1\u09BE|\u09AA\u09CD\u09F0\u09AE\u09BE\u09A3|\u0985\u0982\u0995\u09A8|\u09B8\u09F0\u09B2|\u0989\u09CE\u09AA\u09BE\u09A6\u0995/i;
+      const computational = longs.filter((q) => computationalRegex.test(q.text)).length;
+      if (computational / longs.length < 0.6) {
+        return { ok: false, reason: `Mathematics LongAnswer section is too theoretical (only ${computational}/${longs.length} computational). At least 60% of LongAnswer questions must involve actual computation, equation solving, theorem proof, or numeric word problems.` };
+      }
+    }
   }
 
   return { ok: true };
@@ -1863,7 +2077,10 @@ function normalizeGeneratedPaper(paperData, allowedTypes, selectedChapters) {
   };
 }
 
-function buildRepairPrompt({ rawJson, validationReason, selectedChapters, qtypes, totalQ, subjectLanguageInstruction }) {
+function buildRepairPrompt({ rawJson, validationReason, selectedChapters, qtypes, totalQ, totalMarks, subjectLanguageInstruction }) {
+  const marksLine = Number.isFinite(totalMarks)
+    ? `- Per-question "marks" values across ALL sections must sum to exactly ${totalMarks}.`
+    : '';
   return `${subjectLanguageInstruction}
 
 Fix the following exam paper JSON.
@@ -1876,6 +2093,10 @@ REQUIREMENTS:
 - Allowed chapters: ${selectedChapters.join(' | ')}
 - Every question needs a "chapter" field matching an allowed chapter exactly.
 - MCQ must have exactly 4 options. ShortAnswer/LongAnswer have no options field.
+${marksLine}
+- Each distinct concept may appear at most once across the whole paper. Do NOT re-ask the same concept across MCQ → Short → Long.
+- Vary question stems; no two consecutive questions may begin with the same opening word.
+- Every question must reference a specific axiom, theorem, formula, named figure, or numeric example — no vague one-word abstract questions.
 - Output JSON only.
 
 JSON TO FIX:
@@ -2118,7 +2339,10 @@ async function generatePaper() {
   const claudeCfg = window.SMART_DIGITAL_CONFIG?.CLAUDE || {};
   const CLAUDE_API_KEY = claudeCfg.API_KEY || '';
   const CLAUDE_ENDPOINT = claudeCfg.ENDPOINT || 'https://api.anthropic.com/v1/messages';
-  const CLAUDE_MODEL = claudeCfg.MODEL || 'claude-haiku-4-5-20251001';
+  // Sonnet 4.6 is required for Assamese — its grasp of Assamese-vs-Bengali register
+  // and academic depth is substantially stronger than Haiku's. Override via
+  // window.SMART_DIGITAL_CONFIG.CLAUDE.MODEL if a different model is needed.
+  const CLAUDE_MODEL = claudeCfg.MODEL || 'claude-sonnet-4-6';
 
   const prompt = buildPaperPrompt({
     board,
@@ -2157,7 +2381,10 @@ async function generatePaper() {
           body: JSON.stringify({
             model: CLAUDE_MODEL,
             max_tokens: maxTokens,
-            temperature: 0.15,
+            // Higher temperature on Assamese encourages stem variety + lexical
+            // diversity (the rules pin language quality, the temperature breaks
+            // mechanical repetition).
+            temperature: 0.4,
             system: systemMessage,
             messages: [{ role: "user", content: userPrompt }]
           })
@@ -2212,7 +2439,8 @@ async function generatePaper() {
       headers: requestHeaders,
       body: JSON.stringify({
         model: GROQ_MODEL,
-        temperature: 0.15,
+        // Higher temperature for Assamese (variety); low for English/Hindi (JSON safety).
+        temperature: isAssameseMedium ? 0.4 : 0.15,
         max_tokens: maxTokens,
         response_format: { type: "json_object" },
         messages: [
@@ -2277,7 +2505,7 @@ async function generatePaper() {
 
     let { rawText, parsed } = await requestPaperFromModel(prompt, GROQ_MAX_TOKENS);
     let paperData = normalizeGeneratedPaper(parsed, qtypes, selectedChapters);
-    let validation = validateGeneratedPaper(paperData, { selectedChapters, qtypes, totalQ });
+    let validation = validateGeneratedPaper(paperData, { selectedChapters, qtypes, totalQ, totalMarks, subject });
 
     if (!validation.ok) {
       const repairPrompt = buildRepairPrompt({
@@ -2286,6 +2514,7 @@ async function generatePaper() {
         selectedChapters,
         qtypes,
         totalQ,
+        totalMarks,
         subjectLanguageInstruction
       });
       const repairResult = await requestPaperFromModel(
@@ -2293,7 +2522,7 @@ async function generatePaper() {
         Math.min(configuredMaxTokens, Math.max(1400, Math.round(GROQ_MAX_TOKENS * 0.75)))
       );
       paperData = normalizeGeneratedPaper(repairResult.parsed, qtypes, selectedChapters);
-      validation = validateGeneratedPaper(paperData, { selectedChapters, qtypes, totalQ });
+      validation = validateGeneratedPaper(paperData, { selectedChapters, qtypes, totalQ, totalMarks, subject });
     }
 
     if (isAssameseMedium) {
@@ -2303,6 +2532,8 @@ async function generatePaper() {
         selectedChapters,
         qtypes,
         totalQ,
+        totalMarks,
+        subject,
         subjectLanguageInstruction,
         maxTokens: Math.min(GROQ_MAX_TOKENS, Math.max(1800, Math.round(GROQ_MAX_TOKENS * 0.85)))
       });
@@ -2428,7 +2659,10 @@ async function generatePaperFromImages() {
   const claudeCfg = window.SMART_DIGITAL_CONFIG?.CLAUDE || {};
   const CLAUDE_API_KEY = claudeCfg.API_KEY || '';
   const CLAUDE_ENDPOINT = claudeCfg.ENDPOINT || 'https://api.anthropic.com/v1/messages';
-  const CLAUDE_MODEL = claudeCfg.MODEL || 'claude-haiku-4-5-20251001';
+  // Sonnet 4.6 is required for Assamese — its grasp of Assamese-vs-Bengali register
+  // and academic depth is substantially stronger than Haiku's. Override via
+  // window.SMART_DIGITAL_CONFIG.CLAUDE.MODEL if a different model is needed.
+  const CLAUDE_MODEL = claudeCfg.MODEL || 'claude-sonnet-4-6';
 
   if (!CLAUDE_API_KEY) {
     showToast('Claude API key not configured. Image upload requires Claude Vision.', 'error');
@@ -2536,7 +2770,8 @@ ${jsonExample}`;
       body: JSON.stringify({
         model: CLAUDE_MODEL,
         max_tokens: 4096,
-        temperature: 0.15,
+        // Higher temperature on Assamese for stem/lexical variety; rules + validation enforce quality.
+        temperature: isAssameseMedium ? 0.4 : 0.15,
         messages: [{ role: 'user', content: [...imageContents, { type: 'text', text: textPrompt }] }]
       })
     });
@@ -2562,7 +2797,7 @@ ${jsonExample}`;
 
     const sentinelChapters = [CHAPTER_SENTINEL];
     let paperData = normalizeGeneratedPaper(parsed, qtypes, sentinelChapters);
-    let validation = validateGeneratedPaper(paperData, { selectedChapters: sentinelChapters, qtypes, totalQ });
+    let validation = validateGeneratedPaper(paperData, { selectedChapters: sentinelChapters, qtypes, totalQ, totalMarks, subject: imageSubject });
 
     if (isAssameseMedium) {
       const requestAssameseRepairFromClaude = async (repairPrompt, maxTokens) => {
@@ -2603,6 +2838,8 @@ ${jsonExample}`;
         selectedChapters: sentinelChapters,
         qtypes,
         totalQ,
+        totalMarks,
+        subject: imageSubject,
         subjectLanguageInstruction: `Teacher-facing output must be pure Assamese (অসমীয়া), using Assamese-medium SEBA school style. ${ASSAMESE_LANGUAGE_PROFILE.generationRules}`,
         maxTokens: 4096
       });
@@ -3026,6 +3263,65 @@ function _buildPrintHTML(withAnswers) {
 </html>`;
 }
 
+// Render the print-HTML in a hidden iframe, capture it with html2canvas, and
+// slice the resulting image into A4 pages inside a jsPDF document. Used for
+// Assamese papers because jsPDF's built-in fonts don't include Bengali glyphs.
+function _exportPDFViaCanvas(fileName) {
+  const jsPDF = window.jspdf?.jsPDF || window.jsPDF;
+  const html2canvas = window.html2canvas;
+  if (!jsPDF || !html2canvas) { printPaper(); return; }
+
+  const html = _buildPrintHTML(includeAnswers || userPlanIncludesAnswers());
+  const iframe = document.createElement('iframe');
+  iframe.setAttribute('aria-hidden', 'true');
+  iframe.style.cssText = 'position:fixed;left:-10000px;top:0;width:794px;height:1123px;border:0;visibility:hidden;';
+  document.body.appendChild(iframe);
+
+  showToast('Generating PDF…', 'info');
+
+  const cleanup = () => { try { document.body.removeChild(iframe); } catch (_) {} };
+
+  iframe.addEventListener('load', () => {
+    // Give web fonts a moment to settle before snapshotting.
+    const idoc = iframe.contentDocument;
+    const ready = (idoc.fonts && idoc.fonts.ready) ? idoc.fonts.ready : Promise.resolve();
+    ready.then(() => new Promise(r => setTimeout(r, 150)))
+      .then(() => html2canvas(idoc.body, { scale: 2, backgroundColor: '#ffffff', useCORS: true, windowWidth: 794 }))
+      .then(canvas => {
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pageW = pdf.internal.pageSize.getWidth();
+        const pageH = pdf.internal.pageSize.getHeight();
+        const imgH = (canvas.height * pageW) / canvas.width;
+        const imgData = canvas.toDataURL('image/jpeg', 0.92);
+
+        let heightLeft = imgH;
+        let position = 0;
+        pdf.addImage(imgData, 'JPEG', 0, position, pageW, imgH);
+        heightLeft -= pageH;
+        while (heightLeft > 0) {
+          position -= pageH;
+          pdf.addPage();
+          pdf.addImage(imgData, 'JPEG', 0, position, pageW, imgH);
+          heightLeft -= pageH;
+        }
+        pdf.save(fileName);
+        cleanup();
+      })
+      .catch(err => {
+        console.error('Assamese PDF render failed:', err);
+        showToast('PDF generation failed. Trying print fallback…', 'warn');
+        cleanup();
+        printPaper();
+      });
+  }, { once: true });
+
+  // Write the HTML into the iframe (triggers the load handler above).
+  const idoc = iframe.contentDocument;
+  idoc.open();
+  idoc.write(html);
+  idoc.close();
+}
+
 function exportPDF() {
   if (!canUserExport()) { showToast("Please complete payment to download.", 'warn'); return; }
   if (!currentPaperData) { showToast("No paper generated yet.", 'info'); return; }
@@ -3039,6 +3335,7 @@ function exportPDF() {
   const subjObj = window.SYLLABUS_DATA?.[meta.board]?.classes?.[meta.cls]?.subjects?.[meta.subject];
   const subjName = subjObj?.names?.[labelLang] || meta.subject;
   const clsName  = window.SYLLABUS_DATA?.[meta.board]?.classes?.[meta.cls]?.names?.[labelLang] || meta.cls;
+  const fileName = `ExamPaper_${subjName}_Class${clsName}.pdf`.replace(/\s+/g, '_');
 
   // Check if jsPDF is available
   const jsPDF = window.jspdf?.jsPDF || window.jsPDF;
@@ -3049,6 +3346,14 @@ function exportPDF() {
     const win  = window.open(url, '_blank');
     if (!win) { showToast("Pop-up blocked. Please allow pop-ups for this site.", 'warn'); URL.revokeObjectURL(url); return; }
     win.addEventListener('load', () => { win.print(); URL.revokeObjectURL(url); });
+    return;
+  }
+
+  // Assamese (Bengali script) is not supported by jsPDF's built-in fonts.
+  // Render the print-HTML via html2canvas so the browser does the Unicode
+  // text shaping, then embed the canvas into a multi-page PDF.
+  if (isPaperAssamese && window.html2canvas) {
+    _exportPDFViaCanvas(fileName);
     return;
   }
 
@@ -3175,7 +3480,6 @@ function exportPDF() {
     }
 
     // Save PDF
-    const fileName = `ExamPaper_${subjName}_Class${clsName}.pdf`.replace(/\s+/g, '_');
     doc.save(fileName);
   } catch (err) {
     showToast('PDF generation failed. Trying print fallback...', 'warn');
