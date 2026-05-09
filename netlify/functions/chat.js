@@ -15,7 +15,16 @@ export const handler = async (event) => {
     return { statusCode: 400, headers, body: JSON.stringify({ error: "Invalid JSON body." }) };
   }
 
-  const { messages, model, temperature, max_tokens, response_format, no_fallback } = body;
+  const {
+    messages,
+    model,
+    temperature,
+    max_tokens,
+    response_format,
+    no_fallback,
+    provider,        // "anthropic" → skip Groq, go straight to Claude
+    system,          // optional separate system prompt (Anthropic-native style)
+  } = body;
 
   if (!messages || !Array.isArray(messages)) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: "Invalid request: 'messages' should be an array." }) };
@@ -23,13 +32,63 @@ export const handler = async (event) => {
 
   const GROQ_KEY = process.env.GROQ_API_KEY;
   const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY;
+
+  // ─────────────────────────────────────────────────────────────
+  // BRANCH A: Direct Claude (used by examcraft Assamese + vision)
+  // Returns Claude's NATIVE response shape so callers can keep
+  // reading data.content[0].text unchanged.
+  // ─────────────────────────────────────────────────────────────
+  if (provider === "anthropic") {
+    if (!ANTHROPIC_KEY) {
+      return { statusCode: 500, headers, body: JSON.stringify({ error: "ANTHROPIC_API_KEY is not set on the server." }) };
+    }
+
+    // Allow caller to pass either Anthropic-native messages (content arrays for vision)
+    // or OpenAI-style (string content with role "system" mixed in). Normalize.
+    const inlineSystemParts = messages.filter((m) => m.role === "system").map((m) => m.content).filter(Boolean);
+    const claudeMessages = messages
+      .filter((m) => m.role !== "system")
+      .map((m) => ({ role: m.role === "assistant" ? "assistant" : "user", content: m.content }));
+    const systemPrompt = [system, ...inlineSystemParts].filter(Boolean).join("\n\n");
+
+    try {
+      const r = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": ANTHROPIC_KEY,
+          "anthropic-version": "2023-06-01",
+        },
+        body: JSON.stringify({
+          model: model || "claude-sonnet-4-6",
+          max_tokens: max_tokens || 4096,
+          temperature: temperature !== undefined ? temperature : 0.4,
+          ...(systemPrompt ? { system: systemPrompt } : {}),
+          messages: claudeMessages,
+        }),
+      });
+
+      const data = await r.json().catch(() => ({}));
+      if (!r.ok) {
+        return { statusCode: r.status, headers, body: JSON.stringify({ error: data.error?.message || `Claude API Error: ${r.status}` }) };
+      }
+      // Pass Claude's native shape through unchanged
+      return { statusCode: 200, headers, body: JSON.stringify(data) };
+    } catch (error) {
+      console.error("Direct Claude call failed:", error);
+      return { statusCode: 502, headers, body: JSON.stringify({ error: "Claude is unreachable." }) };
+    }
+  }
+
+  // ─────────────────────────────────────────────────────────────
+  // BRANCH B: Groq with optional Claude fallback (default path)
+  // ─────────────────────────────────────────────────────────────
   const allowFallback = no_fallback !== true;
 
   if (!GROQ_KEY && !(allowFallback && ANTHROPIC_KEY)) {
     return { statusCode: 500, headers, body: JSON.stringify({ error: "No AI provider key available for this request." }) };
   }
 
-  // 1) Try Groq first
   let lastGroqError = null;
   if (GROQ_KEY) {
     try {
@@ -64,7 +123,6 @@ export const handler = async (event) => {
     }
   }
 
-  // 2) Fall back to Claude (Anthropic) — skipped when caller sent no_fallback: true
   if (!allowFallback) {
     return { statusCode: lastGroqError?.status || 500, headers, body: JSON.stringify({ error: lastGroqError?.message || "Groq unavailable." }) };
   }
@@ -106,7 +164,7 @@ export const handler = async (event) => {
     const data = await r.json();
     const text = (data.content || []).filter((c) => c.type === "text").map((c) => c.text).join("");
 
-    // Normalize to OpenAI shape so all existing apps keep working unchanged
+    // Fallback path normalizes to OpenAI shape so apps reading data.choices[0].message.content keep working
     return {
       statusCode: 200,
       headers,

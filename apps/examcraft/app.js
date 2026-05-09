@@ -2337,14 +2337,11 @@ async function generatePaper() {
   const nonLatinScript = isAssameseMedium || isHindiMedium;
   const GROQ_MAX_TOKENS = estimateGenerationMaxTokens(totalQ, wantsAnswers, configuredMaxTokens, nonLatinScript);
 
-  // Claude config (used for Assamese medium only) — key read from central config
-  const claudeCfg = window.SMART_DIGITAL_CONFIG?.CLAUDE || {};
-  const CLAUDE_API_KEY = claudeCfg.API_KEY || '';
-  const CLAUDE_ENDPOINT = claudeCfg.ENDPOINT || 'https://api.anthropic.com/v1/messages';
+  // Claude (used for Assamese medium only) — proxied through Netlify so the key stays server-side.
   // Sonnet 4.6 is required for Assamese — its grasp of Assamese-vs-Bengali register
-  // and academic depth is substantially stronger than Haiku's. Override via
-  // window.SMART_DIGITAL_CONFIG.CLAUDE.MODEL if a different model is needed.
-  const CLAUDE_MODEL = claudeCfg.MODEL || 'claude-sonnet-4-6';
+  // and academic depth is substantially stronger than Haiku's.
+  const CLAUDE_PROXY_URL = '/.netlify/functions/chat';
+  const CLAUDE_MODEL = window.SMART_DIGITAL_CONFIG?.CLAUDE?.MODEL || 'claude-sonnet-4-6';
 
   const prompt = buildPaperPrompt({
     board,
@@ -2370,17 +2367,14 @@ async function generatePaper() {
     let response;
 
     if (isAssameseMedium) {
-      // Use Claude for Assamese — best instruction-following for pure Assamese output
+      // Use Claude for Assamese — best instruction-following for pure Assamese output.
+      // Proxied through Netlify so the API key stays server-side.
       try {
-        response = await fetch(CLAUDE_ENDPOINT, {
+        response = await fetch(CLAUDE_PROXY_URL, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-api-key": CLAUDE_API_KEY,
-            "anthropic-version": "2023-06-01",
-            "anthropic-dangerous-direct-browser-access": "true"
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
+            provider: "anthropic",
             model: CLAUDE_MODEL,
             max_tokens: maxTokens,
             // Higher temperature on Assamese encourages stem variety + lexical
@@ -2665,18 +2659,9 @@ async function generatePaperFromImages() {
   hasAnswersForCurrentPaper = planIncludesAnswers;
   includeAnswers = planIncludesAnswers;
 
-  const claudeCfg = window.SMART_DIGITAL_CONFIG?.CLAUDE || {};
-  const CLAUDE_API_KEY = claudeCfg.API_KEY || '';
-  const CLAUDE_ENDPOINT = claudeCfg.ENDPOINT || 'https://api.anthropic.com/v1/messages';
-  // Sonnet 4.6 is required for Assamese — its grasp of Assamese-vs-Bengali register
-  // and academic depth is substantially stronger than Haiku's. Override via
-  // window.SMART_DIGITAL_CONFIG.CLAUDE.MODEL if a different model is needed.
-  const CLAUDE_MODEL = claudeCfg.MODEL || 'claude-sonnet-4-6';
-
-  if (!CLAUDE_API_KEY) {
-    showToast('Claude API key not configured. Image upload requires Claude Vision.', 'error');
-    return;
-  }
+  // Image upload uses Claude Vision (Sonnet 4.6) via the Netlify proxy — key stays server-side.
+  const CLAUDE_PROXY_URL = '/.netlify/functions/chat';
+  const CLAUDE_MODEL = window.SMART_DIGITAL_CONFIG?.CLAUDE?.MODEL || 'claude-sonnet-4-6';
 
   let creditReserved = false;
   try {
@@ -2768,15 +2753,11 @@ ${jsonExample}`;
       source: { type: 'base64', media_type: img.mediaType, data: img.data }
     }));
 
-    const response = await fetch(CLAUDE_ENDPOINT, {
+    const response = await fetch(CLAUDE_PROXY_URL, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': CLAUDE_API_KEY,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        provider: 'anthropic',
         model: CLAUDE_MODEL,
         max_tokens: 4096,
         // Higher temperature on Assamese for stem/lexical variety; rules + validation enforce quality.
@@ -2810,15 +2791,11 @@ ${jsonExample}`;
 
     if (isAssameseMedium) {
       const requestAssameseRepairFromClaude = async (repairPrompt, maxTokens) => {
-        const repairResponse = await fetch(CLAUDE_ENDPOINT, {
+        const repairResponse = await fetch(CLAUDE_PROXY_URL, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-api-key': CLAUDE_API_KEY,
-            'anthropic-version': '2023-06-01',
-            'anthropic-dangerous-direct-browser-access': 'true'
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
+            provider: 'anthropic',
             model: CLAUDE_MODEL,
             max_tokens: maxTokens,
             temperature: 0.1,
