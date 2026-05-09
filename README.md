@@ -60,7 +60,7 @@ Smart Digital serves two audiences from a single static codebase:
 | Database | Firebase Realtime Database |
 | Auth | Firebase Auth (Email / Password) |
 | AI (primary) | Groq API — `llama-3.3-70b-versatile` |
-| AI (secondary) | Anthropic Claude API — `claude-sonnet-4-20250514` / `claude-3-5-haiku-20241022` fallback |
+| AI (secondary) | Anthropic Claude API — `claude-sonnet-4-20250514` |
 | PDF / DOCX | `html2pdf.js`, `jsPDF`, `docx`, `FileSaver.js` |
 | Icons / Fonts | Font Awesome 6, Google Fonts |
 

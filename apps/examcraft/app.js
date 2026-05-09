@@ -1853,22 +1853,10 @@ function validateAssamesePaperLanguage(paperData) {
     if (matches?.length) hits.push(`${item.label}: ${matches.slice(0, 3).join(', ')}`);
   });
 
-  // Additional strictness: if normalization changed teacher-facing text heavily,
-  // treat it as contamination and force one more repair pass.
-  if (text && normalizedText && text !== normalizedText) {
-    const changedSamples = [];
-    const originalLines = text.split('\n');
-    const normalizedLines = normalizedText.split('\n');
-    for (let i = 0; i < Math.min(originalLines.length, normalizedLines.length); i++) {
-      if (originalLines[i] !== normalizedLines[i]) {
-        changedSamples.push(`${originalLines[i]} -> ${normalizedLines[i]}`);
-      }
-      if (changedSamples.length >= 2) break;
-    }
-    if (changedSamples.length) {
-      hits.push(`Script normalization required: ${changedSamples.join(' | ')}`);
-    }
-  }
+  // Note: we used to also flag "any change made by fixAssameseScript" as
+  // contamination, but that fired on every paper because র → ৰ is auto-fixed
+  // silently. The auto-fixer already cleaned the text — only retry when the
+  // banned-term/pattern scan above catches real Bengali words.
 
   const uniqueHits = [...new Set(hits)].slice(0, 10);
   return {
@@ -1929,7 +1917,9 @@ async function enforcePureAssamesePaperLanguage({
   let structureValidation = validateGeneratedPaper(currentPaper, { selectedChapters, qtypes, totalQ, totalMarks, subject });
   let languageReport = validateAssamesePaperLanguage(currentPaper);
 
-  for (let attempt = 0; structureValidation.ok && !languageReport.ok && attempt < 3; attempt++) {
+  // Single repair attempt — Claude rarely needs more than one pass and extra
+  // attempts mostly burn paid tokens without improving the paper.
+  for (let attempt = 0; structureValidation.ok && !languageReport.ok && attempt < 1; attempt++) {
     const repairPrompt = buildAssameseLanguageRepairPrompt({
       rawJson: JSON.stringify(currentPaper, null, 2),
       contaminationReason: languageReport.reason,
@@ -1950,17 +1940,60 @@ async function enforcePureAssamesePaperLanguage({
   return { paperData: currentPaper, structureValidation, languageReport };
 }
 
+function normalizeChapterForMatch(value) {
+  return String(value || '')
+    .trim()
+    .toLowerCase()
+    .replace(/[\u2018\u2019]/g, "'")
+    .replace(/[\u201C\u201D]/g, '"')
+    .replace(/[\u2013\u2014]/g, '-')
+    .replace(/\s+/g, ' ');
+}
+
+function chapterMatchKeys(value) {
+  const norm = normalizeChapterForMatch(value);
+  const keys = new Set();
+  const add = (key) => {
+    const cleaned = normalizeChapterForMatch(key)
+      .replace(/^chapter\s*\d+\s*[:.-]\s*/i, '')
+      .replace(/^[a-z ]+\s*:\s*/i, '')
+      .trim();
+    if (cleaned) keys.add(cleaned);
+  };
+
+  add(norm);
+  const colonIdx = norm.lastIndexOf(':');
+  if (colonIdx >= 0) add(norm.slice(colonIdx + 1));
+  return keys;
+}
+
+function resolveSelectedChapterName(chapterName, selectedChapters = []) {
+  if (!chapterName || !selectedChapters?.length) return chapterName;
+
+  const queryKeys = [...chapterMatchKeys(chapterName)];
+  for (const selectedChapter of selectedChapters) {
+    const selectedKeys = [...chapterMatchKeys(selectedChapter)];
+    const matched = selectedKeys.some((selectedKey) => queryKeys.some((queryKey) => {
+      if (queryKey === selectedKey) return true;
+      // Substring containment in either direction handles the AI shortening a
+      // long chapter title or padding a short one. Min 4 chars on the shorter
+      // side prevents articles or stop words accidentally matching.
+      const minLen = Math.min(queryKey.length, selectedKey.length);
+      if (minLen < 4) return false;
+      return queryKey.includes(selectedKey) || selectedKey.includes(queryKey);
+    }));
+    if (matched) return selectedChapter;
+  }
+
+  return chapterName;
+}
+
 function validateGeneratedPaper(paperData, { selectedChapters, qtypes, totalQ, totalMarks, subject } = {}) {
   if (!paperData || !Array.isArray(paperData.sections) || paperData.sections.length === 0) {
     return { ok: false, reason: 'No valid sections were returned.' };
   }
 
   const allowedTypes = new Set(qtypes);
-  function normalizeStr(s) {
-    return s.trim().toLowerCase().replace(/[\u2018\u2019]/g, "'").replace(/[\u201C\u201D]/g, '"').replace(/\s+/g, ' ');
-  }
-  const allowedChapters = new Set(selectedChapters);
-  const allowedChaptersNorm = new Set(selectedChapters.map(normalizeStr));
   let totalQuestions = 0;
   let marksSum = 0;
   const allQuestions = []; // [{ type, text, marks }] \u2014 used for cross-question checks below
@@ -1979,9 +2012,11 @@ function validateGeneratedPaper(paperData, { selectedChapters, qtypes, totalQ, t
       if (!question?.text || typeof question.text !== 'string') {
         return { ok: false, reason: 'A question is missing text.' };
       }
-      if (!question?.chapter || (!allowedChapters.has(question.chapter) && !allowedChaptersNorm.has(normalizeStr(question.chapter)))) {
+      const resolvedChapter = resolveSelectedChapterName(question?.chapter, selectedChapters);
+      if (!question?.chapter || !selectedChapters?.includes(resolvedChapter)) {
         return { ok: false, reason: `A question used an unselected chapter "${question?.chapter || 'unknown'}".` };
       }
+      question.chapter = resolvedChapter;
 
       const marks = Number(question.marks);
       if (!Number.isFinite(marks) || marks <= 0) {
@@ -2117,30 +2152,6 @@ function rebalancePaperMarks(paperData, totalMarks) {
 function normalizeGeneratedPaper(paperData, allowedTypes, selectedChapters) {
   const allowedTypeSet = new Set(allowedTypes);
 
-  // Resolve partial/truncated chapter names to their full allowed counterpart.
-  // The AI sometimes returns only the first lesson of a multi-lesson unit chapter
-  // (e.g. "Unit 1: Fun with Friends — My Bicycle" instead of the full
-  // "Unit 1: Fun with Friends — My Bicycle, Picture Reading").
-  function normalizeStr(s) {
-    return s.trim().toLowerCase().replace(/[\u2018\u2019]/g, "'").replace(/[\u201C\u201D]/g, '"').replace(/\s+/g, ' ');
-  }
-  function resolveChapterName(chapterName) {
-    if (!chapterName || !selectedChapters?.length) return chapterName;
-    const trimmed = chapterName.trim();
-    // 1. Exact match
-    if (selectedChapters.includes(trimmed)) return trimmed;
-    // 2. Case-insensitive + smart-quote normalized match
-    const norm = normalizeStr(trimmed);
-    const exactCI = selectedChapters.find(c => normalizeStr(c) === norm);
-    if (exactCI) return exactCI;
-    // 3. Prefix match (AI sometimes truncates long chapter names)
-    const prefixMatch = selectedChapters.find(c => {
-      const cn = normalizeStr(c);
-      return cn.startsWith(norm) || norm.startsWith(cn);
-    });
-    return prefixMatch || trimmed;
-  }
-
   return {
     ...paperData,
     sections: paperData.sections
@@ -2150,7 +2161,7 @@ function normalizeGeneratedPaper(paperData, allowedTypes, selectedChapters) {
         title: section.title || getRequestedQuestionTypeDescriptors([section.type])[0].title,
         questions: (section.questions || []).map((question, index) => ({
           qno: Number(question.qno) || index + 1,
-          chapter: resolveChapterName(String(question.chapter || '').trim()),
+          chapter: resolveSelectedChapterName(String(question.chapter || '').trim(), selectedChapters),
           text: String(question.text || '').trim(),
           options: Array.isArray(question.options)
             ? question.options.map((option) => String(option || '').trim()).filter(Boolean)
@@ -2506,8 +2517,11 @@ async function generatePaper() {
         }
         return { rawText, parsed };
       } catch (claudeErr) {
-        // Claude error — fall back to Groq with strong Assamese instruction
-        // Claude failed, falling back to Groq
+        // Assamese papers require Claude — Groq mixes Bengali, so falling back
+        // to it would silently ship a degraded paper to a paying user. Better
+        // to surface the error and let them retry or contact support.
+        console.error('[examcraft] Claude failed for Assamese paper:', claudeErr?.message || claudeErr);
+        throw new Error(`Claude could not generate the Assamese paper: ${claudeErr?.message || 'unknown error'}. Please try again in a moment.`);
       }
     }
 

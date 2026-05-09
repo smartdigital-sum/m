@@ -176,7 +176,10 @@ export const handler = async (event) => {
         "anthropic-version": "2023-06-01",
       },
       body: JSON.stringify({
-        model: "claude-3-5-haiku-20241022",
+        // Cheap fallback model — only fires when Groq is rate-limited on the
+        // English/Hindi path. Assamese papers go through the direct-Claude
+        // branch above with the user-configured Sonnet model.
+        model: "claude-haiku-4-5-20251001",
         max_tokens: fallbackMaxTokens,
         temperature: temperature !== undefined ? temperature : 0.4,
         ...(systemPrompt ? { system: systemPrompt } : {}),
