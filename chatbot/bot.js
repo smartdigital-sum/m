@@ -598,6 +598,7 @@ async function callGroq() {
         model,
         temperature: 0.3,
         max_tokens: 350,  // Reduced to save tokens and avoid rate limits
+        no_fallback: true, // Chatbot is public/abusable — never burn Claude credits here
       }),
       signal: controller.signal,
     });

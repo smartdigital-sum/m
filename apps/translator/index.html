@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Smart Digital LipiAntar – Assamese · Hindi · Bodo · English Translator</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="../../assets/css/sd-dashboard.css"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -16,6 +17,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
   <script src="firebase-config.js"></script>
   <script src="firebase-auth.js"></script>
+  <script src="../../assets/js/sd-account.js"></script>
 </head>
 <body>
 
@@ -44,14 +46,10 @@
       <!-- Shown when logged IN -->
       <div id="userPanel" class="user-panel" style="display:none;">
         <span class="credits-badge" id="creditsBadge">Loading...</span>
-        <div class="user-info" onclick="toggleUserMenu()">
+        <div class="user-info" onclick="openDashboard()">
           <div class="user-avatar" id="userAvatar">U</div>
           <span class="user-name" id="userName">User</span>
           <span class="user-chevron">▾</span>
-        </div>
-        <div class="user-dropdown" id="userDropdown">
-          <button onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'}); toggleUserMenu()">Buy Credits</button>
-          <button onclick="signOutUser()">Sign Out</button>
         </div>
       </div>
     </div>

@@ -922,16 +922,14 @@ function getRequestedQuestionTypeDescriptors(qtypes, options = {}) {
 }
 
 function estimateGenerationMaxTokens(totalQ, wantsAnswers, configuredMaxTokens, nonLatinScript) {
-  // MCQ needs ~60 tokens (question + 4 options + answer); Short/Long Answer needs ~100-150
-  // Use 100 as a balanced per-question estimate with answers
-  const perQTokens = wantsAnswers ? 100 : 70;
-  const estimated = 300 + (totalQ * perQTokens);
-  // Non-Latin scripts (Assamese, Hindi) use ~3x more tokens per character
-  const scriptMultiplier = nonLatinScript ? 3 : 1;
-  // Groq llama-3.3-70b supports up to 8192 output tokens
-  // Allow full model capacity for non-Latin to prevent truncation
-  const modelMax = nonLatinScript ? 8000 : Math.max(1200, configuredMaxTokens || 4000);
-  return Math.min(modelMax, Math.max(1400, estimated * scriptMultiplier));
+  // MCQ ~60 tokens (question + 4 options + answer); Short/Long Answer ~100-150.
+  const perQTokens = wantsAnswers ? 85 : 60;
+  const estimated = 250 + (totalQ * perQTokens);
+  // Assamese/Hindi token-per-character ratio is closer to 2.4 than the 3x
+  // headroom used previously — over-allocating just inflates each call's TPD cost.
+  const scriptMultiplier = nonLatinScript ? 2.4 : 1;
+  const modelMax = nonLatinScript ? 7000 : Math.max(1200, configuredMaxTokens || 4000);
+  return Math.min(modelMax, Math.max(1200, estimated * scriptMultiplier));
 }
 
 function buildPaperPrompt({
@@ -2328,7 +2326,11 @@ async function generatePaper() {
   const cfg = window.SMART_DIGITAL_CONFIG?.GROQ || window.GLOBAL_CONFIG || {};
   const GROQ_API_KEY = localStorage.getItem('groq_api_key') || cfg.API_KEY || '';
   const GROQ_ENDPOINT = cfg.ENDPOINT || "https://api.groq.com/openai/v1/chat/completions";
-  const GROQ_MODEL = cfg.MODEL || "llama-3.3-70b-versatile";
+  // 8b and 70b have separate quota buckets on Groq's free tier; 8b's daily
+  // quota is ~5x larger, so use it as primary and keep 70b as a fallback when
+  // 8b returns 429.
+  const GROQ_MODEL_PRIMARY = "llama-3.1-8b-instant";
+  const GROQ_MODEL_FALLBACK = "llama-3.3-70b-versatile";
   const configuredMaxTokens = cfg.MAX_TOKENS || 4000;
   const isLocal = isLocalEnvironment();
   const wantsAnswers = true;
@@ -2434,11 +2436,11 @@ async function generatePaper() {
       requestUrl = "/.netlify/functions/chat";
     }
 
-    response = await fetch(requestUrl, {
+    const callGroqWithModel = (modelName) => fetch(requestUrl, {
       method: "POST",
       headers: requestHeaders,
       body: JSON.stringify({
-        model: GROQ_MODEL,
+        model: modelName,
         // Higher temperature for Assamese (variety); low for English/Hindi (JSON safety).
         temperature: isAssameseMedium ? 0.4 : 0.15,
         max_tokens: maxTokens,
@@ -2449,6 +2451,13 @@ async function generatePaper() {
         ]
       })
     });
+
+    response = await callGroqWithModel(GROQ_MODEL_PRIMARY);
+
+    // 8b and 70b have independent quota buckets — if 8b is throttled, 70b may still answer.
+    if (response.status === 429) {
+      response = await callGroqWithModel(GROQ_MODEL_FALLBACK);
+    }
 
     if (!response.ok) {
       const errData = await response.json().catch(() => ({}));
