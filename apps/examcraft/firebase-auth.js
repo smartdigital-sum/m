@@ -629,7 +629,7 @@ async function openDashboard() {
     ctaBtn.textContent = 'View Plans & Pricing →';
   }
 
-  await loadRecentHistory();
+  await Promise.all([loadRecentHistory(), loadUserWhatsAppOrders()]);
   document.getElementById('miniDashboard').classList.add('open');
   document.getElementById('dashboardOverlay').classList.add('open');
 }
@@ -668,6 +668,45 @@ async function loadRecentHistory() {
     }).join('');
   } catch (err) {
     listEl.innerHTML = '<div class="md-history-empty">Could not load history.</div>';
+  }
+}
+
+async function loadUserWhatsAppOrders() {
+  const listEl = document.getElementById('md-wa-orders-list');
+  if (!listEl) return;
+  listEl.innerHTML = '<div class="md-history-empty">Loading…</div>';
+  try {
+    const snap = await window.db
+      .collection('whatsappOrders')
+      .where('uid', '==', window.auth.currentUser.uid)
+      .orderBy('createdAt', 'desc')
+      .limit(5)
+      .get();
+
+    if (snap.empty) {
+      listEl.innerHTML = '<div class="md-history-empty">No WhatsApp orders yet.</div>';
+      return;
+    }
+
+    listEl.innerHTML = snap.docs.map(doc => {
+      const d = doc.data();
+      const f = d.form || {};
+      const date = d.createdAt?.toDate
+        ? d.createdAt.toDate().toLocaleDateString('en-IN', { day:'2-digit', month:'short' })
+        : '—';
+      const status = d.status || 'pending';
+      const statusCls  = status === 'delivered' ? 'wa-status-delivered' : status === 'processing' ? 'wa-status-processing' : 'wa-status-pending';
+      const statusText = status === 'delivered' ? 'Delivered' : status === 'processing' ? 'Processing' : 'Pending';
+      return `<div class="md-wa-order-item">
+        <div class="md-wa-order-top">
+          <span class="md-wa-order-id">${d.orderId || '—'}</span>
+          <span class="md-wa-status ${statusCls}">${statusText}</span>
+        </div>
+        <div class="md-wa-order-meta">${f.subject || '—'} · ${f.cls ? 'Class ' + f.cls : '—'} · ${date}</div>
+      </div>`;
+    }).join('');
+  } catch {
+    listEl.innerHTML = '<div class="md-history-empty">Could not load orders.</div>';
   }
 }
 
@@ -796,4 +835,5 @@ function updateAuthUI(user) {
     if (userPanel) userPanel.style.display  = 'none';
   }
   updateCreditsDisplay();
+  if (typeof checkAdminAccess === 'function') checkAdminAccess();
 }

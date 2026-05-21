@@ -25,6 +25,7 @@
       <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle theme">
         <span class="theme-icon" id="themeIcon">🌙</span>
       </button>
+      <button class="admin-panel-btn" id="adminPanelBtn" onclick="openAdminPanel()" style="display:none;" title="Admin Orders">🔒 Admin</button>
       <div class="lang-selector">
         <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
         <button class="lang-btn" id="btn-hi" onclick="setLang('hi')">हिं</button>
@@ -115,6 +116,14 @@
       <div class="md-section-title">Recent Papers</div>
       <div id="md-history-list" class="md-history-list">
         <div class="md-history-empty">No papers generated yet.</div>
+      </div>
+    </div>
+
+    <!-- WhatsApp Orders -->
+    <div class="md-history-section">
+      <div class="md-section-title">WhatsApp Orders</div>
+      <div id="md-wa-orders-list" class="md-history-list">
+        <div class="md-history-empty">No WhatsApp orders yet.</div>
       </div>
     </div>
 
@@ -1019,5 +1028,22 @@
   <script src="prompt-templates.js"></script>
   <script src="app.js"></script>
   <div id="ec-toast"></div>
+
+  <!-- Admin Orders Panel -->
+  <div class="admin-panel-overlay" id="adminPanelOverlay" style="display:none;">
+    <div class="admin-panel">
+      <div class="admin-panel-header">
+        <h2 class="admin-panel-title">WhatsApp Orders — Admin</h2>
+        <div class="admin-header-actions">
+          <input type="text" class="admin-search-input" id="admin-search" placeholder="Search Order ID, name, email, phone…" oninput="adminSearchOrders()" />
+          <button class="admin-refresh-btn" onclick="loadAdminOrders()">Refresh</button>
+          <button class="admin-close-btn" onclick="closeAdminPanel()">✕ Close</button>
+        </div>
+      </div>
+      <div id="admin-orders-list" class="admin-orders-list">
+        <div class="admin-loading">Loading orders…</div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

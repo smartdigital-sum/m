@@ -3923,11 +3923,152 @@ function loadTheme() {
   }
 }
 
+// ---- ADMIN DASHBOARD ----
+const ADMIN_UID = 'kADU67cz4lUQUcrICE5pmAM1sq62';
+let adminOrdersCache = [];
+
+function isAdmin() {
+  return window.auth?.currentUser?.uid === ADMIN_UID;
+}
+
+function checkAdminAccess() {
+  const btn = document.getElementById('adminPanelBtn');
+  if (!btn) return;
+  btn.style.display = isAdmin() ? 'inline-flex' : 'none';
+}
+
+function openAdminPanel() {
+  if (!isAdmin()) {
+    if (typeof showToast === 'function') {
+      showToast('You must sign in as admin to access this panel.', 'warn', 4000);
+    }
+    return;
+  }
+  document.getElementById('adminPanelOverlay').style.display = 'flex';
+  loadAdminOrders();
+}
+
+function closeAdminPanel() {
+  document.getElementById('adminPanelOverlay').style.display = 'none';
+}
+
+async function loadAdminOrders() {
+  const listEl = document.getElementById('admin-orders-list');
+  listEl.innerHTML = '<div class="admin-loading">Loading orders…</div>';
+  try {
+    const snap = await window.db
+      .collection('whatsappOrders')
+      .orderBy('createdAt', 'desc')
+      .limit(100)
+      .get();
+    adminOrdersCache = snap.docs.map(doc => ({ _docId: doc.id, ...doc.data() }));
+    renderAdminOrders(document.getElementById('admin-search')?.value || '');
+  } catch (err) {
+    listEl.innerHTML = '<div class="admin-loading">Failed to load orders. Check Firestore rules.</div>';
+    console.error('Admin load error:', err);
+  }
+}
+
+function renderAdminOrders(searchTerm) {
+  const listEl = document.getElementById('admin-orders-list');
+  const term = (searchTerm || '').trim().toLowerCase();
+  const orders = term
+    ? adminOrdersCache.filter(o =>
+        (o.orderId  || '').toLowerCase().includes(term) ||
+        (o.userName || '').toLowerCase().includes(term) ||
+        (o.userEmail|| '').toLowerCase().includes(term) ||
+        (o.userPhone|| '').toLowerCase().includes(term)
+      )
+    : adminOrdersCache;
+
+  if (orders.length === 0) {
+    listEl.innerHTML = '<div class="admin-loading">No orders found.</div>';
+    return;
+  }
+
+  listEl.innerHTML = orders.map(o => {
+    const f = o.form || {};
+    const date = o.createdAt?.toDate
+      ? o.createdAt.toDate().toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'2-digit', hour:'2-digit', minute:'2-digit' })
+      : '—';
+    const status = o.status || 'pending';
+    const statusCls = status === 'delivered' ? 'status-delivered' : status === 'processing' ? 'status-processing' : 'status-pending';
+    const chips = [
+      f.board   && `<span class="aoc-chip">${f.board}</span>`,
+      f.cls     && `<span class="aoc-chip">Class ${f.cls}</span>`,
+      f.subject && `<span class="aoc-chip">${f.subject}</span>`,
+      f.medium  && `<span class="aoc-chip">${f.medium}</span>`,
+      f.totalQ  && `<span class="aoc-chip">${f.totalQ} Qs</span>`,
+      f.totalMarks && `<span class="aoc-chip">${f.totalMarks} Marks</span>`,
+    ].filter(Boolean).join('');
+
+    return `<div class="admin-order-card" id="aoc-${o._docId}">
+      <div class="aoc-header">
+        <span class="aoc-id">${o.orderId || o._docId}</span>
+        <span class="aoc-status ${statusCls}" id="aoc-badge-${o._docId}">${status.toUpperCase()}</span>
+        <span class="aoc-date">${date}</span>
+      </div>
+      <div class="aoc-user">
+        <span>👤 ${o.userName || '—'}</span>
+        <span>📧 ${o.userEmail || '—'}</span>
+        <span>📞 ${o.userPhone || '—'}</span>
+      </div>
+      ${chips ? `<div class="aoc-paper">${chips}</div>` : ''}
+      ${f.chapters?.length ? `<div class="aoc-chapters">Chapters: ${f.chapters.join(', ')}</div>` : ''}
+      <div class="aoc-actions">
+        <select class="aoc-status-select" id="aoc-sel-${o._docId}">
+          <option value="pending"    ${status === 'pending'    ? 'selected' : ''}>Pending</option>
+          <option value="processing" ${status === 'processing' ? 'selected' : ''}>Processing</option>
+          <option value="delivered"  ${status === 'delivered'  ? 'selected' : ''}>Delivered</option>
+        </select>
+        <button class="aoc-update-btn" id="aoc-btn-${o._docId}" onclick="updateOrderStatus('${o._docId}', '${o.uid || ''}')">Update Status</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function updateOrderStatus(docId, uid) {
+  const select = document.getElementById(`aoc-sel-${docId}`);
+  const btn    = document.getElementById(`aoc-btn-${docId}`);
+  const newStatus = select.value;
+  btn.disabled = true;
+  btn.textContent = 'Updating…';
+
+  try {
+    await window.db.collection('whatsappOrders').doc(docId).update({
+      status:    newStatus,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+      updatedBy: 'admin',
+    });
+
+    const order = adminOrdersCache.find(o => o._docId === docId);
+    if (order) order.status = newStatus;
+
+    const badge = document.getElementById(`aoc-badge-${docId}`);
+    if (badge) {
+      badge.className = `aoc-status ${newStatus === 'delivered' ? 'status-delivered' : newStatus === 'processing' ? 'status-processing' : 'status-pending'}`;
+      badge.textContent = newStatus.toUpperCase();
+    }
+    showToast(`Marked as ${newStatus}!`, 'success', 3000);
+  } catch (err) {
+    showToast('Update failed. Try again.', 'error', 4000);
+    console.error('Status update error:', err);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Update Status';
+  }
+}
+
+function adminSearchOrders() {
+  renderAdminOrders(document.getElementById('admin-search').value);
+}
+
 // ---- INIT ----
 document.addEventListener('DOMContentLoaded', () => {
   loadTheme();
   setLang('en');
   selectPlanType(0);
+  checkAdminAccess();
 
   // Show API key warning only for local development without a usable key
   const cfg = window.SMART_DIGITAL_CONFIG?.GROQ || window.GLOBAL_CONFIG || {};
