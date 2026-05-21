@@ -940,6 +940,11 @@ const GALLERY_DATA = [
   { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1777226697/eng-02_p7ed6f.png", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1777226697/eng-02_p7ed6f.png", title: "Marketing Poster (English 2)", desc: "Creative promotional poster designed in English.", category: "design", sub: "design" },
   { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1777226696/ass-02_uuna8a.png", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1777226696/ass-02_uuna8a.png", title: "Marketing Poster (Assamese 3)", desc: "Creative promotional poster designed in Assamese.", category: "design", sub: "design" },
   { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1777226780/timing_xdpqmj.png", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1777226780/timing_xdpqmj.png", title: "Shop Timing Poster", desc: "Custom designed shop timing and schedule poster.", category: "design", sub: "design" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1778954050/all_a4_db3dny.png", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1778954050/all_a4_db3dny.png", title: "Complete Design Set", desc: "Professional complete design set for A4 format.", category: "design", sub: "design" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1778954400/2n22_Medium_jxxdau.png", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1778954400/2n22_Medium_jxxdau.png", title: "2N22 Design", desc: "Modern and creative 2N22 design layout.", category: "design", sub: "design" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1778954510/design_rate_Medium_dis6lq.png", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1778954510/design_rate_Medium_dis6lq.png", title: "Design Rate Chart", desc: "Professional pricing and design rate comparison chart.", category: "design", sub: "design" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1778954511/QR_PRICE_Medium_lb3uqz.png", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1778954511/QR_PRICE_Medium_lb3uqz.png", title: "QR Code Pricing", desc: "Interactive QR code with pricing and product information.", category: "design", sub: "design" },
+  { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1778954545/01_rt6csg.png", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1778954545/01_rt6csg.png", title: "Premium Design Portfolio", desc: "Premium design portfolio showcase and brand presentation.", category: "design", sub: "design" },
 
   // Canvas Art (7)
   { thumb: "https://res.cloudinary.com/duzr2cnth/image/upload/w_600,c_fill,f_auto,q_auto/v1770321830/IMG20221030094856_o3zotg.jpg", full: "https://res.cloudinary.com/duzr2cnth/image/upload/v1770321830/IMG20221030094856_o3zotg.jpg", title: "Winter Sunset", desc: "A beautiful winter sunset artwork painted on canvas.", category: "canvas", sub: "canvas" },
@@ -1760,12 +1765,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const diff = OPENING_DATE.getTime() - now;
 
         if (diff <= 0) {
-            // Shop is open — hide the bar (or show "We're Open!")
-            bar.innerHTML = `<div class="ocb-inner" style="justify-content:center; gap:12px;">
-                <span style="font-size:22px;">🎉</span>
-                <span class="ocb-text" style="font-weight:800; font-size:16px;">Smart Digital is NOW OPEN at Tiniali Bazar, Kachua, Kampur!</span>
-                <a href="https://wa.me/918638759478" target="_blank" class="ocb-notify-btn"><i class="fab fa-whatsapp"></i> Chat Now</a>
-            </div>`;
+            // Shop is open — hide the bar
+            bar.style.display = 'none';
             return; // stop ticking
         }
 
@@ -1991,6 +1992,81 @@ function toggleShopExpand() {
         e.preventDefault();
         wrapper.scrollTo({ left: wrapper.scrollWidth, behavior: 'smooth' });
       }
+    });
+  });
+})();
+
+// ── 12. OFFLINE SERVICE "REQUEST THIS SERVICE" WHATSAPP BUTTONS ─
+(function () {
+  const WA_NUMBER = '918638759478';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const tab = document.getElementById('shop-offline-tab');
+    if (!tab) return;
+
+    tab.querySelectorAll('.offline-svc-card').forEach(card => {
+      // Skip cards that already have a button or are "coming soon" / linked cards
+      if (card.querySelector('.offline-svc-wa-btn')) return;
+      if (card.tagName === 'A' && card.href) return; // already a link card (pricing)
+
+      const h4 = card.querySelector('h4');
+      if (!h4) return;
+      const serviceName = h4.textContent.trim().replace(/\s+/g, ' ');
+
+      const msg = encodeURIComponent(
+        `Hi Smart Digital! 👋 I'd like to request this service:\n\n📌 *${serviceName}*\n\nPlease let me know the details and next steps. Thank you!`
+      );
+
+      const btn = document.createElement('a');
+      btn.className = 'offline-svc-wa-btn';
+      btn.href = `https://wa.me/${WA_NUMBER}?text=${msg}`;
+      btn.target = '_blank';
+      btn.rel = 'noopener noreferrer';
+      btn.setAttribute('aria-label', `Request ${serviceName} on WhatsApp`);
+      btn.innerHTML = '<i class="fab fa-whatsapp"></i> Request Service';
+
+      card.appendChild(btn);
+    });
+  });
+})();
+
+// ── 13. DEMO SITE "GET A QUOTE" WHATSAPP BUTTONS ─────────────
+(function () {
+  const WA_NUMBER = '918638759478';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const tab = document.getElementById('demo-sites-tab');
+    if (!tab) return;
+
+    tab.querySelectorAll('.ai-svc-card').forEach(card => {
+      // Skip if button already injected
+      if (card.querySelector('.demo-wa-quote-btn')) return;
+
+      const h3 = card.querySelector('h3');
+      const priceTag = card.querySelector('.demo-price-tag');
+      const tag = card.querySelector('.ai-svc-tag');
+      if (!h3) return;
+
+      const siteName = h3.textContent.trim().replace(/\s+/g, ' ');
+      const price    = priceTag ? priceTag.textContent.trim().replace(/\s+/g, ' ') : '';
+      const industry = tag ? tag.textContent.trim() : '';
+
+      const msg = encodeURIComponent(
+        `Hi Smart Digital! 👋 I'm interested in getting a website like the *${siteName}* demo.\n\n` +
+        `🏷️ Industry: ${industry}\n` +
+        `💰 Seen price: ${price}\n\n` +
+        `Could you please send me a quotation? I'd like to know the features, timeline, and exact cost. Thank you!`
+      );
+
+      const btn = document.createElement('a');
+      btn.className = 'demo-wa-quote-btn';
+      btn.href = `https://wa.me/${WA_NUMBER}?text=${msg}`;
+      btn.target = '_blank';
+      btn.rel = 'noopener noreferrer';
+      btn.setAttribute('aria-label', `Get a quote for ${siteName} website`);
+      btn.innerHTML = '<i class="fab fa-whatsapp"></i> Get a Quote';
+
+      card.appendChild(btn);
     });
   });
 })();

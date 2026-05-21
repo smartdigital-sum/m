@@ -9,6 +9,151 @@ function showToast(msg, type = 'info', duration = 4000) {
   _toastTimer = setTimeout(() => { el.classList.remove('show'); }, duration);
 }
 
+// ---- CUSTOM PAPER VIA WHATSAPP ----
+const EXAMCRAFT_WHATSAPP_NUMBER = '918638759478';
+
+function collectExamCraftFormSnapshot() {
+  const get = (id) => document.getElementById(id)?.value || '';
+  return {
+    board:        get('boardSelect'),
+    schoolName:   get('schoolName').trim(),
+    cls:          get('classSelect'),
+    subject:      get('subjectSelect'),
+    chapters:     [...document.querySelectorAll('input[name="selectedChapters"]:checked')].map(cb => cb.value),
+    totalQ:       get('totalQ'),
+    totalMarks:   get('totalMarks'),
+    timeLimit:    get('timeLimit'),
+    difficulty:   document.querySelector('input[name="difficulty"]:checked')?.value || '',
+    medium:       document.querySelector('input[name="medium"]:checked')?.value || '',
+    qtypes:       [...document.querySelectorAll('input[name="qtype"]:checked')].map(cb => cb.value),
+    instructions: get('instructions').trim(),
+    imageSubject: get('imageSubject').trim(),
+    imageClass:   get('imageClass').trim(),
+  };
+}
+
+function buildExamCraftWhatsAppMessage(orderId, accountInfo) {
+  const f = collectExamCraftFormSnapshot();
+
+  const lines = ["Hi Smart Digital! I'd like a custom question paper made for me.", ''];
+  if (orderId) lines.push(`Order ID: ${orderId}`, '');
+  if (f.board) lines.push(`Board: ${f.board}`);
+  if (f.schoolName) lines.push(`School: ${f.schoolName}`);
+  if (f.cls || f.imageClass) lines.push(`Class: ${f.cls || f.imageClass}`);
+  if (f.subject || f.imageSubject) lines.push(`Subject: ${f.subject || f.imageSubject}`);
+  if (f.medium) lines.push(`Medium: ${f.medium}`);
+  if (f.chapters.length) lines.push(`Chapters: ${f.chapters.join(', ')}`);
+  if (f.totalQ) lines.push(`Total Questions: ${f.totalQ}`);
+  if (f.totalMarks) lines.push(`Total Marks: ${f.totalMarks}`);
+  if (f.timeLimit) lines.push(`Time: ${f.timeLimit} mins`);
+  if (f.difficulty) lines.push(`Difficulty: ${f.difficulty}`);
+  if (f.qtypes.length) lines.push(`Question Types: ${f.qtypes.join(', ')}`);
+  if (f.instructions) lines.push(`Special Instructions: ${f.instructions}`);
+  if (accountInfo) {
+    lines.push('', '— Account —');
+    if (accountInfo.name)  lines.push(`Name: ${accountInfo.name}`);
+    if (accountInfo.email) lines.push(`Email: ${accountInfo.email}`);
+    if (accountInfo.phone) lines.push(`Phone: ${accountInfo.phone}`);
+  }
+  lines.push('', 'Please prepare this paper for me. Thank you!');
+  return lines.join('\n');
+}
+
+// Step 1: validate sign-in + credits, then show confirmation modal.
+function openExamCraftWhatsApp() {
+  if (!window.auth?.currentUser) {
+    showToast('Please sign in first to order via WhatsApp.', 'warn', 5000);
+    if (typeof openAuthModal === 'function') openAuthModal('login');
+    return;
+  }
+
+  const u = window.currentUserData;
+  const isUnlimited = u?.papersTotal === 9999;
+  const remaining   = u?.papersRemaining || 0;
+
+  if (!u?.plan || (!isUnlimited && remaining <= 0)) {
+    showToast('You need an active pack to order via WhatsApp. Opening Plans…', 'warn', 5000);
+    switchTab('pricing');
+    return;
+  }
+
+  const noteEl = document.getElementById('wa-order-remaining-note');
+  if (noteEl) {
+    const left = Math.max(0, remaining - 1);
+    const noteByLang = {
+      en: isUnlimited ? '(unlimited plan)' : `(${left} credits remaining after this)`,
+      hi: isUnlimited ? '(असीमित प्लान)'   : `(इसके बाद ${left} क्रेडिट शेष)`,
+      as: isUnlimited ? '(অসীমিত প্লেন)'   : `(ইয়াৰ পিছত ${left} টা ক্ৰেডিট বাকী থাকিব)`,
+    };
+    noteEl.textContent = noteByLang[currentLang] || noteByLang.en;
+  }
+
+  document.getElementById('wa-order-step-confirm').style.display = 'block';
+  document.getElementById('wa-order-step-proc').style.display    = 'none';
+  document.getElementById('wa-order-step-success').style.display = 'none';
+  document.getElementById('waOrderModal').style.display = 'flex';
+}
+
+// Step 2: deduct credit transactionally, save order, open WhatsApp.
+async function confirmWaOrder() {
+  document.getElementById('wa-order-step-confirm').style.display = 'none';
+  document.getElementById('wa-order-step-proc').style.display    = 'block';
+
+  let creditReserved = false;
+  try {
+    await reservePaperCredit();
+    creditReserved = true;
+
+    const orderId = `EC-${Date.now().toString(36).toUpperCase()}`;
+    const u = window.currentUserData || {};
+    const accountInfo = {
+      name:  u.name  || '',
+      email: u.email || '',
+      phone: u.phone || u.phoneNormalized || '',
+    };
+
+    if (window.db && window.auth?.currentUser) {
+      await window.db.collection('whatsappOrders').add({
+        orderId,
+        uid:        window.auth.currentUser.uid,
+        userName:   accountInfo.name,
+        userEmail:  accountInfo.email,
+        userPhone:  accountInfo.phone,
+        form:       collectExamCraftFormSnapshot(),
+        status:     'pending',
+        creditDeducted: true,
+        createdAt:  firebase.firestore.FieldValue.serverTimestamp(),
+      });
+    }
+
+    const text = encodeURIComponent(buildExamCraftWhatsAppMessage(orderId, accountInfo));
+    window.open(`https://wa.me/${EXAMCRAFT_WHATSAPP_NUMBER}?text=${text}`, '_blank', 'noopener');
+
+    document.getElementById('wa-order-id').textContent = orderId;
+    document.getElementById('wa-order-step-proc').style.display    = 'none';
+    document.getElementById('wa-order-step-success').style.display = 'block';
+  } catch (err) {
+    console.error('WhatsApp order error:', err);
+
+    if (creditReserved && typeof releaseReservedPaperCredit === 'function') {
+      try { await releaseReservedPaperCredit(); } catch (_) {}
+    }
+
+    document.getElementById('wa-order-step-proc').style.display    = 'none';
+    document.getElementById('wa-order-step-confirm').style.display = 'block';
+
+    const msg = err?.code === 'examcraft/no-credits'
+      ? 'No credits remaining. Please buy a pack first.'
+      : `Order failed: ${err?.message || 'Unknown error'}. Your credit was not used.`;
+    showToast(msg, 'error', 6000);
+  }
+}
+
+function closeWaOrderModal() {
+  const modal = document.getElementById('waOrderModal');
+  if (modal) modal.style.display = 'none';
+}
+
 // ---- STATE ----
 let currentLang = 'en';
 let currentPaperData = null;
@@ -19,7 +164,8 @@ let activeOptionIdx = 0;
 let selectedMethod = 'upi';
 let hasAnswersForCurrentPaper = false;
 const DEMO_PAPER_LIMIT = 2;
-const DEMO_MAX_QUESTIONS = 20;
+const MAX_QUESTIONS_PER_PAPER = 15;
+const DEMO_MAX_QUESTIONS = MAX_QUESTIONS_PER_PAPER;
 const DEMO_VISIBLE_QUESTIONS = 3;
 const GST_RATE = 0.18;
 const ANSWER_UPGRADE_BASE_PRICE = 13; // ₹15 checkout total after rounded GST.
@@ -448,6 +594,9 @@ function renderOptionsGrid() {
     const papers = typeof opt.papers === 'number'
       ? `${opt.papers} paper${opt.papers > 1 ? 's' : ''}${isBundle ? ' + answers' : ''}`
       : (isBundle ? 'Pack + answers' : 'Question paper pack');
+    const perPaper = (typeof opt.papers === 'number' && opt.papers > 1)
+      ? `<div class="option-card-perpaper" style="color:${plan.color}">just ₹${(checkoutPrice / opt.papers).toFixed(2)} per paper</div>`
+      : '';
     const selected = i === activeOptionIdx;
     return `
       <div class="option-card ${selected ? 'selected' : ''}"
@@ -456,6 +605,7 @@ function renderOptionsGrid() {
         ${tag ? `<div class="option-card-tag" style="background:${plan.color}">${tag}</div>` : ''}
         <div class="option-card-label">${opt.label}</div>
         <div class="option-card-price" style="color:${plan.color}">₹${checkoutPrice}</div>
+        ${perPaper}
         <div class="option-card-sub">${papers} • incl. GST</div>
       </div>`;
   }).join('');
@@ -652,6 +802,10 @@ function confirmPayment() {
     const plan = PLANS[activePlanIdx];
     const opt  = plan.options[activeOptionIdx];
 
+    // Default: hide the upgrade nudge — only single-paper buys show it.
+    const upgradeNudge = document.getElementById('pay-upgrade-nudge');
+    if (upgradeNudge) upgradeNudge.style.display = 'none';
+
     // Handle Answer Key Upgrade
     if (plan.id === 'answerUpgrade') {
       document.getElementById('pay-success-msg').textContent =
@@ -683,6 +837,26 @@ function confirmPayment() {
         ? `${papers} with answer access unlocked successfully. Credits will now reflect in your dashboard.`
         : `${papers} unlocked successfully. Your current paper is now fully visible.`;
 
+    // Single-paper buyers see a one-tap nudge to the 15-pack.
+    if (upgradeNudge && plan.id === 'individual' && opt.papers === 1) {
+      const fifteen = PLANS[0].options.find(o => o.papers === 15);
+      if (fifteen) {
+        const packPrice = includeAnswers ? fifteen.qAndA : fifteen.qOnly;
+        const packTotal = getCheckoutTotal(packPrice);
+        const perPaper  = (packTotal / 15).toFixed(2);
+        const singleTotal = getCheckoutTotal(includeAnswers ? opt.qAndA : opt.qOnly);
+        upgradeNudge.innerHTML = `
+          <div class="pay-upgrade-title">💡 Need more papers this month?</div>
+          <div class="pay-upgrade-body">
+            The <b>15 Papers Pack</b> works out to just <b>₹${perPaper}/paper</b>
+            — vs <b>₹${singleTotal}</b> you paid today.
+          </div>
+          <button class="pay-upgrade-btn" onclick="goToFifteenPack()">View 15-Pack (₹${packTotal}) →</button>
+        `;
+        upgradeNudge.style.display = 'block';
+      }
+    }
+
     // New plan purchase
     isPaid = true;
     if (window.auth?.currentUser && typeof applyPlanToUser === 'function') {
@@ -710,6 +884,15 @@ function closePaymentModal() {
   } else {
     switchTab('preview');
   }
+}
+
+// Jump from the payment-success nudge straight to the 15-pack option in pricing.
+function goToFifteenPack() {
+  document.getElementById('payModal').classList.add('hidden');
+  switchTab('pricing');
+  selectPlanType(0); // Individual
+  const fifteenIdx = PLANS[0].options.findIndex(o => o.papers === 15);
+  if (fifteenIdx >= 0) selectOption(fifteenIdx);
 }
 
 // ---- CREDITS EXHAUSTED MODAL ----
@@ -947,7 +1130,7 @@ function estimateGenerationMaxTokens(totalQ, wantsAnswers, configuredMaxTokens, 
 }
 
 function constrainQuestionCountToTotalMarks(totalQ, totalMarks) {
-  const safeTotalQ = Math.max(1, Math.min(30, Math.round(Number(totalQ) || 10)));
+  const safeTotalQ = Math.max(1, Math.min(MAX_QUESTIONS_PER_PAPER, Math.round(Number(totalQ) || 10)));
   const safeTotalMarks = Math.max(1, Math.round(Number(totalMarks) || 50));
   return Math.min(safeTotalQ, safeTotalMarks);
 }
@@ -1917,8 +2100,8 @@ async function enforcePureAssamesePaperLanguage({
   let structureValidation = validateGeneratedPaper(currentPaper, { selectedChapters, qtypes, totalQ, totalMarks, subject });
   let languageReport = validateAssamesePaperLanguage(currentPaper);
 
-  // Single repair attempt — Claude rarely needs more than one pass and extra
-  // attempts mostly burn paid tokens without improving the paper.
+  // Single repair attempt — one pass is usually enough and extra attempts
+  // mostly burn tokens without meaningfully improving the paper.
   for (let attempt = 0; structureValidation.ok && !languageReport.ok && attempt < 1; attempt++) {
     const repairPrompt = buildAssameseLanguageRepairPrompt({
       rawJson: JSON.stringify(currentPaper, null, 2),
@@ -2101,8 +2284,8 @@ function validateGeneratedPaper(paperData, { selectedChapters, qtypes, totalQ, t
 }
 
 // Force the paper's per-question marks to sum to exactly totalMarks. Models
-// (especially Claude) reliably produce a paper structure but routinely miss
-// the arithmetic on marks, so we own the math instead of trusting the model.
+// reliably produce a paper structure but routinely miss the arithmetic on
+// marks, so we own the math instead of trusting the model.
 // We bias adjustments toward LongAnswer questions when present (since those
 // can absorb larger swings without looking absurd), and round-robin to avoid
 // dumping the entire diff into a single question.
@@ -2327,9 +2510,55 @@ function onSubjectChange(options = {}) {
   chapterContainer.innerHTML = html;
 }
 
+// ---- AI CONSENT (shown once per device before first generation) ----
+const AI_CONSENT_KEY = 'examcraft_ai_consent_v1';
+let _aiConsentResolver = null;
+
+function awaitAiConsent() {
+  // If user already agreed, skip the modal.
+  try {
+    if (localStorage.getItem(AI_CONSENT_KEY) === 'true') return Promise.resolve(true);
+  } catch (_) { /* localStorage unavailable — fall through and show modal */ }
+
+  return new Promise((resolve) => {
+    _aiConsentResolver = resolve;
+    const modal = document.getElementById('aiConsentModal');
+    const cb = document.getElementById('aiConsentCheckbox');
+    const btn = document.getElementById('aiConsentConfirmBtn');
+    if (cb) cb.checked = false;
+    if (btn) btn.disabled = true;
+    if (modal) modal.style.display = 'flex';
+  });
+}
+
+function updateAiConsentButton() {
+  const cb = document.getElementById('aiConsentCheckbox');
+  const btn = document.getElementById('aiConsentConfirmBtn');
+  if (cb && btn) btn.disabled = !cb.checked;
+}
+
+function acceptAiConsent() {
+  const cb = document.getElementById('aiConsentCheckbox');
+  if (!cb || !cb.checked) return;
+  try { localStorage.setItem(AI_CONSENT_KEY, 'true'); } catch (_) {}
+  const modal = document.getElementById('aiConsentModal');
+  if (modal) modal.style.display = 'none';
+  if (_aiConsentResolver) { _aiConsentResolver(true); _aiConsentResolver = null; }
+}
+
+function cancelAiConsent() {
+  const modal = document.getElementById('aiConsentModal');
+  if (modal) modal.style.display = 'none';
+  if (_aiConsentResolver) { _aiConsentResolver(false); _aiConsentResolver = null; }
+}
+
 // ---- CORE GENERATE ----
 async function generatePaper() {
   if (inputMode === 'image') { await generatePaperFromImages(); return; }
+
+  // Require AI-disclaimer consent before generating
+  const consented = await awaitAiConsent();
+  if (!consented) return;
 
   const board = document.getElementById('boardSelect').value;
   const schoolName = document.getElementById('schoolName').value.trim() || 'Your School';
@@ -2337,7 +2566,7 @@ async function generatePaper() {
   const subject = document.getElementById('subjectSelect').value;
   const selectedChapters = [...document.querySelectorAll('input[name="selectedChapters"]:checked')].map(cb => cb.value);
   
-  let totalQ = Math.min(30, parseInt(document.getElementById('totalQ').value) || 10);
+  let totalQ = Math.min(MAX_QUESTIONS_PER_PAPER, parseInt(document.getElementById('totalQ').value) || 10);
   const totalMarks = Math.max(1, parseInt(document.getElementById('totalMarks').value) || 50);
   const markConstrainedTotalQ = constrainQuestionCountToTotalMarks(totalQ, totalMarks);
   if (markConstrainedTotalQ !== totalQ) {
@@ -2441,12 +2670,6 @@ async function generatePaper() {
   const nonLatinScript = isAssameseMedium || isHindiMedium;
   const GROQ_MAX_TOKENS = estimateGenerationMaxTokens(totalQ, wantsAnswers, configuredMaxTokens, nonLatinScript);
 
-  // Claude (used for Assamese medium only) — proxied through Netlify so the key stays server-side.
-  // Sonnet 4.6 is required for Assamese — its grasp of Assamese-vs-Bengali register
-  // and academic depth is substantially stronger than Haiku's.
-  const CLAUDE_PROXY_URL = '/.netlify/functions/chat';
-  const CLAUDE_MODEL = window.SMART_DIGITAL_CONFIG?.CLAUDE?.MODEL || 'claude-sonnet-4-20250514';
-
   const prompt = buildPaperPrompt({
     board,
     cls,
@@ -2468,64 +2691,6 @@ async function generatePaper() {
     : `You are an expert Indian school exam paper creator for SEBA, AHSEC, CBSE, ICSE, Jatiya Vidyalaya, and Shankardev boards. You output ONLY valid JSON in the exact shape requested. Never add text outside JSON. ${subjectLanguageInstruction}`;
 
   async function requestPaperFromModel(userPrompt, maxTokens) {
-    let response;
-
-    if (isAssameseMedium) {
-      // Use Claude for Assamese — best instruction-following for pure Assamese output.
-      // Proxied through Netlify so the API key stays server-side.
-      try {
-        response = await fetch(CLAUDE_PROXY_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            provider: "anthropic",
-            prefill_json: true,
-            model: CLAUDE_MODEL,
-            max_tokens: maxTokens,
-            // Higher temperature on Assamese encourages stem variety + lexical
-            // diversity (the rules pin language quality, the temperature breaks
-            // mechanical repetition).
-            temperature: 0.4,
-            system: systemMessage,
-            messages: [{ role: "user", content: userPrompt }]
-          })
-        });
-
-        if (!response.ok) {
-          const errData = await response.json().catch(() => ({}));
-          const errorMessage = errData.error?.message || response.statusText;
-          throw new Error(`Claude API Error ${response.status}: ${errorMessage}`);
-        }
-
-        const data = await response.json();
-        const rawTextRaw = data.content?.[0]?.text?.trim();
-        if (!rawTextRaw) throw new Error("Empty response from Claude");
-        const rawText = fixAssameseScript(rawTextRaw);
-
-        let parsed;
-        try {
-          parsed = JSON.parse(rawText);
-        } catch {
-          const jsonMatch = rawText.match(/```json\s*([\s\S]*?)```|```\s*([\s\S]*?)```|\{[\s\S]*\}/);
-          const jsonStr = jsonMatch ? (jsonMatch[1] || jsonMatch[2] || jsonMatch[0]) : rawText;
-          try {
-            parsed = JSON.parse(jsonStr);
-          } catch (parseErr) {
-            console.error("[examcraft] Claude JSON parse failed. Raw response (first 1500 chars):", rawText?.slice(0, 1500));
-            throw new Error("Could not parse Claude response");
-          }
-        }
-        return { rawText, parsed };
-      } catch (claudeErr) {
-        // Assamese papers require Claude — Groq mixes Bengali, so falling back
-        // to it would silently ship a degraded paper to a paying user. Better
-        // to surface the error and let them retry or contact support.
-        console.error('[examcraft] Claude failed for Assamese paper:', claudeErr?.message || claudeErr);
-        throw new Error(`Claude could not generate the Assamese paper: ${claudeErr?.message || 'unknown error'}. Please try again in a moment.`);
-      }
-    }
-
-    // All other languages — use Groq
     let requestUrl = GROQ_ENDPOINT;
     const requestHeaders = { "Content-Type": "application/json" };
 
@@ -2554,7 +2719,7 @@ async function generatePaper() {
       })
     });
 
-    response = await callGroqWithModel(GROQ_MODEL_PRIMARY);
+    let response = await callGroqWithModel(GROQ_MODEL_PRIMARY);
 
     // 8b and 70b have independent quota buckets — if 8b is throttled, 70b may still answer.
     if (response.status === 429) {
@@ -2596,8 +2761,8 @@ async function generatePaper() {
     return { rawText, parsed };
   }
 
-  // For non-Assamese on local, require a Groq API key
-  if (!isAssameseMedium && isLocal && (!GROQ_API_KEY || GROQ_API_KEY === "SECURE_PROXIED_VIA_NETLIFY")) {
+  // On local, require a Groq API key (production proxies through Netlify).
+  if (isLocal && (!GROQ_API_KEY || GROQ_API_KEY === "SECURE_PROXIED_VIA_NETLIFY")) {
     showToast(T[currentLang].apiKeyMissing, 'error');
     showOutput('placeholder');
     return;
@@ -2696,9 +2861,13 @@ async function generatePaper() {
     }
 
     const isValidationErr = err.message?.startsWith('Generated paper failed validation');
-    const isApiErr = err.message?.startsWith('API Error') || err.message?.startsWith('Claude API Error');
+    const isApiErr = err.message?.startsWith('API Error');
     const prefix = isValidationErr ? '' : isApiErr ? '' : `${T[currentLang].errorNetwork} — `;
-    showToast(`${prefix}${err.message}`, 'error', 6000);
+    showToast(
+      `${prefix}${err.message}\n\n💡 No credit was used. Try again with fewer questions, or order a custom paper on WhatsApp.`,
+      'error',
+      8000
+    );
     showOutput('placeholder');
   }
 }
@@ -2725,8 +2894,12 @@ async function generatePaperFromImages() {
     return;
   }
 
+  // Require AI-disclaimer consent before generating
+  const consented = await awaitAiConsent();
+  if (!consented) return;
+
   const schoolName = document.getElementById('schoolName').value.trim() || 'Your School';
-  let totalQ = Math.min(30, parseInt(document.getElementById('totalQ').value) || 10);
+  let totalQ = Math.min(MAX_QUESTIONS_PER_PAPER, parseInt(document.getElementById('totalQ').value) || 10);
   const totalMarks = Math.max(1, parseInt(document.getElementById('totalMarks').value) || 50);
   const markConstrainedTotalQ = constrainQuestionCountToTotalMarks(totalQ, totalMarks);
   if (markConstrainedTotalQ !== totalQ) {
@@ -2775,9 +2948,19 @@ async function generatePaperFromImages() {
   hasAnswersForCurrentPaper = planIncludesAnswers;
   includeAnswers = planIncludesAnswers;
 
-  // Image upload uses Claude Vision (Sonnet 4) via the Netlify proxy — key stays server-side.
-  const CLAUDE_PROXY_URL = '/.netlify/functions/chat';
-  const CLAUDE_MODEL = window.SMART_DIGITAL_CONFIG?.CLAUDE?.MODEL || 'claude-sonnet-4-20250514';
+  // Image upload uses Groq's Llama 4 Scout (multimodal) via the Netlify proxy — key stays server-side.
+  const GROQ_PROXY_URL = isLocal ? GROQ_ENDPOINT : '/.netlify/functions/chat';
+  const GROQ_VISION_MODEL = window.SMART_DIGITAL_CONFIG?.GROQ?.VISION_MODEL || 'meta-llama/llama-4-scout-17b-16e-instruct';
+  const GROQ_TEXT_MODEL = window.SMART_DIGITAL_CONFIG?.GROQ?.MODEL || 'llama-3.3-70b-versatile';
+  const groqAuthHeaders = { 'Content-Type': 'application/json' };
+  if (isLocal) {
+    if (!GROQ_API_KEY || GROQ_API_KEY === 'SECURE_PROXIED_VIA_NETLIFY') {
+      showToast(T[currentLang].apiKeyMissing, 'error');
+      showOutput('placeholder');
+      return;
+    }
+    groqAuthHeaders.Authorization = `Bearer ${GROQ_API_KEY}`;
+  }
 
   let creditReserved = false;
   try {
@@ -2867,34 +3050,36 @@ ${extraInstr ? `- Special instructions: ${extraInstr}` : ''}
 Return ONLY valid JSON — no markdown fences, no explanation text. Use this exact structure:
 ${jsonExample}`;
 
+    // Groq vision uses OpenAI-style image_url parts (data URI base64).
     const imageContents = uploadedImages.map(img => ({
-      type: 'image',
-      source: { type: 'base64', media_type: img.mediaType, data: img.data }
+      type: 'image_url',
+      image_url: { url: `data:${img.mediaType};base64,${img.data}` }
     }));
 
-    const response = await fetch(CLAUDE_PROXY_URL, {
+    const response = await fetch(GROQ_PROXY_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: groqAuthHeaders,
       body: JSON.stringify({
-        provider: 'anthropic',
-        prefill_json: true,
-        model: CLAUDE_MODEL,
+        model: GROQ_VISION_MODEL,
         max_tokens: 4096,
         // Higher temperature on Assamese for stem/lexical variety; rules + validation enforce quality.
         temperature: isAssameseMedium ? 0.4 : 0.15,
-        messages: [{ role: 'user', content: [...imageContents, { type: 'text', text: textPrompt }] }]
+        response_format: { type: 'json_object' },
+        messages: [
+          { role: 'user', content: [{ type: 'text', text: textPrompt }, ...imageContents] }
+        ]
       })
     });
 
     if (!response.ok) {
       const errData = await response.json().catch(() => ({}));
-      throw new Error(errData.error?.message || `Claude API Error ${response.status}`);
+      throw new Error(errData.error?.message || `Groq API Error ${response.status}`);
     }
 
     const apiData = await response.json();
-    const rawTextRaw = apiData.content?.[0]?.text?.trim();
+    const rawTextRaw = apiData.choices?.[0]?.message?.content?.trim();
     const rawText = isAssameseMedium ? fixAssameseScript(rawTextRaw) : rawTextRaw;
-    if (!rawText) throw new Error('Empty response from Claude Vision');
+    if (!rawText) throw new Error('Empty response from Groq Vision');
 
     let parsed;
     try {
@@ -2914,28 +3099,29 @@ ${jsonExample}`;
     let validation = validateGeneratedPaper(paperData, { selectedChapters: sentinelChapters, qtypes, totalQ, totalMarks, subject: imageSubject });
 
     if (isAssameseMedium) {
-      const requestAssameseRepairFromClaude = async (repairPrompt, maxTokens) => {
-        const repairResponse = await fetch(CLAUDE_PROXY_URL, {
+      const requestAssameseRepairFromGroq = async (repairPrompt, maxTokens) => {
+        const repairResponse = await fetch(GROQ_PROXY_URL, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: groqAuthHeaders,
           body: JSON.stringify({
-            provider: 'anthropic',
-            prefill_json: true,
-            model: CLAUDE_MODEL,
+            model: GROQ_TEXT_MODEL,
             max_tokens: maxTokens,
             temperature: 0.1,
-            system: 'You are an expert Assamese-medium SEBA question paper editor. Return valid JSON only.',
-            messages: [{ role: 'user', content: repairPrompt }]
+            response_format: { type: 'json_object' },
+            messages: [
+              { role: 'system', content: 'You are an expert Assamese-medium SEBA question paper editor. Return valid JSON only. Write in pure Assamese (অসমীয়া) — never Bengali.' },
+              { role: 'user', content: repairPrompt }
+            ]
           })
         });
 
         if (!repairResponse.ok) {
           const errData = await repairResponse.json().catch(() => ({}));
-          throw new Error(errData.error?.message || `Claude API Error ${repairResponse.status}`);
+          throw new Error(errData.error?.message || `Groq API Error ${repairResponse.status}`);
         }
 
         const repairData = await repairResponse.json();
-        const repairRawText = fixAssameseScript(repairData.content?.[0]?.text?.trim());
+        const repairRawText = fixAssameseScript(repairData.choices?.[0]?.message?.content?.trim());
         if (!repairRawText) throw new Error('Empty Assamese repair response');
 
         const jsonMatch = repairRawText.match(/```json\s*([\s\S]*?)```|```\s*([\s\S]*?)```|\{[\s\S]*\}/);
@@ -2945,7 +3131,7 @@ ${jsonExample}`;
 
       const assameseResult = await enforcePureAssamesePaperLanguage({
         paperData,
-        requestPaperFromModel: requestAssameseRepairFromClaude,
+        requestPaperFromModel: requestAssameseRepairFromGroq,
         selectedChapters: sentinelChapters,
         qtypes,
         totalQ,
@@ -2994,7 +3180,11 @@ ${jsonExample}`;
       await releaseReservedPaperCredit();
     }
     if (err.code === 'examcraft/no-credits') { showCreditsExhaustedModal(); return; }
-    showToast(err.message, 'error', 6000);
+    showToast(
+      `${err.message}\n\n💡 No credit was used. Try again with fewer questions, or order a custom paper on WhatsApp.`,
+      'error',
+      8000
+    );
     showOutput('placeholder');
   }
 }

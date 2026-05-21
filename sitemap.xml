@@ -6,6 +6,11 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
+    <loc>https://smartdigitalassam.com/pricing/</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
     <loc>https://smartdigitalassam.com/privacy-policy.html</loc>
     <priority>0.3</priority>
     <changefreq>monthly</changefreq>
@@ -71,8 +76,4 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://smartdigitalassam.com/generator/generator.html</loc>
-    <priority>0.5</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-</urlset>
+    <loc>https://

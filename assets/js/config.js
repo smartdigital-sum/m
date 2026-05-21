@@ -9,15 +9,10 @@ window.SMART_DIGITAL_CONFIG = {
     API_KEY: "SECURE_PROXIED_VIA_NETLIFY",
     PROVIDER: "GROQ",
     MODEL: "llama-3.3-70b-versatile",
+    VISION_MODEL: "meta-llama/llama-4-scout-17b-16e-instruct",
     MAX_TOKENS: 4000,
     TEMPERATURE: 0.5,
     ENDPOINT: "https://api.groq.com/openai/v1/chat/completions"
-  },
-
-  CLAUDE: {
-    PROVIDER: "ANTHROPIC",
-    MODEL: "claude-sonnet-4-20250514",
-    ENDPOINT: "https://api.anthropic.com/v1/messages"
   },
 
   // --- BUSINESS DEFAULTS ---

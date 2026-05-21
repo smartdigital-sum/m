@@ -1,6 +1,6 @@
 /* ===========================
    LIPIANTAR — APP.JS
-   Claude API–powered translation
+   Groq-powered translation
    =========================== */
 
 // ── PLANS ────────────────────────────────────────────────────────────

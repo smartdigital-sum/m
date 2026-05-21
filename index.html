@@ -106,6 +106,7 @@
                     <li><a href="#home" class="nav-link" data-en="Home" data-as="ঘৰ">Home</a></li>
                     <li><a href="#updates" class="nav-link" data-en="Updates" data-as="আপডেট">Updates</a></li>
                     <li><a href="#services" class="nav-link" data-en="Services" data-as="সেৱা">Services</a></li>
+                    <li><a href="pricing/index.html" class="nav-link" data-en="Pricing" data-as="মূল্য তালিকা">Pricing</a></li>
                     <li><a href="#websites" class="nav-link" data-en="Websites" data-as="ৱেবছাইট">Websites</a></li>
                     <li><a href="#gallery" class="nav-link" data-en="Gallery" data-as="গেলেৰী">Gallery</a></li>
                     <li><a href="#certificates" class="nav-link" data-en="Certs" data-as="প্ৰমাণপত্ৰ">Certs</a></li>
@@ -196,10 +197,16 @@
                         <i class="fas fa-globe"></i> <span data-en="View Demo Websites" data-as="ডেমো ৱেবছাইট চাওক">View Demo Websites</span>
                     </a>
                     <a href="#services" class="btn btn-liquid-glass btn-hero-cta">
-                        <i class="fas fa-robot"></i> <span data-en="Our Services" data-as="আমাৰ সেৱাসমূহ">Our Services</span>
+                        <i class="fas fa-robot"></i> <span data-en="Our Services & Pricing" data-as="আমাৰ সেৱা আৰু মূল্য">Our Services & Pricing</span>
                     </a>
                     <a href="apps/astrology/index.html" class="btn btn-liquid-glass btn-hero-cta">
                         <i class="fas fa-meteor"></i> <span data-en="Cosmic Predictor" data-as="ব্ৰহ্মাণ্ডীয় ভৱিষ্যদ্বক্তা">Cosmic Predictor</span>
+                    </a>
+                </div>
+                <div style="margin-top: 12px;">
+                    <a href="pricing/index.html" style="display: inline-flex; align-items: center; gap: 6px; color: #f97316; text-decoration: none; font-weight: 600; font-size: 14px;">
+                        <i class="fas fa-tag"></i>
+                        <span data-en="See our prices →" data-as="আমাৰ মূল্য চাওক →">See our prices →</span>
                     </a>
                 </div>
             </div>
@@ -396,7 +403,7 @@
     <section class="services-section" id="services">
         <div class="container">
             <div class="section-head">
-                <h2 class="section-title" data-en="Our Services" data-as="আমাৰ সেৱাসমূহ">Our Services</h2>
+                <h2 class="section-title" data-en="Our Services & Pricing" data-as="আমাৰ সেৱা আৰু মূল্য">Our Services & Pricing</h2>
                 <p class="section-sub" data-en="Comprehensive digital solutions for everyone" data-as="সকলোৰ বাবে সম্পূৰ্ণ ডিজিটেল সমাধান">Comprehensive digital solutions for everyone</p>
             </div>
 
@@ -405,6 +412,7 @@
                 <button class="filter-btn" onclick="switchTab('service', 'study-zone-tab', this)" data-en="Study Zone" data-as="ষ্টাডি জ'ন">Study Zone</button>
                 <button class="filter-btn" onclick="switchTab('service', 'offline-services-tab', this)" data-en="AI AGENTS" data-as="এআই এজেন্ট">AI AGENTS</button>
                 <button class="filter-btn" onclick="switchTab('service', 'shop-offline-tab', this)" data-en="Offline Services" data-as="অফলাইন সেৱা">Offline Services</button>
+                <button class="filter-btn" onclick="switchTab('service', 'pricing-tab', this)" data-en="💰 Pricing" data-as="💰 মূল্য তালিকা">💰 Pricing</button>
             </div>
 
             <div id="ai-services-tab" class="tab-content service-tab active">
@@ -980,16 +988,18 @@
                             </div>
                         </div>
                         <div class="offline-svc-grid">
-                            <div class="offline-svc-card">
+                            <a href="pricing/index.html#printing" class="offline-svc-card" style="text-decoration:none; color:inherit; position:relative;">
+                                <span style="position:absolute; top:8px; right:8px; background:linear-gradient(135deg,#6366f1,#4f46e5); color:#fff; font-size:11px; font-weight:700; padding:3px 8px; border-radius:999px; letter-spacing:0.3px;" data-en="FROM ₹3" data-as="৩ৰ পৰা">FROM ₹3</span>
                                 <div class="offline-svc-icon" style="background: linear-gradient(135deg, #64748b, #475569);">🖨️</div>
                                 <h4 data-en="Photocopy & Lamination" data-as="ফটোকপি আৰু লেমিনেচন">Photocopy & Lamination</h4>
                                 <p data-en="B&amp;W, color copies & lamination" data-as="ক'লা-বগা, ৰঙীন কপি আৰু লেমিনেচন">B&amp;W, color copies & lamination</p>
-                            </div>
-                            <div class="offline-svc-card">
+                            </a>
+                            <a href="pricing/index.html#printing" class="offline-svc-card" style="text-decoration:none; color:inherit; position:relative;">
+                                <span style="position:absolute; top:8px; right:8px; background:linear-gradient(135deg,#ec4899,#db2777); color:#fff; font-size:11px; font-weight:700; padding:3px 8px; border-radius:999px; letter-spacing:0.3px;" data-en="FROM ₹10" data-as="১০ৰ পৰা">FROM ₹10</span>
                                 <div class="offline-svc-icon" style="background: linear-gradient(135deg, #ec4899, #db2777);">🌈</div>
                                 <h4 data-en="Color Printing" data-as="ৰঙীন প্ৰিন্টিং">Color Printing</h4>
                                 <p data-en="HD color prints, A4 & A3 sizes" data-as="HD ৰঙীন প্ৰিন্ট, A4 আৰু A3 আকাৰ">HD color prints, A4 & A3 sizes</p>
-                            </div>
+                            </a>
                             <div class="offline-svc-card">
                                 <div class="offline-svc-icon" style="background: linear-gradient(135deg, #06b6d4, #0891b2);">📑</div>
                                 <h4 data-en="Document Scanning (PDF)" data-as="দস্তাবেজ স্কেনিং (PDF)">Document Scanning (PDF)</h4>
@@ -1023,11 +1033,12 @@
                             </div>
                         </div>
                         <div class="offline-svc-grid">
-                            <div class="offline-svc-card">
+                            <a href="pricing/index.html#design" class="offline-svc-card" style="text-decoration:none; color:inherit; position:relative;">
+                                <span style="position:absolute; top:8px; right:8px; background:linear-gradient(135deg,#f97316,#eab308); color:#fff; font-size:11px; font-weight:700; padding:3px 8px; border-radius:999px; letter-spacing:0.3px;" data-en="FROM ₹300" data-as="৩০০ৰ পৰা">FROM ₹300</span>
                                 <div class="offline-svc-icon" style="background: linear-gradient(135deg, #f97316, #eab308);">🎨</div>
                                 <h4 data-en="Posters & Banners" data-as="পোষ্টাৰ আৰু বেনাৰ">Posters & Banners</h4>
                                 <p data-en="Festive, event & shop banners" data-as="উৎসৱ, অনুষ্ঠান আৰু দোকানৰ বেনাৰ">Festive, event & shop banners</p>
-                            </div>
+                            </a>
                             <div class="offline-svc-card">
                                 <div class="offline-svc-icon" style="background: linear-gradient(135deg, #ec4899, #f43f5e);">💍</div>
                                 <h4 data-en="Wedding Card Design" data-as="বিবাহৰ কাৰ্ড ডিজাইন">Wedding Card Design</h4>
@@ -1038,11 +1049,12 @@
                                 <h4 data-en="Visiting / Business Cards" data-as="ভিজিটিং / ব্যৱসায়িক কাৰ্ড">Visiting / Business Cards</h4>
                                 <p data-en="Premium card design & printing" data-as="প্ৰিমিয়াম কাৰ্ড ডিজাইন আৰু প্ৰিন্টিং">Premium card design & printing</p>
                             </div>
-                            <div class="offline-svc-card">
+                            <a href="pricing/index.html#design" class="offline-svc-card" style="text-decoration:none; color:inherit; position:relative;">
+                                <span style="position:absolute; top:8px; right:8px; background:linear-gradient(135deg,#8b5cf6,#6d28d9); color:#fff; font-size:11px; font-weight:700; padding:3px 8px; border-radius:999px; letter-spacing:0.3px;" data-en="₹100–₹300" data-as="₹১০০–₹৩০০">₹100–₹300</span>
                                 <div class="offline-svc-icon" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);">✨</div>
                                 <h4 data-en="Logo Design" data-as="লোগো ডিজাইন">Logo Design</h4>
                                 <p data-en="Custom brand identity for shops" data-as="দোকানৰ বাবে কাষ্টম ব্ৰেণ্ড আইডেণ্টিটি">Custom brand identity for shops</p>
-                            </div>
+                            </a>
                             <div class="offline-svc-card">
                                 <div class="offline-svc-icon" style="background: linear-gradient(135deg, #ec4899, #f43f5e);">🖼️</div>
                                 <h4 data-en="Photo Edit & Retouch" data-as="ফটো এডিট আৰু ৰিটাচ">Photo Edit & Retouch</h4>
@@ -1147,6 +1159,89 @@
                     </div>
                 </div>
             </div>
+
+            <!-- ===== PRICING TAB ===== -->
+            <div id="pricing-tab" class="tab-content service-tab">
+                <div class="ai-services-wrapper">
+                    <div class="section-head" style="margin-bottom: 1.5rem;">
+                        <div class="ai-hub-tag" style="background: linear-gradient(135deg, #f97316, #ef4444);" data-en="💰 Transparent Pricing" data-as="💰 স্বচ্ছ মূল্য">💰 Transparent Pricing</div>
+                        <p style="text-align: center; color: var(--gray); font-size: 14px; margin-top: 6px;" data-en="No hidden charges. Updated rates for printing, photo, sticker, design & more." data-as="কোনো লুকাই থকা চাৰ্জ নাই। প্ৰিন্টিং, ফটো, ষ্টিকাৰ, ডিজাইন আৰু অধিকৰ আপডেট কৰা ৰেট।">No hidden charges. Updated rates for printing, photo, sticker, design & more.</p>
+                    </div>
+
+                    <div class="offline-cards-grid">
+
+                        <!-- Print & Xerox -->
+                        <a href="pricing/index.html#printing" class="ai-svc-card">
+                            <div class="ai-svc-badge" style="background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff;" data-en="FROM ₹3" data-as="৩টকাৰ পৰা">FROM ₹3</div>
+                            <div class="ai-svc-icon" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">🖨️</div>
+                            <div class="ai-svc-tag" data-en="Per page" data-as="প্ৰতি পৃষ্ঠা">Per page</div>
+                            <h3 data-en="Print & Xerox" data-as="প্ৰিন্ট আৰু জেৰক্স">Print & Xerox</h3>
+                            <p data-en="B&W from ₹3, Colour from ₹10. 4 quality tiers. Bulk discount on 50+ pages." data-as="ক'লা-বগা ৩ টকাৰ পৰা, ৰঙীন ১০ টকাৰ পৰা। ৪টা মানৰ স্তৰ। ৫০+ পৃষ্ঠাত বাল্ক ডিস্কাউণ্ট।">B&W from ₹3, Colour from ₹10. 4 quality tiers. Bulk discount on 50+ pages.</p>
+                            <span class="ai-svc-cta" data-en="See full rates" data-as="সম্পূৰ্ণ ৰেট চাওক">See full rates <i class="fas fa-arrow-right"></i></span>
+                        </a>
+
+                        <!-- Photo Print -->
+                        <a href="pricing/index.html#photo" class="ai-svc-card">
+                            <div class="ai-svc-badge" style="background: linear-gradient(135deg, #f97316, #ef4444); color: #fff;" data-en="FROM ₹20" data-as="২০ৰ পৰা">FROM ₹20</div>
+                            <div class="ai-svc-icon" style="background: linear-gradient(135deg, #f97316, #ef4444);">📸</div>
+                            <div class="ai-svc-tag" data-en="Glossy" data-as="গ্লছী">Glossy</div>
+                            <h3 data-en="Photo Print" data-as="ফটো প্ৰিন্ট">Photo Print</h3>
+                            <p data-en="4×6 photo from ₹20, A4 photo from ₹50. Premium glossy paper. Same-day delivery." data-as="৪×৬ ফটো ২০ টকাৰ পৰা, A4 ফটো ৫০ টকাৰ পৰা। প্ৰিমিয়াম গ্লছী পেপাৰ। একে দিনতে ডেলিভাৰী।">4×6 photo from ₹20, A4 photo from ₹50. Premium glossy paper. Same-day delivery.</p>
+                            <span class="ai-svc-cta" data-en="See full rates" data-as="সম্পূৰ্ণ ৰেট চাওক">See full rates <i class="fas fa-arrow-right"></i></span>
+                        </a>
+
+                        <!-- Sticker -->
+                        <a href="pricing/index.html#sticker" class="ai-svc-card">
+                            <div class="ai-svc-badge" style="background: linear-gradient(135deg, #10b981, #059669); color: #fff;" data-en="A4 SHEET" data-as="A4 চিট">A4 SHEET</div>
+                            <div class="ai-svc-icon" style="background: linear-gradient(135deg, #10b981, #059669);">🏷️</div>
+                            <div class="ai-svc-tag" data-en="White / Transparent" data-as="বগা / স্বচ্ছ">White / Transparent</div>
+                            <h3 data-en="Sticker Print" data-as="ষ্টিকাৰ প্ৰিন্ট">Sticker Print</h3>
+                            <p data-en="White A4 ₹100. Transparent A4 ₹130. Labels, logos, window stickers, bottle labels." data-as="বগা A4 ১০০ টকা। স্বচ্ছ A4 ১৩০ টকা। লেবেল, লগো, খিৰিকীৰ ষ্টিকাৰ, বটলৰ লেবেল।">White A4 ₹100. Transparent A4 ₹130. Labels, logos, window stickers, bottle labels.</p>
+                            <span class="ai-svc-cta" data-en="See full rates" data-as="সম্পূৰ্ণ ৰেট চাওক">See full rates <i class="fas fa-arrow-right"></i></span>
+                        </a>
+
+                        <!-- Brochure -->
+                        <a href="pricing/index.html#brochure" class="ai-svc-card">
+                            <div class="ai-svc-badge" style="background: linear-gradient(135deg, #8b5cf6, #6366f1); color: #fff;" data-en="FROM ₹45" data-as="৪৫ৰ পৰা">FROM ₹45</div>
+                            <div class="ai-svc-icon" style="background: linear-gradient(135deg, #8b5cf6, #6366f1);">📄</div>
+                            <div class="ai-svc-tag" data-en="A4 Glossy" data-as="A4 গ্লছী">A4 Glossy</div>
+                            <h3 data-en="Brochure / Menu / Flyer" data-as="ব্ৰছাৰ / মেনু / ফ্লায়াৰ">Brochure / Menu / Flyer</h3>
+                            <p data-en="Single side ₹45, Both sides ₹60 per page. Premium glossy paper." data-as="এক ফলীয়া ৪৫ টকা, দুয়ো ফলীয়া ৬০ টকা প্ৰতি পৃষ্ঠা। প্ৰিমিয়াম গ্লছী পেপাৰ।">Single side ₹45, Both sides ₹60 per page. Premium glossy paper.</p>
+                            <span class="ai-svc-cta" data-en="See full rates" data-as="সম্পূৰ্ণ ৰেট চাওক">See full rates <i class="fas fa-arrow-right"></i></span>
+                        </a>
+
+                        <!-- Design -->
+                        <a href="pricing/index.html#design" class="ai-svc-card">
+                            <div class="ai-svc-badge" style="background: linear-gradient(135deg, #ec4899, #f59e0b); color: #fff;" data-en="COMBO ₹799" data-as="কম্বো ৭৯৯">COMBO ₹799</div>
+                            <div class="ai-svc-icon" style="background: linear-gradient(135deg, #ec4899, #f59e0b);">🎨</div>
+                            <div class="ai-svc-tag" data-en="Logo / Banner / QR" data-as="লগো / বেনাৰ / QR">Logo / Banner / QR</div>
+                            <h3 data-en="Design Services" data-as="ডিজাইন সেৱা">Design Services</h3>
+                            <p data-en="Logo from ₹100, Banner from ₹300. Full branding combo ₹799 (logo + sticker + banner)." data-as="লগো ১০০ টকাৰ পৰা, বেনাৰ ৩০০ টকাৰ পৰা। সম্পূৰ্ণ ব্ৰেণ্ডিং কম্বো ৭৯৯ (লগো + ষ্টিকাৰ + বেনাৰ)।">Logo from ₹100, Banner from ₹300. Full branding combo ₹799 (logo + sticker + banner).</p>
+                            <span class="ai-svc-cta" data-en="See full rates" data-as="সম্পূৰ্ণ ৰেট চাওক">See full rates <i class="fas fa-arrow-right"></i></span>
+                        </a>
+
+                        <!-- Website -->
+                        <a href="pricing/index.html#website" class="ai-svc-card">
+                            <div class="ai-svc-badge" style="background: linear-gradient(135deg, #0ea5e9, #3b82f6); color: #fff;" data-en="FROM ₹6,500" data-as="৬,৫০০ৰ পৰা">FROM ₹6,500</div>
+                            <div class="ai-svc-icon" style="background: linear-gradient(135deg, #0ea5e9, #3b82f6);">🌐</div>
+                            <div class="ai-svc-tag" data-en="Mobile-friendly" data-as="ম'বাইল-ফ্ৰেণ্ডলী">Mobile-friendly</div>
+                            <h3 data-en="Website Design" data-as="ৱেবছাইট ডিজাইন">Website Design</h3>
+                            <p data-en="Starter from ₹6,500. Business from ₹9,500. See live demos in the Websites section." data-as="ষ্টাৰ্টাৰ ৬,৫০০ৰ পৰা। বিজনেছ ৯,৫০০ৰ পৰা। ৱেবছাইট অংশত লাইভ ডেমো চাওক।">Starter from ₹6,500. Business from ₹9,500. See live demos in the Websites section.</p>
+                            <span class="ai-svc-cta" data-en="See full rates" data-as="সম্পূৰ্ণ ৰেট চাওক">See full rates <i class="fas fa-arrow-right"></i></span>
+                        </a>
+
+                    </div>
+
+                    <div class="offline-svc-cta-strip" style="margin-top: 1.5rem;">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                        <span data-en="View the complete price list with all quality tiers" data-as="সকলো মানৰ স্তৰৰ সৈতে সম্পূৰ্ণ মূল্য তালিকা চাওক">View the complete price list with all quality tiers</span>
+                        <a href="pricing/index.html" class="offline-svc-call-btn" data-en="Full Price List →" data-as="সম্পূৰ্ণ মূল্য তালিকা →">
+                            <i class="fas fa-list-ul"></i> Full Price List →
+                        </a>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -1997,11 +2092,18 @@
             </div>
             <div class="location-grid">
                 <div class="location-info">
-                    <div class="loc-item reveal" style="display:none;">
+                    <div class="loc-item reveal active">
+                        <div class="loc-icon"><i class="fas fa-building"></i></div>
+                        <div>
+                            <h4 data-en="Business Name" data-as="ব্যৱসায়ৰ নাম">Business Name</h4>
+                            <p>Smart Digital CSC Centre</p>
+                        </div>
+                    </div>
+                    <div class="loc-item reveal active">
                         <div class="loc-icon"><i class="fas fa-map-marker-alt"></i></div>
                         <div>
                             <h4 data-en="Address" data-as="ঠিকনা">Address</h4>
-                            <p data-en="Assam" data-as="অসম">Assam</p>
+                            <p>Tiniali Bazar, Kachua, Kampur,<br>Nagaon, Assam 782426, India</p>
                         </div>
                     </div>
                     <div class="loc-item reveal active">
@@ -2029,8 +2131,9 @@
                         <div class="loc-icon"><i class="fas fa-clock"></i></div>
                         <div>
                             <h4 data-en="Shop Hours" data-as="দোকানৰ সময়">Shop Hours</h4>
-                            <p data-en="Monday–Saturday: 9:00 AM – 6:00 PM" data-as="সোমবাৰ–শনিবাৰ: ৯:০০ AM – ৬:০০ PM">
-                                Monday–Saturday: 9:00 AM – 6:00 PM</p>
+                            <p data-en="Monday – Saturday: 9:00 AM – 6:00 PM" data-as="সোমবাৰ–শনিবাৰ: ৯:০০ AM – ৬:০০ PM">
+                                Monday – Saturday: 9:00 AM – 6:00 PM</p>
+                            <p data-en="Sunday: Closed" data-as="দেওবাৰ: বন্ধ">Sunday: Closed</p>
                         </div>
                     </div>
                 </div>
@@ -2148,6 +2251,10 @@
                             <span class="sd-smart" data-en="Smart" data-as="স্মাৰ্ট" style="color:#fff;">Smart</span><span class="sd-digital" data-en="Digital" data-as="ডিজিটেল">Digital</span>
                         </div>
                     </div>
+                    <p style="margin-bottom: 10px; color: #cbd5e1; font-size: 14px;">
+                        <strong style="color:#fff;">Smart Digital CSC Centre</strong><br>
+                        <span style="color:#94a3b8; font-size: 13px;">(operating as "Smart Digital")</span>
+                    </p>
                     <p data-en="Your trusted digital services partner. Serving the community with fast &amp; affordable solutions." data-as="আপোনাৰ বিশ্বাসযোগ্য ডিজিটেল সেৱা অংশীদাৰ।">
                         Your trusted digital services partner. Serving the community with fast &amp;
                         affordable solutions.
@@ -2211,7 +2318,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>© <span id="footerYear">2026</span> Smart Digital. <span data-en="All rights reserved." data-as="সকলো অধিকাৰ সংৰক্ষিত।">All rights reserved.</span></p>
+                <p>© <span id="footerYear">2026</span> Smart Digital CSC Centre. <span data-en="All rights reserved." data-as="সকলো অধিকাৰ সংৰক্ষিত।">All rights reserved.</span></p>
                 <p data-en="Made with ❤️ in Assam" data-as="অসমৰ বাবে ❤️ দিয়ে তৈয়াৰ কৰা হৈছে">Made
                     with ❤️ in Assam</p>
                 <p style="font-size: 12px; color: #475569; margin-top: 6px;">

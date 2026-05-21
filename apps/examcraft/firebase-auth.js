@@ -83,7 +83,7 @@ async function findUserDocByPhone(phone) {
 // REGISTRATION — Email, Name, Phone, Password
 // ================================================================
 async function registerWithEmail(data) {
-  const { name, email, phone, password } = data;
+  const { name, email, phone, password, whatsappOptIn } = data;
   const normalizedPhone = normalizePhoneNumber(phone);
 
   // Validate inputs
@@ -135,6 +135,8 @@ async function registerWithEmail(data) {
         includesAnswers: false,
         purchasedOn:     null,
         expiresOn:       null,
+        whatsappOptIn:   !!whatsappOptIn,
+        whatsappOptInAt: whatsappOptIn ? firebase.firestore.FieldValue.serverTimestamp() : null,
         createdAt:       firebase.firestore.FieldValue.serverTimestamp()
       });
     }
@@ -696,10 +698,12 @@ function closeAuthModal() {
   const regPass = document.getElementById('regPassword');
   const loginIdentifier = document.getElementById('loginIdentifier');
   const loginPass = document.getElementById('loginPassword');
+  const regWA = document.getElementById('regWhatsAppOptIn');
   if (regName) regName.value = '';
   if (regEmail) regEmail.value = '';
   if (regPhone) regPhone.value = '';
   if (regPass) regPass.value = '';
+  if (regWA) regWA.checked = false;
   if (loginIdentifier) loginIdentifier.value = '';
   if (loginPass) loginPass.value = '';
 }
@@ -733,6 +737,7 @@ async function handleRegister(event) {
   const email    = document.getElementById('regEmail').value.trim();
   const phone    = document.getElementById('regPhone').value.trim();
   const password = document.getElementById('regPassword').value;
+  const whatsappOptIn = !!document.getElementById('regWhatsAppOptIn')?.checked;
   const errorEl  = document.getElementById('regError');
   const successEl = document.getElementById('regSuccess');
 
@@ -740,7 +745,7 @@ async function handleRegister(event) {
   if (successEl) successEl.textContent = '';
 
   try {
-    await registerWithEmail({ name, email, phone, password });
+    await registerWithEmail({ name, email, phone, password, whatsappOptIn });
     if (successEl) successEl.textContent = 'Account created successfully!';
   } catch (err) {
     if (errorEl) errorEl.textContent = err.message;

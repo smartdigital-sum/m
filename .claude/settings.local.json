@@ -6,7 +6,9 @@
       "Bash(grep -l \"\\\\.hidden\" \"d:/WEB DEV/web PRACTICE/main/smartdigital/apps\"/*/app.js)",
       "Bash(grep -l \"back\\\\|home\\\\|<a.*index\" \"d:/WEB DEV/web PRACTICE/main/smartdigital/apps\"/*/index.html)",
       "Bash(node --check \"d:/WEB DEV/web PRACTICE/main/smartdigital/apps/examcraft/app.js\")",
-      "Bash(grep -r \"GROQ_API_KEY\\\\|ANTHROPIC\\\\|CLAUDE_API\" \"d:/WEB DEV/web PRACTICE/main/smartdigital\" --include=\"*.js\" --include=\"*.toml\" --include=\"*.md\" -l 2>nul)"
+      "Bash(grep -r \"GROQ_API_KEY\\\\|ANTHROPIC\\\\|CLAUDE_API\" \"d:/WEB DEV/web PRACTICE/main/smartdigital\" --include=\"*.js\" --include=\"*.toml\" --include=\"*.md\" -l 2>nul)",
+      "Bash(git -C \"d:/WEB DEV/web PRACTICE/main/smartdigital\" diff --stat -- index.html terms-and-conditions.html privacy-policy.html cancellation-refund-policy.html)",
+      "Bash(git -C \"d:/WEB DEV/web PRACTICE/main/smartdigital\" diff --no-color -- index.html terms-and-conditions.html privacy-policy.html cancellation-refund-policy.html)"
     ],
     "additionalDirectories": [
       "d:\\WEB DEV\\web PRACTICE\\main\\smartdigital"
