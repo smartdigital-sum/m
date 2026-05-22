@@ -940,6 +940,7 @@ const T = {
     apiKeyMissing: "Local development requires a Groq API key before generating papers.",
     errorParsing: "Could not parse AI response. Please try again.",
     errorNetwork: "Network error. Please check your API key and retry.",
+    errorTooLarge: "AI server is busy with large requests right now. Please reduce questions or chapters and try again — or order a custom paper on WhatsApp (usually delivered in under 10 minutes during working hours).",
     answerKey: "MARKING SCHEME / ANSWER KEY",
     questPaper: "QUESTION PAPER",
     classLabel: "Class:",
@@ -957,6 +958,7 @@ const T = {
     apiKeyMissing: "लोकल डेवलपमेंट में प्रश्नपत्र बनाने से पहले Groq API Key आवश्यक है।",
     errorParsing: "AI उत्तर पार्स नहीं हो सका। कृपया पुनः प्रयास करें।",
     errorNetwork: "नेटवर्क त्रुटि। अपनी API Key जांचें और फिर प्रयास करें।",
+    errorTooLarge: "AI सर्वर अभी बड़े अनुरोधों से व्यस्त है। कृपया प्रश्न या अध्याय कम करके पुनः प्रयास करें — या WhatsApp पर कस्टम पेपर ऑर्डर करें (कार्य समय में आमतौर पर 10 मिनट के अंदर डिलीवर)।",
     answerKey: "उत्तर कुंजी / अंक योजना",
     questPaper: "प्रश्न पत्र",
     classLabel: "कक्षा:",
@@ -974,6 +976,7 @@ const T = {
     apiKeyMissing: "লোকেল ডেভেলপমেন্টত প্ৰশ্নপত্ৰ তৈয়াৰ কৰাৰ আগতে Groq API Key লাগিব।",
     errorParsing: "AI উত্তৰ পাৰ্ছ কৰিব পৰা নগ'ল। অনুগ্ৰহ কৰি পুনৰায় চেষ্টা কৰক।",
     errorNetwork: "নেটৱাৰ্ক ত্ৰুটি। আপোনাৰ API Key পৰীক্ষা কৰক।",
+    errorTooLarge: "AI চাৰ্ভাৰটো এই মুহূৰ্তত ডাঙৰ অনুৰোধেৰে ব্যস্ত। অনুগ্ৰহ কৰি কম প্ৰশ্ন বা অধ্যায় বাছনি কৰি পুনৰ চেষ্টা কৰক — বা WhatsApp ত কাষ্টম পেপাৰ অৰ্ডাৰ কৰক (কাম-সময়ত সাধাৰণতে ১০ মিনিটৰ ভিতৰত ডেলিভাৰ)।",
     answerKey: "উত্তৰসূচী / নম্বৰ আঁচনি",
     questPaper: "প্ৰশ্নপত্ৰ",
     classLabel: "শ্ৰেণী:",
@@ -2721,12 +2724,18 @@ async function generatePaper() {
 
     let response = await callGroqWithModel(GROQ_MODEL_PRIMARY);
 
-    // 8b and 70b have independent quota buckets — if 8b is throttled, 70b may still answer.
-    if (response.status === 429) {
+    // 8b and 70b have independent quota buckets and different TPM caps (8b: 6k, 70b: 12k on free tier).
+    // Fall back on 429 (rate-limited) AND 413 (request exceeds 8b's TPM cap but may fit 70b's).
+    if (response.status === 429 || response.status === 413) {
       response = await callGroqWithModel(GROQ_MODEL_FALLBACK);
     }
 
     if (!response.ok) {
+      // 413 even after the 70b fallback means the request is too large for both models'
+      // TPM caps — surface a user-actionable message instead of the raw API error.
+      if (response.status === 413) {
+        throw new Error(`API Error 413: ${T[currentLang].errorTooLarge}`);
+      }
       const errData = await response.json().catch(() => ({}));
       const errorMessage =
         errData.error?.message ||
@@ -2862,9 +2871,12 @@ async function generatePaper() {
 
     const isValidationErr = err.message?.startsWith('Generated paper failed validation');
     const isApiErr = err.message?.startsWith('API Error');
+    // 413 message already includes the WhatsApp guidance — skip the generic suffix to avoid duplication.
+    const isTooLargeErr = err.message?.startsWith('API Error 413');
     const prefix = isValidationErr ? '' : isApiErr ? '' : `${T[currentLang].errorNetwork} — `;
+    const suffix = isTooLargeErr ? '' : '\n\n💡 No credit was used. Try again with fewer questions, or order a custom paper on WhatsApp.';
     showToast(
-      `${prefix}${err.message}\n\n💡 No credit was used. Try again with fewer questions, or order a custom paper on WhatsApp.`,
+      `${prefix}${err.message}${suffix}`,
       'error',
       8000
     );
