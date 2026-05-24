@@ -6,6 +6,49 @@ const makePrimaryClass = (n, subjects) => ({
   subjects
 });
 
+const cbseMiddleArtEducation = () => ({
+  names: t("Art Education", "কলা শিক্ষা", "कला शिक्षा"),
+  chapters: ch(
+    "Visual Arts: Drawing, Painting and Collage",
+    "Crafts: Clay Modelling, Puppetry and Local Crafts",
+    "Music: Rhythm, Swara and Regional Songs",
+    "Dance and Movement: Folk and Regional Forms",
+    "Drama and Theatre: Voice, Body and Expression",
+    "Art Appreciation: Local Heritage, Museums and Exhibitions",
+    "Portfolio and Project Work"
+  )
+});
+
+const cbseClass9ArtEducation = () => ({
+  names: t("Art Education", "কলা শিক্ষা", "कला शिक्षा"),
+  chapters: ch(
+    "History of Arts",
+    "Visual Arts Fundamentals",
+    "Exploration of Materials and Methods",
+    "Creative Composition",
+    "Visual Arts Branches",
+    "Music: Listening, Folk Themes, Ragas and Talas",
+    "Theatre: Voice, Direction, Light and Sound",
+    "Dance and Movement: Gestures, Expression and Regional Forms",
+    "Portfolio, Presentation and Reflection"
+  )
+});
+
+const cbseClass10ArtEducation = () => ({
+  names: t("Art Education", "কলা শিক্ষা", "कला शिक्षा"),
+  chapters: ch(
+    "Visual Arts: Two-dimensional and Pictorial Activities",
+    "Visual Arts: Three-dimensional and Sculptural Activities",
+    "Drawing, Painting, Collage and Printing",
+    "Photography and Computer Graphics",
+    "Crafts, Textile Design, Masks and Puppetry",
+    "Performing Arts: Music, Dance, Drama and Creative Writing",
+    "Art and School Activities",
+    "Theoretical Understanding of Art and Culture",
+    "Portfolio, Exhibition and Project Work"
+  )
+});
+
 const SYLLABUS_DATA = {
   SEBA: {
     names: { en: "SEBA (Assam Board)", as: "SEBA (অসম ব'ৰ্ড)", hi: "SEBA (असम बोर्ड)" },
@@ -139,35 +182,40 @@ const SYLLABUS_DATA = {
         Hindi: { names: t("Hindi (Malhar)"), chapters: ch("वाचन कौशल", "व्याकरण", "लेखन कौशल", "पाठ समझ") },
         Mathematics: { names: t("Mathematics (Ganita Prakash)"), chapters: ch("Patterns in Mathematics", "Lines and Angles", "Number Play", "Data Handling and Presentation", "Prime Time", "Perimeter and Area", "Fractions", "Playing with Constructions", "Symmetry", "The Other Side of Zero") },
         Science: { names: t("Science (Curiosity)"), chapters: ch("Food: Where Does It Come From?", "Components of Food", "Fibre to Fabric", "Sorting Materials into Groups", "Separation of Substances", "Changes Around Us", "The Living Organisms and Their Surroundings", "Motion and Measurement of Distances", "Light, Shadows and Reflections", "Electricity and Circuits", "Water", "Air Around Us", "Garbage In, Garbage Out") },
-        "Social Science": { names: t("Social Science (Exploring Society)"), chapters: ch("Locating Places on the Earth", "Oceans and Continents", "Landforms and Life", "Timeline and Sources of History", "India, That Is Bharat", "The Beginnings of Indian Civilisation", "India's Cultural Roots", "Unity in Diversity or Many in the One", "Family and Community", "Grassroots Democracy - Part 1: Governance", "Grassroots Democracy - Part 2: Local Government in Rural Areas", "Grassroots Democracy - Part 3: Local Government in Urban Areas", "The Value of Work", "Economic Activities Around Us") }
+        "Social Science": { names: t("Social Science (Exploring Society)"), chapters: ch("Locating Places on the Earth", "Oceans and Continents", "Landforms and Life", "Timeline and Sources of History", "India, That Is Bharat", "The Beginnings of Indian Civilisation", "India's Cultural Roots", "Unity in Diversity or Many in the One", "Family and Community", "Grassroots Democracy - Part 1: Governance", "Grassroots Democracy - Part 2: Local Government in Rural Areas", "Grassroots Democracy - Part 3: Local Government in Urban Areas", "The Value of Work", "Economic Activities Around Us") },
+        "Art Education": cbseMiddleArtEducation()
       }),
       "Class 7": makePrimaryClass(7, {
         English: { names: t("English (Honeycomb)"), chapters: ch("Three Questions", "The Squirrel", "The Invention of Vita-Wonk", "A Gift of Chappals", "Gopal and the Hilsa Fish", "The Ashes that Made Trees Bloom", "The Necklace", "An Indian-American Woman in Space", "Chivalry", "A Vision of the Future", "The Bear Story", "Daffodils", "Trees", "Meadow Surprises") },
         Hindi: { names: t("Hindi (Vasant/Durva)"), chapters: ch("वसंत पाठ", "दुर्वेद", "व्याकरण", "रचनात्मक लेखन") },
         Mathematics: { names: t("Mathematics"), chapters: ch("Integers", "Fractions and Decimals", "Data Handling", "Simple Equations", "Lines and Angles", "The Triangle and Its Properties", "Congruence of Triangles", "Comparing Quantities", "Rational Numbers", "Practical Geometry", "Perimeter and Area", "Algebraic Expressions", "Exponents and Powers", "Symmetry", "Visualising Solid Shapes") },
         Science: { names: t("Science"), chapters: ch("Nutrition in Plants", "Nutrition in Animals", "Fibre to Fabric", "Heat", "Acids, Bases and Salts", "Physical and Chemical Changes", "Weather, Climate and Adaptations", "Winds, Storms and Cyclones", "Soil", "Respiration in Organisms", "Transportation in Animals and Plants", "Reproduction in Plants", "Motion and Time", "Electric Current and Its Effects", "Light", "Water: A Precious Resource", "Forests: Our Lifeline", "Wastewater Story") },
-        "Social Science": { names: t("Social Science"), chapters: ch("Tracing Changes Through a Thousand Years", "New Kings and Kingdoms", "The Delhi Sultans", "The Mughal Empire", "Environment", "Inside Our Earth", "Our Changing Earth", "Air", "Water", "On Equality", "How the State Government Works", "Markets Around Us", "Struggles for Equality") }
+        "Social Science": { names: t("Social Science"), chapters: ch("Tracing Changes Through a Thousand Years", "New Kings and Kingdoms", "The Delhi Sultans", "The Mughal Empire", "Environment", "Inside Our Earth", "Our Changing Earth", "Air", "Water", "On Equality", "How the State Government Works", "Markets Around Us", "Struggles for Equality") },
+        "Art Education": cbseMiddleArtEducation()
       }),
       "Class 8": makePrimaryClass(8, {
         English: { names: t("English (It So Happened / Honeydew)"), chapters: ch("The Wit that Won Hearts", "A Concrete Example", "A Tale of Valour", "The Cherry Tree", "Magnifying Glass", "The Best Christmas Present in the World", "The Tsunami", "Glimpses of the Past", "Bepin Choudhury's Lapse of Memory", "The Summit Within", "This is Jody's Fawn", "A Visit to Cambridge", "A Short Monsoon Diary", "The Ant and the Cricket") },
         Hindi: { names: t("Hindi (Kshitij)"), chapters: ch("पाठ संग्रह", "व्याकरण", "लेखन", "निबंध") },
         Mathematics: { names: t("Mathematics"), chapters: ch("Rational Numbers", "Linear Equations in One Variable", "Understanding Quadrilaterals", "Practical Geometry", "Data Handling", "Squares and Square Roots", "Cubes and Cube Roots", "Comparing Quantities", "Algebraic Expressions and Identities", "Mensuration", "Exponents and Powers", "Direct and Inverse Proportions", "Factorisation", "Introduction to Graphs") },
         Science: { names: t("Science"), chapters: ch("Crop Production and Management", "Microorganisms: Friend and Foe", "Synthetic Fibres and Plastics", "Materials: Metals and Non-Metals", "Coal and Petroleum", "Combustion and Flame", "Conservation of Plants and Animals", "Cell - Structure and Functions", "Reproduction in Animals", "Reaching the Age of Adolescence", "Force and Pressure", "Friction", "Sound", "Chemical Effects of Electric Current", "Some Natural Phenomena", "Light", "Stars and the Solar System", "Pollution of Air and Water") },
-        "Social Science": { names: t("Social Science"), chapters: ch("How, When and Where", "From Trade to Territory", "Ruling the Countryside", "Tribals, Dikus and the Vision of a Golden Age", "Rebels and the Raj of 1857", "The Making of the National Movement", "India After Independence", "Resources", "Land, Soil, Water, Natural Vegetation and Wildlife", "Mineral and Power Resources", "Agriculture", "Industries", "Human Resources", "The Indian Constitution", "Understanding Laws", "Judiciary", "Understanding Marginalisation", "Law and Social Justice") }
+        "Social Science": { names: t("Social Science"), chapters: ch("How, When and Where", "From Trade to Territory", "Ruling the Countryside", "Tribals, Dikus and the Vision of a Golden Age", "Rebels and the Raj of 1857", "The Making of the National Movement", "India After Independence", "Resources", "Land, Soil, Water, Natural Vegetation and Wildlife", "Mineral and Power Resources", "Agriculture", "Industries", "Human Resources", "The Indian Constitution", "Understanding Laws", "Judiciary", "Understanding Marginalisation", "Law and Social Justice") },
+        "Art Education": cbseMiddleArtEducation()
       }),
       "Class 9": makePrimaryClass(9, {
         English: { names: t("English (Beehive & Moments)"), chapters: ch("The Fun They Had", "The Sound of Music", "The Little Girl", "A Truly Beautiful Mind", "The Snake and the Mirror", "My Childhood", "From Mother Dear", "Mystery of the Missing Cap", "No Men Are Foreign", "A Legend of the North", "Wind", "The Road Not Taken", "Rain on the Roof", "The Lake Isle of Innisfree") },
         Hindi: { names: t("Hindi (Kshitij & Kritika)"), chapters: ch("क्षितिज पाठ", "कृतिका पाठ", "व्याकरण") },
         Mathematics: { names: t("Mathematics"), chapters: ch("Number Systems", "Polynomials", "Coordinate Geometry", "Linear Equations in Two Variables", "Introduction to Euclid's Geometry", "Lines and Angles", "Triangles", "Quadrilaterals", "Areas of Parallelograms and Triangles", "Circles", "Constructions", "Heron's Formula", "Surface Areas and Volumes", "Statistics", "Probability") },
         Science: { names: t("Science"), chapters: ch("Matter in Our Surroundings", "Is Matter Around Us Pure", "Atoms and Molecules", "Structure of the Atom", "The Fundamental Unit of Life", "Tissues", "Diversity in Living Organisms", "Motion", "Force and Laws of Motion", "Gravitation", "Work and Energy", "Sound", "Why Do We Fall Ill", "Natural Resources", "Improvement in Food Resources") },
-        "Social Science": { names: t("Social Science"), chapters: ch("The French Revolution", "Socialism in Europe and the Russian Revolution", "Nazism and the Rise of Hitler", "Forest Society and Colonialism", "Pastoralists in the Modern World", "India - Size and Location", "Physical Features of India", "Drainage", "Climate", "Natural Vegetation and Wildlife", "Population", "Democratic Politics", "People as Resource", "Poverty as a Challenge", "Food Security in India") }
+        "Social Science": { names: t("Social Science"), chapters: ch("The French Revolution", "Socialism in Europe and the Russian Revolution", "Nazism and the Rise of Hitler", "Forest Society and Colonialism", "Pastoralists in the Modern World", "India - Size and Location", "Physical Features of India", "Drainage", "Climate", "Natural Vegetation and Wildlife", "Population", "Democratic Politics", "People as Resource", "Poverty as a Challenge", "Food Security in India") },
+        "Art Education": cbseClass9ArtEducation()
       }),
       "Class 10": makePrimaryClass(10, {
         English: { names: t("English (First Flight & Footprints)"), chapters: ch("A Letter to God", "Nelson Mandela: Long Walk to Freedom", "Two Tales of Flying", "Question from Travel", "Glimpses of India (Coorg)", "Glimpses of India (Tea from Assam)", "Glimpses of India (Baker from Goa)", "Mijbil the Otter", "Madam Rides the Bus", "The Serpent and the Eagle", "The Proposal", "The Thief's Story", "A Tiger in the Zoo", "Amanda!", "Animals", "The Ball Poem", "The Tale of Custard the Dragon", "The Midnight Visitor", "A Question of Trust", "Footprints without Feet", "The Hack Driver", "The Necklace", "The Hidden Teacher") },
         Hindi: { names: t("Hindi (Kshitij, Kritika, Sparsh & Sanchayan)"), chapters: ch("क्षितिज पाठ", "कृतिका पाठ", "स्पर्श पाठ", "संचयन भाग 2") },
         Mathematics: { names: t("Mathematics"), chapters: ch("Real Numbers", "Polynomials", "Pair of Linear Equations in Two Variables", "Quadratic Equations", "Arithmetic Progressions", "Triangles", "Coordinate Geometry", "Introduction to Trigonometry", "Applications of Trigonometry", "Circles", "Areas Related to Circles", "Surface Areas and Volumes", "Statistics", "Probability") },
         Science: { names: t("Science"), chapters: ch("Chemical Reactions and Equations", "Acids, Bases and Salts", "Metals and Non-metals", "Carbon and Its Compounds", "Life Processes", "Control and Coordination", "How do Organisms Reproduce?", "Heredity and Evolution", "Light - Reflection and Refraction", "The Human Eye and the Colourful World", "Electricity", "Magnetic Effects of Electric Current", "Our Environment") },
-        "Social Science": { names: t("Social Science"), chapters: ch("Rise of Nationalism in Europe", "Nationalism in India", "The Making of a Global World", "The Age of Industrialization", "Print Culture and the Modern World", "Novels, Society and History", "Resources and Development", "Agriculture", "Minerals and Energy Resources", "Manufacturing Industries", "Lifelines of National Economy", "Development", "Sectors of the Indian Economy", "Money and Credit", "Globalisation and the Indian Economy", "Power-sharing", "Federalism", "Gender, Religion and Caste", "Political Parties", "Outcomes of Democracy", "Popular Struggles and Movements") }
+        "Social Science": { names: t("Social Science"), chapters: ch("Rise of Nationalism in Europe", "Nationalism in India", "The Making of a Global World", "The Age of Industrialization", "Print Culture and the Modern World", "Novels, Society and History", "Resources and Development", "Agriculture", "Minerals and Energy Resources", "Manufacturing Industries", "Lifelines of National Economy", "Development", "Sectors of the Indian Economy", "Money and Credit", "Globalisation and the Indian Economy", "Power-sharing", "Federalism", "Gender, Religion and Caste", "Political Parties", "Outcomes of Democracy", "Popular Struggles and Movements") },
+        "Art Education": cbseClass10ArtEducation()
       })
     }
   },

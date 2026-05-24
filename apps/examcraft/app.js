@@ -1157,6 +1157,7 @@ function buildPaperPrompt({
   const chapterContext = getSelectedChapterContext(board, cls, subject, selectedChapters);
   const requestedSections = getRequestedQuestionTypeDescriptors(qtypes, { isAssamese });
   const isMath = /math/i.test(canonicalSubjectName || subject || '');
+  const isArtEducation = /art education/i.test(canonicalSubjectName || subject || '');
 
   // Chapter list — append per-chapter scope hint when known so the AI stays
   // inside grade-level content (e.g. don't write Class-10 quadratics under
@@ -1194,7 +1195,15 @@ MATHEMATICS SOLVING REQUIREMENT:
 - At least 60% of LongAnswer (≥4 marks) questions MUST involve genuine problem-solving: actual computation with concrete numbers, equation solving, theorem proof, geometric construction, or word-problem application.
 - At most 40% of LongAnswer questions may be pure theory/definition.
 - ShortAnswer questions should mix definitions with at least 1–2 computations or applications.
-- Use realistic numbers (avoid "find x in 2x = 10" style trivialities). Show that the question requires real Class-${canonicalClassName.replace(/[^0-9]/g, '') || '?'} skill.` : ''}`;
+- Use realistic numbers (avoid "find x in 2x = 10" style trivialities). Show that the question requires real Class-${canonicalClassName.replace(/[^0-9]/g, '') || '?'} skill.` : ''}${isArtEducation ? `
+
+ART EDUCATION REQUIREMENT:
+- Treat Art Education as an activity, appreciation, portfolio, and internal-assessment subject, not as a conventional theory-only paper.
+- Include practical prompts such as drawing, design, craft, performance observation, reflection, material choice, process documentation, portfolio notes, and local/Indian art appreciation.
+- MCQs may test basic terms, materials, safety, observation, rhythm, gesture, design principles, and heritage awareness.
+- ShortAnswer questions should ask students to explain process, compare art forms, identify materials, or write brief reflections.
+- LongAnswer questions should be usable as project/portfolio/viva prompts with clear expected evidence or assessment points.
+- Avoid requiring expensive materials or specialist equipment; prefer classroom-available and local resources.` : ''}`;
 
   const assameseReminder = isAssamese
     ? `\n\n${ASSAMESE_LANGUAGE_PROFILE.generationRules}\n\n${ASSAMESE_LANGUAGE_PROFILE.fewShotCorrections}\n\nFINAL REMINDER — LANGUAGE CHECK BEFORE OUTPUT: JSON keys and required enum values may remain as specified, but every teacher-facing JSON value (section titles, question text, options, answers) MUST be pure Assamese (অসমীয়া). Use Assamese grammar and school style. Do NOT use Bengali words or Bengali sentence flow. Pick the verb by the verb-taxonomy above — never default to "নিৰ্ণয় কৰা".`

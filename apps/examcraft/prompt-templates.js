@@ -44,6 +44,9 @@ BOARD SPECIFIC RULES (CBSE — Central Board of Secondary Education):
   - Class 12 Geography DELETED chapters: Population Composition, Human Settlements, Manufacturing Industries, Migration.
 - CBSE Class 6 uses new 2024 NCERT textbooks: Ganita Prakash (Maths), Curiosity (Science), Exploring Society (SS), Poorvi (English), Malhar (Hindi).
 - CBSE distinguishes Course A (Kshitij+Kritika) and Course B (Sparsh+Sanchayan) for Hindi at Class 9–10.
+- CBSE/NCERT Art Education is available for Classes 6–10 in this app.
+- For Classes 6–8 Art Education, follow the upper-primary NCERT activity-based approach: Visual Arts, Crafts, Music, Dance, Drama/Theatre, art appreciation, local heritage, and portfolio/project work.
+- For Classes 9–10 Art Education, follow the CBSE secondary/internal-assessment approach: History of Arts, Visual Arts, Music, Theatre, Dance/Movement, theory of art and culture, practical tasks, portfolio, exhibition, project and reflection work.
 `,
   ICSE: `
 BOARD SPECIFIC RULES (ICSE / ISC — Council for the Indian School Certificate Examinations):
