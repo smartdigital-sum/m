@@ -792,10 +792,107 @@ function initiatePayment() {
 }
 
 function confirmPayment() {
+  // Must be signed in so the purchase is recorded against an account.
+  if (!window.auth || !window.auth.currentUser) {
+    showToast("Please sign in first to complete payment.", 'warn');
+    openAuthModal('login');
+    return;
+  }
+  if (typeof Razorpay === 'undefined') {
+    showToast("Payment library failed to load. Check your connection and retry.", 'error');
+    return;
+  }
+
+  const plan = PLANS[activePlanIdx];
+  const opt  = plan.options[activeOptionIdx];
+  const user = window.auth.currentUser;
+  const wantsAnswers = plan.id === 'answerUpgrade' ? true : includeAnswers;
+
+  // Move to the processing step while we set up the order.
   document.getElementById('pay-step-confirm').classList.remove('active');
   document.getElementById('pay-step-proc').classList.add('active');
 
-  setTimeout(async () => {
+  const backToConfirm = () => {
+    document.getElementById('pay-step-proc').classList.remove('active');
+    document.getElementById('pay-step-success').classList.remove('active');
+    document.getElementById('pay-step-confirm').classList.add('active');
+  };
+
+  fetch('/.netlify/functions/razorpay-order', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      planId: plan.id,
+      optionIdx: activeOptionIdx,
+      includeAnswers: wantsAnswers,
+      email: user.email || ''
+    })
+  })
+    .then(async (res) => {
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || 'Could not start payment.');
+      return data;
+    })
+    .then((order) => {
+      const rzp = new Razorpay({
+        key: order.keyId,
+        order_id: order.orderId,
+        amount: order.amount,
+        currency: order.currency,
+        name: 'Smart Digital ExamCraft',
+        description: `${plan.label} — ${opt.label}`,
+        prefill: { name: user.displayName || '', email: user.email || '' },
+        theme: { color: plan.color },
+        handler: function (response) {
+          // Razorpay captured the payment — verify the signature server-side
+          // before unlocking anything.
+          fetch('/.netlify/functions/razorpay-verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature
+            })
+          })
+            .then(async (res) => {
+              const data = await res.json().catch(() => ({}));
+              if (res.ok && data.verified) {
+                finalizePaymentSuccess();
+              } else {
+                backToConfirm();
+                showToast("Payment could not be verified. Any deducted amount will be auto-refunded.", 'error');
+              }
+            })
+            .catch(() => {
+              backToConfirm();
+              showToast("Could not verify payment. Please contact support with your payment ID.", 'error');
+            });
+        },
+        modal: {
+          ondismiss: function () {
+            backToConfirm();
+            showToast("Payment cancelled.", 'info');
+          }
+        }
+      });
+
+      rzp.on('payment.failed', function (resp) {
+        backToConfirm();
+        showToast(resp?.error?.description || "Payment failed. Please try again.", 'error');
+      });
+
+      rzp.open();
+    })
+    .catch((err) => {
+      backToConfirm();
+      showToast(err.message || "Could not start payment. Please try again.", 'error');
+    });
+}
+
+// Runs only after the server confirms the Razorpay signature is genuine.
+async function finalizePaymentSuccess() {
+  {
     document.getElementById('pay-step-proc').classList.remove('active');
     document.getElementById('pay-step-success').classList.add('active');
 
@@ -870,7 +967,7 @@ function confirmPayment() {
     if (includeAnswers) {
       hasAnswersForCurrentPaper = true;
     }
-  }, 2000);
+  }
 }
 
 function closePaymentModal() {
