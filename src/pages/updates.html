@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Updates — Smart Digital</title>
+<meta name="description" content="Launches, case studies and announcements from Smart Digital.">
+<link rel="canonical" href="https://smartdigitalassam.com/updates/">
+<link rel="icon" type="image/svg+xml" href="/assets/img/logo/mark-square.svg">
+<link rel="icon" type="image/png" href="/assets/img/logo/mark-square-512.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/fonts.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="/assets/css/sd.css">
+
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/firebase-app-compat.js"></script>
+<script src="/assets/js/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script>
+  firebase.initializeApp({
+    apiKey: "AIzaSyCevBNvqGDEvgvVdBqaTlKK-xIto0J6BDo",
+    authDomain: "smart-digital-ce0a7.firebaseapp.com",
+    databaseURL: "https://smart-digital-ce0a7-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "smart-digital-ce0a7",
+    storageBucket: "smart-digital-ce0a7.firebasestorage.app",
+    messagingSenderId: "771628223462",
+    appId: "1:771628223462:web:08aefc17ea1c8819366427"
+  });
+</script>
+</head>
+<body class="sd-root">
+<!-- include:header -->
+
+<main>
+    <section class="sd-hero" style="padding-bottom:40px;">
+        <div class="sd-container" style="max-width:760px;">
+            <span class="sd-eyebrow" data-en="Updates" data-as="আপডেট">Updates</span>
+            <h1 class="sd-h1" style="font-size:clamp(30px,4.4vw,48px);" data-en="Launches, case studies and announcements" data-as="উদ্বোধন, কেছ ষ্টাডী আৰু ঘোষণা">Launches, case studies and announcements</h1>
+        </div>
+    </section>
+
+    <section class="sd-section" style="padding-top:0;">
+        <div class="sd-container" style="max-width:760px;">
+            <div class="sd-notice-list sd-reveal" id="sdNoticeList"></div>
+            <div class="sd-notice-empty" id="sdNoticeEmpty" style="display:none;" data-en="Nothing posted yet — check back soon." data-as="এতিয়াও কিবা প'ষ্ট কৰা হোৱা নাই — সোনকালে পুনৰ চাওক।">Nothing posted yet — check back soon.</div>
+        </div>
+    </section>
+
+    <section class="sd-section sd-section--alt">
+        <div class="sd-container">
+            <div class="sd-admin-box sd-reveal" data-sd-admin-box>
+                <h3 class="sd-h3" style="font-size:15px; text-align:center;" data-sd-admin-label>Admin login</h3>
+                <form data-sd-admin-login class="sd-form" style="display:grid;">
+                    <input type="password" name="adminPwd" placeholder="Admin password" autocomplete="current-password" style="padding:10px 12px; border-radius:8px; border:1px solid var(--sd-border); background:var(--sd-surface); color:var(--sd-ink);">
+                    <button class="sd-btn sd-btn--outline sd-btn--sm" type="submit">Sign in</button>
+                </form>
+                <form data-sd-admin-add class="sd-admin-add" style="display:none;">
+                    <select name="noticeType" style="padding:10px; border-radius:8px; border:1px solid var(--sd-border); background:var(--sd-surface); color:var(--sd-ink);">
+                        <option value="info">📢 Info</option>
+                        <option value="success">✅ Success</option>
+                        <option value="warning">⚠️ Warning</option>
+                        <option value="event">🎉 Event</option>
+                    </select>
+                    <input type="text" name="noticeText" placeholder="Post an update..." style="padding:10px 12px; border-radius:8px; border:1px solid var(--sd-border); background:var(--sd-surface); color:var(--sd-ink);">
+                    <button class="sd-btn sd-btn--primary sd-btn--sm" type="submit">Post</button>
+                </form>
+                <div style="text-align:center; margin-top:10px;">
+                    <button class="sd-btn sd-btn--outline sd-btn--sm" type="button" data-sd-admin-logout style="display:none;">Sign out</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- include:footer -->
+<script src="/assets/js/sd.js"></script>
+<script src="/assets/js/sd-updates.js"></script>
+</body>
+</html>
