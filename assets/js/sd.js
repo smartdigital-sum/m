@@ -12,7 +12,7 @@
   /* ── Theme — same localStorage key as the legacy site, so the toggle
      state feels consistent whether you're on a new page or an old app. ── */
   function initTheme() {
-    var saved = localStorage.getItem("theme") || "light";
+    var saved = localStorage.getItem("theme") || "dark";
     applyTheme(saved);
   }
   function applyTheme(theme) {
@@ -41,7 +41,7 @@
   function applyLang(lang) {
     document.documentElement.setAttribute("data-lang", lang);
     document.querySelectorAll("[data-sd-lang-label]").forEach(function (el) {
-      el.textContent = lang === "en" ? "অসমীয়া" : "English";
+      el.textContent = lang === "en" ? "As" : "En";
     });
     document.querySelectorAll("[data-en]").forEach(function (el) {
       var text = el.getAttribute("data-" + lang);
@@ -181,6 +181,84 @@
     els.forEach(function (el) { io.observe(el); });
   }
 
+  /* ── Navbar — subtle shadow once the page has scrolled past the top ── */
+  function initNavbarScroll() {
+    var navbar = document.querySelector(".sd-navbar");
+    if (!navbar) return;
+    var ticking = false;
+    function apply() {
+      navbar.classList.toggle("is-scrolled", window.scrollY > 8);
+      ticking = false;
+    }
+    window.addEventListener(
+      "scroll",
+      function () {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(apply);
+      },
+      { passive: true }
+    );
+    apply();
+  }
+
+  /* ── Homepage hero — a few px of cursor-driven parallax on the photo
+     background. Desktop/mouse only: touch has no continuous pointer to
+     react to, so this stays out of the way there entirely. ── */
+  function initHeroParallax() {
+    var hero = document.querySelector(".sd-hero--photo");
+    if (!hero) return;
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    hero.addEventListener("mousemove", function (e) {
+      var rect = hero.getBoundingClientRect();
+      var x = (e.clientX - rect.left) / rect.width - 0.5;
+      var y = (e.clientY - rect.top) / rect.height - 0.5;
+      hero.style.backgroundPosition = 50 + x * 6 + "% " + (50 + y * 6) + "%";
+    });
+    hero.addEventListener("mouseleave", function () {
+      hero.style.backgroundPosition = "";
+    });
+  }
+
+  /* ── Stat strip — count up from 0 once it scrolls into view ── */
+  function initStatCounters() {
+    var nums = document.querySelectorAll(".sd-stat-num");
+    if (!nums.length) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    function animate(el) {
+      var match = /^(\d+)(.*)$/.exec(el.textContent.trim());
+      if (!match) return;
+      var target = parseInt(match[1], 10);
+      var suffix = match[2];
+      var duration = 900;
+      var start = null;
+      function step(ts) {
+        if (start === null) start = ts;
+        var progress = Math.min((ts - start) / duration, 1);
+        var eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.round(target * eased) + suffix;
+        if (progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    if (!("IntersectionObserver" in window)) return;
+    var io = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            animate(entry.target);
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+    nums.forEach(function (el) { io.observe(el); });
+  }
+
   /* ── Contact form → WhatsApp deep link (always works) + a best-effort
      Firebase record using the same project the notice board already
      writes to (assets/js/firebase-app-compat.js, loaded on the page).
@@ -231,6 +309,9 @@
     initFilters();
     initDemoGrid();
     initReveal();
+    initNavbarScroll();
+    initHeroParallax();
+    initStatCounters();
     initContactForm();
   });
 
