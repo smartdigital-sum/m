@@ -352,9 +352,13 @@ html[data-lang="as"] { font-family: var(--sd-font-as); }
   grid-template-columns: repeat(3, 1fr);
   gap: var(--sd-s4);
 }
+/* The compact variant is an <a>, and `.sd-root a { color: inherit }` (0,1,1)
+   outranks `.sd-case` (0,1,0) — so the card inherited the page ink colour and
+   its heading rendered near-black on dark navy in the light theme. */
+.sd-root a.sd-case { color: #fff; }
 .sd-case-head { grid-column: 1 / -1; }
 .sd-case-head .sd-eyebrow { color: var(--sd-saffron); }
-.sd-case h3 { font-size: clamp(22px, 2.6vw, 30px); margin: 0 0 var(--sd-s2); font-weight: 800; }
+.sd-case h3 { font-size: clamp(22px, 2.6vw, 30px); margin: 0 0 var(--sd-s2); font-weight: 800; color: #fff; }
 .sd-case-col h4 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: #ffd98f; margin: 0 0 var(--sd-s1); }
 .sd-case-col p { color: #dbe4f2; font-size: 15px; margin: 0; }
 .sd-case-cta { grid-column: 1 / -1; margin-top: var(--sd-s2); }
@@ -550,4 +554,68 @@ html[data-lang="as"] { font-family: var(--sd-font-as); }
   display: flex; align-items: center; justify-content: center;
   font-size: 26px;
   box-shadow: var(--sd-shadow-lg);
+}
+
+/* Module cards used as links (demo screen index) — restore a click affordance,
+   since .sd-card--module otherwise cancels the .sd-card hover treatment. */
+a.sd-card--module { cursor: pointer; }
+a.sd-card--module:hover h3 { color: var(--sd-navy); text-decoration: underline; text-underline-offset: 3px; }
+[data-theme="dark"] a.sd-card--module:hover h3 { color: var(--sd-saffron); }
+
+/* ── Trusted-by band ──────────────────────────────────────────────────────
+   A real institution running the system, shown high on the home page. The
+   crest links out to the school's own live site, so the claim is checkable. */
+.sd-trust {
+  display: flex; align-items: center; gap: var(--sd-s4); flex-wrap: wrap;
+  background: var(--sd-surface);
+  border: 1px solid var(--sd-border);
+  border-radius: var(--sd-radius-lg);
+  padding: var(--sd-s4);
+  box-shadow: var(--sd-shadow);
+}
+.sd-trust-badge {
+  flex: none; display: block; width: 128px; height: 128px;
+  border-radius: 50%; overflow: hidden; background: #fff;
+  box-shadow: 0 0 0 1px var(--sd-border), var(--sd-shadow);
+  transition: transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease;
+}
+.sd-trust-badge img { display: block; width: 100%; height: 100%; }
+.sd-trust-badge:hover, .sd-trust-badge:focus-visible {
+  transform: scale(1.04);
+  box-shadow: 0 0 0 2px var(--sd-saffron), var(--sd-shadow-lg);
+}
+.sd-trust-body { flex: 1; min-width: 280px; }
+.sd-trust-body h3 { font-size: 22px; margin: 6px 0 2px; }
+.sd-trust-body > p { color: var(--sd-ink-soft); font-size: 15px; margin: 0; }
+
+.sd-trust-live {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: #e7f6ec; color: #15803d;
+  font-size: 12.5px; font-weight: 700; letter-spacing: 0.3px;
+  padding: 5px 12px; border-radius: 999px;
+}
+[data-theme="dark"] .sd-trust-live { background: rgba(34, 197, 94, 0.16); color: #4ade80; }
+.sd-trust-live i {
+  width: 8px; height: 8px; border-radius: 50%; background: currentColor;
+  animation: sd-trust-pulse 2s ease-out infinite;
+}
+@keyframes sd-trust-pulse {
+  0%   { box-shadow: 0 0 0 0 currentColor; opacity: 1; }
+  70%  { box-shadow: 0 0 0 7px transparent; opacity: 0.75; }
+  100% { box-shadow: 0 0 0 0 transparent; opacity: 1; }
+}
+
+.sd-trust-facts { display: flex; gap: var(--sd-s4); flex-wrap: wrap; margin: var(--sd-s2) 0 0; }
+.sd-trust-fact b { display: block; font-size: 25px; line-height: 1.15; color: var(--sd-ink); }
+.sd-trust-fact span { display: block; font-size: 13px; color: var(--sd-ink-faint); margin-top: 2px; }
+.sd-trust-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: var(--sd-s3); }
+
+@media (max-width: 640px) {
+  .sd-trust { justify-content: center; text-align: center; padding: var(--sd-s3); gap: var(--sd-s3); }
+  .sd-trust-body { min-width: 0; }
+  .sd-trust-facts, .sd-trust-actions { justify-content: center; gap: var(--sd-s3); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sd-trust-live i { animation: none; }
+  .sd-trust-badge { transition: none; }
 }

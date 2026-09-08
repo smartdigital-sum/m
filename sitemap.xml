@@ -76,4 +76,33 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://
+    <loc>https://smartdigitalassam.com/apps/astrology/index.html</loc>
+    <priority>0.6</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://smartdigitalassam.com/demo/</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://smartdigitalassam.com/demo/school-portal/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://smartdigitalassam.com/solutions/schools/</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://smartdigitalassam.com/solutions/colleges/</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://smartdigitalassam.com/solutions/business/</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+</urlset>
