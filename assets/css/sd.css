@@ -610,6 +610,20 @@ a.sd-card--module:hover h3 { color: var(--sd-navy); text-decoration: underline; 
 .sd-trust-fact span { display: block; font-size: 13px; color: var(--sd-ink-faint); margin-top: 2px; }
 .sd-trust-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: var(--sd-s3); }
 
+/* Second, smaller card: a school whose site is still being built. No crest
+   yet, so the badge shows initials; the pill is amber, not "live" green. */
+.sd-trust--compact { margin-top: var(--sd-s3); padding: var(--sd-s3) var(--sd-s4); box-shadow: none; }
+.sd-trust--compact .sd-trust-badge { width: 88px; height: 88px; }
+.sd-trust--compact .sd-trust-body h3 { font-size: 19px; }
+.sd-trust-badge--initials {
+  display: flex; align-items: center; justify-content: center;
+  background: var(--sd-saffron); color: #fff;
+  font-size: 24px; font-weight: 800; letter-spacing: 1px;
+}
+.sd-trust-badge--initials:hover { transform: none; box-shadow: 0 0 0 1px var(--sd-border), var(--sd-shadow); }
+.sd-trust-live--building { background: #fef3c7; color: #b45309; }
+[data-theme="dark"] .sd-trust-live--building { background: rgba(245, 158, 11, 0.16); color: #fbbf24; }
+
 @media (max-width: 640px) {
   .sd-trust { justify-content: center; text-align: center; padding: var(--sd-s3); gap: var(--sd-s3); }
   .sd-trust-body { min-width: 0; }

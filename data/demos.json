@@ -117,6 +117,19 @@
     "screenshot": "/assets/img/demos/school-portal-4.jpg"
   },
   {
+    "id": "college-1",
+    "category": "College",
+    "categorySlug": "college",
+    "tag": "Education",
+    "icon": "fa-graduation-cap",
+    "name": "College — Demo 1",
+    "url": "https://sumancollegedemo.netlify.app/",
+    "priceFrom": 35000,
+    "descriptionEn": "College website with notice board, admissions, academics & gallery.",
+    "descriptionAs": "নোটিচ বৰ্ড, নামভৰ্তি, শৈক্ষিক বিভাগ আৰু গেলেৰীসহ কলেজ ৱেবছাইট।",
+    "screenshot": "/assets/img/demos/college-1.jpg"
+  },
+  {
     "id": "salon-spa-1",
     "category": "Salon & Spa",
     "categorySlug": "salon-spa",
@@ -440,6 +453,19 @@
     "descriptionEn": "Online fashion store, product catalog & shopping cart.",
     "descriptionAs": "অনলাইন ফেশ্বন ষ্টোৰ, সামগ্ৰী কেটেলগ আৰু শ্বপিং কাৰ্ট।",
     "screenshot": "/assets/img/demos/clothing-shop-5.jpg"
+  },
+  {
+    "id": "jewellery-shop-1",
+    "category": "Jewellery Shop",
+    "categorySlug": "jewellery-shop",
+    "tag": "Jewellery",
+    "icon": "fa-gem",
+    "name": "Jewellery Shop — Demo 1",
+    "url": "https://sumanshop1demo.netlify.app/",
+    "priceFrom": 21000,
+    "descriptionEn": "Jewellery showroom with collections, daily gold rate & WhatsApp enquiry.",
+    "descriptionAs": "সংগ্ৰহ, দৈনিক সোণৰ দাম আৰু হোৱাটছএপ এনকুইৰিসহ গহনাৰ শ্ব'ৰূম ৱেবছাইট।",
+    "screenshot": "/assets/img/demos/jewellery-shop-1.jpg"
   },
   {
     "id": "doctor-clinic-1",
